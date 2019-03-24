@@ -5,7 +5,7 @@ Xpatch工具的作用是将Apk进行二次打包，重新签名，生成一个�
 在二次打包过程中插入加载Xposed插件的逻辑，这样新的Apk文件就可以加载任意Xposed插件，从而免Root实现App任意Java方法的Hook。
 
 ### 工具包下载
-[点击我下载最新的Xpatch Jar包][1]
+[点击我下载最新的Xpatch Jar包][1] (也可以在Release界面下载最新包)
 ### Xpatch使用方法
 Xpatch项目最终生成物是一个Jar包，此Jar使用起来非常简单，只需要一行命令，一个接入xposed hook功能的新的apk就生成：
 ```
@@ -87,9 +87,9 @@ com.gh0u1l5.wechatmagician#微信巫师
 ### Issue
 Xpatch是基于apk二次打包实现的，而且使用到了dex2Jar工具，因此，也存在不少的局限性。大概有以下几点：
 1. 对于使用了签名校验的应用，使用Xpatch得到的apk可能无法启动，或者无法获取到网络数据，比如优酷，趣头条等。不过，这种问题不是致命性问题，既然app启动时可以加载xposed插件，那我们可以编写一个hook获取签名的方法的xposed插件，从而使校验签名能够顺利通过。具体方法可以参考这篇文章：[**Android逆向之旅---带你爆破一款应用的签名验证问题**][3]
-2. 有些app可能做了app加固，导致dex2Jar工具无法将dex文件解析为jar包，从而无法生成新的apk。这种问题暂时没有碰到，待碰到此问题再想对策。
+2. 有些app可能做了app加固，导致dex2Jar工具无法将dex文件解析为jar包，从而无法生成新的apk。这种问题暂时还无法解决。
 3. hook框架使用的是lody的[Whale框架][4]，此框架存存在一些不稳定性，对少数方法的hook会导致崩溃，并且在某些机型上hook会也会崩溃。
-4. Xposed Hook框架暂时没有支持Dalvik虚拟机。(如果有比较大的需求后面可以加上)
+4. Xposed Hook框架暂时没有不支持Dalvik虚拟机。
 5. 暂时不支持Xposed插件中的资源Hook.
 
 ### 可用的Xposed模块示例
@@ -98,15 +98,21 @@ Xpatch是基于apk二次打包实现的，而且使用到了dex2Jar工具，因�
  - [微信巫师][6]
  - [MDWechat][7]
  - [文本自定义][8]
+ - ...
+ - ...
+ - 你自己编写的Xposed模块
  
-**PS：一般来说，只要app可以被Xpatch破解，并且运行时没有做签名校验，与其相关的Xposed模块都是可用的。**
+ **PS：一般来说，只要app可以被Xpatch破解，并且运行时没有做签名校验，与其相关的Xposed模块都是可用的。**
 
-## 感谢
+## 站在这些巨人的肩膀上
 
  - [Xposed][9]
  - [whale][10]
  - [dex2jar][11]
  - [AXMLPrinter2][12]
+ 
+## License
+  [Apache 2.0][13]
 
 
   [1]: https://github.com/WindySha/Xpatch/releases/download/v1.0/xpatch-v1.0.zip
@@ -121,3 +127,4 @@ Xpatch是基于apk二次打包实现的，而且使用到了dex2Jar工具，因�
   [10]: https://github.com/asLody/whale
   [11]: https://github.com/pxb1988/dex2jar
   [12]: https://code.google.com/archive/p/android4me/downloads
+  [13]: http://www.apache.org/licenses/LICENSE-2.0.html
