@@ -1,8 +1,19 @@
 
 ## Android App破解工具Xpatch的使用方法 -- 免Root实现App加载Xposed插件
 ### Xpatch工具基本原理
-Xpatch工具的作用是将Apk进行二次打包，重新签名，生成一个新的apk文件。
-在二次打包过程中插入加载Xposed插件的逻辑，这样新的Apk文件就可以加载任意Xposed插件，从而免Root实现App任意Java方法的Hook。
+Xpatch的原理是对Apk文件进行二次打包，重新签名，并生成一个新的apk文件。
+在Apk二次打包过程中，插入加载Xposed插件的逻辑，从而实现免Root Hook任意App的Java方法。
+
+Xpatch的Hook框架底层使用的是Lody的whale，支持的平台架构有：ARM/THUMB、ARM64，支持的andrid版本有：
+
+ - Android 5.0.0
+ - Android 5.1.1
+ - Android 6.0
+ - Android 6.0.1
+ - Android 7.1.2
+ - Android 8.1.0
+ - Android 9.0.0
+
 
 ### 工具包下载
 [点击我下载最新的Xpatch Jar包][1] (也可以在Release界面下载最新包)
