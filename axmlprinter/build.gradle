@@ -1,0 +1,6 @@
+description = 'android manifest content parser'
+apply plugin: 'java-library'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}

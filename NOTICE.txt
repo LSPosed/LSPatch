@@ -1,0 +1,4 @@
+Xpatch - Tool to work with android apk file, it can insert xposed loader into the apk file, and repackage the apk, then
+the repacked apk can load xposed module when started.
+
+Copyright (c) 2019 Wind
