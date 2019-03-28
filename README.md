@@ -1,4 +1,4 @@
-# Android App破解工具Xpatch的使用方法（免Root实现App加载Xposed插件）
+# Android App破解工具Xpatch的使用方法
 
 ## Xpatch用途
 Xpatch用来重新签名打包Apk文件，使重打包后的Apk能加载安装在系统里的Xposed插件，从而实现免Root Hook任意App。
@@ -109,7 +109,7 @@ Xpatch是基于apk二次打包实现的，而且使用到了dex2Jar工具，因�
 4. Xposed Hook框架暂时没有不支持Dalvik虚拟机。  
 5. 暂时不支持Xposed插件中的资源Hook。
 
-### 可用的Xposed模块示例
+## 可用的Xposed模块示例
 
  - [畅玩微信][6]
  - [微信巫师][7]
