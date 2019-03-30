@@ -126,7 +126,7 @@ Xpatch是基于apk二次打包实现的，而且使用到了dex2Jar工具，因�
 
  1. 自动破解app签名
  2. 支持xposed插件直接打包到apk中
- 3. 支持xposed插件中so文件的加载  
+ 3. 支持xposed插件中so文件的加载
  ...
  
 敬请期待....
@@ -136,15 +136,13 @@ Xpatch源码解析博文已发布到个人技术公众号**Android葵花宝典**
 扫一扫即可查看：  
 ![](https://upload-images.jianshu.io/upload_images/1639238-ab6e0fceabfffdda.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/180)
 
-## Technology Discussion Group
-**QQ Group: 977513757**
-
-
-
 ## 支持我
 周末本来用来陪老婆小孩的时间，却用来撸码，你的鼓励将是Make it better最大的动力。  
 欢迎Star, Fork or Donate。  
  ![](https://upload-images.jianshu.io/upload_images/1639238-04130f58272eb505.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/180)
+ 
+## Technology Discussion
+**QQ Group: 977513757**
 
 ## 站在巨人的肩膀上
 
