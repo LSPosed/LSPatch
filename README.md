@@ -100,15 +100,6 @@ It's so easy !!!
 有些App没有获取到sd卡文件读写权限，这会导致modules.list配置文件读写失败，此时会默认启用所有插件。可手动开启app的文件读写权限，避免这种情况发生。
 
 
-## Issues
-Xpatch是基于apk二次打包实现的，而且使用到了dex2Jar工具，因此，也存在不少的局限性。大概有以下几点：
-
-1. 对于使用了签名校验的应用，使用Xpatch得到的apk可能无法启动，或者无法获取到网络数据，比如优酷，趣头条等。不过，这种问题并不是致命性问题，既然app启动时可以加载xposed插件，那我们可以编写一个hook获取签名的方法的xposed插件，从而使校验签名能够顺利通过。具体实施细节稍后会在个人微信技术号上公开，欢迎关注：**Android葵花宝典**。  
-2. 有些app可能做了app加固，导致dex2Jar工具无法将dex文件解析为jar包，从而无法生成新的apk。这种问题暂时还无法解决。  
-3. hook框架使用的是lody的[Whale框架][5]，此框架存在一些不稳定性，对少数方法的hook会导致崩溃，并且在某些机型上hook也会崩溃。  
-4. Xposed Hook框架暂时不支持Dalvik虚拟机。  
-5. 暂时不支持Xposed插件中的资源Hook。
-
 ## 可用的Xposed模块示例
 
  - [畅玩微信][6]
@@ -136,10 +127,19 @@ Xpatch源码解析博文已发布到个人技术公众号**Android葵花宝典**
 扫一扫即可查看：  
 ![](https://upload-images.jianshu.io/upload_images/1639238-ab6e0fceabfffdda.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/180)
 
+## Issues
+Xpatch是基于apk二次打包实现的，而且使用到了dex2Jar工具，因此，也存在不少的局限性。大概有以下几点：
+
+1. 对于使用了签名校验的应用，使用Xpatch得到的apk可能无法启动，或者无法获取到网络数据，比如优酷，趣头条等。不过，这种问题并不是致命性问题，既然app启动时可以加载xposed插件，那我们可以编写一个hook获取签名的方法的xposed插件，从而使校验签名能够顺利通过。具体实施细节稍后会在个人微信技术号上公开，欢迎关注：**Android葵花宝典**。  
+2. 有些app可能做了app加固，导致dex2Jar工具无法将dex文件解析为jar包，从而无法生成新的apk。这种问题暂时还无法解决。  
+3. hook框架使用的是lody的[Whale框架][5]，此框架存在一些不稳定性，对少数方法的hook会导致崩溃，并且在某些机型上hook也会崩溃。  
+4. Xposed Hook框架暂时不支持Dalvik虚拟机。  
+5. 暂时不支持Xposed插件中的资源Hook。
+
 ## 支持我
 周末本来用来陪老婆小孩的时间，却用来撸码，你的鼓励将是Make it better最大的动力。  
 欢迎Star, Fork or Donate。  
- ![](https://upload-images.jianshu.io/upload_images/1639238-04130f58272eb505.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/180)
+ ![](https://upload-images.jianshu.io/upload_images/1639238-04130f58272eb505.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/200)
  
 ## Technology Discussion
 **QQ Group: 977513757**
