@@ -48,10 +48,10 @@ public class SoAndDexCopyTask implements Runnable {
         // Try to find so file path in the apk, then copy so into it
         boolean copySuccess = false;
         for (String libPath : APK_LIB_PATH_ARRAY) {
-            copySuccess = copyLibFile(unzipApkFilePath + libPath.replace("/", File.separator),
+            boolean copied = copyLibFile(unzipApkFilePath + libPath.replace("/", File.separator),
                     SO_FILE_PATH_MAP.get(libPath), false);
-            if (copySuccess) {
-                break;
+            if (copied) {
+                copySuccess = true;
             }
         }
 
