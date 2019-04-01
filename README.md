@@ -18,7 +18,7 @@ Hook框架底层使用的是Lody的whale，支持的平台架构有：ARM/THUMB�
  - Android 9.0.0
 
 ## Xpatch工具包下载
-[点击我下载最新的Xpatch Jar包][1]
+[点击我下载最新的Xpatch Jar包][1]  
 或者进入Releases页面下载：[releases][2]
 
 ## Xpatch使用方法
@@ -112,7 +112,16 @@ It's so easy !!!
  
 **Note：一般来说，只要app可以被Xpatch破解，并且运行时没有做签名校验，与其相关的Xposed模块都是可用的。**
 
-
+## 可破解的App示例
+ - 微信
+ - 今日头条
+ - 腾讯视频
+ - 天天快报
+ - 爱奇艺
+ - Subway Surf
+ - ...
+ - **其他App**
+ 
 ## Todo
 
  1. 自动破解app签名
