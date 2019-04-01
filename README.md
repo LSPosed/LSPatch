@@ -150,7 +150,7 @@ Xpatch是基于apk二次打包实现的，而且使用到了dex2Jar工具，因�
  - [dex2jar][12]
  - [AXMLPrinter2][13]
 
-  [1]: https://github.com/WindySha/Xpatch/releases/download/v1.0/xpatch-v1.0.zip
+  [1]: https://github.com/WindySha/Xpatch/releases/download/v1.1/xpatch-v1.1.zip
   [2]: https://github.com/WindySha/Xpatch/releases
   [3]: https://ibotpeaches.github.io/Apktool/install/
   [5]: https://github.com/asLody/whale
