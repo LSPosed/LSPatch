@@ -3,7 +3,7 @@ allprojects  {
     apply plugin: 'maven'
     apply plugin: 'idea'
     apply plugin: 'eclipse'
-//    version = '1.0'
+    version = '1.1'
 }
 
 defaultTasks('clean','distZip')
