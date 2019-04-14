@@ -7,7 +7,6 @@ dependencies {
 
 jar{
     baseName = "xpatch"
-//    version = '1.0'
     manifest {
         attributes 'Main-Class': 'com.storm.wind.xpatch.MainCommand'
     }
