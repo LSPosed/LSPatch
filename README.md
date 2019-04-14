@@ -58,6 +58,18 @@ options:
 如果觉得每次命令都要输入`java -jar xpatch.jar`太麻烦，也可以将xpatch.jar的文件目录加入到系统环境变量里，这样，每次只需输入xpatch即可，关于加入环境变量的方法，可以参考apktool文件中的做法：
 [Apktool install instructions][3]
 
+----
+2019/4/15 updated
+增加自动破解签名的功能，此功能默认开启，如果需要关闭可以增加`-c`即可，比如：  
+```
+$ java -jar ../../xpatch.jar ../../wechat.apk -c
+```  
+通过help可以查看到:  
+>options:  
+> -c,--crach                   disable craching the apk's signature.
+
+
+
 ## Xposed模块加载方法
 当新apk安装到系统之后，应用启动时，默认会加载所有已安装的Xposed插件(Xposed Module)。
 
