@@ -124,7 +124,7 @@ It's so easy !!!
  
 ## Todo
 
- 1. 自动破解app签名  （Finished in 2019.4.15）
+ 1. 自动破解app签名  （Finished on 2019.4.15）
  2. 支持xposed插件直接打包到apk中
  3. 支持xposed插件中so文件的加载
  ...
