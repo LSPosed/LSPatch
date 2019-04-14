@@ -3,6 +3,7 @@ package com.storm.wind.xpatch;
 import com.storm.wind.xpatch.base.BaseCommand;
 import com.storm.wind.xpatch.task.ApkModifyTask;
 import com.storm.wind.xpatch.task.BuildAndSignApkTask;
+import com.storm.wind.xpatch.task.SaveApkSignatureTask;
 import com.storm.wind.xpatch.task.SoAndDexCopyTask;
 import com.storm.wind.xpatch.util.FileUtils;
 import com.storm.wind.xpatch.util.ManifestParser;
@@ -33,6 +34,10 @@ public class MainCommand extends BaseCommand {
 
     @Opt(opt = "l", longOpt = "log", hasArg = false, description = "show all the debug logs")
     private boolean showAllLogs = false;
+
+    @Opt(opt = "c", longOpt = "crach", hasArg = false,
+            description = "disable craching the apk's signature.")
+    private boolean disableCrackSignature = false;
 
     // 原来apk中dex文件的数量
     private int dexFileCount = 0;
@@ -93,12 +98,14 @@ public class MainCommand extends BaseCommand {
             return;
         }
 
-        System.out.println(" !!!!! output apk path -->  " + output);
+        System.out.println(" !!!!! output apk path -->  " + output +
+                "  disableCrackSignature --> " + disableCrackSignature);
 
         String apkFileName = getBaseName(srcApkFile);
 
         // 中间文件临时存储的位置
-        String tempFilePath = srcApkFileParentPath + File.separator + currentTimeStr() + "-tmp" + File.separator;
+        String tempFilePath = srcApkFileParentPath + File.separator +
+                currentTimeStr() + "-tmp" + File.separator;
 
         // apk文件解压的目录
         unzipApkFilePath = tempFilePath + apkFileName + "-" + UNZIP_APK_FILE_NAME + File.separator;
@@ -106,6 +113,11 @@ public class MainCommand extends BaseCommand {
         if (showAllLogs) {
             System.out.println(" !!!!! srcApkFileParentPath  =  " + srcApkFileParentPath +
                     "\n unzipApkFilePath = " + unzipApkFilePath);
+        }
+
+        if (!disableCrackSignature) {
+            // save the apk original signature info, to support crach signature.
+            new SaveApkSignatureTask(apkPath, unzipApkFilePath).run();
         }
 
         // 先解压apk到指定目录下

@@ -2,6 +2,7 @@ package com.storm.wind.xpatch.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.zip.CRC32;
@@ -202,6 +204,35 @@ public class FileUtils {
             if (null != bis) {
                 bis.close();
             }
+        }
+    }
+
+    public static void writeFile(String filePath, String content) {
+        if (filePath == null || filePath.isEmpty()) {
+            return;
+        }
+        if (content == null || content.isEmpty()) {
+            return;
+        }
+
+        File dstFile = new File(filePath);
+
+        if (!dstFile.getParentFile().exists()) {
+            dstFile.getParentFile().mkdirs();
+        }
+
+        FileOutputStream outputStream = null;
+        BufferedWriter writer = null;
+        try {
+            outputStream = new FileOutputStream(dstFile);
+            writer = new BufferedWriter(new OutputStreamWriter(outputStream));
+            writer.write(content);
+            writer.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(outputStream);
+            close(writer);
         }
     }
 
