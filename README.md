@@ -1,3 +1,5 @@
+### [**English Version**](https://github.com/WindySha/Xpatch/blob/6ec0f3c16128dda46ab05bdd915d66ebbdaaf9fc/README_en.md)
+
 # Android App破解工具Xpatch的使用方法
 
 ## Xpatch概述
