@@ -38,6 +38,36 @@ $ java -jar ../../xpatch.jar   ../../source.apk -c
 ```
 $ java -jar ../../xpatch.jar 
 ```
+# How to manage Xposed modules
+When the new apk is installed in the device, It will load all the Xposed modules installed in the device when it's process started.  
+
+But you can manage the installed Xposed modules on/off state by a file in the storage.  
+The file path is `mnt/sdcard/xposed_config/modules.list`.  
+
+When the new app started, it will search all the installed Xposed modules and write the the module app name and the module application name into this file. (`mnt/sdcard/xposed_config/modules.list`)
+eg: 
+```
+com.blanke.mdwechat#MDWechat
+
+liubaoyua.customtext#文本自定义
+```
+Each line of this file is Application Name#App Name.
+You can disable a Xposed module by add `#` before the Application Name, eg:  
+```
+#com.blanke.mdwechat#MDWechat
+
+liubaoyua.customtext#文本自定义
+```
+This means the MDWechat Xposed module is disabled.  
+
+```
+#com.blanke.mdwechat#MDWechat
+
+#liubaoyua.customtext#文本自定义
+```
+This means all Xposed modules are disabled.    
+
+Note: The target app must have file system access permission. Otherwise this file will not be created, and all xposed modules are enabled.
 
 
 # Todo list
