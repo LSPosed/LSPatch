@@ -86,7 +86,7 @@ You can discuss with me under this page.
 [Xpatch Comments](https://windysha.github.io/2019/04/18/Xpatch-%E5%85%8DRoot%E5%AE%9E%E7%8E%B0App%E5%8A%A0%E8%BD%BDXposed%E6%8F%92%E4%BB%B6%E7%9A%84%E4%B8%80%E7%A7%8D%E6%96%B9%E6%A1%88/)
 
 
-# Thanks
+# Thanks to
  - [Xposed][10]
  - [whale][11]
  - [dex2jar][12]
