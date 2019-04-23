@@ -11,6 +11,8 @@ import java.util.HashMap;
 public class SoAndDexCopyTask implements Runnable {
 
     private static final String SO_FILE_NAME = "libxpatch_wl.so";
+    private static final String XPOSED_MODULE_FILE_NAME_PREFIX = "libxpatch_xp_module_";
+    private static final String SO_FILE_SUFFIX = ".so";
 
     private final String[] APK_LIB_PATH_ARRAY = {
             "lib/armeabi-v7a/",
@@ -20,18 +22,20 @@ public class SoAndDexCopyTask implements Runnable {
 
     private final HashMap<String, String> SO_FILE_PATH_MAP = new HashMap<String, String>() {
         {
-            put(APK_LIB_PATH_ARRAY[0], "assets/" + APK_LIB_PATH_ARRAY[0] + SO_FILE_NAME);
-            put(APK_LIB_PATH_ARRAY[1], "assets/" + APK_LIB_PATH_ARRAY[0] + SO_FILE_NAME);
-            put(APK_LIB_PATH_ARRAY[2], "assets/" + APK_LIB_PATH_ARRAY[2] + SO_FILE_NAME);
+            put(APK_LIB_PATH_ARRAY[0], "assets/lib/armeabi-v7a/" + SO_FILE_NAME);
+            put(APK_LIB_PATH_ARRAY[1], "assets/lib/armeabi-v7a/" + SO_FILE_NAME);
+            put(APK_LIB_PATH_ARRAY[2], "assets/lib/arm64-v8a/" + SO_FILE_NAME);
         }
     };
 
     private int dexFileCount;
     private String unzipApkFilePath;
+    private String[] xposedModuleArray;
 
-    public SoAndDexCopyTask(int dexFileCount, String unzipApkFilePath) {
+    public SoAndDexCopyTask(int dexFileCount, String unzipApkFilePath, String[] xposedModuleArray) {
         this.dexFileCount = dexFileCount;
         this.unzipApkFilePath = unzipApkFilePath;
+        this.xposedModuleArray = xposedModuleArray;
     }
 
     @Override
@@ -45,24 +49,27 @@ public class SoAndDexCopyTask implements Runnable {
     }
 
     private void copySoFile() {
-        // Try to find so file path in the apk, then copy so into it
-        boolean copySuccess = false;
-        for (String libPath : APK_LIB_PATH_ARRAY) {
-            boolean copied = copyLibFile(unzipApkFilePath + libPath.replace("/", File.separator),
-                    SO_FILE_PATH_MAP.get(libPath), false);
-            if (copied) {
-                copySuccess = true;
-            }
-        }
+        String apkSoLibPath = findTargetLibPath();
+        String apkSoFullPath = fullLibPath(apkSoLibPath);
 
-        // Iif apk do not contain so file path, then create lib/armeabi-v7a, and copy libwhale.so into it
-        if (!copySuccess) {
-            String path = APK_LIB_PATH_ARRAY[0];
-            copySuccess = copyLibFile(unzipApkFilePath + path.replace("/", File.separator),
-                    SO_FILE_PATH_MAP.get(path), true);
-        }
-        if (!copySuccess) {
-            throw new IllegalArgumentException(" copy so file failed ");
+        copyLibFile(apkSoFullPath, SO_FILE_PATH_MAP.get(apkSoLibPath));
+
+        // copy xposed modules into the lib path
+        if (xposedModuleArray != null && xposedModuleArray.length > 0) {
+            int index = 0;
+            for (String modulePath : xposedModuleArray) {
+                modulePath = modulePath.trim();
+                if (modulePath == null || modulePath.length() == 0) {
+                    continue;
+                }
+                File moduleFile = new File(modulePath);
+                if (!moduleFile.exists()) {
+                    continue;
+                }
+                String outputModuleFile = XPOSED_MODULE_FILE_NAME_PREFIX + index + SO_FILE_SUFFIX;
+                FileUtils.copyFile(moduleFile, new File(apkSoFullPath, outputModuleFile));
+                index++;
+            }
         }
     }
 
@@ -73,18 +80,49 @@ public class SoAndDexCopyTask implements Runnable {
         FileUtils.copyFileFromJar("assets/classes.dex", unzipApkFilePath + copiedDexFileName);
     }
 
-    private boolean copyLibFile(String libFilePath, String srcSoPath, boolean forceCopy) {
+    private String fullLibPath(String libPath) {
+        return unzipApkFilePath + libPath.replace("/", File.separator);
+    }
+
+    private void copyLibFile(String libFilePath, String srcSoPath) {
         File apkSoParentFile = new File(libFilePath);
-        if (forceCopy && !apkSoParentFile.exists()) {
+        if (!apkSoParentFile.exists()) {
             apkSoParentFile.mkdirs();
         }
 
-        File[] childs = apkSoParentFile.listFiles();
-        if (apkSoParentFile.exists() && (forceCopy || (childs != null && childs.length > 0))) {
-            FileUtils.copyFileFromJar(srcSoPath, new File(apkSoParentFile, SO_FILE_NAME).getAbsolutePath());
-            return true;
+        // get the file name first
+        int lastIndex = srcSoPath.lastIndexOf('/');
+        int length = srcSoPath.length();
+        String soFileName = srcSoPath.substring(lastIndex, length);
+
+        // do copy
+        FileUtils.copyFileFromJar(srcSoPath, new File(apkSoParentFile, soFileName).getAbsolutePath());
+    }
+
+    // Try to find the lib path where the so file should put.
+    // If there is many lib path, try to find the path which has the most so files
+    private String findTargetLibPath() {
+        int maxChildFileCount = 0;
+        int maxChildFileIndex = 0;
+        int index = 0;
+        for (String libPath : APK_LIB_PATH_ARRAY) {
+            String fullPath = fullLibPath(libPath);
+            File file = new File(fullPath);
+            if (file.exists()) {
+                String[] childList = file.list();
+                int childCount = 0;
+                if (childList != null) {
+                    childCount = childList.length;
+                }
+                if (childCount > maxChildFileCount) {
+                    maxChildFileCount = childCount;
+                    maxChildFileIndex = index;
+                }
+            }
+            index++;
         }
-        return false;
+
+        return APK_LIB_PATH_ARRAY[maxChildFileIndex];
     }
 
     private void deleteMetaInfo() {

@@ -39,6 +39,10 @@ public class MainCommand extends BaseCommand {
             description = "disable craching the apk's signature.")
     private boolean disableCrackSignature = false;
 
+    @Opt(opt = "xm", longOpt = "xposed-modules", description = "the xposed mpdule files to be packaged into the apk, " +
+            "multi files should be seperated by :(mac) or ;(win) ")
+    private String xposedModules;
+
     // 原来apk中dex文件的数量
     private int dexFileCount = 0;
 
@@ -151,7 +155,7 @@ public class MainCommand extends BaseCommand {
                 dexFileCount));
 
         // 2. copy xposed so and dex files into the unzipped apk
-        mXpatchTasks.add(new SoAndDexCopyTask(dexFileCount, unzipApkFilePath));
+        mXpatchTasks.add(new SoAndDexCopyTask(dexFileCount, unzipApkFilePath, getXposedModules(xposedModules)));
 
         // 3. compress all files into an apk and then sign it.
         mXpatchTasks.add(new BuildAndSignApkTask(keepBuildFiles, unzipApkFilePath, output));
@@ -196,5 +200,12 @@ public class MainCommand extends BaseCommand {
     private String currentTimeStr() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");//设置日期格式
         return df.format(new Date());
+    }
+
+    private String[] getXposedModules(String modules) {
+        if (modules == null || modules.isEmpty()) {
+            return null;
+        }
+        return modules.split(File.pathSeparator);
     }
 }

@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.zip.CRC32;
@@ -110,6 +112,39 @@ public class FileUtils {
         } finally {
             close(out);
             close(in);
+        }
+    }
+
+    public static void copyFile(String sourcePath, String targetPath) {
+        copyFile(new File(sourcePath), new File(targetPath));
+    }
+
+    public static void copyFile(File source, File target) {
+
+        FileInputStream inputStream = null;
+        FileOutputStream outputStream = null;
+        try {
+            inputStream = new FileInputStream(source);
+            outputStream = new FileOutputStream(target);
+            FileChannel iChannel = inputStream.getChannel();
+            FileChannel oChannel = outputStream.getChannel();
+
+            ByteBuffer buffer = ByteBuffer.allocate(1024);
+            while (true) {
+                buffer.clear();
+                int r = iChannel.read(buffer);
+                if (r == -1) {
+                    break;
+                }
+                buffer.limit(buffer.position());
+                buffer.position(0);
+                oChannel.write(buffer);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            close(inputStream);
+            close(outputStream);
         }
     }
 
