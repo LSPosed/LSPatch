@@ -61,7 +61,7 @@ options:
 [Apktool install instructions][3]
 
 ----
-## 2019/4/15 updated  
+### 2019/4/15 updated  
 增加自动破解签名的功能，此功能默认开启，如果需要关闭可以增加`-c`即可，比如：  
 ```
 $ java -jar ../../xpatch.jar ../../wechat.apk -c
@@ -71,7 +71,7 @@ $ java -jar ../../xpatch.jar ../../wechat.apk -c
 > -c,--crach                   disable craching the apk's signature.
 ----
 ----
-## 2019/4/25 updated
+### 2019/4/25 updated
 增加将Xposed modules打包到apk中的功能
 通过help可以查看到: 
  >-xm,--xposed-modules <arg>   the xposed mpdule files to be packaged into the ap
@@ -157,7 +157,7 @@ It's so easy !!!
 ## Todo
 
  1. 自动破解app签名  （Finished on 2019.4.15）
- 2. 支持xposed插件直接打包到apk中
+ 2. 支持xposed插件直接打包到apk中  （Finished on 2019.4.25）
  3. 支持xposed插件中so文件的加载
  ...
  
