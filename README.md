@@ -61,7 +61,7 @@ options:
 [Apktool install instructions][3]
 
 ----
-2019/4/15 updated  
+## 2019/4/15 updated  
 增加自动破解签名的功能，此功能默认开启，如果需要关闭可以增加`-c`即可，比如：  
 ```
 $ java -jar ../../xpatch.jar ../../wechat.apk -c
@@ -69,6 +69,24 @@ $ java -jar ../../xpatch.jar ../../wechat.apk -c
 通过help可以查看到:  
 >options:  
 > -c,--crach                   disable craching the apk's signature.
+----
+----
+## 2019/4/25 updated
+增加将Xposed modules打包到apk中的功能
+通过help可以查看到: 
+ >-xm,--xposed-modules <arg>   the xposed mpdule files to be packaged into the ap
+ >                            k, multi files should be seperated by :(mac) or ;(
+ >                             win) 
+
+使用方式为在命令后面增加`-xm path:path:path`即可，比如：
+```
+$ java -jar ../../xpatch.jar ../../wechat.apk -xm ../../module1.apk:../../module2.apk
+```
+**注意：**
+1. 多个Xposed modules使用`:`(mac)/`;`(win)分割;
+2. 假如此module既被打包到apk中，又安装在设备上，则只会加载打包到apk中的module，不会加载安装的。
+这里是通过包名区分是不是同一个module。
+
 ----
 
 
@@ -175,7 +193,7 @@ or
  - [dex2jar][12]
  - [AXMLPrinter2][13]
 
-  [1]: https://github.com/WindySha/Xpatch/releases/download/v1.1/xpatch-v1.1.zip
+  [1]: https://github.com/WindySha/Xpatch/releases/download/v1.3/xpatch-1.3.zip
   [2]: https://github.com/WindySha/Xpatch/releases
   [3]: https://ibotpeaches.github.io/Apktool/install/
   [5]: https://github.com/asLody/whale
