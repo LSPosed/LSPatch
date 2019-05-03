@@ -78,10 +78,19 @@ $ java -jar ../../xpatch.jar ../../wechat.apk -c
  >                            k, multi files should be seperated by :(mac) or ;(
  >                             win) 
 
-使用方式为在命令后面增加`-xm path:path:path`即可，比如：
+使用方式为在命令后面增加`-xm path`即可，比如：
 ```
-$ java -jar ../../xpatch.jar ../../wechat.apk -xm ../../module1.apk:../../module2.apk
+$ java -jar ../../xpatch.jar ../../source.apk -xm ../../module1.apk
 ```
+假如需要将多个Xposed插件打包进去，在Mac中使用":"，在Windows下使用";"，隔开多个文件路径即可，比如：
+```
+mac
+$  java -jar ../../xpatch.jar ../../source.apk -xm ../../module1.apk:../../module2.apk  
+
+windows
+$  java -jar ../../xpatch.jar ../../source.apk -xm ../../module1.apk;../../module2.apk
+```
+
 **注意：**
 1. 多个Xposed modules使用`:`(mac)/`;`(win)分割;
 2. 假如此module既被打包到apk中，又安装在设备上，则只会加载打包到apk中的module，不会加载安装的。
