@@ -49,11 +49,10 @@ public class SoAndDexCopyTask implements Runnable {
     }
 
     private void copySoFile() {
-        String apkSoLibPath = findTargetLibPath();
-        String apkSoFullPath = fullLibPath(apkSoLibPath);
-
-        copyLibFile(apkSoFullPath, SO_FILE_PATH_MAP.get(apkSoLibPath));
-
+        for (String libPath : APK_LIB_PATH_ARRAY) {
+            String apkSoFullPath = fullLibPath(libPath);
+            copyLibFile(apkSoFullPath, SO_FILE_PATH_MAP.get(libPath));
+        }
         // copy xposed modules into the lib path
         if (xposedModuleArray != null && xposedModuleArray.length > 0) {
             int index = 0;
@@ -66,8 +65,12 @@ public class SoAndDexCopyTask implements Runnable {
                 if (!moduleFile.exists()) {
                     continue;
                 }
-                String outputModuleFile = XPOSED_MODULE_FILE_NAME_PREFIX + index + SO_FILE_SUFFIX;
-                FileUtils.copyFile(moduleFile, new File(apkSoFullPath, outputModuleFile));
+                for (String libPath : APK_LIB_PATH_ARRAY) {
+                    String apkSoFullPath = fullLibPath(libPath);
+                    String outputModuleFile = XPOSED_MODULE_FILE_NAME_PREFIX + index + SO_FILE_SUFFIX;
+
+                    FileUtils.copyFile(moduleFile, new File(apkSoFullPath, outputModuleFile));
+                }
                 index++;
             }
         }
@@ -99,31 +102,7 @@ public class SoAndDexCopyTask implements Runnable {
         FileUtils.copyFileFromJar(srcSoPath, new File(apkSoParentFile, soFileName).getAbsolutePath());
     }
 
-    // Try to find the lib path where the so file should put.
-    // If there is many lib path, try to find the path which has the most so files
-    private String findTargetLibPath() {
-        int maxChildFileCount = 0;
-        int maxChildFileIndex = 0;
-        int index = 0;
-        for (String libPath : APK_LIB_PATH_ARRAY) {
-            String fullPath = fullLibPath(libPath);
-            File file = new File(fullPath);
-            if (file.exists()) {
-                String[] childList = file.list();
-                int childCount = 0;
-                if (childList != null) {
-                    childCount = childList.length;
-                }
-                if (childCount > maxChildFileCount) {
-                    maxChildFileCount = childCount;
-                    maxChildFileIndex = index;
-                }
-            }
-            index++;
-        }
 
-        return APK_LIB_PATH_ARRAY[maxChildFileIndex];
-    }
 
     private void deleteMetaInfo() {
         String metaInfoFilePath = "META-INF";
