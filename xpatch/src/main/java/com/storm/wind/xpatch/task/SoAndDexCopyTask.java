@@ -51,7 +51,9 @@ public class SoAndDexCopyTask implements Runnable {
     private void copySoFile() {
         for (String libPath : APK_LIB_PATH_ARRAY) {
             String apkSoFullPath = fullLibPath(libPath);
-            copyLibFile(apkSoFullPath, SO_FILE_PATH_MAP.get(libPath));
+            if(new File(apkSoFullPath).exists()) {
+                copyLibFile(apkSoFullPath, SO_FILE_PATH_MAP.get(libPath));
+            }
         }
         // copy xposed modules into the lib path
         if (xposedModuleArray != null && xposedModuleArray.length > 0) {
@@ -67,9 +69,12 @@ public class SoAndDexCopyTask implements Runnable {
                 }
                 for (String libPath : APK_LIB_PATH_ARRAY) {
                     String apkSoFullPath = fullLibPath(libPath);
-                    String outputModuleFile = XPOSED_MODULE_FILE_NAME_PREFIX + index + SO_FILE_SUFFIX;
+                    String outputModuleName= XPOSED_MODULE_FILE_NAME_PREFIX + index + SO_FILE_SUFFIX;
+                    if(new File(apkSoFullPath).exists()) {
+                        File outputModuleSoFile = new File(apkSoFullPath, outputModuleName);
+                        FileUtils.copyFile(moduleFile, outputModuleSoFile);
+                    }
 
-                    FileUtils.copyFile(moduleFile, new File(apkSoFullPath, outputModuleFile));
                 }
                 index++;
             }
