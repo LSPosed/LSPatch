@@ -137,10 +137,10 @@ public class MainCommand extends BaseCommand {
         String manifestFilePath = unzipApkFilePath + "AndroidManifest.xml";
 
         // parse the app main application full name from the manifest file
-        ManifestParser.Pair pair = ManifestParser.parseManidestFile(manifestFilePath);
+        ManifestParser.Pair pair = ManifestParser.parseManifestFile(manifestFilePath);
         String applicationName;
-        if (pair != null && pair.applictionName != null) {
-            applicationName = pair.applictionName;
+        if (pair != null && pair.applicationName != null) {
+            applicationName = pair.applicationName;
         } else {
             System.out.println(" Application name not found error !!!!!! ");
             applicationName = DEFAULT_APPLICATION_NAME;
