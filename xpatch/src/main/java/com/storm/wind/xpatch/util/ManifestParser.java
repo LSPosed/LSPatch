@@ -16,13 +16,13 @@ public class ManifestParser {
     /**
      * Get the package name and the main application name from the manifest file
      * */
-    public static Pair parseManidestFile(String filePath) {
+    public static Pair parseManifestFile(String filePath) {
         AXmlResourceParser parser = new AXmlResourceParser();
         File file = new File(filePath);
         String packageName = null;
-        String applictionName = null;
+        String applicationName = null;
         if (!file.exists()) {
-            System.out.println(" manifest file not exsit!!! filePath -> " + filePath);
+            System.out.println(" manifest file not exist!!! filePath -> " + filePath);
             return null;
         }
         try {
@@ -50,12 +50,12 @@ public class ManifestParser {
 
                         if ("application".equals(name)) {
                             if ("name".equals(attrName)) {
-                                applictionName = parser.getAttributeValue(i);
+                                applicationName = parser.getAttributeValue(i);
                             }
                         }
 
-                        if (packageName != null && packageName.length() > 0 && applictionName != null && applictionName.length() > 0) {
-                            return new Pair(packageName, applictionName);
+                        if (packageName != null && packageName.length() > 0 && applicationName != null && applicationName.length() > 0) {
+                            return new Pair(packageName, applicationName);
                         }
                     }
                 } else if (type == XmlPullParser.END_TAG) {
@@ -64,18 +64,18 @@ public class ManifestParser {
             }
         } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
-            System.out.println("parseManidestFile failed, reason --> " + e.getMessage());
+            System.out.println("parseManifestFile failed, reason --> " + e.getMessage());
         }
-        return new Pair(packageName, applictionName);
+        return new Pair(packageName, applicationName);
     }
 
     public static class Pair {
         public String packageName;
-        public String applictionName;
+        public String applicationName;
 
-        public Pair(String packageName, String applictionName) {
+        public Pair(String packageName, String applicationName) {
             this.packageName = packageName;
-            this.applictionName = applictionName;
+            this.applicationName = applicationName;
         }
     }
 
