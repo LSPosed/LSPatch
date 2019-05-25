@@ -143,8 +143,7 @@ It's so easy !!!
 
 ## 可用的Xposed模块示例
 
- - [畅玩微信][6]
- - [微信巫师][7]
+ - [腾讯视频，爱奇艺去广告插件-RemoveVideoAdsPlugin](https://github.com/WindySha/RemoveVideoAdsPlugin)
  - [MDWechat][8]
  - [文本自定义][9]
  - ...
