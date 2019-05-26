@@ -15,10 +15,11 @@
  */
 package wind.android.content.res;
 
-import wind.android.content.res.ChunkUtil;
-import wind.android.content.res.IntReader;
-
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
 
 /**
  * @author Dmitry Skiba
@@ -31,79 +32,135 @@ import java.io.IOException;
  */
 public class StringBlock {
 	
-	/**
-	 * Reads whole (including chunk type) string block from stream.
-	 * Stream must be at the chunk type.
-	 */
-	public static StringBlock read(IntReader reader) throws IOException {
-		wind.android.content.res.ChunkUtil.readCheckType(reader,CHUNK_TYPE);
-		int chunkSize=reader.readInt();
-		int stringCount=reader.readInt();
-		int styleOffsetCount=reader.readInt();
-		/*?*/reader.readInt();
-		int stringsOffset=reader.readInt();
-		int stylesOffset=reader.readInt();
-		
-		StringBlock block=new StringBlock();
-		block.m_stringOffsets=reader.readIntArray(stringCount);
-		if (styleOffsetCount!=0) {
-			block.m_styleOffsets=reader.readIntArray(styleOffsetCount);
-		}
-		{
-			int size=((stylesOffset==0)?chunkSize:stylesOffset)-stringsOffset;
-			if ((size%4)!=0) {
-				throw new IOException("String data size is not multiple of 4 ("+size+").");
-			}
-			block.m_strings=reader.readIntArray(size/4);
-		}
-		if (stylesOffset!=0) {
-			int size=(chunkSize-stylesOffset);
-			if ((size%4)!=0) {
-				throw new IOException("Style data size is not multiple of 4 ("+size+").");
-			}
-			block.m_styles=reader.readIntArray(size/4);
-		}
+    private int[] m_stringOffsets;
+    private byte[] m_strings;
+    private int[] m_styleOffsets;
+    private int[] m_styles;
+    private boolean m_isUTF8;
+    private static final int CHUNK_TYPE = 0x001C0001;
+    private static final int UTF8_FLAG = 0x00000100;
 
-		return block;	
-	}
-	
-	/**
-	 * Returns number of strings in block. 
-	 */
-	public int getCount() {
-		return m_stringOffsets!=null?
-			m_stringOffsets.length:
-			0;
-	}
-	
-	/**
-	 * Returns raw string (without any styling information) at specified index.
-	 */
-	public String getString(int index) {
-		if (index<0 ||
-			m_stringOffsets==null ||
-			index>=m_stringOffsets.length)
-		{
-			return null;
-		}
-		int offset=m_stringOffsets[index];
-		int length=getShort(m_strings,offset);
-		StringBuilder result=new StringBuilder(length);
-		for (;length!=0;length-=1) {
-			offset+=2;
-			result.append((char)getShort(m_strings,offset));
-		}
-		return result.toString();
-	}
-	
-	/**
-	 * Not yet implemented. 
-	 * 
-	 * Returns string with style information (if any).
-	 */
-	public CharSequence get(int index) {
-		return getString(index);
-	}
+    private final CharsetDecoder UTF8_DECODER = Charset.forName("UTF-8").newDecoder();
+    private final CharsetDecoder UTF16LE_DECODER = Charset.forName("UTF-16LE").newDecoder();
+
+    /**
+     * Reads whole (including chunk type) string block from stream.
+     * Stream must be at the chunk type.
+     */
+    public static StringBlock read(IntReader reader) throws IOException {
+        ChunkUtil.readCheckType(reader, CHUNK_TYPE);
+        int chunkSize = reader.readInt();
+        int stringCount = reader.readInt();
+        int styleOffsetCount = reader.readInt();
+        int flags = reader.readInt();
+        int stringsOffset = reader.readInt();
+        int stylesOffset = reader.readInt();
+
+        StringBlock block = new StringBlock();
+        block.m_isUTF8 = (flags & UTF8_FLAG) != 0;
+        block.m_stringOffsets = reader.readIntArray(stringCount);
+        if (styleOffsetCount != 0) {
+            block.m_styleOffsets = reader.readIntArray(styleOffsetCount);
+        }
+        {
+            int size = ((stylesOffset == 0) ? chunkSize : stylesOffset) - stringsOffset;
+            block.m_strings = new byte[size];
+            reader.readFully(block.m_strings);
+        }
+        if (stylesOffset != 0) {
+            int size = (chunkSize - stylesOffset);
+            if ((size % 4) != 0) {
+                throw new IOException("Style data size is not multiple of 4 (" + size + ").");
+            }
+            block.m_styles = reader.readIntArray(size / 4);
+        }
+
+        return block;
+    }
+
+    /**
+     * Returns number of strings in block.
+     */
+    public int getCount() {
+        return m_stringOffsets != null ?
+                m_stringOffsets.length :
+                0;
+    }
+
+
+    public String getString(int index) {
+        if (index < 0 || m_stringOffsets == null || index >= m_stringOffsets.length) {
+            return null;
+        }
+        int offset = m_stringOffsets[index];
+        int length;
+        if (m_isUTF8) {
+            int[] val = getUtf8(m_strings, offset);
+            offset = val[0];
+            length = val[1];
+        } else {
+            int[] val = getUtf16(m_strings, offset);
+            offset += val[0];
+            length = val[1];
+        }
+        return decodeString(offset, length);
+    }
+
+    private String decodeString(int offset, int length) {
+        try {
+            return (m_isUTF8 ? UTF8_DECODER : UTF16LE_DECODER).decode(
+                    ByteBuffer.wrap(m_strings, offset, length)).toString();
+        } catch (CharacterCodingException e) {
+            return null;
+        }
+    }
+
+    private static final int getShort(byte[] array, int offset) {
+        return (array[offset + 1] & 0xff) << 8 | array[offset] & 0xff;
+    }
+
+    private static final int[] getUtf8(byte[] array, int offset) {
+        int val = array[offset];
+        int length;
+        if ((val & 0x80) != 0) {
+            offset += 2;
+        } else {
+            offset += 1;
+        }
+        val = array[offset];
+        if ((val & 0x80) != 0) {
+            offset += 2;
+        } else {
+            offset += 1;
+        }
+        length = 0;
+        while (array[offset + length] != 0) {
+            length++;
+        }
+        return new int[]{offset, length};
+    }
+
+    private static final int[] getUtf16(byte[] array, int offset) {
+        int val = (array[offset + 1] & 0xff) << 8 | array[offset] & 0xff;
+        if (val == 0x8000) {
+            int heigh = (array[offset + 3] & 0xFF) << 8;
+            int low = (array[offset + 2] & 0xFF);
+            return new int[]{4, (heigh + low) * 2};
+        }
+        return new int[]{2, val * 2};
+    }
+
+
+
+
+    /**
+     * Not yet implemented.
+     * <p>
+     * Returns string with style information (if any).
+     */
+    public CharSequence get(int index) {
+        return getString(index);
+    }
 
 	/**
 	 * Returns string with style tags (html-like). 
@@ -238,11 +295,4 @@ public class StringBlock {
 			return (value >>> 16);
 		}
 	}
-	
-	private int[] m_stringOffsets;
-	private int[] m_strings;
-	private int[] m_styleOffsets;
-	private int[] m_styles;
-
-	private static final int CHUNK_TYPE=0x001C0001;
 }
