@@ -9,15 +9,7 @@ Xpatch用来重新签名打包Apk文件，使重打包后的Apk能加载安装�
 Xpatch的原理是对Apk文件进行二次打包，重新签名，并生成一个新的apk文件。
 在Apk二次打包过程中，插入加载Xposed插件的逻辑，这样，新的Apk文件就可以加载任意Xposed插件，从而实现免Root Hook任意App的Java代码。
 
-Hook框架底层使用的是Lody的whale，支持的平台架构有：ARM/THUMB、ARM64，支持的andrid版本大致有（其他未测试）：
-
- - Android 5.0.0
- - Android 5.1.1
- - Android 6.0
- - Android 6.0.1
- - Android 7.1.2
- - Android 8.1.0
- - Android 9.0.0
+Hook框架底层使用的是Lody的whale，支持的平台架构有：ARM/THUMB、ARM64，支持的android版本大致有（其他未测试）：android 5.0-android 9.0
 
 ## Xpatch工具包下载
 [点击我下载最新的Xpatch Jar包][1]  
