@@ -176,10 +176,6 @@ Xpatch是基于apk二次打包实现的，而且使用到了dex2Jar工具，因�
 3. hook框架使用的是lody的[Whale框架][5]，此框架存在一些不稳定性，对少数方法的hook会导致崩溃，并且在某些机型上hook也会崩溃。  
 4. Xposed Hook框架暂时不支持Dalvik虚拟机。  
 5. 暂时不支持Xposed插件中的资源Hook。
-
-## 支持我
-  如果Xpatch对你有点帮助，欢迎Star, Fork or Donate。  
- ![](https://upload-images.jianshu.io/upload_images/1639238-04130f58272eb505.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/200)
  
 ## Technology Discussion
 **QQ Group: 977513757**  
