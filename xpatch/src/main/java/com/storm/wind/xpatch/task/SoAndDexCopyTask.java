@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public class SoAndDexCopyTask implements Runnable {
 
-    private static final String SO_FILE_NAME = "libxpatch_wl.so";
+    private static final String SO_FILE_NAME = "libsandhook.so";
     private static final String XPOSED_MODULE_FILE_NAME_PREFIX = "libxpatch_xp_module_";
     private static final String SO_FILE_SUFFIX = ".so";
 
