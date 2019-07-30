@@ -142,7 +142,7 @@ It's so easy !!!
  - ...
  - **你自己编写的Xposed模块**
  
-**Note：一般来说，只要app可以被Xpatch破解，并且运行时没有做签名校验，与其相关的Xposed模块都是可用的。**
+**Note：一般来说，只要app可以被Xpatch破解，与其相关的Xposed模块都是可用的。**
 
 ## 可破解的App示例
  - 微信
