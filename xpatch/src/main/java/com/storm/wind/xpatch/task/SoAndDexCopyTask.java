@@ -51,9 +51,11 @@ public class SoAndDexCopyTask implements Runnable {
     private void copySoFile() {
         for (String libPath : APK_LIB_PATH_ARRAY) {
             String apkSoFullPath = fullLibPath(libPath);
-            if(new File(apkSoFullPath).exists()) {
-                copyLibFile(apkSoFullPath, SO_FILE_PATH_MAP.get(libPath));
+            File apkSoFullPathFile= new File(apkSoFullPath);
+            if (!apkSoFullPathFile.exists()){
+                apkSoFullPathFile.mkdirs();
             }
+            copyLibFile(apkSoFullPath, SO_FILE_PATH_MAP.get(libPath));
         }
         // copy xposed modules into the lib path
         if (xposedModuleArray != null && xposedModuleArray.length > 0) {
