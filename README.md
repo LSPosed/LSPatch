@@ -15,7 +15,7 @@ Xpatch的原理是对Apk文件进行二次打包，重新签名，并生成一�
 [点击我下载最新的Xpatch Jar包][1]    
 或者进入Releases页面下载：[releases][2]
 
-## Xpatch App端Xposed Tool下载
+## Xposed Tool(Xpatch App版本)下载
 [点我下载XposedTool App](https://xposed-tool-app.oss-cn-beijing.aliyuncs.com/data/xposed_tool_v1.0.2.apk)
 
 ## Xpatch使用方法
