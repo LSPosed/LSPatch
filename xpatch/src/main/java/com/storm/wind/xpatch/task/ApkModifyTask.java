@@ -36,7 +36,7 @@ public class ApkModifyTask implements Runnable {
 
         String jarOutputPath = unzipApkFile.getParent() + File.separator + JAR_FILE_NAME;
 
-        // classes.dex
+        // classes-1.0.dex
         String targetDexFileName = dumpJarFile(dexFileCount, unzipApkFilePath, jarOutputPath, applicationName);
 
         if (showAllLogs) {
@@ -104,12 +104,12 @@ public class ApkModifyTask implements Runnable {
         cmd.doMain(args);
     }
 
-    // 列出目录下所有dex文件，classes.dex，classes2.dex，classes3.dex  .....
+    // 列出目录下所有dex文件，classes-1.0.dex，classes2.dex，classes3.dex  .....
     private ArrayList<String> createClassesDotDexFileList(int dexFileCount) {
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < dexFileCount; i++) {
             if (i == 0) {
-                list.add("classes.dex");
+                list.add("classes-1.0.dex");
             } else {
                 list.add("classes" + (i + 1) + ".dex");
             }

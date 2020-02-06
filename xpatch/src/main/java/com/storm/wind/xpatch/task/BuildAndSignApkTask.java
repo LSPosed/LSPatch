@@ -55,6 +55,22 @@ public class BuildAndSignApkTask implements Runnable {
     }
 
     private boolean signApk(String apkPath, String keyStorePath, String signedApkPath, boolean useLocalJarsigner) {
+        if (isAndroid()) {
+            boolean success = true;
+            try {
+                ShellCmdUtil.chmod((new File(apkPath)).getParent(), ShellCmdUtil.FileMode.MODE_755);
+                net.fornwall.apksigner.Main.main
+                        ("--password", "123456", keyStorePath, apkPath, signedApkPath);
+            } catch (Exception e1) {
+                success = false;
+                e1.printStackTrace();
+                System.out.println("use fornwall apksigner to sign apk failed, fail msg is :" + e1.toString());
+            }
+            if (success && new File(signedApkPath).exists()) {
+                return true;
+            }
+        }
+
         File localJarsignerFile = null;
         try {
             long time = System.currentTimeMillis();
@@ -67,7 +83,8 @@ public class BuildAndSignApkTask implements Runnable {
                     String localJarsignerPath = (new File(apkPath)).getParent() + File.separator + "jarsigner-081688";
                     localJarsignerFile = new File(localJarsignerPath);
                     FileUtils.copyFileFromJar("assets/jarsigner", localJarsignerPath);
-                    ShellCmdUtil.execCmd("chmod -R 777 " + localJarsignerPath, null);
+                    ShellCmdUtil.chmod(localJarsignerPath, ShellCmdUtil.FileMode.MODE_755);
+                    // ShellCmdUtil.execCmd("chmod -R 777 " + localJarsignerPath, null);
                     signCmd = new StringBuilder(localJarsignerPath + " ");
                 }
                 signCmd.append(" -keystore ")
@@ -96,6 +113,15 @@ public class BuildAndSignApkTask implements Runnable {
             } else {
                 System.out.println("use inner jarsigner to sign apk failed, sign it yourself fail msg is :" +
                         e.toString());
+
+                try {
+                    net.fornwall.apksigner.Main.main
+                            ("--password", "123456", keyStorePath, apkPath, signedApkPath);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                    System.out.println("use fornwall apksigner to sign apk failed, fail msg is :" +
+                            e1.toString());
+                }
             }
             return false;
         } finally {
@@ -103,5 +129,15 @@ public class BuildAndSignApkTask implements Runnable {
                 localJarsignerFile.delete();
             }
         }
+    }
+
+    private boolean isAndroid() {
+        boolean isAndroid = true;
+        try {
+            Class.forName("android.content.Context");
+        } catch (ClassNotFoundException e) {
+            isAndroid = false;
+        }
+        return isAndroid;
     }
 }

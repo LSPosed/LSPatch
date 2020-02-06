@@ -8,6 +8,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -251,7 +253,23 @@ public abstract class BaseCommand {
         Option needArgOpt = null;
         for (String s : args) {
             if (needArgOpt != null) {
-                needArgOpt.field.set(this, convert(s, needArgOpt.field.getType()));
+                Field field = needArgOpt.field;
+                Class clazz = field.getType();
+                if (clazz.equals(List.class)) {
+                    try {
+                        List<Object> object = ((List<Object>) field.get(this));
+
+                        // 获取List对象的泛型类型
+                        ParameterizedType listGenericType = (ParameterizedType) field.getGenericType();
+                        Type[] listActualTypeArguments = listGenericType.getActualTypeArguments();
+                        Class typeClazz = (Class) listActualTypeArguments[0];
+                        object.add(convert(s, typeClazz));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    field.set(this, convert(s, clazz));
+                }
                 needArgOpt = null;
             } else if (s.startsWith("-")) {// its a short or long option
                 Option opt = optMap.get(s);
