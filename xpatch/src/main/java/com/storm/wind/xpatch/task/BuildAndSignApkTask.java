@@ -58,7 +58,7 @@ public class BuildAndSignApkTask implements Runnable {
         if (isAndroid()) {
             boolean success = true;
             try {
-                ShellCmdUtil.chmod((new File(apkPath)).getParent(), ShellCmdUtil.FileMode.MODE_755);
+                ShellCmdUtil.chmodNoException((new File(apkPath)).getParent(), ShellCmdUtil.FileMode.MODE_755);
                 net.fornwall.apksigner.Main.main
                         ("--password", "123456", keyStorePath, apkPath, signedApkPath);
             } catch (Exception e1) {
@@ -83,7 +83,7 @@ public class BuildAndSignApkTask implements Runnable {
                     String localJarsignerPath = (new File(apkPath)).getParent() + File.separator + "jarsigner-081688";
                     localJarsignerFile = new File(localJarsignerPath);
                     FileUtils.copyFileFromJar("assets/jarsigner", localJarsignerPath);
-                    ShellCmdUtil.chmod(localJarsignerPath, ShellCmdUtil.FileMode.MODE_755);
+                    ShellCmdUtil.chmodNoException(localJarsignerPath, ShellCmdUtil.FileMode.MODE_755);
                     // ShellCmdUtil.execCmd("chmod -R 777 " + localJarsignerPath, null);
                     signCmd = new StringBuilder(localJarsignerPath + " ");
                 }

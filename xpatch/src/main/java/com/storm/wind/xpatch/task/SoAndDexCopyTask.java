@@ -13,7 +13,9 @@ public class SoAndDexCopyTask implements Runnable {
     private static final String SANDHOOK_SO_FILE_NAME = "libsandhook";
     private static final String WHALE_SO_FILE_NAME = "libwhale";
 
-    private static final String SO_FILE_NAME_WITH_SUFFIX = "libsandhook";
+    private static final String SANDHOOK_SO_FILE_NAME_WITH_SUFFIX = "libsandhook.so";
+    private static final String WHALE_SO_FILE_NAME_WITH_SUFFIX = "libwhale.so";
+
     private static final String XPOSED_MODULE_FILE_NAME_PREFIX = "libxpatch_xp_module_";
     private static final String SO_FILE_SUFFIX = ".so";
 
@@ -28,11 +30,14 @@ public class SoAndDexCopyTask implements Runnable {
     private String unzipApkFilePath;
     private String[] xposedModuleArray;
 
+    private boolean useWhaleHookFramework;
+
     public SoAndDexCopyTask(int dexFileCount, String unzipApkFilePath,
                             String[] xposedModuleArray, boolean useWhaleHookFramework) {
         this.dexFileCount = dexFileCount;
         this.unzipApkFilePath = unzipApkFilePath;
         this.xposedModuleArray = xposedModuleArray;
+        this.useWhaleHookFramework = useWhaleHookFramework;
 
         String soFileName;
         if (useWhaleHookFramework) {
@@ -113,7 +118,13 @@ public class SoAndDexCopyTask implements Runnable {
         //  copy dex file to root dir, rename it first
         String copiedDexFileName = "classes" + (dexFileCount + 1) + ".dex";
         // assets/classes.dex分隔符不能使用File.seperater,否则在windows上无法读取到文件，IOException
-        FileUtils.copyFileFromJar("assets/classes-1.0.dex", unzipApkFilePath + copiedDexFileName);
+        String dexAssetPath;
+        if (useWhaleHookFramework) {
+            dexAssetPath = "assets/dex/whale/classes-1.0.dex";
+        } else {
+            dexAssetPath = "assets/dex/sandhook/classes-1.0.dex";
+        }
+        FileUtils.copyFileFromJar(dexAssetPath, unzipApkFilePath + copiedDexFileName);
     }
 
     private String fullLibPath(String libPath) {
@@ -129,7 +140,12 @@ public class SoAndDexCopyTask implements Runnable {
         // get the file name first
         // int lastIndex = srcSoPath.lastIndexOf('/');
         // int length = srcSoPath.length();
-        String soFileName = SO_FILE_NAME_WITH_SUFFIX;
+        String soFileName;
+        if (useWhaleHookFramework) {
+            soFileName = WHALE_SO_FILE_NAME_WITH_SUFFIX;
+        } else {
+            soFileName = SANDHOOK_SO_FILE_NAME_WITH_SUFFIX;
+        }
 
         // do copy
         FileUtils.copyFileFromJar(srcSoPath, new File(apkSoParentFile, soFileName).getAbsolutePath());

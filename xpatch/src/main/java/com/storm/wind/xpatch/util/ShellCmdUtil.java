@@ -57,6 +57,15 @@ public class ShellCmdUtil {
         return result.toString();
     }
 
+    public static void chmodNoException(String path, int mode) {
+        try {
+            chmod(path, mode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("chmod exception path --> " + path + " exception -->" + e.getMessage());
+        }
+    }
+
     public static void chmod(String path, int mode) throws Exception {
         chmodOnAndroid(path, mode);
 

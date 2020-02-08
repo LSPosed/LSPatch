@@ -189,7 +189,13 @@ public class MainCommand extends BaseCommand {
         manifestFile.renameTo(manifestFileNew);
 
         modifyManifestFile(manifestFilePathNew, manifestFilePath, applicationName);
-        manifestFileNew.delete();
+
+        // new manifest may not exist
+        if (manifestFile.exists() && manifestFile.length() > 0) {
+            manifestFileNew.delete();
+        } else {
+            manifestFileNew.renameTo(manifestFile);
+        }
 
         // save original main application name to asset file
         if (isNotEmpty(applicationName)) {
