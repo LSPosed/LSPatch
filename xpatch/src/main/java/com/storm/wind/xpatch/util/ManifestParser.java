@@ -25,8 +25,9 @@ public class ManifestParser {
             System.out.println(" manifest file not exist!!! filePath -> " + filePath);
             return null;
         }
+        FileInputStream inputStream = null;
         try {
-            FileInputStream inputStream = new FileInputStream(file);
+            inputStream = new FileInputStream(file);
 
             parser.open(inputStream);
 
@@ -65,6 +66,14 @@ public class ManifestParser {
         } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
             System.out.println("parseManifestFile failed, reason --> " + e.getMessage());
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return new Pair(packageName, applicationName);
     }
