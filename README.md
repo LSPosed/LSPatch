@@ -9,8 +9,9 @@ Xpatch用来重新签名打包Apk文件，使重打包后的Apk能加载安装�
 Xpatch的原理是对Apk文件进行二次打包，重新签名，并生成一个新的apk文件。
 在Apk二次打包过程中，插入加载Xposed插件的逻辑，这样，新的Apk文件就可以加载任意Xposed插件，从而实现免Root Hook任意App的Java代码。
 
-1.0~1.4版本，Hook框架使用的是Lody的[whale](https://github.com/asLody/whale)，
-2.0版本开始，Hook框架底层使用的是ganyao114的[SandHook](https://github.com/ganyao114/SandHook)。
+1.0~1.4版本，Hook框架使用的是Lody的[whale](https://github.com/asLody/whale)    
+2.0版本开始，Hook框架底层使用的是ganyao114的[SandHook]   
+ (https://github.com/ganyao114/SandHook)。
 3.0版本开始，默认使用SandHook，同时，兼容切换为whale
 
 ## Xpatch工具包下载
@@ -88,7 +89,7 @@ com.blanke.mdwechat#MDWechat
 ### 2. 通过Xposed Tool App控制模块开关
 下载并安装Xpatch App（Xposed Tool）
 [点我下载XposedTool Apk](https://xposed-tool-app.oss-cn-beijing.aliyuncs.com/data/xposed_tool_v1.0.2.apk)
-通过`Xposed模块管理`页面来控制模块开关。（原理跟方法1一致）
+通过`Xposed模块管理`页面来控制模块开关。（原理跟方法1一致）  
 ![Screenshot.png](https://upload-images.jianshu.io/upload_images/1639238-84d7a1dd814f314a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/300)
 
 ## 可用的Xposed模块示例
@@ -211,13 +212,13 @@ options:
 version: 3.0
 ```
 具体用法：
-1. 修改Apk的debuggable = true：
+1. 修改Apk的debuggable = true：  
  `$ java -jar ../xpatch-3.0.jar ../Test.apk -d 1` （false改为0）
-2. 使用老版本的破解dex方法破解apk：
+2. 使用老版本的破解dex方法破解apk：  
 `$ java -jar ../xpatch-3.0.jar ../Test.apk  -dex`
-3. 修改包名，版本号：
+3. 修改包名，版本号：  
 `$ java -jar ../xpatch-3.0.jar ../Test.apk  -pkg com.test.test -vc 1000 -vn 1.1.1`
-2. 更改Hook框架为whale：
+2. 更改Hook框架为whale：  
 `$ java -jar ../xpatch-3.0.jar ../Test.apk  -w`
 ## Thanks
 
