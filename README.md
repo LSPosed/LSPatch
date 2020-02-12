@@ -10,8 +10,7 @@ Xpatch的原理是对Apk文件进行二次打包，重新签名，并生成一�
 在Apk二次打包过程中，插入加载Xposed插件的逻辑，这样，新的Apk文件就可以加载任意Xposed插件，从而实现免Root Hook任意App的Java代码。
 
 1.0~1.4版本，Hook框架使用的是Lody的[whale](https://github.com/asLody/whale)    
-2.0版本开始，Hook框架底层使用的是ganyao114的[SandHook]   
- (https://github.com/ganyao114/SandHook)。
+2.0版本开始，Hook框架底层使用的是ganyao114的[SandHook](https://github.com/ganyao114/SandHook)。  
 3.0版本开始，默认使用SandHook，同时，兼容切换为whale
 
 ## Xpatch工具包下载
