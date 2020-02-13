@@ -229,7 +229,7 @@ version: 3.0
  - [xposed_module_loader](https://github.com/WindySha/xposed_module_loader) 
  - [axml](https://github.com/Sable/axml)
 
-  [1]: https://github.com/WindySha/Xpatch/releases/download/v2.0/xpatch-2.0.jar.zip
+  [1]: https://github.com/WindySha/Xpatch/releases/download/v3.0/xpatch-3.0.jar
   [2]: https://github.com/WindySha/Xpatch/releases
   [3]: https://ibotpeaches.github.io/Apktool/install/
   [5]: https://github.com/asLody/whale
