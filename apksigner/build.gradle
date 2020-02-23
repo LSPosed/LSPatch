@@ -2,9 +2,6 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'commons-cli:commons-cli:1.4'
-    implementation 'com.madgag.spongycastle:bcpkix-jdk15on:1.56.0.0'
 }
 
 sourceCompatibility = "8"

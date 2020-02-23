@@ -1,9 +1,11 @@
 package com.storm.wind.xpatch.task;
 
+import com.android.apksigner.ApkSignerTool;
 import com.storm.wind.xpatch.util.FileUtils;
 import com.storm.wind.xpatch.util.ShellCmdUtil;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by Wind
@@ -38,12 +40,12 @@ public class BuildAndSignApkTask implements Runnable {
         // assets/keystore分隔符不能使用File.separator，否则在windows上抛出IOException !!!
         FileUtils.copyFileFromJar("assets/keystore", keyStoreFilePath);
 
-        signApk(unsignedApkPath, keyStoreFilePath, signedApkPath, false);
+        boolean signResult = signApk(unsignedApkPath, keyStoreFilePath, signedApkPath);
 
         File unsignedApkFile = new File(unsignedApkPath);
         File signedApkFile = new File(signedApkPath);
         // delete unsigned apk file
-        if (!keepUnsignedApkFile && unsignedApkFile.exists() && signedApkFile.exists()) {
+        if (!keepUnsignedApkFile && unsignedApkFile.exists() && signedApkFile.exists() && signResult) {
             unsignedApkFile.delete();
         }
 
@@ -51,42 +53,22 @@ public class BuildAndSignApkTask implements Runnable {
         if (keyStoreFile.exists()) {
             keyStoreFile.delete();
         }
-
     }
 
-    private boolean signApk(String apkPath, String keyStorePath, String signedApkPath, boolean useLocalJarsigner) {
-        if (isAndroid()) {
-            boolean success = true;
-            try {
-                ShellCmdUtil.chmodNoException((new File(apkPath)).getParent(), ShellCmdUtil.FileMode.MODE_755);
-                net.fornwall.apksigner.Main.main
-                        ("--password", "123456", keyStorePath, apkPath, signedApkPath);
-            } catch (Exception e1) {
-                success = false;
-                e1.printStackTrace();
-                System.out.println("use fornwall apksigner to sign apk failed, fail msg is :" + e1.toString());
-            }
-            if (success && new File(signedApkPath).exists()) {
-                return true;
-            }
+    private boolean signApk(String apkPath, String keyStorePath, String signedApkPath) {
+        if (signApkUsingAndroidApksigner(apkPath, keyStorePath, signedApkPath, "123456")) {
+            return true;
         }
-
-        File localJarsignerFile = null;
+        if (isAndroid()) {
+            System.out.println(" Sign apk failed, please sign it yourself.");
+            return false;
+        }
         try {
             long time = System.currentTimeMillis();
             File keystoreFile = new File(keyStorePath);
             if (keystoreFile.exists()) {
                 StringBuilder signCmd;
-                if (!useLocalJarsigner) {
-                    signCmd = new StringBuilder("jarsigner ");
-                } else {
-                    String localJarsignerPath = (new File(apkPath)).getParent() + File.separator + "jarsigner-081688";
-                    localJarsignerFile = new File(localJarsignerPath);
-                    FileUtils.copyFileFromJar("assets/jarsigner", localJarsignerPath);
-                    ShellCmdUtil.chmodNoException(localJarsignerPath, ShellCmdUtil.FileMode.MODE_755);
-                    // ShellCmdUtil.execCmd("chmod -R 777 " + localJarsignerPath, null);
-                    signCmd = new StringBuilder(localJarsignerPath + " ");
-                }
+                signCmd = new StringBuilder("jarsigner ");
                 signCmd.append(" -keystore ")
                         .append(keyStorePath)
                         .append(" -storepass ")
@@ -106,28 +88,9 @@ public class BuildAndSignApkTask implements Runnable {
                     " please sign the apk by hand. \n");
             return false;
         } catch (Throwable e) {
-            if (!useLocalJarsigner) {
-                System.out.println("use default jarsigner to sign apk failed，and try again, fail msg is :" +
-                        e.toString());
-                signApk(apkPath, keyStorePath, signedApkPath, true);
-            } else {
-                System.out.println("use inner jarsigner to sign apk failed, sign it yourself fail msg is :" +
-                        e.toString());
-
-                try {
-                    net.fornwall.apksigner.Main.main
-                            ("--password", "123456", keyStorePath, apkPath, signedApkPath);
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                    System.out.println("use fornwall apksigner to sign apk failed, fail msg is :" +
-                            e1.toString());
-                }
-            }
+            System.out.println("use default jarsigner to sign apk failed, fail msg is :" +
+                    e.toString());
             return false;
-        } finally {
-            if (localJarsignerFile != null && localJarsignerFile.exists()) {
-                localJarsignerFile.delete();
-            }
         }
     }
 
@@ -139,5 +102,35 @@ public class BuildAndSignApkTask implements Runnable {
             isAndroid = false;
         }
         return isAndroid;
+    }
+
+    // 使用Android build-tools里自带的apksigner工具进行签名
+    private boolean signApkUsingAndroidApksigner(String apkPath, String keyStorePath, String signedApkPath, String keyStorePassword) {
+        ArrayList<String> commandList = new ArrayList<>();
+
+        commandList.add("sign");
+        commandList.add("--ks");
+        commandList.add(keyStorePath);
+        commandList.add("--ks-key-alias");
+        commandList.add("key0");
+        commandList.add("--ks-pass");
+        commandList.add("pass:" + keyStorePassword);
+        commandList.add("--key-pass");
+        commandList.add("pass:" + keyStorePassword);
+        commandList.add("--out");
+        commandList.add(signedApkPath);
+        commandList.add(apkPath);
+
+        int size = commandList.size();
+        String[] commandArray = new String[size];
+        commandArray = commandList.toArray(commandArray);
+
+        try {
+            ApkSignerTool.main(commandArray);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

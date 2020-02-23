@@ -1,0 +1,185 @@
+USAGE: apksigner lineage [options]
+
+This modifies the capabilities of one or more signers in the provided SigningCertificateLineage.
+This can be used to revoke capabilities of a previous signing certificate once the install base
+has been migrated to the new signing certificate.
+
+
+        GENERAL OPTIONS
+
+--in                  Input SigningCertificateLineage. This file contains a binary representation of
+                      a SigningCertificateLineage object which contains the proof-of-rotation for
+                      different signing certificates.
+                      An APK previously signed with a SigningCertificateLineage can also be
+                      specified; the lineage will then be read from the signed data in the APK.
+
+--out                 File into which to put the binary representation of a
+                      SigningCertificateLineage object.
+
+--print-certs         Show information about the signing certificates and their capabilities
+                      in the SigningCertificateLineage.
+
+-v, --verbose         Verbose output mode.
+
+-h, --help            Show help about this command and exit.
+
+
+        PER-SIGNER OPTIONS
+This option is required for each signer to be modified in the provided SigningCertificateLineage.
+
+--signer              Indicates the start of a new signing certificate to be modified.
+
+
+        PER-SIGNER SIGNING KEY, CERTIFICATE, & CAPABILITY OPTIONS
+To modify the capabilities of a previous signer in the lineage the signer's
+private key and certificate must be specified. There are two ways to provide
+the signer's private key and certificate: (1) Java KeyStore (see --ks), or
+(2) private key file in PKCS #8 format and certificate file in X.509 format
+(see --key and --cert).
+
+The --set-xx capability options allow an older signing certificate to still be
+used in some situations on the platform even though the APK is now being signed
+by a newer signing certificate. By default, the new signer will have all
+capabilities, but the capability options can be specified for the new signer
+to act as a default level of trust when moving to a newer signing certificate.
+The capability options accept an optional boolean value of true or false; if
+this value is not specified then the option will default to true.
+
+--ks                  Load private key and certificate chain from the Java
+                      KeyStore initialized from the specified file. NONE means
+                      no file is needed by KeyStore, which is the case for some
+                      PKCS #11 KeyStores.
+
+--ks-key-alias        Alias under which the private key and certificate are
+                      stored in the KeyStore. This must be specified if the
+                      KeyStore contains multiple keys.
+
+--ks-pass             KeyStore password (see --ks). The following formats are
+                      supported:
+                          pass:<password> password provided inline
+                          env:<name>      password provided in the named
+                                          environment variable
+                          file:<file>     password provided in the named
+                                          file, as a single line
+                          stdin           password provided on standard input,
+                                          as a single line
+                      A password is required to open a KeyStore.
+                      By default, the tool will prompt for password via console
+                      or standard input.
+                      When the same file (including standard input) is used for
+                      providing multiple passwords, the passwords are read from
+                      the file one line at a time. Passwords are read in the
+                      order of old-signer then new-signer and, within each
+                      signer, KeyStore password is read before the key password
+                      is read.
+
+--key-pass            Password with which the private key is protected.
+                      The following formats are supported:
+                          pass:<password> password provided inline
+                          env:<name>      password provided in the named
+                                          environment variable
+                          file:<file>     password provided in the named
+                                          file, as a single line
+                          stdin           password provided on standard input,
+                                          as a single line
+                      If --key-pass is not specified for a KeyStore key, this
+                      tool will attempt to load the key using the KeyStore
+                      password and, if that fails, will prompt for key password
+                      and attempt to load the key using that password.
+                      If --key-pass is not specified for a private key file key,
+                      this tool will prompt for key password only if a password
+                      is required.
+                      When the same file (including standard input) is used for
+                      providing multiple passwords, the passwords are read from
+                      the file one line at a time. Passwords are read in the
+                      order of old-signer then new-signer and, within each
+                      signer, KeyStore password is read before the key password
+                      is read.
+
+--pass-encoding       Additional character encoding (e.g., ibm437 or utf-8) to
+                      try for passwords containing non-ASCII characters.
+                      KeyStores created by keytool are often encrypted not using
+                      the Unicode form of the password but rather using the form
+                      produced by encoding the password using the console's
+                      character encoding. apksigner by default tries to decrypt
+                      using several forms of the password: the Unicode form, the
+                      form encoded using the JVM default charset, and, on Java 8
+                      and older, the form encoded using the console's charset.
+                      On Java 9, apksigner cannot detect the console's charset
+                      and may need to be provided with --pass-encoding when a
+                      non-ASCII password is used. --pass-encoding may also need
+                      to be provided for a KeyStore created by keytool on a
+                      different OS or in a different locale.
+
+--ks-type             Type/algorithm of KeyStore to use. By default, the default
+                      type is used.
+
+--ks-provider-name    Name of the JCA Provider from which to request the
+                      KeyStore implementation. By default, the highest priority
+                      provider is used. See --ks-provider-class for the
+                      alternative way to specify a provider.
+
+--ks-provider-class   Fully-qualified class name of the JCA Provider from which
+                      to request the KeyStore implementation. By default, the
+                      provider is chosen based on --ks-provider-name.
+
+--ks-provider-arg     Value to pass into the constructor of the JCA Provider
+                      class specified by --ks-provider-class. The value is
+                      passed into the constructor as java.lang.String. By
+                      default, the no-arg provider's constructor is used.
+
+--key                 Load private key from the specified file. If the key is
+                      password-protected, the password will be prompted via
+                      standard input unless specified otherwise using
+                      --key-pass. The file must be in PKCS #8 DER format.
+
+--cert                Load certificate chain from the specified file. The file
+                      must be in X.509 PEM or DER format.
+
+--set-installed-data  Sets whether installed data associated with this previous
+                      signing certificate should be trusted. This capability is
+                      required to perform signing certificate rotation during an
+                      upgrade on-device. Without it, the platform will not
+                      permit the app data from the old signing certificate to
+                      propogate to the new version. Typically this flag should
+                      be set to enable signing certificate rotation and may be
+                      unset later when the install base is as migrated as it
+                      will be.
+
+--set-shared-uid      Sets whether apps signed with this previous signing
+                      certificate can share a UID with an app signed with the
+                      new signing certificate. This is useful in situations
+                      where shareUserId apps would like to change their signing
+                      certificate but can not guarantee the order of updates to
+                      those apps.
+
+--set-permission      Sets whether apps signed with this previous signing
+                      certificate can be granted SIGNATURE permissions defined
+                      by an app signed with the new signing certificate.
+
+--set-rollback        Sets whether the platform should allow an app to be
+                      upgraded to a newer version signed with this previous
+                      signing certificate.
+                      WARNING: This effectively removes any benefit of signing
+                      certificate rotation since a compromised key could retake
+                      control of an app even after the signing certificate
+                      rotation. This option should only be used if a problem is
+                      encountered when attempting to rotate an older signing
+                      certificate.
+
+--set-auth            Sets whether apps signed with this previous signing
+                      certificate should be granted privileged access by the
+                      authenticator module using the new signing certificate.
+
+
+        EXAMPLES
+
+1. Remove all capabilities from a previous signer in the linage:
+$ apksigner lineage --in /path/to/existing/lineage --out /path/to/new/file \
+    --signer --ks release.jks --set-installed-data false \
+    --set-shared-uid false --set-permission false --set-rollback false \
+    --set-auth false
+
+2. Display details about the signing certificates and their capabilities in the lineage:
+$ apksigner lineage --in /path/to/existing/lineage --print-certs -v
+

@@ -1,0 +1,39 @@
+USAGE: apksigner verify [options] apk
+
+This checks whether the provided APK will verify on Android. By default, this
+checks whether the APK will verify on all Android platform versions supported
+by the APK (as declared using minSdkVersion in AndroidManifest.xml). Use
+--min-sdk-version and/or --max-sdk-version to verify the APK against a custom
+range of API Levels.
+
+
+        OPTIONS
+
+--print-certs         Show information about the APK's signing certificates
+
+-v, --verbose         Verbose output mode
+
+--min-sdk-version     Lowest API Level on which this APK's signatures will be
+                      verified. By default, the value from AndroidManifest.xml
+                      is used.
+
+--max-sdk-version     Highest API Level on which this APK's signatures will be
+                      verified. By default, the highest possible value is used.
+
+-Werr                 Treat warnings as errors
+
+--in                  APK file to verify. This is an alternative to specifying
+                      the APK as the very last parameter, after all options.
+
+-h, --help            Show help about this command and exit
+
+
+        EXAMPLES
+
+1. Check whether the APK's signatures are expected to verify on all Android
+   platforms declared as supported by this APK:
+$ apksigner verify app.apk
+
+2. Check whether the APK's signatures are expected to verify on Android
+   platforms with API Level 15 and higher:
+$ apksigner verify --min-sdk-version 15 app.apk

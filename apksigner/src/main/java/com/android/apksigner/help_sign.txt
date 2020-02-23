@@ -1,0 +1,240 @@
+USAGE: apksigner sign [options] apk
+
+This signs the provided APK, stripping out any pre-existing signatures. Signing
+is performed using one or more signers, each represented by an asymmetric key
+pair and a corresponding certificate. Typically, an APK is signed by just one
+signer. For each signer, you need to provide the signer's private key and
+certificate.
+
+
+        GENERAL OPTIONS
+
+--in                  Input APK file to sign. This is an alternative to
+                      specifying the APK as the very last parameter, after all
+                      options. Unless --out is specified, this file will be
+                      overwritten with the resulting signed APK.
+
+--out                 File into which to output the signed APK. By default, the
+                      APK is signed in-place, overwriting the input file.
+
+-v, --verbose         Verbose output mode
+
+--v1-signing-enabled  Whether to enable signing using JAR signing scheme (aka v1
+                      signing scheme) used in Android since day one. By default,
+                      signing using this scheme is enabled based on min and max
+                      SDK version (see --min-sdk-version and --max-sdk-version).
+
+--v2-signing-enabled  Whether to enable signing using APK Signature Scheme v2
+                      (aka v2 signing scheme) introduced in Android Nougat,
+                      API Level 24. By default, signing using this scheme is
+                      enabled based on min and max SDK version (see
+                      --min-sdk-version and --max-sdk-version).
+
+--v3-signing-enabled  Whether to enable signing using APK Signature Scheme v3
+                      (aka v3 signing scheme) introduced in Android P,
+                      API Level 28. By default, signing using this scheme is
+                      enabled based on min and max SDK version (see
+                      --min-sdk-version and --max-sdk-version).  Multiple
+                      signers are not supported when using v3 signing, but
+                      multiple signers may be provided in conjunction with the
+                      "lineage" option to make sure that the app is signed by
+                      an appropriate signer on all supported platform versions.
+
+--min-sdk-version     Lowest API Level on which this APK's signatures will be
+                      verified. By default, the value from AndroidManifest.xml
+                      is used. The higher the value, the stronger security
+                      parameters are used when signing.
+
+--max-sdk-version     Highest API Level on which this APK's signatures will be
+                      verified. By default, the highest possible value is used.
+
+--debuggable-apk-permitted  Whether to permit signing android:debuggable="true"
+                      APKs. Android disables some of its security protections
+                      for such apps. For example, anybody with ADB shell access
+                      can execute arbitrary code in the context of a debuggable
+                      app and can read/write persistently stored data of the
+                      app. It is a good security practice to not sign
+                      debuggable APKs with production signing keys, because
+                      such APKs puts users at risk once leaked.
+                      By default, signing debuggable APKs is permitted, for
+                      backward compatibility with older apksigner versions.
+
+--lineage             Signing certificate history to use in the event that
+                      signing certificates changed for an APK using APK
+                      Signature Scheme v3 supported signing certificate
+                      rotation.  This object may be created by the apksigner
+                      "rotate" command.  If used, all signers used to sign the
+                      APK must be present in the signing lineage,
+                      and if v1 or v2 signing is enabled, the first (oldest)
+                      entry in the lineage must have a signer provided, so that
+                      it can be used for those v1 and/or v2 signing. Multiple
+                      signers are not supported when using APK Signature Scheme
+                      v3, so multiple signers input will correspond to different
+                      points in the lineage and will be used on older platform
+                      versions when the newest signer in the lineage is
+                      unsupported.
+                      An APK previously signed with a SigningCertificateLineage
+                      can also be specified; the lineage will then be read from
+                      the signed data in the APK.
+
+-h, --help            Show help about this command and exit
+
+
+        PER-SIGNER OPTIONS
+These options specify the configuration of a particular signer. To delimit
+options of different signers, use --next-signer.
+
+--next-signer         Delimits options of two different signers. There is no
+                      need to use this option when only one signer is used.
+
+--v1-signer-name      Basename for files comprising the JAR signature scheme
+                      (aka v1 scheme) signature of this signer. By default,
+                      KeyStore key alias or basename of key file is used.
+
+        PER-SIGNER SIGNING KEY & CERTIFICATE OPTIONS
+There are two ways to provide the signer's private key and certificate: (1) Java
+KeyStore (see --ks), or (2) private key file in PKCS #8 format and certificate
+file in X.509 format (see --key and --cert).
+
+--ks                  Load private key and certificate chain from the Java
+                      KeyStore initialized from the specified file. NONE means
+                      no file is needed by KeyStore, which is the case for some
+                      PKCS #11 KeyStores.
+
+--ks-key-alias        Alias under which the private key and certificate are
+                      stored in the KeyStore. This must be specified if the
+                      KeyStore contains multiple keys.
+
+--ks-pass             KeyStore password (see --ks). The following formats are
+                      supported:
+                          pass:<password> password provided inline
+                          env:<name>      password provided in the named
+                                          environment variable
+                          file:<file>     password provided in the named
+                                          file, as a single line
+                          stdin           password provided on standard input,
+                                          as a single line
+                      A password is required to open a KeyStore.
+                      By default, the tool will prompt for password via console
+                      or standard input.
+                      When the same file (including standard input) is used for
+                      providing multiple passwords, the passwords are read from
+                      the file one line at a time. Passwords are read in the
+                      order in which signers are specified and, within each
+                      signer, KeyStore password is read before the key password
+                      is read.
+
+--key-pass            Password with which the private key is protected.
+                      The following formats are supported:
+                          pass:<password> password provided inline
+                          env:<name>      password provided in the named
+                                          environment variable
+                          file:<file>     password provided in the named
+                                          file, as a single line
+                          stdin           password provided on standard input,
+                                          as a single line
+                      If --key-pass is not specified for a KeyStore key, this
+                      tool will attempt to load the key using the KeyStore
+                      password and, if that fails, will prompt for key password
+                      and attempt to load the key using that password.
+                      If --key-pass is not specified for a private key file key,
+                      this tool will prompt for key password only if a password
+                      is required.
+                      When the same file (including standard input) is used for
+                      providing multiple passwords, the passwords are read from
+                      the file one line at a time. Passwords are read in the
+                      order in which signers are specified and, within each
+                      signer, KeyStore password is read before the key password
+                      is read.
+
+--pass-encoding       Additional character encoding (e.g., ibm437 or utf-8) to
+                      try for passwords containing non-ASCII characters.
+                      KeyStores created by keytool are often encrypted not using
+                      the Unicode form of the password but rather using the form
+                      produced by encoding the password using the console's
+                      character encoding. apksigner by default tries to decrypt
+                      using several forms of the password: the Unicode form, the
+                      form encoded using the JVM default charset, and, on Java 8
+                      and older, the form encoded using the console's charset.
+                      On Java 9, apksigner cannot detect the console's charset
+                      and may need to be provided with --pass-encoding when a
+                      non-ASCII password is used. --pass-encoding may also need
+                      to be provided for a KeyStore created by keytool on a
+                      different OS or in a different locale.
+
+--ks-type             Type/algorithm of KeyStore to use. By default, the default
+                      type is used.
+
+--ks-provider-name    Name of the JCA Provider from which to request the
+                      KeyStore implementation. By default, the highest priority
+                      provider is used. See --ks-provider-class for the
+                      alternative way to specify a provider.
+
+--ks-provider-class   Fully-qualified class name of the JCA Provider from which
+                      to request the KeyStore implementation. By default, the
+                      provider is chosen based on --ks-provider-name.
+
+--ks-provider-arg     Value to pass into the constructor of the JCA Provider
+                      class specified by --ks-provider-class. The value is
+                      passed into the constructor as java.lang.String. By
+                      default, the no-arg provider's constructor is used.
+
+--key                 Load private key from the specified file. If the key is
+                      password-protected, the password will be prompted via
+                      standard input unless specified otherwise using
+                      --key-pass. The file must be in PKCS #8 DER format.
+
+--cert                Load certificate chain from the specified file. The file
+                      must be in X.509 PEM or DER format.
+
+
+        JCA PROVIDER INSTALLATION OPTIONS
+These options enable you to install additional Java Crypto Architecture (JCA)
+Providers, such as PKCS #11 providers. Use --next-provider to delimit options of
+different providers. Providers are installed in the order in which they appear
+on the command-line.
+
+--provider-class      Fully-qualified class name of the JCA Provider.
+
+--provider-arg        Value to pass into the constructor of the JCA Provider
+                      class specified by --provider-class. The value is passed
+                      into the constructor as java.lang.String. By default, the
+                      no-arg provider's constructor is used.
+
+--provider-pos        Position / priority at which to install this provider in
+                      the JCA provider list. By default, the provider is
+                      installed as the lowest priority provider.
+                      See java.security.Security.insertProviderAt.
+
+
+        EXAMPLES
+
+1. Sign an APK, in-place, using the one and only key in keystore release.jks:
+$ apksigner sign --ks release.jks app.apk
+
+1. Sign an APK, without overwriting, using the one and only key in keystore
+   release.jks:
+$ apksigner sign --ks release.jks --in app.apk --out app-signed.apk
+
+3. Sign an APK using a private key and certificate stored as individual files:
+$ apksigner sign --key release.pk8 --cert release.x509.pem app.apk
+
+4. Sign an APK using two keys:
+$ apksigner sign --ks release.jks --next-signer --ks magic.jks app.apk
+
+5. Sign an APK using PKCS #11 JCA Provider:
+$ apksigner sign --provider-class sun.security.pkcs11.SunPKCS11 \
+    --provider-arg token.cfg --ks NONE --ks-type PKCS11 app.apk
+
+6. Sign an APK using a non-ASCII password KeyStore created on English Windows.
+   The --pass-encoding parameter is not needed if apksigner is being run on
+   English Windows with Java 8 or older.
+$ apksigner sign --ks release.jks --pass-encoding ibm437 app.apk
+
+7. Sign an APK on Windows using a non-ASCII password KeyStore created on a
+   modern OSX or Linux machine:
+$ apksigner sign --ks release.jks --pass-encoding utf-8 app.apk
+
+8. Sign an APK with rotated signing certificate:
+$ apksigner sign --ks release.jks --next-signer --ks release2.jks \
+    --lineage /path/to/signing/history/lineage app.apk
