@@ -18,7 +18,7 @@ Xpatch的原理是对Apk文件进行二次打包，重新签名，并生成一�
 或者进入Releases页面下载指定版本：[releases][2]
 
 ## Xpatch App版本(Xposed Tool)下载
-[点我下载XposedTool Apk](https://xposed-tool-app.oss-cn-beijing.aliyuncs.com/data/xposed_tool_v2.0.0.apk)
+[点我下载XposedTool Apk][15]
 
 ## Xpatch使用方法
 Xpatch项目最终生成物是一个Jar包，此Jar使用起来非常简单，只需要一行命令，一个接入xposed hook功能的apk就生成：
@@ -87,7 +87,7 @@ com.blanke.mdwechat#MDWechat
 有些App没有获取到sd卡文件读写权限，这会导致无法读取modules.list配置文件，此时会默认启用所有插件。这种情况下，需要手动打开app的文件读写权限。
 ### 2. 通过Xposed Tool App控制模块开关
 下载并安装Xpatch App（Xposed Tool）
-[点我下载XposedTool Apk](https://xposed-tool-app.oss-cn-beijing.aliyuncs.com/data/xposed_tool_v1.0.2.apk)
+[点我下载XposedTool Apk][15]
 通过`Xposed模块管理`页面来控制模块开关。（原理跟方法1一致）  
 ![Screenshot.png](https://upload-images.jianshu.io/upload_images/1639238-84d7a1dd814f314a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/300)
 
@@ -242,4 +242,5 @@ version: 3.0
   [12]: https://github.com/pxb1988/dex2jar
   [13]: https://code.google.com/archive/p/android4me/downloads
   [14]: http://www.apache.org/licenses/LICENSE-2.0.html
+  [15]: https://xposed-tool-app.oss-cn-beijing.aliyuncs.com/data/xposed_tool_v2.0.1.apk
   
