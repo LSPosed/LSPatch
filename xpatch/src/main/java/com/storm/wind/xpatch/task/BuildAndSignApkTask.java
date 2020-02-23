@@ -38,7 +38,16 @@ public class BuildAndSignApkTask implements Runnable {
 
         File keyStoreFile = new File(keyStoreFilePath);
         // assets/keystore分隔符不能使用File.separator，否则在windows上抛出IOException !!!
-        FileUtils.copyFileFromJar("assets/keystore", keyStoreFilePath);
+        String keyStoreAssetPath;
+        if (isAndroid()) {
+            // BKS-V1 类型
+            keyStoreAssetPath = "assets/android.keystore";
+        } else {
+            // BKS 类型
+            keyStoreAssetPath = "assets/keystore";
+        }
+
+        FileUtils.copyFileFromJar(keyStoreAssetPath, keyStoreFilePath);
 
         boolean signResult = signApk(unsignedApkPath, keyStoreFilePath, signedApkPath);
 
