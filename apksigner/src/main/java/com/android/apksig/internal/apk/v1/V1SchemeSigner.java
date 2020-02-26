@@ -46,7 +46,7 @@ import java.security.SignatureException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.Base64;
+import com.android.apksig.internal.util.Base64;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;

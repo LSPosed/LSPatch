@@ -49,7 +49,13 @@ public class FileUtils {
 
         ZipFile zip = null;
         try {
-            zip = new ZipFile(zipFile, Charset.forName("gbk"));//防止中文目录，乱码
+            try {
+                // api level 24 才有此方法
+                zip = new ZipFile(zipFile, Charset.forName("gbk"));//防止中文目录，乱码
+            } catch (NoSuchMethodError e) {
+                // api < 24
+                zip = new ZipFile(zipFile);
+            }
             for (Enumeration entries = zip.entries(); entries.hasMoreElements(); ) {
                 ZipEntry entry = (ZipEntry) entries.nextElement();
                 String zipEntryName = entry.getName();

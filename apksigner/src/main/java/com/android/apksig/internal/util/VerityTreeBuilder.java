@@ -155,8 +155,7 @@ public class VerityTreeBuilder {
         levelOffset[0] = 0;
         for (int i = 0; i < levelSize.size(); i++) {
             // We don't support verity tree if it is larger then Integer.MAX_VALUE.
-            levelOffset[i + 1] = levelOffset[i] + Math.toIntExact(
-                    levelSize.get(levelSize.size() - i - 1));
+            levelOffset[i + 1] = levelOffset[i] + (levelSize.get(levelSize.size() - i - 1)).intValue();
         }
         return levelOffset;
     }

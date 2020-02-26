@@ -21,6 +21,7 @@ import com.android.apksig.SigningCertificateLineage;
 import com.android.apksig.apk.ApkFormatException;
 import com.android.apksig.apk.ApkSigningBlockNotFoundException;
 import com.android.apksig.apk.ApkUtils;
+import com.android.apksig.internal.Supplier;
 import com.android.apksig.internal.asn1.Asn1BerParser;
 import com.android.apksig.internal.asn1.Asn1DecodingException;
 import com.android.apksig.internal.asn1.Asn1DerEncoder;
@@ -60,14 +61,15 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public class ApkSigningBlockUtils {
 
@@ -418,10 +420,22 @@ public class ApkSigningBlockUtils {
             DataSource centralDir,
             DataSource eocd) throws IOException, NoSuchAlgorithmException, DigestException {
         Map<ContentDigestAlgorithm, byte[]> contentDigests = new HashMap<>();
-        Set<ContentDigestAlgorithm> oneMbChunkBasedAlgorithm = digestAlgorithms.stream()
-                .filter(a -> a == ContentDigestAlgorithm.CHUNKED_SHA256 ||
-                             a == ContentDigestAlgorithm.CHUNKED_SHA512)
-                .collect(Collectors.toSet());
+        // 不使用stream，以兼容android6以及一下
+//        Set<ContentDigestAlgorithm> oneMbChunkBasedAlgorithm = digestAlgorithms.stream()
+//                .filter(a -> a == ContentDigestAlgorithm.CHUNKED_SHA256 ||
+//                             a == ContentDigestAlgorithm.CHUNKED_SHA512)
+//                .collect(Collectors.toSet());
+
+        Set<ContentDigestAlgorithm> oneMbChunkBasedAlgorithm = new HashSet<>();
+        if (digestAlgorithms != null && digestAlgorithms.size() > 0) {
+            for (ContentDigestAlgorithm a : digestAlgorithms) {
+                if (a == ContentDigestAlgorithm.CHUNKED_SHA256 ||
+                        a == ContentDigestAlgorithm.CHUNKED_SHA512) {
+                    oneMbChunkBasedAlgorithm.add(a);
+                }
+            }
+        }
+
         computeOneMbChunkContentDigests(
                 executor,
                 oneMbChunkBasedAlgorithm,
@@ -1150,10 +1164,22 @@ public class ApkSigningBlockUtils {
         if (bestSigAlgorithmOnSdkVersion.isEmpty()) {
             throw new NoSupportedSignaturesException("No supported signature");
         }
-        return bestSigAlgorithmOnSdkVersion.values().stream()
-                .sorted((sig1, sig2) -> Integer.compare(
-                        sig1.algorithm.getId(), sig2.algorithm.getId()))
-                .collect(Collectors.toList());
+
+        // 不使用stream，以兼容android6以及一下
+        Collection<SupportedSignature> values = bestSigAlgorithmOnSdkVersion.values();
+        Comparator cmp = new Comparator<SupportedSignature>() {
+            @Override
+            public int compare(SupportedSignature sig1, SupportedSignature sig2) {
+                return Integer.compare(sig1.algorithm.getId(), sig2.algorithm.getId());
+            }
+        };
+        Collections.sort((List<SupportedSignature>) values, cmp);
+
+        return (List<SupportedSignature>) values;
+//        return bestSigAlgorithmOnSdkVersion.values().stream()
+//                .sorted((sig1, sig2) -> Integer.compare(
+//                        sig1.algorithm.getId(), sig2.algorithm.getId()))
+//                .collect(Collectors.toList());
     }
 
     public static class NoSupportedSignaturesException extends Exception {

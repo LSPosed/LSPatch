@@ -311,7 +311,12 @@ public final class Asn1BerParser {
 
     private static Asn1Type getContainerAsn1Type(Class<?> containerClass)
             throws Asn1DecodingException {
-        Asn1Class containerAnnotation = containerClass.getDeclaredAnnotation(Asn1Class.class);
+        Asn1Class containerAnnotation;
+        try {
+            containerAnnotation = containerClass.getDeclaredAnnotation(Asn1Class.class);
+        } catch (Throwable e) {
+            containerAnnotation = containerClass.getAnnotation(Asn1Class.class);
+        }
         if (containerAnnotation == null) {
             throw new Asn1DecodingException(
                     containerClass.getName() + " is not annotated with "
@@ -531,7 +536,12 @@ public final class Asn1BerParser {
         Field[] declaredFields = containerClass.getDeclaredFields();
         List<AnnotatedField> result = new ArrayList<>(declaredFields.length);
         for (Field field : declaredFields) {
-            Asn1Field annotation = field.getDeclaredAnnotation(Asn1Field.class);
+            Asn1Field annotation;
+            try {
+                annotation = containerClass.getDeclaredAnnotation(Asn1Field.class);
+            } catch (Throwable e) {
+                annotation = containerClass.getAnnotation(Asn1Field.class);
+            }
             if (annotation == null) {
                 continue;
             }
@@ -645,8 +655,12 @@ public final class Asn1BerParser {
                     break;
                 case SEQUENCE:
                 {
-                    Asn1Class containerAnnotation =
-                            targetType.getDeclaredAnnotation(Asn1Class.class);
+                    Asn1Class containerAnnotation;
+                    try {
+                        containerAnnotation = targetType.getDeclaredAnnotation(Asn1Class.class);
+                    } catch (Throwable e) {
+                        containerAnnotation = targetType.getAnnotation(Asn1Class.class);
+                    }
                     if ((containerAnnotation != null)
                             && (containerAnnotation.type() == Asn1Type.SEQUENCE)) {
                         return parseSequence(dataValue, targetType);
@@ -655,8 +669,12 @@ public final class Asn1BerParser {
                 }
                 case CHOICE:
                 {
-                    Asn1Class containerAnnotation =
-                            targetType.getDeclaredAnnotation(Asn1Class.class);
+                    Asn1Class containerAnnotation;
+                    try {
+                        containerAnnotation = targetType.getDeclaredAnnotation(Asn1Class.class);
+                    } catch (Throwable e) {
+                        containerAnnotation = targetType.getAnnotation(Asn1Class.class);
+                    }
                     if ((containerAnnotation != null)
                             && (containerAnnotation.type() == Asn1Type.CHOICE)) {
                         return parseChoice(dataValue, targetType);

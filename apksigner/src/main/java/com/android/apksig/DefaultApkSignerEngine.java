@@ -47,6 +47,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -436,12 +437,17 @@ public class DefaultApkSignerEngine implements ApkSignerEngine {
             if (V1SchemeSigner.isJarEntryDigestNeededInManifest(entry.getKey()) &&
                     isDebuggable(entryName)) {
 
-                Optional<V1SchemeVerifier.NamedDigest> extractedDigest =
-                        V1SchemeVerifier.getDigestsToVerify(
-                                entry.getValue(), "-Digest", mMinSdkVersion, Integer.MAX_VALUE)
-                                .stream()
-                                .filter(d -> d.jcaDigestAlgorithm == alg)
-                                .findFirst();
+                Optional<V1SchemeVerifier.NamedDigest> extractedDigest = Optional.empty();
+
+                Collection<V1SchemeVerifier.NamedDigest> collection = V1SchemeVerifier.getDigestsToVerify(
+                        entry.getValue(), "-Digest", mMinSdkVersion, Integer.MAX_VALUE);
+
+                for (V1SchemeVerifier.NamedDigest d : collection) {
+                    if (d.jcaDigestAlgorithm == alg) {
+                        extractedDigest = Optional.of(d);
+                        break;
+                    }
+                }
 
                 extractedDigest.ifPresent(
                         namedDigest -> mOutputJarEntryDigests.put(entryName, namedDigest.digest));
