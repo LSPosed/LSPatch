@@ -242,5 +242,5 @@ version: 3.0
   [12]: https://github.com/pxb1988/dex2jar
   [13]: https://code.google.com/archive/p/android4me/downloads
   [14]: http://www.apache.org/licenses/LICENSE-2.0.html
-  [15]: https://xposed-tool-app.oss-cn-beijing.aliyuncs.com/data/xposed_tool_v2.0.1.apk
+  [15]: https://xposed-tool-app.oss-cn-beijing.aliyuncs.com/data/xposed_tool_v2.0.2.apk
   
