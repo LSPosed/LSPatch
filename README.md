@@ -14,11 +14,11 @@ Xpatch的原理是对Apk文件进行二次打包，重新签名，并生成一�
 3.0版本开始，默认使用SandHook，同时，兼容切换为whale
 
 ## Xpatch工具包下载
-[点击我下载最新的Xpatch Jar包][1]    
+[下载最新的Xpatch Jar包][1]    
 或者进入Releases页面下载指定版本：[releases][2]
 
 ## Xpatch App版本(Xposed Tool)下载
-[点我下载XposedTool Apk][15]
+[下载XposedTool Apk][15]
 
 ## Xpatch使用方法
 Xpatch项目最终生成物是一个Jar包，此Jar使用起来非常简单，只需要一行命令，一个接入xposed hook功能的apk就生成：
@@ -242,5 +242,5 @@ version: 3.0
   [12]: https://github.com/pxb1988/dex2jar
   [13]: https://code.google.com/archive/p/android4me/downloads
   [14]: http://www.apache.org/licenses/LICENSE-2.0.html
-  [15]: https://xposed-tool-app.oss-cn-beijing.aliyuncs.com/data/xposed_tool_v2.0.2.apk
+  [15]: https://xposed-tool-app.oss-cn-beijing.aliyuncs.com/data/Xposed_Tool_2.0.3.apk
   
