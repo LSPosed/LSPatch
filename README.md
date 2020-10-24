@@ -18,7 +18,7 @@ Xpatch的原理是对Apk文件进行二次打包，重新签名，并生成一�
 或者进入Releases页面下载指定版本：[releases][2]
 
 ## Xpatch App版本(Xposed Tool)下载
-[下载XposedTool Apk][15]
+[XposedTool][16]  [下载XposedTool Apk][15]
 
 ## Xpatch使用方法
 Xpatch项目最终生成物是一个Jar包，此Jar使用起来非常简单，只需要一行命令，一个接入xposed hook功能的apk就生成：
@@ -243,4 +243,5 @@ version: 3.0
   [13]: https://code.google.com/archive/p/android4me/downloads
   [14]: http://www.apache.org/licenses/LICENSE-2.0.html
   [15]: https://xposed-tool-app.oss-cn-beijing.aliyuncs.com/data/Xposed_Tool_2.0.3.apk
+  [16]: https://github.com/WindySha/xposed-tool-app
   
