@@ -122,7 +122,7 @@ public class SoAndDexCopyTask implements Runnable {
         if (useWhaleHookFramework) {
             dexAssetPath = "assets/dex/whale/classes-1.0.dex";
         } else {
-            dexAssetPath = "assets/dex/sandhook/classes-1.0.dex";
+            dexAssetPath = "assets/dex/sandhook/classes-2.0.dex";
         }
         FileUtils.copyFileFromJar(dexAssetPath, unzipApkFilePath + copiedDexFileName);
     }
