@@ -93,14 +93,10 @@ com.blanke.mdwechat#MDWechat
 
 ## 可用的Xposed模块示例
 
- - [腾讯视频，爱奇艺去广告插件-RemoveVideoAdsPlugin](https://github.com/WindySha/RemoveVideoAdsPlugin)
  - [MDWechat][8]
  - [文本自定义][9]
- - ...
- - ...
+ - [RemoveVideoAdsPlugin](https://github.com/WindySha/RemoveVideoAdsPlugin)
  - **你自己编写的Xposed模块**
- 
-**Note：一般来说，只要app可以被Xpatch破解，与其相关的Xposed模块都是可用的。**
 
 
 ## 源码解析
@@ -219,6 +215,10 @@ version: 3.0
 `$ java -jar ../xpatch-3.0.jar ../Test.apk  -pkg com.test.test -vc 1000 -vn 1.1.1`
 2. 更改Hook框架为whale：  
 `$ java -jar ../xpatch-3.0.jar ../Test.apk  -w`
+
+### 4. 2021/01/13 updated  (Version 4.0)
+Update SandHook to the newest version and SandHook support the Android 11.
+
 ## Thanks
 
  - [Xposed][10]
