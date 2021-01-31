@@ -125,7 +125,7 @@ public class FileUtils {
         copyFile(new File(sourcePath), new File(targetPath));
     }
 
-    public static void copyFile(File source, File target) {
+    public static boolean copyFile(File source, File target) {
 
         FileInputStream inputStream = null;
         FileOutputStream outputStream = null;
@@ -146,12 +146,14 @@ public class FileUtils {
                 buffer.position(0);
                 oChannel.write(buffer);
             }
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             close(inputStream);
             close(outputStream);
         }
+        return false;
     }
 
     public static void deleteDir(File file) {

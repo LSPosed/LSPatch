@@ -32,8 +32,8 @@ public abstract class BaseCommand {
     @Opt(opt = "h", longOpt = "help", hasArg = false, description = "Print this help message")
     private boolean printHelp = false;
 
-    protected String remainingArgs[];
-    protected String orginalArgs[];
+    protected String[] remainingArgs;
+    protected String[] orginalArgs;
 
     @Retention(value = RetentionPolicy.RUNTIME)
     @Target(value = { ElementType.FIELD })

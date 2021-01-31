@@ -215,6 +215,12 @@ public class MainCommand extends BaseCommand {
         //  compress all files into an apk and then sign it.
         mXpatchTasks.add(new BuildAndSignApkTask(keepBuildFiles, unzipApkFilePath, output));
 
+        // copy origin apk to assets
+        // convenient to bypass some check like CRC
+        if(!FileUtils.copyFile(srcApkFile, new File(unzipApkFilePath, "assets/origin_apk.bin"))){
+            throw new IllegalStateException("orignal apk copy fail");
+        }
+
         // excute these tasks
         for (Runnable executor : mXpatchTasks) {
             currentTime = System.currentTimeMillis();
