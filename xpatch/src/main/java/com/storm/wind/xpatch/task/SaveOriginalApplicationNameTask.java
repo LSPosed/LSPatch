@@ -31,10 +31,14 @@ public class SaveOriginalApplicationNameTask implements Runnable {
     private void ensureDstFileCreated() {
         File dstParentFile = new File(dstFilePath);
         if (!dstParentFile.getParentFile().getParentFile().exists()) {
-            dstParentFile.getParentFile().getParentFile().mkdirs();
+           if(!dstParentFile.getParentFile().getParentFile().mkdirs()){
+               throw new IllegalStateException("mkdir fail");
+           }
         }
         if (!dstParentFile.getParentFile().exists()) {
-            dstParentFile.getParentFile().mkdirs();
+            if(!dstParentFile.getParentFile().mkdirs()){
+                throw new IllegalStateException("mkdir fail");
+            }
         }
     }
 }
