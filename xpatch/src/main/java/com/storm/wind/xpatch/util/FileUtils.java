@@ -44,7 +44,9 @@ public class FileUtils {
         }
         File pathFile = new File(descDir);
         if (!pathFile.exists()) {
-            pathFile.mkdirs();
+            if(!pathFile.mkdirs()){
+                throw new IllegalStateException("mkdir fail " + pathFile.getAbsolutePath());
+            }
         }
 
         ZipFile zip = null;
@@ -67,7 +69,9 @@ public class FileUtils {
                 File file = new File(outPath.substring(0, outPath.lastIndexOf(File.separator)));
 
                 if (!file.exists()) {
-                    file.mkdirs();
+                    if(!file.mkdirs()){
+                        throw new IllegalStateException("mkdir fail " + file.getAbsolutePath());
+                    }
                 }
                 //判断文件全路径是否为文件夹,如果是上面已经上传,不需要解压
                 if (new File(outPath).isDirectory()) {

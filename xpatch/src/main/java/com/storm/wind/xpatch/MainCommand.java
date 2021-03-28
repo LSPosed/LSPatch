@@ -33,20 +33,9 @@ public class MainCommand extends BaseCommand {
     @Opt(opt = "f", longOpt = "force", hasArg = false, description = "force overwrite")
     private boolean forceOverwrite = false;
 
-    @Opt(opt = "k", longOpt = "keep", hasArg = false, description = "not delete the jar file " +
-            "that is changed by dex2jar and the apk zip files")
-    private boolean keepBuildFiles = false;
-
-    @Opt(opt = "l", longOpt = "log", hasArg = false, description = "show all the debug logs")
-    private boolean showAllLogs = false;
-
     @Opt(opt = "c", longOpt = "crach", hasArg = false,
             description = "disable craching the apk's signature.")
     private boolean disableCrackSignature = false;
-
-    @Opt(opt = "xm", longOpt = "xposed-modules", description = "the xposed module files to be packaged into the apk, " +
-            "multi files should be seperated by :(mac) or ;(win) ", argName = "xposed module file path")
-    private String xposedModules;
 
     // 使用dex文件中插入代码的方式修改apk，而不是默认的修改Manifest中Application name的方式
     @Opt(opt = "dex", longOpt = "dex", hasArg = false, description = "insert code into the dex file, not modify manifest application name attribute")
@@ -101,15 +90,14 @@ public class MainCommand extends BaseCommand {
         File srcApkFile = new File(apkPath);
 
         if (!srcApkFile.exists()) {
-            System.out.println(" The source apk file not exsit, please choose another one.  " +
+            System.out.println("The source apk file not exsit, please choose another one.  " +
                     "current apk file is = " + apkPath);
             return;
         }
 
         String currentDir = new File(".").getAbsolutePath();  // 当前命令行所在的目录
-        if (showAllLogs) {
-            System.out.println(" currentDir = " + currentDir + " \n  apkPath = " + apkPath);
-        }
+        System.out.println("currentDir: " + currentDir);
+        System.out.println("apkPath: " + apkPath);
 
         if (output == null || output.length() == 0) {
             output = getBaseName(apkPath) + "-xposed-signed.apk";
@@ -129,8 +117,8 @@ public class MainCommand extends BaseCommand {
             outputApkFileParentPath = absPath.substring(0, index);
         }
 
-        System.out.println(" !!!!! output apk path -->  " + output +
-                "  disableCrackSignature --> " + disableCrackSignature);
+        System.out.println("output apk path: " + output);
+        System.out.println("disableCrackSignature: " + disableCrackSignature);
 
         String apkFileName = getBaseName(srcApkFile);
 
@@ -141,10 +129,8 @@ public class MainCommand extends BaseCommand {
         // apk文件解压的目录
         unzipApkFilePath = tempFilePath + apkFileName + "-" + UNZIP_APK_FILE_NAME + File.separator;
 
-        if (showAllLogs) {
-            System.out.println(" !!!!! outputApkFileParentPath  =  " + outputApkFileParentPath +
-                    "\n unzipApkFilePath = " + unzipApkFilePath);
-        }
+        System.out.println("outputApkFileParentPath: " + outputApkFileParentPath);
+        System.out.println("unzipApkFilePath = " + unzipApkFilePath);
 
         if (!disableCrackSignature) {
             // save the apk original signature info, to support crach signature.
@@ -155,16 +141,12 @@ public class MainCommand extends BaseCommand {
         long currentTime = System.currentTimeMillis();
         FileUtils.decompressZip(apkPath, unzipApkFilePath);
 
-        if (showAllLogs) {
-            System.out.println(" decompress apk cost time:  " + (System.currentTimeMillis() - currentTime));
-        }
+        System.out.println("decompress apk cost time: " + (System.currentTimeMillis() - currentTime) + "ms");
 
         // Get the dex count in the apk zip file
         dexFileCount = findDexFileCount(unzipApkFilePath);
 
-        if (showAllLogs) {
-            System.out.println(" --- dexFileCount = " + dexFileCount);
-        }
+        System.out.println("dexFileCount: " + dexFileCount);
 
         String manifestFilePath = unzipApkFilePath + "AndroidManifest.xml";
 
@@ -177,14 +159,12 @@ public class MainCommand extends BaseCommand {
             applicationName = pair.applicationName;
         }
 
-        if (showAllLogs) {
-            System.out.println(" Get application name cost time:  " + (System.currentTimeMillis() - currentTime));
-            System.out.println(" Get the application name --> " + applicationName);
-        }
+        System.out.println("Get application name cost time:  " + (System.currentTimeMillis() - currentTime) + "ms");
+        System.out.println("Get the application name: " + applicationName);
 
         // modify manifest
         File manifestFile = new File(manifestFilePath);
-        String manifestFilePathNew = unzipApkFilePath  + "AndroidManifest" + "-" + currentTimeStr() + ".xml";
+        String manifestFilePathNew = unzipApkFilePath + "AndroidManifest" + "-" + currentTimeStr() + ".xml";
         File manifestFileNew = new File(manifestFilePathNew);
         manifestFile.renameTo(manifestFileNew);
 
@@ -204,20 +184,19 @@ public class MainCommand extends BaseCommand {
 
         //  modify the apk dex file to make xposed can run in it
         if (dexModificationMode && isNotEmpty(applicationName)) {
-            mXpatchTasks.add(new ApkModifyTask(showAllLogs, keepBuildFiles, unzipApkFilePath, applicationName,
+            mXpatchTasks.add(new ApkModifyTask(true, true, unzipApkFilePath, applicationName,
                     dexFileCount));
         }
 
         //  copy xposed so and dex files into the unzipped apk
-        mXpatchTasks.add(new SoAndDexCopyTask(dexFileCount, unzipApkFilePath,
-                getXposedModules(xposedModules), useWhaleHookFramework));
+        mXpatchTasks.add(new SoAndDexCopyTask(dexFileCount, unzipApkFilePath));
 
         //  compress all files into an apk and then sign it.
-        mXpatchTasks.add(new BuildAndSignApkTask(keepBuildFiles, unzipApkFilePath, output));
+        mXpatchTasks.add(new BuildAndSignApkTask(true, unzipApkFilePath, output));
 
         // copy origin apk to assets
         // convenient to bypass some check like CRC
-        if(!FileUtils.copyFile(srcApkFile, new File(unzipApkFilePath, "assets/origin_apk.bin"))){
+        if (!FileUtils.copyFile(srcApkFile, new File(unzipApkFilePath, "assets/origin_apk.bin"))) {
             throw new IllegalStateException("orignal apk copy fail");
         }
 
@@ -226,21 +205,8 @@ public class MainCommand extends BaseCommand {
             currentTime = System.currentTimeMillis();
             executor.run();
 
-            if (showAllLogs) {
-                System.out.println(executor.getClass().getSimpleName() + "  cost time:  "
-                        + (System.currentTimeMillis() - currentTime));
-            }
-        }
-
-        // 5. delete all the build files that is useless now
-        File unzipApkFile = new File(unzipApkFilePath);
-        if (!keepBuildFiles && unzipApkFile.exists()) {
-            FileUtils.deleteDir(unzipApkFile);
-        }
-
-        File tempFile = new File(tempFilePath);
-        if (!keepBuildFiles && tempFile.exists()) {
-            tempFile.delete();
+            System.out.println(executor.getClass().getSimpleName() + " cost time: "
+                    + (System.currentTimeMillis() - currentTime) + "ms");
         }
     }
 

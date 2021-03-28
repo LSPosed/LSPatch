@@ -13,7 +13,7 @@ public class SaveApkSignatureTask implements Runnable {
     private String apkPath;
     private String dstFilePath;
 
-    private final static String SIGNATURE_INFO_ASSET_PATH = "assets/xpatch_asset/original_signature_info.ini";
+    private final static String SIGNATURE_INFO_ASSET_PATH = "assets/original_signature_info.ini";
 
     public SaveApkSignatureTask(String apkPath, String unzipApkFilePath) {
         this.apkPath = apkPath;
@@ -33,7 +33,9 @@ public class SaveApkSignatureTask implements Runnable {
         File file = new File(dstFilePath);
         File fileParent = file.getParentFile();
         if (!fileParent.exists()) {
-            fileParent.mkdirs();
+            if(!fileParent.mkdirs()){
+                System.out.println("mkdir fails " + fileParent.getAbsolutePath());
+            }
         }
 
         FileUtils.writeFile(dstFilePath, originalSignature);

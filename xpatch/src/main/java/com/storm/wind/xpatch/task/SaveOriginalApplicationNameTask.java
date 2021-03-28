@@ -13,7 +13,7 @@ public class SaveOriginalApplicationNameTask implements Runnable {
     private final String unzipApkFilePath;
     private String dstFilePath;
 
-    private final String APPLICATION_NAME_ASSET_PATH = "assets/xpatch_asset/original_application_name.ini";
+    private final String APPLICATION_NAME_ASSET_PATH = "assets/original_application_name.ini";
 
     public SaveOriginalApplicationNameTask(String applicationName, String unzipApkFilePath) {
         this.applcationName = applicationName;
