@@ -95,7 +95,7 @@ public class SoAndDexCopyTask implements Runnable {
             String copiedDexFileName = "classes" + (dexFileCount + 1) + ".dex";
             File target = new File(unzipApkFilePath, copiedDexFileName);
             FileUtils.copyFile(file, target);
-            System.out.println("copy " + file.getAbsolutePath() + " to " + target.getAbsolutePath());
+            System.out.println("Copy " + file.getAbsolutePath() + " to " + target.getAbsolutePath());
             dexFileCount++;
             copyed = true;
         }
