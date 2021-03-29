@@ -16,7 +16,9 @@ It is easy way to modify one app using xposed module. And any apps changed by MM
 # How to use
 
 1. Download the latest jar file from the [release page](https://github.com/327135569/MMPatch/releases);
-2. Run this command in the Windows/Mac console:
+1. Put dex files you wanna package to app in `list-dex` dir
+1. Put so files you wanna package to app in `list-so/{eabi}` dir, eg: `list-so/armeabi-v7a`.
+1. Run this command in the Windows/Mac console:
 ```
 $ java -jar mmpatch.jar source.apk
 ```
@@ -27,7 +29,7 @@ More command details can be found when no parameter is added, eg:
 $ java -jar mmpatch.jar 
 ```
 
-# How to manage Xposed modules
+# How to disable Xposed modules
 
 When the new apk is installed in the device, It will load all the Xposed modules installed in the device when it's process started.  
 
