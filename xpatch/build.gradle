@@ -6,8 +6,8 @@ dependencies {
     compile project(':apksigner')
 }
 
-jar{
-    baseName = "xpatch"
+jar {
+    baseName = "mmpatch"
     manifest {
         attributes 'Main-Class': 'com.storm.wind.xpatch.MainCommand'
     }
@@ -18,10 +18,15 @@ jar{
         }
     }
 
-    from fileTree(dir:'src/main', includes: ['assets/**'])
+    from fileTree(dir: 'src/main', includes: ['assets/**'])
 
     //排除引用的jar中的签名信息
     exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
+}
+
+tasks.build.doLast {
+    println("Build to " + jar.archivePath)
+    println("Try \'java -jar " + jar.archiveName + "\' find more help")
 }
 
 //添加源码中引入的非代码文件，例如资源等
