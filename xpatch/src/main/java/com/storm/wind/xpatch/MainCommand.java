@@ -233,6 +233,8 @@ public class MainCommand extends BaseCommand {
             property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggable != 0));
         }
 
+        property.addApplicationAttribute(new AttributeItem("extractNativeLibs", true));
+
         if (!dexModificationMode || !isNotEmpty(originalApplicationName)) {
             modifyEnabled = true;
             property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, PROXY_APPLICATION_NAME));
