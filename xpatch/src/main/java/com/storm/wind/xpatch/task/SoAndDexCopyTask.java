@@ -15,7 +15,9 @@ public class SoAndDexCopyTask implements Runnable {
     private final String[] APK_LIB_PATH_ARRAY = {
             "lib/armeabi-v7a/",
             "lib/armeabi/",
-            "lib/arm64-v8a/"
+            "lib/arm64-v8a/",
+            "lib/x86",
+            "lib/x86_64"
     };
 
     private int dexFileCount;
