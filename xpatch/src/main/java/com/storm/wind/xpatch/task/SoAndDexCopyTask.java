@@ -1,8 +1,9 @@
 package com.storm.wind.xpatch.task;
 
-import com.storm.wind.xpatch.util.FileUtils;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,27 +80,33 @@ public class SoAndDexCopyTask implements Runnable {
             }
             for (File mySoFile : files) {
                 File target = new File(apkSoFullPath, mySoFile.getName());
-                FileUtils.copyFile(mySoFile, target);
+                try {
+                    FileUtils.copyFile(mySoFile, target);
+                } catch (Exception err) {
+                    throw new IllegalStateException("wtf", err);
+                }
                 System.out.println("Copy " + mySoFile.getAbsolutePath() + " to " + target.getAbsolutePath());
             }
         }
     }
 
     private void copyDexFile(int dexFileCount) {
-        boolean copyed = false;
-        // copy all dex files in list-dex
-        File[] files = new File("list-dex").listFiles();
-        if (files == null || files.length == 0) {
-            System.out.println("Warning: Nothing dex file has been copied");
-            return;
-        }
-        for (File file : files) {
-            String copiedDexFileName = "classes" + (dexFileCount + 1) + ".dex";
-            File target = new File(unzipApkFilePath, copiedDexFileName);
-            FileUtils.copyFile(file, target);
-            System.out.println("Copy " + file.getAbsolutePath() + " to " + target.getAbsolutePath());
-            dexFileCount++;
-            copyed = true;
+        try {
+            // copy all dex files in list-dex
+            File[] files = new File("list-dex").listFiles();
+            if (files == null || files.length == 0) {
+                System.out.println("Warning: Nothing dex file has been copied");
+                return;
+            }
+            for (File file : files) {
+                String copiedDexFileName = "classes" + (dexFileCount + 1) + ".dex";
+                File target = new File(unzipApkFilePath, copiedDexFileName);
+                FileUtils.copyFile(file, target);
+                System.out.println("Copy " + file.getAbsolutePath() + " to " + target.getAbsolutePath());
+                dexFileCount++;
+            }
+        } catch (Exception err) {
+            throw new IllegalStateException("wtf", err);
         }
     }
 

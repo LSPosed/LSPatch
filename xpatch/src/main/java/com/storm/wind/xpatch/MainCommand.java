@@ -14,11 +14,14 @@ import com.wind.meditor.property.ModificationProperty;
 import com.wind.meditor.utils.NodeValue;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import static org.apache.commons.io.FileUtils.copyFile;
 
 public class MainCommand extends BaseCommand {
 
@@ -72,8 +75,14 @@ public class MainCommand extends BaseCommand {
         new MainCommand().doMain(args);
     }
 
+    private void fuckIfFail(boolean b) {
+        if (!b) {
+            throw new IllegalStateException("wtf", new Throwable("DUMPBT"));
+        }
+    }
+
     @Override
-    protected void doCommandLine() {
+    protected void doCommandLine() throws IOException {
         if (remainingArgs.length != 1) {
             if (remainingArgs.length == 0) {
                 System.out.println("Please choose one apk file you want to process. ");
@@ -95,7 +104,7 @@ public class MainCommand extends BaseCommand {
             return;
         }
 
-        String currentDir = new File(".").getAbsolutePath();  // 当前命令行所在的目录
+        String currentDir = new File(".").getAbsolutePath();
         System.out.println("currentDir: " + currentDir);
         System.out.println("apkPath: " + apkPath);
 
@@ -122,11 +131,9 @@ public class MainCommand extends BaseCommand {
 
         String apkFileName = getBaseName(srcApkFile);
 
-        // 中间文件临时存储的位置
         String tempFilePath = outputApkFileParentPath + File.separator +
                 currentTimeStr() + "-tmp" + File.separator;
 
-        // apk文件解压的目录
         unzipApkFilePath = tempFilePath + apkFileName + "-" + UNZIP_APK_FILE_NAME + File.separator;
 
         System.out.println("outputApkFileParentPath: " + outputApkFileParentPath);
@@ -137,7 +144,6 @@ public class MainCommand extends BaseCommand {
             new SaveApkSignatureTask(apkPath, unzipApkFilePath).run();
         }
 
-        // 先解压apk到指定目录下
         long currentTime = System.currentTimeMillis();
         FileUtils.decompressZip(apkPath, unzipApkFilePath);
 
@@ -166,15 +172,15 @@ public class MainCommand extends BaseCommand {
         File manifestFile = new File(manifestFilePath);
         String manifestFilePathNew = unzipApkFilePath + "AndroidManifest" + "-" + currentTimeStr() + ".xml";
         File manifestFileNew = new File(manifestFilePathNew);
-        manifestFile.renameTo(manifestFileNew);
+        fuckIfFail(manifestFile.renameTo(manifestFileNew));
 
         modifyManifestFile(manifestFilePathNew, manifestFilePath, applicationName);
 
         // new manifest may not exist
         if (manifestFile.exists() && manifestFile.length() > 0) {
-            manifestFileNew.delete();
+            fuckIfFail(manifestFileNew.delete());
         } else {
-            manifestFileNew.renameTo(manifestFile);
+            fuckIfFail(manifestFileNew.renameTo(manifestFile));
         }
 
         // save original main application name to asset file
@@ -196,9 +202,7 @@ public class MainCommand extends BaseCommand {
 
         // copy origin apk to assets
         // convenient to bypass some check like CRC
-        if (!FileUtils.copyFile(srcApkFile, new File(unzipApkFilePath, "assets/origin_apk.bin"))) {
-            throw new IllegalStateException("orignal apk copy fail");
-        }
+        copyFile(srcApkFile, new File(unzipApkFilePath, "assets/origin_apk.bin"));
 
         // excute these tasks
         for (Runnable executor : mXpatchTasks) {
@@ -208,6 +212,8 @@ public class MainCommand extends BaseCommand {
             System.out.println(executor.getClass().getSimpleName() + " cost time: "
                     + (System.currentTimeMillis() - currentTime) + "ms");
         }
+
+        System.out.println("Output APK: " + output);
     }
 
     private void modifyManifestFile(String filePath, String dstFilePath, String originalApplicationName) {

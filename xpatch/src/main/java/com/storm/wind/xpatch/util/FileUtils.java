@@ -1,5 +1,8 @@
 package com.storm.wind.xpatch.util;
 
+import org.apache.commons.io.FileSystemUtils;
+import org.apache.commons.io.IOUtils;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
@@ -36,64 +39,51 @@ public class FileUtils {
      * @return 解压结果：成功，失败
      */
     @SuppressWarnings("rawtypes")
-    public static boolean decompressZip(String zipPath, String descDir) {
+    public static void decompressZip(String zipPath, String descDir) throws IOException {
         File zipFile = new File(zipPath);
-        boolean flag = false;
         if (!descDir.endsWith(File.separator)) {
             descDir = descDir + File.separator;
         }
         File pathFile = new File(descDir);
         if (!pathFile.exists()) {
-            if(!pathFile.mkdirs()){
+            if (!pathFile.mkdirs()) {
                 throw new IllegalStateException("mkdir fail " + pathFile.getAbsolutePath());
             }
         }
 
-        ZipFile zip = null;
-        try {
-            try {
-                // api level 24 才有此方法
-                zip = new ZipFile(zipFile, Charset.forName("gbk"));//防止中文目录，乱码
-            } catch (NoSuchMethodError e) {
-                // api < 24
-                zip = new ZipFile(zipFile);
-            }
+        try (ZipFile zip = new ZipFile(zipFile, Charset.forName("gbk"))) {
             for (Enumeration entries = zip.entries(); entries.hasMoreElements(); ) {
                 ZipEntry entry = (ZipEntry) entries.nextElement();
                 String zipEntryName = entry.getName();
-                InputStream in = zip.getInputStream(entry);
 
-                //指定解压后的文件夹+当前zip文件的名称
                 String outPath = (descDir + zipEntryName).replace("/", File.separator);
-                //判断路径是否存在,不存在则创建文件路径
-                File file = new File(outPath.substring(0, outPath.lastIndexOf(File.separator)));
+                File file = new File(outPath);
 
-                if (!file.exists()) {
-                    if(!file.mkdirs()){
+                if (entry.isDirectory()) {
+                    if (!file.mkdirs()) {
                         throw new IllegalStateException("mkdir fail " + file.getAbsolutePath());
                     }
-                }
-                //判断文件全路径是否为文件夹,如果是上面已经上传,不需要解压
-                if (new File(outPath).isDirectory()) {
                     continue;
                 }
-                //保存文件路径信息（可利用md5.zip名称的唯一性，来判断是否已经解压）
-//                System.err.println("当前zip解压之后的路径为：" + outPath);
-                OutputStream out = new FileOutputStream(outPath);
-                byte[] buf1 = new byte[2048];
-                int len;
-                while ((len = in.read(buf1)) > 0) {
-                    out.write(buf1, 0, len);
+
+                try (InputStream in = zip.getInputStream(entry)) {
+                    if (file.getParentFile() != null && !file.getParentFile().exists()) {
+                        if (!file.getParentFile().mkdirs()) {
+                            throw new IllegalStateException("mkdir fail " + file.getAbsolutePath());
+                        }
+                        if (System.getProperty("os.name", "").toLowerCase().contains("win")) {
+                            Runtime.getRuntime().exec("fsutil file setCaseSensitiveInfo " + file.getParentFile().getAbsolutePath());
+                            System.out.println("Enable setCaseSensitiveInfo for " + file.getParentFile().getAbsolutePath());
+                        }
+                    }
+                    OutputStream out = new FileOutputStream(outPath);
+                    IOUtils.copy(in, out);
+                    out.close();
+                } catch (Exception err) {
+                    throw new IllegalStateException("wtf", err);
                 }
-                close(in);
-                close(out);
             }
-            flag = true;
-            close(zip);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return flag;
     }
 
     private static InputStream getInputStreamFromFile(String filePath) {
@@ -123,53 +113,6 @@ public class FileUtils {
             close(out);
             close(in);
         }
-    }
-
-    public static void copyFile(String sourcePath, String targetPath) {
-        copyFile(new File(sourcePath), new File(targetPath));
-    }
-
-    public static boolean copyFile(File source, File target) {
-
-        FileInputStream inputStream = null;
-        FileOutputStream outputStream = null;
-        try {
-            inputStream = new FileInputStream(source);
-            outputStream = new FileOutputStream(target);
-            FileChannel iChannel = inputStream.getChannel();
-            FileChannel oChannel = outputStream.getChannel();
-
-            ByteBuffer buffer = ByteBuffer.allocate(1024);
-            while (true) {
-                buffer.clear();
-                int r = iChannel.read(buffer);
-                if (r == -1) {
-                    break;
-                }
-                buffer.limit(buffer.position());
-                buffer.position(0);
-                oChannel.write(buffer);
-            }
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            close(inputStream);
-            close(outputStream);
-        }
-        return false;
-    }
-
-    public static void deleteDir(File file) {
-        if (file.isDirectory()) {
-            File[] files = file.listFiles();
-            if (files != null && files.length > 0) {
-                for (File f : files) {
-                    deleteDir(f);
-                }
-            }
-        }
-        file.delete();
     }
 
     public static void compressToZip(String srcPath, String dstPath) {
