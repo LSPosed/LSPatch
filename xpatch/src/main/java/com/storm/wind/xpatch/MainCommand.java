@@ -36,6 +36,9 @@ public class MainCommand extends BaseCommand {
     @Opt(opt = "f", longOpt = "force", hasArg = false, description = "force overwrite")
     private boolean forceOverwrite = false;
 
+    @Opt(opt = "pn", longOpt = "proxyname", description = "special proxy app name with full dot path", argName = "proxy app name")
+    private String proxyname = "com.wind.xposed.entry.MMPApplication";
+
     @Opt(opt = "c", longOpt = "crach", hasArg = false,
             description = "disable craching the apk's signature.")
     private boolean disableCrackSignature = false;
@@ -59,15 +62,10 @@ public class MainCommand extends BaseCommand {
             argName = "new-version-name")
     private String versionName;
 
-    @Opt(opt = "w", longOpt = "whale", hasArg = false, description = "Change hook framework to Lody's whale")
-    private boolean useWhaleHookFramework = false;   // 是否使用whale hook框架，默认使用的是SandHook
-
     // 原来apk中dex文件的数量
     private int dexFileCount = 0;
 
     private static final String UNZIP_APK_FILE_NAME = "apk-unzip-files";
-
-    private static final String PROXY_APPLICATION_NAME = "com.wind.xpatch.proxy.XpatchProxyApplication";
 
     private List<Runnable> mXpatchTasks = new ArrayList<>();
 
@@ -243,7 +241,7 @@ public class MainCommand extends BaseCommand {
 
         if (!dexModificationMode || !isNotEmpty(originalApplicationName)) {
             modifyEnabled = true;
-            property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, PROXY_APPLICATION_NAME));
+            property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, proxyname));
         }
 
         if (modifyEnabled) {
@@ -272,7 +270,7 @@ public class MainCommand extends BaseCommand {
 
     // Use the current timestamp as the name of the build file
     private String currentTimeStr() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");//设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         return df.format(new Date());
     }
 
