@@ -1,0 +1,4 @@
+[submodule "mmp"]
+	path = mmp
+	url = https://github.com/MMPosed/MMPosed.git
+	branch = mmpatch

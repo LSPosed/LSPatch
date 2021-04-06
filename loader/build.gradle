@@ -1,0 +1,42 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jcenter.bintray.com" }
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.0-alpha12'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30"
+    }
+}
+
+ext {
+    androidCompileSdkVersion = 30
+    androidCompileNdkVersion = "22.1.7171670"
+    androidBuildToolsVersion = "30.0.3"
+    androidMinSdkVersion = 27
+    androidTargetSdkVersion = 28
+    verCode = 1
+    verName = "mmpatch"
+    apiCode = 93
+    defaultManagerPackageName = "org.github.mmpatch"
+    androidSourceCompatibility = JavaVersion.VERSION_11
+    androidTargetCompatibility = JavaVersion.VERSION_11
+    zipPathMagiskReleasePath = project(":lspcore").projectDir.path + "/build/tmp/release/magisk/"
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jcenter.bintray.com" }
+        maven { url "https://jitpack.io" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

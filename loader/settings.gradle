@@ -1,0 +1,14 @@
+include ':app'
+rootProject.name='MMPLoader'
+include ':xpatchcore'
+project(':xpatchcore').projectDir = new File('core')
+include ':lspcore'
+project(':lspcore').projectDir = new File('mmp/core')
+include ':hiddenapi-stubs'
+project(':hiddenapi-stubs').projectDir = new File('mmp/hiddenapi-stubs')
+include ':interface'
+project(':interface').projectDir = new File('mmp/service/interface')
+include ':hiddenapi-bridge'
+project(':hiddenapi-bridge').projectDir = new File('mmp/hiddenapi-bridge')
+include ':manager-service'
+project(':manager-service').projectDir = new File('mmp/manager-service')

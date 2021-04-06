@@ -1,0 +1,71 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 30
+    defaultConfig {
+        applicationId "com.storm.wind.xposed"
+        minSdkVersion 27
+        targetSdkVersion 28
+        versionCode version_code as Integer
+        versionName version_name
+
+        multiDexEnabled false
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+    }
+    buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    applicationVariants.all { variant ->
+        def buildType = variant.name.capitalize()
+        def variantLowered = variant.name.toLowerCase()
+
+        variant.outputs.all {
+            outputFileName = "${variant.getFlavorName()}-${variant.versionName}.apk"
+        }
+
+        task "copyDex$buildType"(type: Copy) {
+            dependsOn("assemble$buildType")
+            def dexFilePath = "$buildDir/intermediates/dex/${variantLowered}/mergeDex${buildType}/classes.dex"
+            from dexFilePath
+            rename "(.*).dex", "classes-${version_name}.dex"
+            into "$rootProject.projectDir/out/list-dex"
+        }
+
+        task "copySo$buildType"(type: Copy) {
+            dependsOn("assemble$buildType")
+            from "$buildDir/intermediates/merged_native_libs/${variantLowered}/out/lib"
+            into "$rootProject.projectDir/out/list-so"
+        }
+
+        task "copy$buildType"() {
+            dependsOn("copySo$buildType")
+            dependsOn("copyDex$buildType")
+
+            doLast {
+                System.out.println("Dex and so files has been copy to ${rootProject.projectDir}${File.separator}out")
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':xpatchcore')
+    implementation("androidx.core:core:1.3.2")
+    implementation project(path: ':lspcore')
+}
