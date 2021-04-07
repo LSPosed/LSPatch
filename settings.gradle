@@ -1,2 +1,0 @@
-rootProject.name = 'Xpatch'
-include ':axmlprinter', ':xpatch', ':apksigner'
