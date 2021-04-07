@@ -2,3 +2,7 @@
 	path = mmp
 	url = https://github.com/MMPosed/MMPosed.git
 	branch = mmpatch
+[submodule "apksigner"]
+	path = apksigner
+	url = https://android.googlesource.com/platform/tools/apksig.git
+	branch = android10-release
