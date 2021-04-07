@@ -40,3 +40,11 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+["Debug", "Release"].each { variant ->
+    tasks.register("build$variant") {
+        description("Build LSPatch with $variant")
+        dependsOn tasks.getByPath(":app:copy$variant")
+        dependsOn tasks.getByPath(":patch:build")
+    }
+}
