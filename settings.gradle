@@ -13,4 +13,3 @@ include ':manager-service'
 project(':manager-service').projectDir = new File('mmp/manager-service')
 include ':patch'
 include ':axmlprinter'
-include ':apksigner'

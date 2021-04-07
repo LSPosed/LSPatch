@@ -37,6 +37,14 @@ allprojects {
     }
 }
 
+//subprojects {
+//    afterEvaluate { module ->
+//        if (module.name == 'apksigner') {
+//            sourceSets.main.java.srcDirs += 'src/apksigner/java'
+//        }
+//    }
+//}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

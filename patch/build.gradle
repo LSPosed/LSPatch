@@ -12,9 +12,12 @@ compileJava.options.encoding = "UTF-8"
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':axmlprinter')
-    implementation project(':apksigner')
+    //implementation project(':apksigner')
     implementation group: 'commons-io', name: 'commons-io', version: '2.8.0'
 }
+
+sourceSets.main.java.srcDirs += "$rootProject.projectDir/apksigner/src/main/java"
+sourceSets.main.java.srcDirs += "$rootProject.projectDir/apksigner/src/apksigner/java"
 
 jar {
     baseName = "mmpatch"
