@@ -1,5 +1,7 @@
 package com.storm.wind.xpatch;
 
+import static org.apache.commons.io.FileUtils.copyFile;
+
 import com.storm.wind.xpatch.base.BaseCommand;
 import com.storm.wind.xpatch.task.ApkModifyTask;
 import com.storm.wind.xpatch.task.BuildAndSignApkTask;
@@ -21,8 +23,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static org.apache.commons.io.FileUtils.copyFile;
-
 public class MainCommand extends BaseCommand {
 
     private String apkPath;
@@ -31,7 +31,7 @@ public class MainCommand extends BaseCommand {
 
     @Opt(opt = "o", longOpt = "output", description = "output .apk file, default is " +
             "$source_apk_dir/[file-name]-xposed-signed.apk", argName = "out-apk-file")
-    private String output;   // 输出的apk文件的目录以及名称
+    private String output;
 
     @Opt(opt = "f", longOpt = "force", hasArg = false, description = "force overwrite")
     private boolean forceOverwrite = false;
@@ -43,7 +43,6 @@ public class MainCommand extends BaseCommand {
             description = "disable craching the apk's signature.")
     private boolean disableCrackSignature = false;
 
-    // 使用dex文件中插入代码的方式修改apk，而不是默认的修改Manifest中Application name的方式
     @Opt(opt = "dex", longOpt = "dex", hasArg = false, description = "insert code into the dex file, not modify manifest application name attribute")
     private boolean dexModificationMode = false;
 
@@ -62,7 +61,6 @@ public class MainCommand extends BaseCommand {
             argName = "new-version-name")
     private String versionName;
 
-    // 原来apk中dex文件的数量
     private int dexFileCount = 0;
 
     private static final String UNZIP_APK_FILE_NAME = "apk-unzip-files";
@@ -73,7 +71,7 @@ public class MainCommand extends BaseCommand {
         new MainCommand().doMain(args);
     }
 
-    private void fuckIfFail(boolean b) {
+    static public void fuckIfFail(boolean b) {
         if (!b) {
             throw new IllegalStateException("wtf", new Throwable("DUMPBT"));
         }
@@ -177,7 +175,8 @@ public class MainCommand extends BaseCommand {
         // new manifest may not exist
         if (manifestFile.exists() && manifestFile.length() > 0) {
             fuckIfFail(manifestFileNew.delete());
-        } else {
+        }
+        else {
             fuckIfFail(manifestFileNew.renameTo(manifestFile));
         }
 

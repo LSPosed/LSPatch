@@ -1,6 +1,7 @@
 package com.storm.wind.xpatch.task;
 
 import com.android.apksigner.ApkSignerTool;
+import com.storm.wind.xpatch.MainCommand;
 import com.storm.wind.xpatch.util.FileUtils;
 import com.storm.wind.xpatch.util.ShellCmdUtil;
 
@@ -27,40 +28,44 @@ public class BuildAndSignApkTask implements Runnable {
     @Override
     public void run() {
 
-        File unzipApkFile = new File(unzipApkFilePath);
+        try {
+            File unzipApkFile = new File(unzipApkFilePath);
 
-        // 将文件压缩到当前apk文件的上一级目录上
-        String unsignedApkPath = unzipApkFile.getParent() + File.separator + "unsigned.apk";
-        FileUtils.compressToZip(unzipApkFilePath, unsignedApkPath);
+            String unsignedApkPath = unzipApkFile.getParent() + File.separator + "unsigned.apk";
+            FileUtils.compressToZip(unzipApkFilePath, unsignedApkPath);
 
-        // 将签名文件复制从assets目录下复制出来
-        String keyStoreFilePath = unzipApkFile.getParent() + File.separator + "keystore";
+            String keyStoreFilePath = unzipApkFile.getParent() + File.separator + "keystore";
 
-        File keyStoreFile = new File(keyStoreFilePath);
-        // assets/keystore分隔符不能使用File.separator，否则在windows上抛出IOException !!!
-        String keyStoreAssetPath;
-        if (isAndroid()) {
-            // BKS-V1 类型
-            keyStoreAssetPath = "assets/android.keystore";
-        } else {
-            // BKS 类型
-            keyStoreAssetPath = "assets/keystore";
+            File keyStoreFile = new File(keyStoreFilePath);
+            // assets/keystore分隔符不能使用File.separator，否则在windows上抛出IOException !!!
+            String keyStoreAssetPath;
+            if (isAndroid()) {
+                // BKS-V1 类型
+                keyStoreAssetPath = "assets/android.keystore";
+            }
+            else {
+                // BKS 类型
+                keyStoreAssetPath = "assets/keystore";
+            }
+
+            FileUtils.copyFileFromJar(keyStoreAssetPath, keyStoreFilePath);
+
+            boolean signResult = signApk(unsignedApkPath, keyStoreFilePath, signedApkPath);
+
+            File unsignedApkFile = new File(unsignedApkPath);
+            File signedApkFile = new File(signedApkPath);
+            // delete unsigned apk file
+            if (!keepUnsignedApkFile && unsignedApkFile.exists() && signedApkFile.exists() && signResult) {
+                MainCommand.fuckIfFail(unsignedApkFile.delete());
+            }
+
+            // delete the keystore file
+            if (keyStoreFile.exists()) {
+                MainCommand.fuckIfFail(keyStoreFile.delete());
+            }
         }
-
-        FileUtils.copyFileFromJar(keyStoreAssetPath, keyStoreFilePath);
-
-        boolean signResult = signApk(unsignedApkPath, keyStoreFilePath, signedApkPath);
-
-        File unsignedApkFile = new File(unsignedApkPath);
-        File signedApkFile = new File(signedApkPath);
-        // delete unsigned apk file
-        if (!keepUnsignedApkFile && unsignedApkFile.exists() && signedApkFile.exists() && signResult) {
-            unsignedApkFile.delete();
-        }
-
-        // delete the keystore file
-        if (keyStoreFile.exists()) {
-            keyStoreFile.delete();
+        catch (Exception err) {
+            throw new IllegalStateException("wtf", err);
         }
     }
 
@@ -87,7 +92,7 @@ public class BuildAndSignApkTask implements Runnable {
                         .append(" " + apkPath + " ")
                         .append(" -digestalg SHA1 -sigalg SHA1withRSA ")
                         .append(" key0 ");
-//                System.out.println("\n" + signCmd + "\n");
+                System.out.println("\n" + signCmd + "\n");
                 String result = ShellCmdUtil.execCmd(signCmd.toString(), null);
                 System.out.println(" sign apk time is :" + ((System.currentTimeMillis() - time) / 1000) +
                         "s\n\n" + "  result=" + result);
@@ -96,7 +101,8 @@ public class BuildAndSignApkTask implements Runnable {
             System.out.println(" keystore not exist :" + keystoreFile.getAbsolutePath() +
                     " please sign the apk by hand. \n");
             return false;
-        } catch (Throwable e) {
+        }
+        catch (Throwable e) {
             System.out.println("use default jarsigner to sign apk failed, fail msg is :" +
                     e.toString());
             return false;
@@ -107,7 +113,8 @@ public class BuildAndSignApkTask implements Runnable {
         boolean isAndroid = true;
         try {
             Class.forName("android.content.Context");
-        } catch (ClassNotFoundException e) {
+        }
+        catch (ClassNotFoundException e) {
             isAndroid = false;
         }
         return isAndroid;
@@ -142,7 +149,8 @@ public class BuildAndSignApkTask implements Runnable {
 
         try {
             ApkSignerTool.main(commandArray);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return false;
         }

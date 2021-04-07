@@ -1,9 +1,11 @@
 package com.storm.wind.xpatch.task;
 
 import com.storm.wind.xpatch.util.ApkSignatureHelper;
-import com.storm.wind.xpatch.util.FileUtils;
+
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Created by Wind
@@ -25,19 +27,19 @@ public class SaveApkSignatureTask implements Runnable {
         // First,  get the original signature
         String originalSignature = ApkSignatureHelper.getApkSignInfo(apkPath);
         if (originalSignature == null || originalSignature.isEmpty()) {
-            System.out.println(" Get original signature failed !!!!");
+            System.out.println("Get original signature failed");
             return;
         }
 
         // Then, save the signature chars to the asset file
         File file = new File(dstFilePath);
-        File fileParent = file.getParentFile();
-        if (!fileParent.exists()) {
-            if(!fileParent.mkdirs()){
-                System.out.println("mkdir fails " + fileParent.getAbsolutePath());
-            }
+        try {
+            FileUtils.write(file, originalSignature, StandardCharsets.UTF_8);
         }
-
-        FileUtils.writeFile(dstFilePath, originalSignature);
+        catch (Exception err) {
+            // just crash now
+            // todo: pass result to caller
+            throw new IllegalStateException("wtf", err);
+        }
     }
 }

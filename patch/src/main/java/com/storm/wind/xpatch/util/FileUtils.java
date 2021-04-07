@@ -1,21 +1,14 @@
 package com.storm.wind.xpatch.util;
 
-import org.apache.commons.io.FileSystemUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.zip.CRC32;
@@ -79,7 +72,8 @@ public class FileUtils {
                     OutputStream out = new FileOutputStream(outPath);
                     IOUtils.copy(in, out);
                     out.close();
-                } catch (Exception err) {
+                }
+                catch (Exception err) {
                     throw new IllegalStateException("wtf", err);
                 }
             }
@@ -91,27 +85,10 @@ public class FileUtils {
     }
 
     // copy an asset file into a path
-    public static void copyFileFromJar(String inJarPath, String distPath) {
-
-//        System.out.println("start copyFile  inJarPath =" + inJarPath + "  distPath = " + distPath);
-        InputStream inputStream = getInputStreamFromFile(inJarPath);
-
-        BufferedInputStream in = null;
-        BufferedOutputStream out = null;
-        try {
-            in = new BufferedInputStream(inputStream);
-            out = new BufferedOutputStream(new FileOutputStream(distPath));
-
-            int len = -1;
-            byte[] b = new byte[1024];
-            while ((len = in.read(b)) != -1) {
-                out.write(b, 0, len);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            close(out);
-            close(in);
+    public static void copyFileFromJar(String inJarPath, String distPath) throws IOException {
+        // System.out.println("start copyFile  inJarPath =" + inJarPath + "  distPath = " + distPath);
+        try (InputStream inputStream = getInputStreamFromFile(inJarPath); FileOutputStream out = new FileOutputStream(distPath)) {
+            IOUtils.copy(inputStream, out);
         }
     }
 
@@ -119,37 +96,26 @@ public class FileUtils {
         File srcFile = new File(srcPath);
         File dstFile = new File(dstPath);
         if (!srcFile.exists()) {
-            System.out.println(srcPath + " does not exist ！");
-            return;
+            throw new IllegalStateException("wtf", new Throwable("DUMPBT"));
         }
 
-        FileOutputStream out = null;
-        ZipOutputStream zipOut = null;
-        try {
-            out = new FileOutputStream(dstFile);
-            CheckedOutputStream cos = new CheckedOutputStream(out, new CRC32());
-            zipOut = new ZipOutputStream(cos);
+        try (FileOutputStream out = new FileOutputStream(dstFile);
+             CheckedOutputStream cos = new CheckedOutputStream(out, new CRC32());
+             ZipOutputStream zipOut = new ZipOutputStream(cos)
+        ) {
             String baseDir = "";
             compress(srcFile, zipOut, baseDir, true);
-        } catch (IOException e) {
-            System.out.println(" compress exception = " + e.getMessage());
-        } finally {
-            try {
-                if (zipOut != null) {
-                    zipOut.closeEntry();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            close(zipOut);
-            close(out);
+        }
+        catch (IOException e) {
+            throw new IllegalStateException("wtf", e);
         }
     }
 
     private static void compress(File file, ZipOutputStream zipOut, String baseDir, boolean isRootDir) throws IOException {
         if (file.isDirectory()) {
             compressDirectory(file, zipOut, baseDir, isRootDir);
-        } else {
+        }
+        else {
             compressFile(file, zipOut, baseDir);
         }
     }
@@ -179,61 +145,14 @@ public class FileUtils {
             return;
         }
 
-        BufferedInputStream bis = null;
-        try {
-            bis = new BufferedInputStream(new FileInputStream(file));
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
             ZipEntry entry = new ZipEntry(baseDir + file.getName());
             zipOut.putNextEntry(entry);
             int count;
-            byte data[] = new byte[BUFFER];
+            byte[] data = new byte[BUFFER];
             while ((count = bis.read(data, 0, BUFFER)) != -1) {
                 zipOut.write(data, 0, count);
             }
-
-        } finally {
-            if (null != bis) {
-                bis.close();
-            }
         }
     }
-
-    public static void writeFile(String filePath, String content) {
-        if (filePath == null || filePath.isEmpty()) {
-            return;
-        }
-        if (content == null || content.isEmpty()) {
-            return;
-        }
-
-        File dstFile = new File(filePath);
-
-        if (!dstFile.getParentFile().exists()) {
-            dstFile.getParentFile().mkdirs();
-        }
-
-        FileOutputStream outputStream = null;
-        BufferedWriter writer = null;
-        try {
-            outputStream = new FileOutputStream(dstFile);
-            writer = new BufferedWriter(new OutputStreamWriter(outputStream));
-            writer.write(content);
-            writer.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            close(outputStream);
-            close(writer);
-        }
-    }
-
-    private static void close(Closeable closeable) {
-        try {
-            if (closeable != null) {
-                closeable.close();
-            }
-        } catch (IOException io) {
-            io.printStackTrace();
-        }
-    }
-
 }

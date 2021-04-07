@@ -1,6 +1,6 @@
 package com.storm.wind.xpatch.task;
 
-import com.storm.wind.xpatch.util.FileUtils;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 
@@ -24,19 +24,26 @@ public class SaveOriginalApplicationNameTask implements Runnable {
 
     @Override
     public void run() {
-        ensureDstFileCreated();
-        FileUtils.writeFile(dstFilePath, applcationName);
+        try {
+            ensureDstFileCreated();
+            FileUtils.write(new File(dstFilePath), applcationName);
+        }
+        catch (Exception err) {
+            // just crash
+            // todo: pass result to caller
+            throw new IllegalStateException("wtf", err);
+        }
     }
 
     private void ensureDstFileCreated() {
         File dstParentFile = new File(dstFilePath);
         if (!dstParentFile.getParentFile().getParentFile().exists()) {
-           if(!dstParentFile.getParentFile().getParentFile().mkdirs()){
-               throw new IllegalStateException("mkdir fail");
-           }
+            if (!dstParentFile.getParentFile().getParentFile().mkdirs()) {
+                throw new IllegalStateException("mkdir fail");
+            }
         }
         if (!dstParentFile.getParentFile().exists()) {
-            if(!dstParentFile.getParentFile().mkdirs()){
+            if (!dstParentFile.getParentFile().mkdirs()) {
                 throw new IllegalStateException("mkdir fail");
             }
         }
