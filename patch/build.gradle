@@ -10,10 +10,10 @@ java {
 compileJava.options.encoding = "UTF-8"
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':axmlprinter')
-    compile project(':apksigner')
-    compile group: 'commons-io', name: 'commons-io', version: '2.8.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':axmlprinter')
+    implementation project(':apksigner')
+    implementation group: 'commons-io', name: 'commons-io', version: '2.8.0'
 }
 
 jar {
@@ -23,7 +23,7 @@ jar {
         attributes 'Main-Class': 'com.storm.wind.xpatch.MainCommand'
     }
     from {
-        (configurations.runtime).collect {
+        configurations.runtimeClasspath.collect {
             it.isDirectory() ? it : zipTree(it)
         }
     }
