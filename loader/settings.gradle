@@ -12,3 +12,4 @@ include ':hiddenapi-bridge'
 project(':hiddenapi-bridge').projectDir = new File('mmp/hiddenapi-bridge')
 include ':manager-service'
 project(':manager-service').projectDir = new File('mmp/manager-service')
+include ':patch'
