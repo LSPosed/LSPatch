@@ -1,6 +1,7 @@
 package com.wind.xposed.entry.util;
 
-import com.wind.xposed.entry.BuildConfig;
+
+import com.storm.wind.xposed.BuildConfig;
 
 public class XLog {
 
