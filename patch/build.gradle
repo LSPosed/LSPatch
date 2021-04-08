@@ -33,7 +33,7 @@ jar {
 
     from fileTree(dir: 'src/main', includes: ['assets/**'])
 
-    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF', 'META-INF/*.txt'
 }
 
 tasks.build.doLast {
