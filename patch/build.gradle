@@ -25,6 +25,7 @@ jar {
     manifest {
         attributes 'Main-Class': 'com.storm.wind.xpatch.MainCommand'
     }
+    dependsOn configurations.runtimeClasspath
     from {
         configurations.runtimeClasspath.collect {
             it.isDirectory() ? it : zipTree(it)
@@ -33,7 +34,7 @@ jar {
 
     from fileTree(dir: 'src/main', includes: ['assets/**'])
 
-    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF', 'META-INF/*.txt'
 }
 
 tasks.build.doLast {
