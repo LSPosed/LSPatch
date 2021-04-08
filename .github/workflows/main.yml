@@ -7,9 +7,13 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macOS-latest ]
+        
     steps:
     - name: Checkout
       uses: actions/checkout@v2
