@@ -1,5 +1,6 @@
 package com.wind.xposed.entry;
 
+import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
 import static com.wind.xposed.entry.MMPLoader.initAndLoadModules;
 
 import android.app.Application;
@@ -185,6 +186,13 @@ public class MMPApplication extends Application {
                                     }
                                 }
                             }
+
+                            out.setDataPosition(0);
+                            // no idea why report err if just keep size
+                            out.setDataCapacity(out.dataSize() * 2);
+                            out.writeNoException();
+                            out.writeInt(1);
+                            packageInfo.writeToParcel(out, PARCELABLE_WRITE_RETURN_VALUE);
                         }
 
                         // reset pos
