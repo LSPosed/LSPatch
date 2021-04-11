@@ -4,14 +4,21 @@ import static com.wind.xposed.entry.MMPLoader.initAndLoadModules;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.Signature;
+import android.os.Build;
+import android.os.IBinder;
+import android.os.Parcel;
+import android.util.Log;
 
 import com.wind.xposed.entry.util.FileUtils;
-import com.wind.xposed.entry.util.ReflectionApiCheck;
 import com.wind.xposed.entry.util.XLog;
 import com.wind.xposed.entry.util.XpatchUtils;
 
 import org.lsposed.lspd.yahfa.hooker.YahfaHooker;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -24,11 +31,15 @@ import de.robv.android.xposed.XposedInit;
  */
 public class MMPApplication extends Application {
     private static final String ORIGINAL_APPLICATION_NAME_ASSET_PATH = "original_application_name.ini";
-    private static final String TAG = "XpatchProxyApplication";
+    private static final String ORIGINAL_SIGNATURE_ASSET_PATH = "original_signature_info.ini";
+    private static final String TAG = MMPApplication.class.getSimpleName();
     private static String originalApplicationName = null;
+    private static String originalSignature = null;
     private static Application sOriginalApplication = null;
     private static ClassLoader appClassLoader;
     private static Object activityThread;
+
+    private static int TRANSACTION_getPackageInfo_ID = -1;
 
     final static public int FIRST_ISOLATED_UID = 99000;
     final static public int LAST_ISOLATED_UID = 99999;
@@ -37,6 +48,8 @@ public class MMPApplication extends Application {
     final static public int SHARED_RELRO_UID = 1037;
     final static public int PER_USER_RANGE = 100000;
 
+    static Context context;
+
     static public boolean isIsolated() {
         int uid = android.os.Process.myUid();
         uid = uid % PER_USER_RANGE;
@@ -44,26 +57,34 @@ public class MMPApplication extends Application {
     }
 
     static {
-        ReflectionApiCheck.unseal();
-
-        System.loadLibrary("lspd");
-        YahfaHooker.init();
-        XposedInit.startsSystemServer = false;
-
-        Context context = XpatchUtils.createAppContext();
-        originalApplicationName = FileUtils.readTextFromAssets(context, ORIGINAL_APPLICATION_NAME_ASSET_PATH);
-        XLog.d(TAG, "original application name " + originalApplicationName);
-
         if (isIsolated()) {
             XLog.d(TAG, "skip isolated process");
         }
         else {
-            if (isApplicationProxied()) {
-                doHook();
-                initAndLoadModules(context);
+            System.loadLibrary("lspd");
+            YahfaHooker.init();
+            XposedInit.startsSystemServer = false;
+
+            context = XpatchUtils.createAppContext();
+            if (context == null) {
+                XLog.e(TAG, "create context err");
             }
             else {
-                XLog.e(TAG, "something wrong");
+                originalApplicationName = FileUtils.readTextFromAssets(context, ORIGINAL_APPLICATION_NAME_ASSET_PATH);
+                originalSignature = FileUtils.readTextFromAssets(context, ORIGINAL_SIGNATURE_ASSET_PATH);
+
+                XLog.d(TAG, "original application class " + originalApplicationName);
+                XLog.d(TAG, "original signature info " + originalSignature);
+
+                if (isApplicationProxied()) {
+                    try {
+                        doHook();
+                        initAndLoadModules(context);
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
@@ -100,11 +121,89 @@ public class MMPApplication extends Application {
         return appClassLoader;
     }
 
-    private static void doHook() {
+    private static void byPassSignature() throws ClassNotFoundException, IllegalAccessException {
+        Field[] fields1 = Class.forName("android.content.pm.IPackageManager$Stub").getDeclaredFields();
+        for (Field field : fields1) {
+            if (!Modifier.isStatic(field.getModifiers()) || field.getType() != int.class) {
+                continue;
+            }
+            field.setAccessible(true);
+            int fieldValue = field.getInt(null);
+            String fieldName = field.getName();
+            field.setAccessible(false);
+
+            if (fieldName.equals("TRANSACTION_getPackageInfo")) {
+                TRANSACTION_getPackageInfo_ID = fieldValue;
+                break;
+            }
+        }
+
+        if (TRANSACTION_getPackageInfo_ID == -1) {
+            Log.e(TAG, "what's wrong with you (rom) ?");
+            return;
+        }
+
+        XposedHelpers.findAndHookMethod("android.os.BinderProxy", getAppClassLoader(), "transact", int.class, Parcel.class, Parcel.class, int.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                try {
+                    Object object = param.thisObject;
+
+                    int id = (int) param.args[0];
+                    Parcel write = (Parcel) param.args[1];
+                    Parcel out = (Parcel) param.args[2];
+
+                    // forward check
+                    if (write == null || out == null) {
+                        return;
+                    }
+
+                    // prevent recurise call
+                    if (id == IBinder.INTERFACE_TRANSACTION) {
+                        return;
+                    }
+
+                    String desc = (String) XposedHelpers.callMethod(object, "getInterfaceDescriptor");
+                    if (desc == null || desc.isEmpty() || !desc.equals("android.content.pm.IPackageManager")) {
+                        return;
+                    }
+                    if (id == TRANSACTION_getPackageInfo_ID) {
+                        out.readException();
+                        if (0 != out.readInt()) {
+                            PackageInfo packageInfo = PackageInfo.CREATOR.createFromParcel(out);
+                            if (packageInfo.packageName.equals(context.getApplicationInfo().packageName)) {
+                                if (packageInfo.signatures != null && packageInfo.signatures.length > 0) {
+                                    packageInfo.signatures[0] = new Signature(originalSignature);
+                                }
+                            }
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                if (packageInfo.signingInfo != null) {
+                                    Signature[] signaturesArray = packageInfo.signingInfo.getApkContentsSigners();
+                                    if (signaturesArray != null && signaturesArray.length > 0) {
+                                        signaturesArray[0] = new Signature(originalSignature);
+                                    }
+                                }
+                            }
+                        }
+
+                        // reset pos
+                        out.setDataPosition(0);
+                    }
+                }
+                catch (Throwable err) {
+                    err.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private static void doHook() throws IllegalAccessException, ClassNotFoundException {
         hookContextImplSetOuterContext();
         hookInstallContentProviders();
         hookActivityAttach();
         hookServiceAttach();
+        byPassSignature();
     }
 
     private static void hookContextImplSetOuterContext() {
