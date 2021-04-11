@@ -1,19 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion rootProject.ext.androidCompileSdkVersion
     defaultConfig {
-        applicationId "com.storm.wind.xposed"
-        minSdkVersion 27
-        targetSdkVersion 28
-        versionCode version_code as Integer
-        versionName version_name
+        applicationId "org.lsposed.lspatch"
+        minSdkVersion rootProject.ext.androidMinSdkVersion
+        targetSdkVersion rootProject.ext.androidTargetSdkVersion
+        versionCode rootProject.ext.verCode
+        versionName rootProject.ext.verName
 
         multiDexEnabled false
-
-        ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a'
-        }
     }
     buildTypes {
         debug {
@@ -65,6 +61,5 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation("androidx.core:core:1.3.2")
     implementation project(path: ':lspcore')
 }

@@ -1,5 +1,5 @@
 include ':app'
-rootProject.name='MMPLoader'
+rootProject.name='LSPatch'
 include ':lspcore'
 project(':lspcore').projectDir = new File('mmp/core')
 include ':hiddenapi-stubs'

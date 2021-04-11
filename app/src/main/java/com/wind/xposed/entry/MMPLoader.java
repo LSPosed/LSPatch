@@ -182,6 +182,7 @@ public class MMPLoader {
 
         boolean configFileExist = configFileExist();
 
+        // todo: Android 11
         for (PackageInfo pkg : pm.getInstalledPackages(PackageManager.GET_META_DATA)) {
             ApplicationInfo app = pkg.applicationInfo;
             if (!app.enabled) {
@@ -228,7 +229,7 @@ public class MMPLoader {
         return modulePathList;
     }
 
-    // 从sd卡中加载指定文件，以加载指定的xposed module
+    // 从 sd 卡中加载指定文件，以加载指定的 xposed module
     private static List<String> loadPackageNameListFromFile(boolean loadActivedPackages) {
         File moduleFile = new File(DIR_BASE, XPOSED_MODULE_FILE_PATH);
         if (!moduleFile.exists()) {
@@ -236,11 +237,8 @@ public class MMPLoader {
         }
         List<String> modulePackageList = new ArrayList<>();
 
-        FileInputStream fileInputStream = null;
-        BufferedReader bufferedReader = null;
-        try {
-            fileInputStream = new FileInputStream(moduleFile);
-            bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+        try (FileInputStream fileInputStream = new FileInputStream(moduleFile);
+             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream))) {
             String modulePackageName;
             while ((modulePackageName = bufferedReader.readLine()) != null) {
                 modulePackageName = modulePackageName.trim();
@@ -263,10 +261,6 @@ public class MMPLoader {
             e.printStackTrace();
             return null;
         }
-        finally {
-            closeStream(fileInputStream);
-            closeStream(bufferedReader);
-        }
         return modulePackageList;
     }
 
@@ -282,12 +276,8 @@ public class MMPLoader {
                 throw new IllegalStateException("create " + XPOSED_MODULE_FILE_PATH + " err");
             }
         }
-        FileOutputStream outputStream = null;
-        BufferedWriter writer = null;
-        try {
-            outputStream = new FileOutputStream(moduleFile, true);
-            writer = new BufferedWriter(new OutputStreamWriter(outputStream));
-
+        try (FileOutputStream outputStream = new FileOutputStream(moduleFile, true);
+             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream))) {
             for (Pair<String, String> packageInfo : packageNameList) {
                 String packageName = packageInfo.first;
                 String appName = packageInfo.second;
@@ -299,10 +289,6 @@ public class MMPLoader {
         }
         catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
-            closeStream(outputStream);
-            closeStream(writer);
         }
     }
 

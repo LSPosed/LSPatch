@@ -21,15 +21,15 @@ public class FileUtils {
     public static boolean isSdcardPermissionGranted(Context context) {
         int pid = android.os.Process.myPid();
         int uid = Process.myUid();
-        return context.checkPermission(PERMISSIONS_STORAGE[0], pid, uid) == PackageManager.PERMISSION_GRANTED && context.checkPermission(PERMISSIONS_STORAGE[1], pid, uid) == PackageManager.PERMISSION_GRANTED;
+        return context.checkPermission(PERMISSIONS_STORAGE[0], pid, uid) == PackageManager.PERMISSION_GRANTED && context.checkPermission(PERMISSIONS_STORAGE[1], pid,
+                uid) == PackageManager.PERMISSION_GRANTED;
     }
 
     public static String readTextFromAssets(Context context, String assetsFileName) {
         if (context == null) {
             throw new IllegalStateException("context null");
         }
-        try {
-            InputStream is = context.getAssets().open(assetsFileName);
+        try (InputStream is = context.getAssets().open(assetsFileName)) {
             return readTextFromInputStream(is);
         }
         catch (Exception e) {

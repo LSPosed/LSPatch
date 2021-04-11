@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class XpatchUtils {
-    final static String TAG = "MMP" + XpatchUtils.class.getSimpleName();
+    final static String TAG = "LSP" + XpatchUtils.class.getSimpleName();
 
     public static Context createAppContext() {
         try {
