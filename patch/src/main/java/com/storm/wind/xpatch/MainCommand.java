@@ -3,7 +3,6 @@ package com.storm.wind.xpatch;
 import static org.apache.commons.io.FileUtils.copyFile;
 
 import com.storm.wind.xpatch.base.BaseCommand;
-import com.storm.wind.xpatch.task.ApkModifyTask;
 import com.storm.wind.xpatch.task.BuildAndSignApkTask;
 import com.storm.wind.xpatch.task.SaveApkSignatureTask;
 import com.storm.wind.xpatch.task.SaveOriginalApplicationNameTask;
@@ -43,23 +42,9 @@ public class MainCommand extends BaseCommand {
             description = "disable craching the apk's signature.")
     private boolean disableCrackSignature = false;
 
-    @Opt(opt = "dex", longOpt = "dex", hasArg = false, description = "insert code into the dex file, not modify manifest application name attribute")
-    private boolean dexModificationMode = false;
-
-    @Opt(opt = "pkg", longOpt = "packageName", description = "modify the apk package name", argName = "new package name")
-    private String newPackageName;
-
     @Opt(opt = "d", longOpt = "debuggable", description = "set 1 to make the app debuggable = true, " +
             "set 0 to make the app debuggable = false", argName = "0 or 1")
     private int debuggable = -1;  // 0: debuggable = false   1: debuggable = true
-
-    @Opt(opt = "vc", longOpt = "versionCode", description = "set the app version code",
-            argName = "new-version-code")
-    private int versionCode;
-
-    @Opt(opt = "vn", longOpt = "versionName", description = "set the app version name",
-            argName = "new-version-name")
-    private String versionName;
 
     private int dexFileCount = 0;
 
@@ -185,12 +170,6 @@ public class MainCommand extends BaseCommand {
             mXpatchTasks.add(new SaveOriginalApplicationNameTask(applicationName, unzipApkFilePath));
         }
 
-        //  modify the apk dex file to make xposed can run in it
-        if (dexModificationMode && isNotEmpty(applicationName)) {
-            mXpatchTasks.add(new ApkModifyTask(true, true, unzipApkFilePath, applicationName,
-                    dexFileCount));
-        }
-
         //  copy xposed so and dex files into the unzipped apk
         mXpatchTasks.add(new SoAndDexCopyTask(dexFileCount, unzipApkFilePath));
 
@@ -216,20 +195,6 @@ public class MainCommand extends BaseCommand {
     private void modifyManifestFile(String filePath, String dstFilePath, String originalApplicationName) {
         ModificationProperty property = new ModificationProperty();
         boolean modifyEnabled = false;
-        if (isNotEmpty(newPackageName)) {
-            modifyEnabled = true;
-            property.addManifestAttribute(new AttributeItem(NodeValue.Manifest.PACKAGE, newPackageName).setNamespace(null));
-        }
-
-        if (versionCode > 0) {
-            modifyEnabled = true;
-            property.addManifestAttribute(new AttributeItem(NodeValue.Manifest.VERSION_CODE, versionCode));
-        }
-
-        if (isNotEmpty(versionName)) {
-            modifyEnabled = true;
-            property.addManifestAttribute(new AttributeItem(NodeValue.Manifest.VERSION_NAME, versionName));
-        }
 
         if (debuggable >= 0) {
             modifyEnabled = true;
@@ -238,14 +203,10 @@ public class MainCommand extends BaseCommand {
 
         property.addApplicationAttribute(new AttributeItem("extractNativeLibs", true));
 
-        if (!dexModificationMode || !isNotEmpty(originalApplicationName)) {
-            modifyEnabled = true;
-            property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, proxyname));
-        }
+        modifyEnabled = true;
+        property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, proxyname));
 
-        if (modifyEnabled) {
-            FileProcesser.processManifestFile(filePath, dstFilePath, property);
-        }
+        FileProcesser.processManifestFile(filePath, dstFilePath, property);
     }
 
     private int findDexFileCount(String unzipApkFilePath) {
@@ -268,6 +229,7 @@ public class MainCommand extends BaseCommand {
     }
 
     // Use the current timestamp as the name of the build file
+    @SuppressWarnings("SimpleDateFormat")
     private String currentTimeStr() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         return df.format(new Date());
