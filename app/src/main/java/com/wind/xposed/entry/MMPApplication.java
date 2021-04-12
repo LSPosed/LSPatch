@@ -176,23 +176,23 @@ public class MMPApplication extends Application {
                                 if (packageInfo.signatures != null && packageInfo.signatures.length > 0) {
                                     packageInfo.signatures[0] = new Signature(originalSignature);
                                 }
-                            }
 
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                if (packageInfo.signingInfo != null) {
-                                    Signature[] signaturesArray = packageInfo.signingInfo.getApkContentsSigners();
-                                    if (signaturesArray != null && signaturesArray.length > 0) {
-                                        signaturesArray[0] = new Signature(originalSignature);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                    if (packageInfo.signingInfo != null) {
+                                        Signature[] signaturesArray = packageInfo.signingInfo.getApkContentsSigners();
+                                        if (signaturesArray != null && signaturesArray.length > 0) {
+                                            signaturesArray[0] = new Signature(originalSignature);
+                                        }
                                     }
                                 }
-                            }
 
-                            out.setDataPosition(0);
-                            // no idea why report err if just keep size
-                            out.setDataCapacity(out.dataSize() * 2);
-                            out.writeNoException();
-                            out.writeInt(1);
-                            packageInfo.writeToParcel(out, PARCELABLE_WRITE_RETURN_VALUE);
+                                out.setDataPosition(0);
+                                // no idea why report err if just keep size
+                                out.setDataCapacity(out.dataSize() * 2);
+                                out.writeNoException();
+                                out.writeInt(1);
+                                packageInfo.writeToParcel(out, PARCELABLE_WRITE_RETURN_VALUE);
+                            }
                         }
 
                         // reset pos
