@@ -38,9 +38,9 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelper;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class MMPLoader {
+public class LSPLoader {
 
-    private static final String TAG = MMPLoader.class.getSimpleName();
+    private static final String TAG = LSPLoader.class.getSimpleName();
     private static final String DIR_BASE = Environment.getExternalStorageDirectory().getAbsolutePath();
     private static final String XPOSED_MODULE_FILE_PATH = "xpmodules.list";
     private static AtomicBoolean hasInited = new AtomicBoolean(false);
@@ -164,7 +164,7 @@ public class MMPLoader {
         for (String modulePath : modulePathList) {
             String dexPath = context.getDir("xposed_plugin_dex", Context.MODE_PRIVATE).getAbsolutePath();
             if (!TextUtils.isEmpty(modulePath)) {
-                MMPLoader.loadModule(modulePath, dexPath, null, context.getApplicationInfo(), originClassLoader);
+                LSPLoader.loadModule(modulePath, dexPath, null, context.getApplicationInfo(), originClassLoader);
             }
         }
     }

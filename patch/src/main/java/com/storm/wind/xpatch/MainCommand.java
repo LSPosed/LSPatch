@@ -36,7 +36,7 @@ public class MainCommand extends BaseCommand {
     private boolean forceOverwrite = false;
 
     @Opt(opt = "pn", longOpt = "proxyname", description = "special proxy app name with full dot path", argName = "proxy app name")
-    private String proxyname = "com.wind.xposed.entry.MMPApplication";
+    private String proxyname = "com.wind.xposed.entry.LSPApplication";
 
     @Opt(opt = "c", longOpt = "crach", hasArg = false,
             description = "disable craching the apk's signature.")

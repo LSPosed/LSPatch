@@ -20,7 +20,7 @@ sourceSets.main.java.srcDirs += "$rootProject.projectDir/apksigner/src/main/java
 sourceSets.main.java.srcDirs += "$rootProject.projectDir/apksigner/src/apksigner/java"
 
 jar {
-    baseName = "mmpatch"
+    baseName = "lspatch"
     destinationDirectory = new File("$rootProject.projectDir/out")
     manifest {
         attributes 'Main-Class': 'com.storm.wind.xpatch.MainCommand'

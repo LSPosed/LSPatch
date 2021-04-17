@@ -1,7 +1,7 @@
 package com.wind.xposed.entry;
 
 import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
-import static com.wind.xposed.entry.MMPLoader.initAndLoadModules;
+import static com.wind.xposed.entry.LSPLoader.initAndLoadModules;
 
 import android.app.Application;
 import android.content.Context;
@@ -30,10 +30,10 @@ import de.robv.android.xposed.XposedInit;
 /**
  * Created by Windysha
  */
-public class MMPApplication extends Application {
+public class LSPApplication extends Application {
     private static final String ORIGINAL_APPLICATION_NAME_ASSET_PATH = "original_application_name.ini";
     private static final String ORIGINAL_SIGNATURE_ASSET_PATH = "original_signature_info.ini";
-    private static final String TAG = MMPApplication.class.getSimpleName();
+    private static final String TAG = LSPApplication.class.getSimpleName();
     private static String originalApplicationName = null;
     private static String originalSignature = null;
     private static Application sOriginalApplication = null;
@@ -90,7 +90,7 @@ public class MMPApplication extends Application {
         }
     }
 
-    public MMPApplication() {
+    public LSPApplication() {
         super();
 
         if (isApplicationProxied()) {
@@ -256,7 +256,7 @@ public class MMPApplication extends Application {
             return;
         }
         for (Object para : args) {
-            if (para instanceof MMPApplication) {
+            if (para instanceof LSPApplication) {
                 para = sOriginalApplication;
             }
         }
