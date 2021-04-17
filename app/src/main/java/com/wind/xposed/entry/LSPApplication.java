@@ -10,7 +10,6 @@ import android.content.pm.Signature;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Parcel;
-import android.util.Log;
 
 import com.wind.xposed.entry.util.FileUtils;
 import com.wind.xposed.entry.util.XLog;
@@ -123,8 +122,8 @@ public class LSPApplication extends Application {
     }
 
     private static void byPassSignature() throws ClassNotFoundException, IllegalAccessException {
-        Field[] fields1 = Class.forName("android.content.pm.IPackageManager$Stub").getDeclaredFields();
-        for (Field field : fields1) {
+        Field[] pmStubFields = Class.forName("android.content.pm.IPackageManager$Stub").getDeclaredFields();
+        for (Field field : pmStubFields) {
             if (!Modifier.isStatic(field.getModifiers()) || field.getType() != int.class) {
                 continue;
             }
@@ -140,8 +139,7 @@ public class LSPApplication extends Application {
         }
 
         if (TRANSACTION_getPackageInfo_ID == -1) {
-            Log.e(TAG, "what's wrong with you (rom) ?");
-            return;
+            throw new IllegalStateException("getPackageInfo transaction id null");
         }
 
         XposedHelpers.findAndHookMethod("android.os.BinderProxy", getAppClassLoader(), "transact", int.class, Parcel.class, Parcel.class, int.class, new XC_MethodHook() {
@@ -187,8 +185,7 @@ public class LSPApplication extends Application {
                                 }
 
                                 out.setDataPosition(0);
-                                // no idea why report err if just keep size
-                                out.setDataCapacity(out.dataSize() * 2);
+                                out.setDataSize(0);
                                 out.writeNoException();
                                 out.writeInt(1);
                                 packageInfo.writeToParcel(out, PARCELABLE_WRITE_RETURN_VALUE);
