@@ -38,10 +38,6 @@ public class MainCommand extends BaseCommand {
     @Opt(opt = "pn", longOpt = "proxyname", description = "special proxy app name with full dot path", argName = "proxy app name")
     private String proxyname = "com.wind.xposed.entry.LSPApplication";
 
-    @Opt(opt = "c", longOpt = "crach", hasArg = false,
-            description = "disable craching the apk's signature.")
-    private boolean disableCrackSignature = false;
-
     @Opt(opt = "d", longOpt = "debuggable", description = "set 1 to make the app debuggable = true, " +
             "set 0 to make the app debuggable = false", argName = "0 or 1")
     private int debuggable = -1;  // 0: debuggable = false   1: debuggable = true
@@ -108,7 +104,6 @@ public class MainCommand extends BaseCommand {
         }
 
         System.out.println("output apk path: " + output);
-        System.out.println("disableCrackSignature: " + disableCrackSignature);
 
         String apkFileName = getBaseName(srcApkFile);
 
@@ -120,10 +115,8 @@ public class MainCommand extends BaseCommand {
         System.out.println("outputApkFileParentPath: " + outputApkFileParentPath);
         System.out.println("unzipApkFilePath = " + unzipApkFilePath);
 
-        if (!disableCrackSignature) {
-            // save the apk original signature info, to support crach signature.
-            new SaveApkSignatureTask(apkPath, unzipApkFilePath).run();
-        }
+        // save the apk original signature info, to support crach signature.
+        new SaveApkSignatureTask(apkPath, unzipApkFilePath).run();
 
         long currentTime = System.currentTimeMillis();
         FileUtils.decompressZip(apkPath, unzipApkFilePath);
