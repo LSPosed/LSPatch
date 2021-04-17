@@ -1,7 +1,7 @@
 [submodule "mmp"]
 	path = mmp
-	url = https://github.com/MMPosed/MMPosed.git
-	branch = mmpatch
+	url = https://github.com/327135569/LSPosed.git
+	branch = lspatch
 [submodule "apksigner"]
 	path = apksigner
 	url = https://android.googlesource.com/platform/tools/apksig.git
