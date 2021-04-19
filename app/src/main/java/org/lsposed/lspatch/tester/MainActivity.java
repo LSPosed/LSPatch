@@ -1,10 +1,12 @@
-package com.storm.wind.xposed;
+package org.lsposed.lspatch.tester;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.storm.wind.tester.R;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;

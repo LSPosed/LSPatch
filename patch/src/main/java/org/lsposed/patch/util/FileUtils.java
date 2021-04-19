@@ -1,4 +1,4 @@
-package com.storm.wind.xpatch.util;
+package org.lsposed.patch.util;
 
 import org.apache.commons.io.IOUtils;
 

@@ -1,4 +1,4 @@
-package com.wind.xposed.entry;
+package org.lsposed.lspatch.loader;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,9 +11,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 
-import com.wind.xposed.entry.util.FileUtils;
-import com.wind.xposed.entry.util.XLog;
-import com.wind.xposed.entry.util.XpatchUtils;
+import org.lsposed.lspatch.loader.util.FileUtils;
+import org.lsposed.lspatch.loader.util.XLog;
+import org.lsposed.lspatch.loader.util.XpatchUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

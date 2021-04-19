@@ -1,11 +1,9 @@
-package com.storm.wind.xpatch.task;
+package org.lsposed.patch.task;
 
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

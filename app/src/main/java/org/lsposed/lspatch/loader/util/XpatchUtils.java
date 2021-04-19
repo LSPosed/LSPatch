@@ -1,4 +1,4 @@
-package com.wind.xposed.entry.util;
+package org.lsposed.lspatch.loader.util;
 
 import android.app.ActivityThread;
 import android.content.Context;

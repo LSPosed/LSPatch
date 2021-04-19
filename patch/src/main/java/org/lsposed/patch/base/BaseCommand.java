@@ -1,4 +1,4 @@
-package com.storm.wind.xpatch.base;
+package org.lsposed.patch.base;
 
 import java.io.File;
 import java.io.OutputStreamWriter;

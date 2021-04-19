@@ -23,7 +23,7 @@ jar {
     baseName = "lspatch"
     destinationDirectory = new File("$rootProject.projectDir/out")
     manifest {
-        attributes 'Main-Class': 'com.storm.wind.xpatch.MainCommand'
+        attributes 'Main-Class': 'org.lsposed.patch.LSPatch'
     }
     dependsOn configurations.runtimeClasspath
     from {

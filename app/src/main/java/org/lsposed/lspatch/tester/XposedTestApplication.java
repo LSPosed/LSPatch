@@ -1,10 +1,9 @@
-package com.storm.wind.xposed;
-
-import static com.wind.xposed.entry.LSPLoader.initAndLoadModules;
+package org.lsposed.lspatch.tester;
 
 import android.app.Application;
 import android.content.Context;
 
+import org.lsposed.lspatch.loader.LSPLoader;
 import org.lsposed.lspd.yahfa.hooker.YahfaHooker;
 
 import de.robv.android.xposed.XposedInit;
@@ -20,6 +19,6 @@ public class XposedTestApplication extends Application {
         System.loadLibrary("lspd");
         YahfaHooker.init();
         XposedInit.startsSystemServer = false;
-        initAndLoadModules();
+        LSPLoader.initAndLoadModules();
     }
 }

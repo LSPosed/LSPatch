@@ -1,4 +1,4 @@
-package com.storm.wind.xpatch.util;
+package org.lsposed.patch.util;
 
 import java.io.BufferedReader;
 import java.io.Closeable;

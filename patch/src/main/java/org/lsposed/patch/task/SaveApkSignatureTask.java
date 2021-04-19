@@ -1,6 +1,6 @@
-package com.storm.wind.xpatch.task;
+package org.lsposed.patch.task;
 
-import com.storm.wind.xpatch.util.ApkSignatureHelper;
+import org.lsposed.patch.util.ApkSignatureHelper;
 
 import org.apache.commons.io.FileUtils;
 

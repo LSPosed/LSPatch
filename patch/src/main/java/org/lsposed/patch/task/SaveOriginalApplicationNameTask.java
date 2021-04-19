@@ -1,4 +1,4 @@
-package com.storm.wind.xpatch.task;
+package org.lsposed.patch.task;
 
 import org.apache.commons.io.FileUtils;
 

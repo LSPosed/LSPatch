@@ -1,4 +1,4 @@
-package com.storm.wind.xpatch.util;
+package org.lsposed.patch.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

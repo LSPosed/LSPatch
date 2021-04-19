@@ -1,7 +1,7 @@
-package com.wind.xposed.entry;
+package org.lsposed.lspatch.loader;
 
 import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
-import static com.wind.xposed.entry.LSPLoader.initAndLoadModules;
+import static org.lsposed.lspatch.loader.LSPLoader.initAndLoadModules;
 
 import android.app.Application;
 import android.content.Context;
@@ -11,9 +11,9 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.Parcel;
 
-import com.wind.xposed.entry.util.FileUtils;
-import com.wind.xposed.entry.util.XLog;
-import com.wind.xposed.entry.util.XpatchUtils;
+import org.lsposed.lspatch.loader.util.FileUtils;
+import org.lsposed.lspatch.loader.util.XLog;
+import org.lsposed.lspatch.loader.util.XpatchUtils;
 
 import org.lsposed.lspd.yahfa.hooker.YahfaHooker;
 

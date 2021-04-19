@@ -1,4 +1,4 @@
-package com.storm.wind.xpatch.util;
+package org.lsposed.patch.util;
 
 import java.io.File;
 import java.io.FileInputStream;

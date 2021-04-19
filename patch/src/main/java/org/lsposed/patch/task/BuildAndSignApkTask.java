@@ -1,9 +1,10 @@
-package com.storm.wind.xpatch.task;
+package org.lsposed.patch.task;
 
 import com.android.apksigner.ApkSignerTool;
-import com.storm.wind.xpatch.MainCommand;
-import com.storm.wind.xpatch.util.FileUtils;
-import com.storm.wind.xpatch.util.ShellCmdUtil;
+
+import org.lsposed.patch.LSPatch;
+import org.lsposed.patch.util.FileUtils;
+import org.lsposed.patch.util.ShellCmdUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -56,12 +57,12 @@ public class BuildAndSignApkTask implements Runnable {
             File signedApkFile = new File(signedApkPath);
             // delete unsigned apk file
             if (!keepUnsignedApkFile && unsignedApkFile.exists() && signedApkFile.exists() && signResult) {
-                MainCommand.fuckIfFail(unsignedApkFile.delete());
+                LSPatch.fuckIfFail(unsignedApkFile.delete());
             }
 
             // delete the keystore file
             if (keyStoreFile.exists()) {
-                MainCommand.fuckIfFail(keyStoreFile.delete());
+                LSPatch.fuckIfFail(keyStoreFile.delete());
             }
         }
         catch (Exception err) {
