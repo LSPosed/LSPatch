@@ -20,6 +20,7 @@ import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +37,7 @@ import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelper;
+import de.robv.android.xposed.XposedInit;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class LSPLoader {
@@ -48,7 +50,7 @@ public class LSPLoader {
 
 
     @SuppressLint("DiscouragedPrivateApi")
-    public static boolean loadModule(final String moduleApkPath, String moduleOdexDir, String moduleLibPath, final ApplicationInfo currentApplicationInfo, ClassLoader appClassLoader) {
+    public static boolean loadModule(final String moduleApkPath, String moduleLibPath, final ApplicationInfo currentApplicationInfo, ClassLoader appClassLoader) {
 
         XLog.i(TAG, "Loading modules from " + moduleApkPath);
 
@@ -57,14 +59,20 @@ public class LSPLoader {
             return false;
         }
 
-        ClassLoader mcl = new DelegateLastClassLoader(moduleApkPath, null, appClassLoader);
+        // module can load it's own so
+        StringBuilder nativePath = new StringBuilder();
+        for (String i : Build.SUPPORTED_ABIS) {
+            nativePath.append(moduleApkPath).append("!/lib/").append(i).append(File.pathSeparator);
+        }
+        ClassLoader initLoader = XposedInit.class.getClassLoader();
+        ClassLoader mcl = new DelegateLastClassLoader(moduleApkPath, nativePath.toString(), initLoader);
 
         try {
             if (mcl.loadClass(XposedBridge.class.getName()).getClassLoader() != appClassLoader) {
-                Log.e(TAG, "  Cannot load module:");
-                Log.e(TAG, "  The Xposed API classes are compiled into the module's APK.");
-                Log.e(TAG, "  This may cause strange issues and must be fixed by the module developer.");
-                Log.e(TAG, "  For details, see: http://api.xposed.info/using.html");
+                Log.e(TAG, "Cannot load module:");
+                Log.e(TAG, "The Xposed API classes are compiled into the module's APK.");
+                Log.e(TAG, "This may cause strange issues and must be fixed by the module developer.");
+                Log.e(TAG, "For details, see: http://api.xposed.info/using.html");
                 return false;
             }
         }
@@ -118,7 +126,7 @@ public class LSPLoader {
                     }
 
                     if (moduleInstance instanceof IXposedHookInitPackageResources) {
-                        XLog.w(TAG, "unsupport resource hook");
+                        XLog.e(TAG, "Unsupport resource hook");
                     }
                 }
                 catch (Throwable t) {
@@ -139,12 +147,12 @@ public class LSPLoader {
 
     public static void initAndLoadModules(Context context) {
         if (!hasInited.compareAndSet(false, true)) {
-            XLog.w(TAG, "has been init");
+            XLog.w(TAG, "Has been init");
             return;
         }
 
         if (context == null) {
-            XLog.e(TAG, "try to init with context null");
+            XLog.e(TAG, "Try to init with context null");
             return;
         }
 
@@ -152,7 +160,7 @@ public class LSPLoader {
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             if (!FileUtils.isSdcardPermissionGranted(context)) {
-                XLog.e(TAG, "file permission is not granted, can not control xposed module by file " + XPOSED_MODULE_FILE_PATH);
+                XLog.e(TAG, "File permission is not granted, can not control xposed module by file " + XPOSED_MODULE_FILE_PATH);
             }
         }
 
@@ -162,9 +170,8 @@ public class LSPLoader {
         List<String> modulePathList = loadAllInstalledModule(context);
 
         for (String modulePath : modulePathList) {
-            String dexPath = context.getDir("xposed_plugin_dex", Context.MODE_PRIVATE).getAbsolutePath();
             if (!TextUtils.isEmpty(modulePath)) {
-                LSPLoader.loadModule(modulePath, dexPath, null, context.getApplicationInfo(), originClassLoader);
+                LSPLoader.loadModule(modulePath, null, context.getApplicationInfo(), originClassLoader);
             }
         }
     }
@@ -257,6 +264,9 @@ public class LSPLoader {
                 modulePackageList.add(modulePackageName);
             }
         }
+        catch (FileNotFoundException ignore) {
+            return null;
+        }
         catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -286,6 +296,8 @@ public class LSPLoader {
                 XLog.d(TAG, "append new pkg to " + XPOSED_MODULE_FILE_PATH);
             }
             writer.flush();
+        }
+        catch (FileNotFoundException ignore) {
         }
         catch (Exception e) {
             e.printStackTrace();
