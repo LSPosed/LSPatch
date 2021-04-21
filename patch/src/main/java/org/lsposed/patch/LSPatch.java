@@ -36,7 +36,7 @@ public class LSPatch extends BaseCommand {
     private boolean forceOverwrite = false;
 
     @Opt(opt = "pn", longOpt = "proxyname", description = "special proxy app name with full dot path", argName = "proxy app name")
-    private String proxyname = "com.wind.xposed.entry.LSPApplication";
+    private String proxyname = "org.lsposed.lspatch.loader.LSPApplication";
 
     @Opt(opt = "d", longOpt = "debuggable", description = "set 1 to make the app debuggable = true, " +
             "set 0 to make the app debuggable = false", argName = "0 or 1")
