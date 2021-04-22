@@ -28,7 +28,7 @@ public class MainActivity extends Activity {
         });
 
         TextView textView = findViewById(R.id.msg);
-        if (checkXposed()) {
+        if (checkXposed() && checkXposed2()) {
             textView.setText("ok");
         }
         else {
@@ -40,6 +40,10 @@ public class MainActivity extends Activity {
     }
 
     public boolean checkXposed() {
+        return false;
+    }
+
+    public boolean checkXposed2() {
         return false;
     }
 }
