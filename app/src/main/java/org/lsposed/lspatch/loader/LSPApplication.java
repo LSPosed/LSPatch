@@ -14,9 +14,10 @@ import android.os.Parcel;
 import org.lsposed.lspatch.loader.util.FileUtils;
 import org.lsposed.lspatch.loader.util.XLog;
 import org.lsposed.lspatch.loader.util.XpatchUtils;
-
+import org.lsposed.lspatch.share.Constants;
 import org.lsposed.lspd.yahfa.hooker.YahfaHooker;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -208,7 +209,27 @@ public class LSPApplication extends Application {
         hookInstallContentProviders();
         hookActivityAttach();
         hookServiceAttach();
-        byPassSignature();
+        if (fetchSigbypassLv() >= Constants.SIGBYPASS_LV_PM) {
+            byPassSignature();
+        }
+    }
+
+    private static int cacheSigbypassLv = -1;
+
+    private static int fetchSigbypassLv() {
+        if (cacheSigbypassLv != -1) {
+            return cacheSigbypassLv;
+        }
+        for (int i = Constants.SIGBYPASS_LV_DISABLE; i < Constants.SIGBYPASS_LV_MAX; i++) {
+            try {
+                context.getAssets().open(Constants.CONFIG_NAME_SIGBYPASSLV + i);
+                cacheSigbypassLv = i;
+                return i;
+            }
+            catch (IOException ignore) {
+            }
+        }
+        throw new IllegalStateException(Constants.CONFIG_NAME_SIGBYPASSLV + " err");
     }
 
     private static void hookContextImplSetOuterContext() {

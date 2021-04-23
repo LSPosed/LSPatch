@@ -96,7 +96,7 @@ public abstract class BaseCommand {
             }
             if (longOpt != null && longOpt.length() > 0) {
                 if (havePrev) {
-                    sb.append(",");
+                    sb.append(", ");
                 }
                 sb.append("--").append(longOpt);
             }
@@ -248,7 +248,7 @@ public abstract class BaseCommand {
 
     protected void parseSetArgs(String... args) throws IllegalArgumentException, IllegalAccessException {
         this.orginalArgs = args;
-        List<String> remainsOptions = new ArrayList<String>();
+        List<String> remainsOptions = new ArrayList<>();
         Set<Option> requiredOpts = collectRequriedOptions(optMap);
         Option needArgOpt = null;
         for (String s : args) {
@@ -377,37 +377,18 @@ public abstract class BaseCommand {
 
     protected void usage() {
         PrintWriter out = new PrintWriter(new OutputStreamWriter(System.err, StandardCharsets.UTF_8), true);
+        out.println();
 
-        final int maxLength = 80;
-        final int maxPaLength = 40;
-//        out.println(this.cmdName + " -- " + desc);
-//        out.println("usage: " + this.cmdName + " " + cmdLineSyntax);
         if (this.optMap.size() > 0) {
-            out.println("options:");
+            out.println("Options:");
+            out.println();
         }
-        // [PART.A.........][Part.B
-        // .-a,--aa.<arg>...desc1
-        // .................desc2
-        // .-b,--bb
-        TreeSet<Option> options = new TreeSet<Option>(this.optMap.values());
-        int palength = -1;
-        for (Option option : options) {
-            int pa = 4 + option.getOptAndLongOpt().length();
-            if (option.hasArg) {
-                pa += 3 + option.argName.length();
-            }
-            if (pa < maxPaLength) {
-                if (pa > palength) {
-                    palength = pa;
-                }
-            }
-        }
-        int pblength = maxLength - palength;
 
+        TreeSet<Option> options = new TreeSet<>(this.optMap.values());
         StringBuilder sb = new StringBuilder();
         for (Option option : options) {
             sb.setLength(0);
-            sb.append(" ").append(option.getOptAndLongOpt());
+            sb.append("  ").append(option.getOptAndLongOpt());
             if (option.hasArg) {
                 sb.append(" <").append(option.argName).append(">");
             }
@@ -415,52 +396,22 @@ public abstract class BaseCommand {
             if (desc == null || desc.length() == 0) {// no description
                 out.println(sb);
             } else {
-                for (int i = palength - sb.length(); i > 0; i--) {
-                    sb.append(' ');
+                int maxWidth = 15;
+                if(sb.length() >= maxWidth) {
+                    sb.append('\n');
+                    sb.append(" ".repeat(maxWidth));
                 }
-                if (sb.length() > maxPaLength) {// to huge part A
-                    out.println(sb);
-                    sb.setLength(0);
-                    for (int i = 0; i < palength; i++) {
-                        sb.append(' ');
-                    }
+                else {
+                    sb.append(" ".repeat(maxWidth - sb.length()));
                 }
-                int nextStart = 0;
-                while (nextStart < desc.length()) {
-                    if (desc.length() - nextStart < pblength) {// can put in one line
-                        sb.append(desc.substring(nextStart));
-                        out.println(sb);
-                        nextStart = desc.length();
-                        sb.setLength(0);
-                    } else {
-                        sb.append(desc.substring(nextStart, nextStart + pblength));
-                        out.println(sb);
-                        nextStart += pblength;
-                        sb.setLength(0);
-                        if (nextStart < desc.length()) {
-                            for (int i = 0; i < palength; i++) {
-                                sb.append(' ');
-                            }
-                        }
-                    }
-                }
-                if (sb.length() > 0) {
-                    out.println(sb);
-                    sb.setLength(0);
-                }
+                sb.append(desc);
+                out.println(sb);
             }
+            out.println();
         }
         String ver = getVersionString();
         if (ver != null && !"".equals(ver)) {
             out.println("version: " + ver);
-        }
-        if (onlineHelp != null && !"".equals(onlineHelp)) {
-            if (onlineHelp.length() + "online help: ".length() > maxLength) {
-                out.println("online help: ");
-                out.println(onlineHelp);
-            } else {
-                out.println("online help: " + onlineHelp);
-            }
         }
         out.flush();
     }

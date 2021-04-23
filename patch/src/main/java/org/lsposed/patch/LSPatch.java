@@ -7,6 +7,7 @@ import com.wind.meditor.property.AttributeItem;
 import com.wind.meditor.property.ModificationProperty;
 import com.wind.meditor.utils.NodeValue;
 
+import org.lsposed.lspatch.share.Constants;
 import org.lsposed.patch.base.BaseCommand;
 import org.lsposed.patch.task.BuildAndSignApkTask;
 import org.lsposed.patch.task.SaveApkSignatureTask;
@@ -18,9 +19,7 @@ import org.lsposed.patch.util.ManifestParser;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.regex.Pattern;
 
 public class LSPatch extends BaseCommand {
@@ -28,25 +27,26 @@ public class LSPatch extends BaseCommand {
 
     private String unzipApkFilePath;
 
-    @Opt(opt = "o", longOpt = "output", description = "output .apk file, default is " +
-            "$source_apk_dir/[file-name]-xposed-signed.apk", argName = "out-apk-file")
-    private String output;
+    @Opt(opt = "o", longOpt = "output", description = "Output .apk file, default is " +
+            "$source_apk_dir/[file-name]-xposed-signed.apk", argName = "file")
+    private String outputPath;
 
-    @Opt(opt = "f", longOpt = "force", hasArg = false, description = "force overwrite")
+    @Opt(opt = "f", longOpt = "force", hasArg = false, description = "Force overwrite exists output file")
     private boolean forceOverwrite = false;
 
-    @Opt(opt = "pn", longOpt = "proxyname", description = "special proxy app name with full dot path", argName = "proxy app name")
-    private String proxyname = "org.lsposed.lspatch.loader.LSPApplication";
+    @Opt(opt = "p", longOpt = "proxyname", description = "Special proxy app name with full dot path", argName = "name")
+    private String proxyName = "org.lsposed.lspatch.loader.LSPApplication";
 
-    @Opt(opt = "d", longOpt = "debuggable", description = "set 1 to make the app debuggable = true, " +
+    @Opt(opt = "d", longOpt = "debuggable", description = "Set 1 to make the app debuggable = true, " +
             "set 0 to make the app debuggable = false", argName = "0 or 1")
-    private int debuggable = -1;  // 0: debuggable = false   1: debuggable = true
+    private int debuggableFlag = -1;  // 0: debuggable = false   1: debuggable = true
+
+    @Opt(opt = "l", longOpt = "sigbypasslv", description = "Signature bypass level. 0 (disable), 1 (pm), 2 (pm+openat). default 0", argName = "0-2")
+    private int sigbypassLevel = 0;
 
     private int dexFileCount = 0;
 
     private static final String UNZIP_APK_FILE_NAME = "apk-unzip-files";
-
-    private List<Runnable> mXpatchTasks = new ArrayList<>();
 
     public static void main(String... args) {
         new LSPatch().doMain(args);
@@ -61,6 +61,7 @@ public class LSPatch extends BaseCommand {
     @Override
     protected void doCommandLine() throws IOException {
         if (remainingArgs.length != 1) {
+            System.out.println();
             if (remainingArgs.length == 0) {
                 System.out.println("Please choose one apk file you want to process. ");
             }
@@ -85,13 +86,14 @@ public class LSPatch extends BaseCommand {
         System.out.println("currentDir: " + currentDir);
         System.out.println("apkPath: " + apkPath);
 
-        if (output == null || output.length() == 0) {
-            output = getBaseName(apkPath) + "-xposed-signed.apk";
+        if (outputPath == null || outputPath.length() == 0) {
+            String sig = "sigbypasslv" + sigbypassLevel;
+            outputPath = String.format("%s-%s-xposed-signed.apk", getBaseName(apkPath), sig);
         }
 
-        File outputFile = new File(output);
+        File outputFile = new File(outputPath);
         if (outputFile.exists() && !forceOverwrite) {
-            System.err.println(output + " exists, use --force to overwrite");
+            System.err.println(outputPath + " exists, use --force to overwrite");
             usage();
             return;
         }
@@ -103,7 +105,7 @@ public class LSPatch extends BaseCommand {
             outputApkFileParentPath = absPath.substring(0, index);
         }
 
-        System.out.println("output apk path: " + output);
+        System.out.println("output apk path: " + outputPath);
 
         String apkFileName = getBaseName(srcApkFile);
 
@@ -139,7 +141,7 @@ public class LSPatch extends BaseCommand {
             applicationName = pair.applicationName;
         }
 
-        System.out.println("Get application name cost time:  " + (System.currentTimeMillis() - currentTime) + "ms");
+        System.out.println("Get application name cost time: " + (System.currentTimeMillis() - currentTime) + "ms");
         System.out.println("Get the application name: " + applicationName);
 
         // modify manifest
@@ -160,44 +162,40 @@ public class LSPatch extends BaseCommand {
 
         // save original main application name to asset file
         if (isNotEmpty(applicationName)) {
-            mXpatchTasks.add(new SaveOriginalApplicationNameTask(applicationName, unzipApkFilePath));
+            new SaveOriginalApplicationNameTask(applicationName, unzipApkFilePath).run();
         }
 
         //  copy xposed so and dex files into the unzipped apk
-        mXpatchTasks.add(new SoAndDexCopyTask(dexFileCount, unzipApkFilePath));
-
-        //  compress all files into an apk and then sign it.
-        mXpatchTasks.add(new BuildAndSignApkTask(true, unzipApkFilePath, output));
+        new SoAndDexCopyTask(dexFileCount, unzipApkFilePath).run();
 
         // copy origin apk to assets
         // convenient to bypass some check like CRC
-        copyFile(srcApkFile, new File(unzipApkFilePath, "assets/origin_apk.bin"));
-
-        // excute these tasks
-        for (Runnable executor : mXpatchTasks) {
-            currentTime = System.currentTimeMillis();
-            executor.run();
-
-            System.out.println(executor.getClass().getSimpleName() + " cost time: "
-                    + (System.currentTimeMillis() - currentTime) + "ms");
+        if (sigbypassLevel >= Constants.SIGBYPASS_LV_PM) {
+            copyFile(srcApkFile, new File(unzipApkFilePath, "assets/origin_apk.bin"));
         }
 
-        System.out.println("Output APK: " + output);
+        // save lspatch config to asset..
+        fuckIfFail(new File(unzipApkFilePath, "assets/" + Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel).createNewFile());
+
+        //  compress all files into an apk and then sign it.
+        new BuildAndSignApkTask(true, unzipApkFilePath, outputPath).run();
+
+        System.out.println("Output APK: " + outputPath);
     }
 
     private void modifyManifestFile(String filePath, String dstFilePath, String originalApplicationName) {
         ModificationProperty property = new ModificationProperty();
         boolean modifyEnabled = false;
 
-        if (debuggable >= 0) {
+        if (debuggableFlag >= 0) {
             modifyEnabled = true;
-            property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggable != 0));
+            property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag != 0));
         }
 
         property.addApplicationAttribute(new AttributeItem("extractNativeLibs", true));
 
         modifyEnabled = true;
-        property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, proxyname));
+        property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, proxyName));
 
         FileProcesser.processManifestFile(filePath, dstFilePath, property);
     }
