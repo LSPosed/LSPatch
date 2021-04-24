@@ -1,5 +1,6 @@
 package org.lsposed.patch;
 
+import static org.apache.commons.io.FileUtils.copyDirectory;
 import static org.apache.commons.io.FileUtils.copyFile;
 
 import com.wind.meditor.core.FileProcesser;
@@ -172,6 +173,14 @@ public class LSPatch extends BaseCommand {
         // convenient to bypass some check like CRC
         if (sigbypassLevel >= Constants.SIGBYPASS_LV_PM) {
             copyFile(srcApkFile, new File(unzipApkFilePath, "assets/origin_apk.bin"));
+        }
+
+        File[] listAssets = new File("list-assets").listFiles();
+        if (listAssets == null || listAssets.length == 0) {
+            System.out.println("warning: No assets file copyied");
+        }
+        else {
+            copyDirectory(new File("list-assets"), new File(unzipApkFilePath, "assets"));
         }
 
         // save lspatch config to asset..
