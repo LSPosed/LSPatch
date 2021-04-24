@@ -1,0 +1,62 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdk 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        minSdk rootProject.ext.androidMinSdkVersion
+        targetSdk rootProject.ext.androidTargetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    applicationVariants.all { variant ->
+        def buildType = variant.name.capitalize()
+        def variantLowered = variant.name.toLowerCase()
+
+        variant.outputs.all {
+            outputFileName = "${variant.getFlavorName()}-${variant.versionName}.apk"
+        }
+
+        task "copyDex$buildType"(type: Copy) {
+            dependsOn("assemble$buildType")
+            def dexFilePath = "$buildDir/intermediates/dex/${variantLowered}/mergeDex${buildType}/classes.dex"
+            from dexFilePath
+            rename "(.*).dex", "classes-${version_name}.dex"
+            into "$rootProject.projectDir/out/list-dex"
+        }
+
+        task "copySo$buildType"(type: Copy) {
+            dependsOn("assemble$buildType")
+            from "$buildDir/intermediates/merged_native_libs/${variantLowered}/out/lib"
+            into "$rootProject.projectDir/out/list-so"
+        }
+
+        task "copy$buildType"() {
+            dependsOn("copySo$buildType")
+            dependsOn("copyDex$buildType")
+
+            doLast {
+                System.out.println("Dex and so files has been copy to ${rootProject.projectDir}${File.separator}out")
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation project(':share')
+    compileOnly project(":hiddenapi-stubs")
+}

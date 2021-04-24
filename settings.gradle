@@ -13,3 +13,4 @@ project(':manager-service').projectDir = new File('mmp/manager-service')
 include ':patch'
 include ':axmlprinter'
 include ':share'
+include ':appstub'
