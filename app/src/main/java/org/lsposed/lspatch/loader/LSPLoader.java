@@ -68,7 +68,7 @@ public class LSPLoader {
         ClassLoader mcl = new DelegateLastClassLoader(moduleApkPath, nativePath.toString(), initLoader);
 
         try {
-            if (mcl.loadClass(XposedBridge.class.getName()).getClassLoader() != appClassLoader) {
+            if (mcl.loadClass(XposedBridge.class.getName()).getClassLoader() != initLoader) {
                 Log.e(TAG, "Cannot load module:");
                 Log.e(TAG, "The Xposed API classes are compiled into the module's APK.");
                 Log.e(TAG, "This may cause strange issues and must be fixed by the module developer.");

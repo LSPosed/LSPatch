@@ -54,6 +54,7 @@ task clean(type: Delete) {
     tasks.register("build$variant") {
         description("Build LSPatch with $variant")
         dependsOn tasks.getByPath(":app:copy$variant")
+        dependsOn tasks.getByPath(":appstub:copy$variant")
         dependsOn tasks.getByPath(":patch:build")
     }
 }

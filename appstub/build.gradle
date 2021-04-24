@@ -11,6 +11,7 @@ android {
         versionName "1.0"
 
         consumerProguardFiles "consumer-rules.pro"
+        multiDexEnabled false
     }
 
     buildTypes {
@@ -39,14 +40,7 @@ android {
             into "$rootProject.projectDir/out/list-dex"
         }
 
-        task "copySo$buildType"(type: Copy) {
-            dependsOn("assemble$buildType")
-            from "$buildDir/intermediates/merged_native_libs/${variantLowered}/out/lib"
-            into "$rootProject.projectDir/out/list-so"
-        }
-
         task "copy$buildType"() {
-            dependsOn("copySo$buildType")
             dependsOn("copyDex$buildType")
 
             doLast {

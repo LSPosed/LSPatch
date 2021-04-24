@@ -36,7 +36,7 @@ public class LSPatch extends BaseCommand {
     private boolean forceOverwrite = false;
 
     @Opt(opt = "p", longOpt = "proxyname", description = "Special proxy app name with full dot path", argName = "name")
-    private String proxyName = "org.lsposed.lspatch.loader.LSPApplication";
+    private String proxyName = "org.lsposed.lspatch.appstub.LSPApplicationStub";
 
     @Opt(opt = "d", longOpt = "debuggable", description = "Set 1 to make the app debuggable = true, " +
             "set 0 to make the app debuggable = false", argName = "0 or 1")

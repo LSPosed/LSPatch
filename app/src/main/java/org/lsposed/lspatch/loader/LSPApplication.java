@@ -3,6 +3,7 @@ package org.lsposed.lspatch.loader;
 import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
 import static org.lsposed.lspatch.loader.LSPLoader.initAndLoadModules;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -30,6 +31,7 @@ import de.robv.android.xposed.XposedInit;
 /**
  * Created by Windysha
  */
+@SuppressLint("UnsafeDynamicallyLoadedCode")
 public class LSPApplication extends Application {
     private static final String ORIGINAL_APPLICATION_NAME_ASSET_PATH = "original_application_name.ini";
     private static final String ORIGINAL_SIGNATURE_ASSET_PATH = "original_signature_info.ini";
@@ -62,15 +64,15 @@ public class LSPApplication extends Application {
             XLog.d(TAG, "skip isolated process");
         }
         else {
-            System.loadLibrary("lspd");
-            YahfaHooker.init();
-            XposedInit.startsSystemServer = false;
-
             context = XpatchUtils.createAppContext();
             if (context == null) {
                 XLog.e(TAG, "create context err");
             }
             else {
+                System.load(context.getApplicationInfo().nativeLibraryDir + "/liblspd.so");
+                YahfaHooker.init();
+                XposedInit.startsSystemServer = false;
+
                 originalApplicationName = FileUtils.readTextFromAssets(context, ORIGINAL_APPLICATION_NAME_ASSET_PATH);
                 originalSignature = FileUtils.readTextFromAssets(context, ORIGINAL_SIGNATURE_ASSET_PATH);
 

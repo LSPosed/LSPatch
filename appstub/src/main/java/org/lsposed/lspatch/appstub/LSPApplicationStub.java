@@ -14,8 +14,8 @@ import java.nio.ByteBuffer;
 
 import dalvik.system.InMemoryDexClassLoader;
 
-public class LSPApplicationSub extends Application {
-    final static String TAG = LSPApplicationSub.class.getSimpleName();
+public class LSPApplicationStub extends Application {
+    final static String TAG = LSPApplicationStub.class.getSimpleName();
 
     static Object realLSPApplication = null;
 
@@ -37,8 +37,18 @@ public class LSPApplicationSub extends Application {
                     buffer.write(data, 0, nRead);
                 }
 
-                InMemoryDexClassLoader inMemoryDexClassLoader = new InMemoryDexClassLoader(ByteBuffer.wrap(buffer.toByteArray()), LSPApplicationSub.class.getClassLoader());
-                Class<?> lspa = inMemoryDexClassLoader.loadClass("org.lsposed.lspatch.appstub.LSPApplication");
+                buffer.flush();
+                buffer.close();
+
+                // loader can load it's own so from app native library dir
+                String libraryDir = context.getApplicationInfo().nativeLibraryDir;
+
+                Log.d(TAG, "LSPApplicationStub cl: " + LSPApplicationStub.class.getClassLoader());
+                Log.d(TAG, "NativePath : " + libraryDir);
+
+                InMemoryDexClassLoader loaderClassLoader = new InMemoryDexClassLoader(ByteBuffer.wrap(buffer.toByteArray()),
+                        LSPApplicationStub.class.getClassLoader());
+                Class<?> lspa = loaderClassLoader.loadClass("org.lsposed.lspatch.loader.LSPApplication");
                 realLSPApplication = lspa.newInstance();
             }
             catch (Exception e) {
@@ -53,7 +63,7 @@ public class LSPApplicationSub extends Application {
 
         if (realLSPApplication != null) {
             try {
-                realLSPApplication.getClass().getMethod("attachBaseContext", Context.class).invoke(realLSPApplication, base);
+                realLSPApplication.getClass().getDeclaredMethod("attachBaseContext", Context.class).invoke(realLSPApplication, base);
             }
             catch (Exception e) {
                 throw new IllegalStateException("wtf", e);
