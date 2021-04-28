@@ -26,9 +26,8 @@ public class LSPApplicationStub extends Application {
             Log.e(TAG, "create context err");
         }
         else {
-            try {
-                InputStream inputStream = context.getAssets().open("lsploader.dex");
-                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            try (InputStream inputStream = context.getAssets().open("lsploader.dex");
+                 ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
 
                 int nRead;
                 byte[] data = new byte[16384];
@@ -36,9 +35,6 @@ public class LSPApplicationStub extends Application {
                 while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
                     buffer.write(data, 0, nRead);
                 }
-
-                buffer.flush();
-                buffer.close();
 
                 // loader can load it's own so from app native library dir
                 String libraryDir = context.getApplicationInfo().nativeLibraryDir;
@@ -50,6 +46,20 @@ public class LSPApplicationStub extends Application {
                         LSPApplicationStub.class.getClassLoader());
                 Class<?> lspa = loaderClassLoader.loadClass("org.lsposed.lspatch.loader.LSPApplication");
                 realLSPApplication = lspa.newInstance();
+            }
+            catch (Exception e) {
+                throw new IllegalStateException("wtf", e);
+            }
+        }
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        if (realLSPApplication != null) {
+            try {
+                realLSPApplication.getClass().getDeclaredMethod("onCreate").invoke(realLSPApplication);
             }
             catch (Exception e) {
                 throw new IllegalStateException("wtf", e);

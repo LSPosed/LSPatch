@@ -19,7 +19,10 @@ import org.lsposed.lspatch.share.Constants;
 import org.lsposed.lspd.nativebridge.SigBypass;
 import org.lsposed.lspd.yahfa.hooker.YahfaHooker;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -33,7 +36,7 @@ import de.robv.android.xposed.XposedInit;
  * Created by Windysha
  */
 @SuppressLint("UnsafeDynamicallyLoadedCode")
-public class LSPApplication extends Application {
+public class LSPApplication {
     private static final String ORIGINAL_APPLICATION_NAME_ASSET_PATH = "original_application_name.ini";
     private static final String ORIGINAL_SIGNATURE_ASSET_PATH = "original_signature_info.ini";
     private static final String TAG = LSPApplication.class.getSimpleName();
@@ -207,7 +210,7 @@ public class LSPApplication extends Application {
         });
     }
 
-    private static void doHook() throws IllegalAccessException, ClassNotFoundException {
+    private static void doHook() throws IllegalAccessException, ClassNotFoundException, IOException {
         hookContextImplSetOuterContext();
         hookInstallContentProviders();
         hookActivityAttach();
@@ -216,7 +219,20 @@ public class LSPApplication extends Application {
             byPassSignature();
         }
         if (fetchSigbypassLv() >= Constants.SIGBYPASS_LV_PM_OPENAT) {
-            SigBypass.enableOpenatHook();
+            File apk = new File(context.getCacheDir(), "lspatchapk.so");
+            if (!apk.exists()) {
+                try (InputStream inputStream = context.getAssets().open("origin_apk.bin");
+                     FileOutputStream buffer = new FileOutputStream(apk)) {
+
+                    int nRead;
+                    byte[] data = new byte[16384];
+
+                    while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                        buffer.write(data, 0, nRead);
+                    }
+                }
+            }
+            SigBypass.enableOpenatHook(context.getApplicationInfo().packageName);
         }
     }
 
@@ -227,8 +243,7 @@ public class LSPApplication extends Application {
             return cacheSigbypassLv;
         }
         for (int i = Constants.SIGBYPASS_LV_DISABLE; i < Constants.SIGBYPASS_LV_MAX; i++) {
-            try {
-                context.getAssets().open(Constants.CONFIG_NAME_SIGBYPASSLV + i);
+            try (InputStream inputStream = context.getAssets().open(Constants.CONFIG_NAME_SIGBYPASSLV + i)) {
                 cacheSigbypassLv = i;
                 return i;
             }
@@ -299,15 +314,12 @@ public class LSPApplication extends Application {
         return activityThread;
     }
 
-    @Override
     protected void attachBaseContext(Context base) {
 
         // 将applicationInfo中保存的applcation class name还原为真实的application class name
         if (isApplicationProxied()) {
             modifyApplicationInfoClassName();
         }
-
-        super.attachBaseContext(base);
 
         if (isApplicationProxied()) {
             attachOrignalBaseContext(base);
@@ -339,11 +351,9 @@ public class LSPApplication extends Application {
         }
     }
 
-    @Override
     public void onCreate() {
         // setLoadedApkField(sOriginalApplication);
         // XposedHelpers.setObjectField(sOriginalApplication, "mLoadedApk", XposedHelpers.getObjectField(this, "mLoadedApk"));
-        super.onCreate();
 
         if (isApplicationProxied()) {
             // replaceApplication();

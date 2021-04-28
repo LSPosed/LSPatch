@@ -19,6 +19,7 @@ import org.lsposed.patch.util.ManifestParser;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -184,7 +185,8 @@ public class LSPatch extends BaseCommand {
         }
 
         // save lspatch config to asset..
-        fuckIfFail(new File(unzipApkFilePath, "assets/" + Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel).createNewFile());
+        org.apache.commons.io.FileUtils.write(new File(unzipApkFilePath, "assets" + File.separator + Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel), "lspatch",
+                Charset.defaultCharset());
 
         //  compress all files into an apk and then sign it.
         new BuildAndSignApkTask(true, unzipApkFilePath, outputPath).run();
