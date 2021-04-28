@@ -16,6 +16,7 @@ import org.lsposed.lspatch.loader.util.FileUtils;
 import org.lsposed.lspatch.loader.util.XLog;
 import org.lsposed.lspatch.loader.util.XpatchUtils;
 import org.lsposed.lspatch.share.Constants;
+import org.lsposed.lspd.nativebridge.SigBypass;
 import org.lsposed.lspd.yahfa.hooker.YahfaHooker;
 
 import java.io.IOException;
@@ -213,6 +214,9 @@ public class LSPApplication extends Application {
         hookServiceAttach();
         if (fetchSigbypassLv() >= Constants.SIGBYPASS_LV_PM) {
             byPassSignature();
+        }
+        if (fetchSigbypassLv() >= Constants.SIGBYPASS_LV_PM_OPENAT) {
+            SigBypass.enableOpenatHook();
         }
     }
 
