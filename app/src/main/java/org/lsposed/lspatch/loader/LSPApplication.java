@@ -11,6 +11,7 @@ import android.content.pm.Signature;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Parcel;
+import android.util.Log;
 
 import org.lsposed.lspatch.loader.util.FileUtils;
 import org.lsposed.lspatch.loader.util.XLog;
@@ -64,6 +65,8 @@ public class LSPApplication {
     }
 
     static {
+        cacheSigbypassLv = -1;
+
         if (isIsolated()) {
             XLog.d(TAG, "skip isolated process");
         }
@@ -236,7 +239,7 @@ public class LSPApplication {
         }
     }
 
-    private static int cacheSigbypassLv = -1;
+    private static int cacheSigbypassLv;
 
     private static int fetchSigbypassLv() {
         if (cacheSigbypassLv != -1) {

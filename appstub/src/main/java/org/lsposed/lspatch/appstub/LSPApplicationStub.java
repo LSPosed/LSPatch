@@ -73,7 +73,9 @@ public class LSPApplicationStub extends Application {
 
         if (realLSPApplication != null) {
             try {
-                realLSPApplication.getClass().getDeclaredMethod("attachBaseContext", Context.class).invoke(realLSPApplication, base);
+                Method method = realLSPApplication.getClass().getDeclaredMethod("attachBaseContext", Context.class);
+                method.setAccessible(true);
+                method.invoke(realLSPApplication, base);
             }
             catch (Exception e) {
                 throw new IllegalStateException("wtf", e);
