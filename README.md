@@ -17,6 +17,10 @@ LSPatch provides a way to insert dex and so into the target APK by repackaging. 
 ## Build
 
 ```
+Android Studio Arctic Fox | 2020.3.1 Beta 3
+```
+
+```
 gradlew build[Debug|Release]
 ```
 

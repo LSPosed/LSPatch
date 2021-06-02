@@ -1,7 +1,7 @@
 package org.lsposed.lspatch.loader.util;
 
 
-import com.storm.wind.tester.BuildConfig;
+import org.lsposed.lspd.BuildConfig;
 
 public class XLog {
 

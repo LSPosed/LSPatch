@@ -8,14 +8,14 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.0-alpha14'
+        classpath 'com.android.tools.build:gradle:7.0.0-beta03'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32"
     }
 }
 
 // sync from https://github.com/LSPosed/LSPosed/blob/master/build.gradle.kts
 ext {
-    androidCompileSdkVersion = 30
+    androidCompileSdkVersion = "android-S"
     androidCompileNdkVersion = "22.1.7171670"
     androidBuildToolsVersion = "30.0.3"
     androidMinSdkVersion = 27
@@ -26,7 +26,6 @@ ext {
     defaultManagerPackageName = "org.lsposed.lspatch"
     androidSourceCompatibility = JavaVersion.VERSION_11
     androidTargetCompatibility = JavaVersion.VERSION_11
-    zipPathMagiskReleasePath = project(":lspcore").projectDir.path + "/build/tmp/release/magisk/"
 }
 
 allprojects {
