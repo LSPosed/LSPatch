@@ -54,7 +54,7 @@ public class SoAndDexCopyTask implements Runnable {
             String libPath = APK_LIB_PATH_ARRAY[0];
             String apkSoFullPath = fullLibPath(libPath);
             File apkSoFullPathFile = new File(apkSoFullPath);
-            if (apkSoFullPathFile.mkdirs()) {
+            if (!apkSoFullPathFile.mkdirs()) {
                 throw new IllegalStateException("mkdir fail " + apkSoFullPathFile.getAbsolutePath());
             }
             existLibPathArray.add(libPath);
