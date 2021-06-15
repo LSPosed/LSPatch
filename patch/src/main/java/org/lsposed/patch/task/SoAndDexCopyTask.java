@@ -50,7 +50,7 @@ public class SoAndDexCopyTask implements Runnable {
         }
 
         if (existLibPathArray.isEmpty()) {
-            System.out.println("Target app dont have any so in \"lib/{eabi}\" dir, so create default \"armeabi-v7a\"");
+            System.out.println("Target app dont have any so in \"lib/\" dir, so create default \"armeabi-v7a\"");
             String libPath = APK_LIB_PATH_ARRAY[0];
             String apkSoFullPath = fullLibPath(libPath);
             File apkSoFullPathFile = new File(apkSoFullPath);

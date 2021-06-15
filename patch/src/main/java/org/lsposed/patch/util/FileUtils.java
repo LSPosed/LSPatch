@@ -53,8 +53,10 @@ public class FileUtils {
                 File file = new File(outPath);
 
                 if (entry.isDirectory()) {
-                    if (!file.mkdirs()) {
-                        throw new IllegalStateException("mkdir fail " + file.getAbsolutePath());
+                    if (!file.exists()) {
+                        if (!file.mkdirs()) {
+                            throw new IllegalStateException("mkdir fail " + file.getAbsolutePath());
+                        }
                     }
                     continue;
                 }
