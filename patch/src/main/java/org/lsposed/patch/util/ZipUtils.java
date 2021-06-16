@@ -20,7 +20,7 @@ import java.util.zip.ZipOutputStream;
 /**
  * Created by Wind
  */
-public class FileUtils {
+public class ZipUtils {
 
     static final int BUFFER = 8192;
 
@@ -79,18 +79,6 @@ public class FileUtils {
                     throw new IllegalStateException("wtf", err);
                 }
             }
-        }
-    }
-
-    private static InputStream getInputStreamFromFile(String filePath) {
-        return FileUtils.class.getClassLoader().getResourceAsStream(filePath);
-    }
-
-    // copy an asset file into a path
-    public static void copyFileFromJar(String inJarPath, String distPath) throws IOException {
-        // System.out.println("start copyFile  inJarPath =" + inJarPath + "  distPath = " + distPath);
-        try (InputStream inputStream = getInputStreamFromFile(inJarPath); FileOutputStream out = new FileOutputStream(distPath)) {
-            IOUtils.copy(inputStream, out);
         }
     }
 

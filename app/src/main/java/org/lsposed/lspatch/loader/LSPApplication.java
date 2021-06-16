@@ -86,14 +86,12 @@ public class LSPApplication {
                 XLog.d(TAG, "original application class " + originalApplicationName);
                 XLog.d(TAG, "original signature info " + originalSignature);
 
-                if (isApplicationProxied()) {
-                    try {
-                        doHook();
-                        initAndLoadModules(context);
-                    }
-                    catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    doHook();
+                    initAndLoadModules(context);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -214,10 +212,12 @@ public class LSPApplication {
     }
 
     private static void doHook() throws IllegalAccessException, ClassNotFoundException, IOException {
-        hookContextImplSetOuterContext();
-        hookInstallContentProviders();
-        hookActivityAttach();
-        hookServiceAttach();
+        if (isApplicationProxied()) {
+            hookContextImplSetOuterContext();
+            hookInstallContentProviders();
+            hookActivityAttach();
+            hookServiceAttach();
+        }
         if (fetchSigbypassLv() >= Constants.SIGBYPASS_LV_PM) {
             byPassSignature();
         }
@@ -318,18 +318,11 @@ public class LSPApplication {
     }
 
     protected void attachBaseContext(Context base) {
-
-        // 将applicationInfo中保存的applcation class name还原为真实的application class name
         if (isApplicationProxied()) {
             modifyApplicationInfoClassName();
-        }
-
-        if (isApplicationProxied()) {
             attachOrignalBaseContext(base);
             setLoadedApkField(base);
         }
-
-        // setApplicationLoadedApk(base);
     }
 
     private void attachOrignalBaseContext(Context base) {

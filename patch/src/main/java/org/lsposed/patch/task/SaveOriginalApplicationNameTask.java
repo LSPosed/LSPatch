@@ -3,6 +3,7 @@ package org.lsposed.patch.task;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.nio.charset.Charset;
 
 /**
  * Created by xiawanli on 2019/4/6
@@ -25,27 +26,12 @@ public class SaveOriginalApplicationNameTask implements Runnable {
     @Override
     public void run() {
         try {
-            ensureDstFileCreated();
-            FileUtils.write(new File(dstFilePath), applcationName);
+            FileUtils.write(new File(dstFilePath), applcationName, Charset.defaultCharset());
         }
         catch (Exception err) {
             // just crash
             // todo: pass result to caller
             throw new IllegalStateException("wtf", err);
-        }
-    }
-
-    private void ensureDstFileCreated() {
-        File dstParentFile = new File(dstFilePath);
-        if (!dstParentFile.getParentFile().getParentFile().exists()) {
-            if (!dstParentFile.getParentFile().getParentFile().mkdirs()) {
-                throw new IllegalStateException("mkdir fail");
-            }
-        }
-        if (!dstParentFile.getParentFile().exists()) {
-            if (!dstParentFile.getParentFile().mkdirs()) {
-                throw new IllegalStateException("mkdir fail");
-            }
         }
     }
 }

@@ -2,11 +2,14 @@ package org.lsposed.patch.task;
 
 import com.android.apksigner.ApkSignerTool;
 
+import org.apache.commons.io.IOUtils;
 import org.lsposed.patch.LSPatch;
-import org.lsposed.patch.util.FileUtils;
+import org.lsposed.patch.util.ZipUtils;
 import org.lsposed.patch.util.ShellCmdUtil;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -33,7 +36,7 @@ public class BuildAndSignApkTask implements Runnable {
             File unzipApkFile = new File(unzipApkFilePath);
 
             String unsignedApkPath = unzipApkFile.getParent() + File.separator + "unsigned.apk";
-            FileUtils.compressToZip(unzipApkFilePath, unsignedApkPath);
+            ZipUtils.compressToZip(unzipApkFilePath, unsignedApkPath);
 
             String keyStoreFilePath = unzipApkFile.getParent() + File.separator + "keystore";
 
@@ -49,7 +52,10 @@ public class BuildAndSignApkTask implements Runnable {
                 keyStoreAssetPath = "assets/keystore";
             }
 
-            FileUtils.copyFileFromJar(keyStoreAssetPath, keyStoreFilePath);
+            try (InputStream inputStream = getClass().getResourceAsStream(keyStoreAssetPath);
+                 FileOutputStream out = new FileOutputStream(keyStoreFilePath)) {
+                IOUtils.copy(inputStream, out);
+            }
 
             boolean signResult = signApk(unsignedApkPath, keyStoreFilePath, signedApkPath);
 

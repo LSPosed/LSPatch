@@ -8,13 +8,14 @@ import com.wind.meditor.property.AttributeItem;
 import com.wind.meditor.property.ModificationProperty;
 import com.wind.meditor.utils.NodeValue;
 
+import org.apache.commons.io.FileUtils;
 import org.lsposed.lspatch.share.Constants;
 import org.lsposed.patch.base.BaseCommand;
 import org.lsposed.patch.task.BuildAndSignApkTask;
 import org.lsposed.patch.task.SaveApkSignatureTask;
 import org.lsposed.patch.task.SaveOriginalApplicationNameTask;
 import org.lsposed.patch.task.SoAndDexCopyTask;
-import org.lsposed.patch.util.FileUtils;
+import org.lsposed.patch.util.ZipUtils;
 import org.lsposed.patch.util.ManifestParser;
 
 import java.io.File;
@@ -123,7 +124,7 @@ public class LSPatch extends BaseCommand {
         new SaveApkSignatureTask(apkPath, unzipApkFilePath).run();
 
         long currentTime = System.currentTimeMillis();
-        FileUtils.decompressZip(apkPath, unzipApkFilePath);
+        ZipUtils.decompressZip(apkPath, unzipApkFilePath);
 
         System.out.println("decompress apk cost time: " + (System.currentTimeMillis() - currentTime) + "ms");
 
@@ -143,8 +144,7 @@ public class LSPatch extends BaseCommand {
             applicationName = pair.applicationName;
         }
 
-        System.out.println("Get application name cost time: " + (System.currentTimeMillis() - currentTime) + "ms");
-        System.out.println("Get the application name: " + applicationName);
+        System.out.println("original application name: " + applicationName);
 
         // modify manifest
         File manifestFile = new File(manifestFilePath);
@@ -152,7 +152,7 @@ public class LSPatch extends BaseCommand {
         File manifestFileNew = new File(manifestFilePathNew);
         fuckIfFail(manifestFile.renameTo(manifestFileNew));
 
-        modifyManifestFile(manifestFilePathNew, manifestFilePath, applicationName);
+        modifyManifestFile(manifestFilePathNew, manifestFilePath);
 
         // new manifest may not exist
         if (manifestFile.exists() && manifestFile.length() > 0) {
@@ -162,12 +162,10 @@ public class LSPatch extends BaseCommand {
             fuckIfFail(manifestFileNew.renameTo(manifestFile));
         }
 
-        // save original main application name to asset file
-        if (isNotEmpty(applicationName)) {
-            new SaveOriginalApplicationNameTask(applicationName, unzipApkFilePath).run();
-        }
+        // save original main application name to asset file even its empty
+        new SaveOriginalApplicationNameTask(applicationName, unzipApkFilePath).run();
 
-        //  copy xposed so and dex files into the unzipped apk
+        // copy so and dex files into the unzipped apk
         new SoAndDexCopyTask(dexFileCount, unzipApkFilePath).run();
 
         // copy origin apk to assets
@@ -178,14 +176,14 @@ public class LSPatch extends BaseCommand {
 
         File[] listAssets = new File("list-assets").listFiles();
         if (listAssets == null || listAssets.length == 0) {
-            System.out.println("warning: No assets file copyied");
+            System.out.println("Warning: No assets file copyied");
         }
         else {
             copyDirectory(new File("list-assets"), new File(unzipApkFilePath, "assets"));
         }
 
         // save lspatch config to asset..
-        org.apache.commons.io.FileUtils.write(new File(unzipApkFilePath, "assets" + File.separator + Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel), "lspatch",
+        FileUtils.write(new File(unzipApkFilePath, "assets" + File.separator + Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel), "lspatch",
                 Charset.defaultCharset());
 
         //  compress all files into an apk and then sign it.
@@ -194,18 +192,14 @@ public class LSPatch extends BaseCommand {
         System.out.println("Output APK: " + outputPath);
     }
 
-    private void modifyManifestFile(String filePath, String dstFilePath, String originalApplicationName) {
+    private void modifyManifestFile(String filePath, String dstFilePath) {
         ModificationProperty property = new ModificationProperty();
-        boolean modifyEnabled = false;
 
         if (debuggableFlag >= 0) {
-            modifyEnabled = true;
             property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag != 0));
         }
 
         property.addApplicationAttribute(new AttributeItem("extractNativeLibs", true));
-
-        modifyEnabled = true;
         property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, proxyName));
 
         FileProcesser.processManifestFile(filePath, dstFilePath, property);
@@ -235,16 +229,5 @@ public class LSPatch extends BaseCommand {
     private String currentTimeStr() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         return df.format(new Date());
-    }
-
-    private String[] getXposedModules(String modules) {
-        if (modules == null || modules.isEmpty()) {
-            return null;
-        }
-        return modules.split(File.pathSeparator);
-    }
-
-    private static boolean isNotEmpty(String str) {
-        return str != null && !str.isEmpty();
     }
 }

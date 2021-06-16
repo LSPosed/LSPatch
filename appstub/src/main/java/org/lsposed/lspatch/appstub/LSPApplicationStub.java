@@ -23,7 +23,7 @@ public class LSPApplicationStub extends Application {
         // load real lsp loader from asset
         Context context = createAppContext();
         if (context == null) {
-            Log.e(TAG, "create context err");
+            throw new IllegalStateException("create context err");
         }
         else {
             try (InputStream inputStream = context.getAssets().open("lsploader.dex");
@@ -57,13 +57,11 @@ public class LSPApplicationStub extends Application {
     public void onCreate() {
         super.onCreate();
 
-        if (realLSPApplication != null) {
-            try {
-                realLSPApplication.getClass().getDeclaredMethod("onCreate").invoke(realLSPApplication);
-            }
-            catch (Exception e) {
-                throw new IllegalStateException("wtf", e);
-            }
+        try {
+            realLSPApplication.getClass().getDeclaredMethod("onCreate").invoke(realLSPApplication);
+        }
+        catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            throw new IllegalStateException("wtf", e);
         }
     }
 
@@ -71,15 +69,13 @@ public class LSPApplicationStub extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
 
-        if (realLSPApplication != null) {
-            try {
-                Method method = realLSPApplication.getClass().getDeclaredMethod("attachBaseContext", Context.class);
-                method.setAccessible(true);
-                method.invoke(realLSPApplication, base);
-            }
-            catch (Exception e) {
-                throw new IllegalStateException("wtf", e);
-            }
+        try {
+            Method method = realLSPApplication.getClass().getDeclaredMethod("attachBaseContext", Context.class);
+            method.setAccessible(true);
+            method.invoke(realLSPApplication, base);
+        }
+        catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            throw new IllegalStateException("wtf", e);
         }
     }
 
@@ -117,7 +113,7 @@ public class LSPApplicationStub extends Application {
             }
         }
         catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
-            e.printStackTrace();
+            throw new IllegalStateException("wtf", e);
         }
         return null;
     }
