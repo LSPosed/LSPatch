@@ -52,7 +52,7 @@ public class BuildAndSignApkTask implements Runnable {
                 keyStoreAssetPath = "assets/keystore";
             }
 
-            try (InputStream inputStream = getClass().getResourceAsStream(keyStoreAssetPath);
+            try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(keyStoreAssetPath);
                  FileOutputStream out = new FileOutputStream(keyStoreFilePath)) {
                 IOUtils.copy(inputStream, out);
             }
