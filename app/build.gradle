@@ -10,17 +10,30 @@ android {
         versionName rootProject.ext.verName
 
         multiDexEnabled false
+
+        signingConfigs {
+            config {
+                if (project.hasProperty('androidStoreFile') && !androidStoreFile.isEmpty()) {
+                    storeFile = file(androidStoreFile)
+                    storePassword = androidStorePassword
+                    keyAlias = androidKeyAlias
+                    keyPassword = androidKeyPassword
+                }
+            }
+        }
     }
     buildTypes {
         debug {
             debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig = signingConfigs.config.storeFile == null ? signingConfigs.debug : signingConfigs.config
         }
         release {
             debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig = signingConfigs.config.storeFile == null ? signingConfigs.debug : signingConfigs.config
         }
     }
     lintOptions {
