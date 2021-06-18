@@ -5,6 +5,9 @@ import static org.apache.commons.io.FileUtils.copyFile;
 
 import com.android.tools.build.apkzlib.zip.StoredEntry;
 import com.android.tools.build.apkzlib.zip.ZFile;
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.wind.meditor.base.BaseCommand;
 import com.wind.meditor.core.FileProcesser;
 import com.wind.meditor.property.AttributeItem;
 import com.wind.meditor.property.ModificationProperty;
@@ -13,7 +16,6 @@ import com.wind.meditor.utils.NodeValue;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.lsposed.lspatch.share.Constants;
-import org.lsposed.patch.base.BaseCommand;
 import org.lsposed.patch.task.BuildAndSignApkTask;
 import org.lsposed.patch.util.ApkSignatureHelper;
 import org.lsposed.patch.util.ManifestParser;
@@ -32,26 +34,29 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-public class LSPatch extends BaseCommand {
+public class LSPatch {
+
+    @Parameter(description = "apk path")
     private String apkPath;
 
     private String unzipApkFilePath;
 
-    @Opt(opt = "o", longOpt = "output", description = "Output .apk file, default is " +
-            "$source_apk_dir/[file-name]-xposed-signed.apk", argName = "file")
+    @Parameter(names = "--help", help = true, order = 0)
+    private boolean help = false;
+
+    @Parameter(names = {"-o", "--output"}, description = "Output apk file")
     private String outputPath;
 
-    @Opt(opt = "f", longOpt = "force", hasArg = false, description = "Force overwrite exists output file")
+    @Parameter(names = {"-f", "--force"}, description = "Force overwrite exists output file")
     private boolean forceOverwrite = false;
 
-    @Opt(opt = "p", longOpt = "proxyname", description = "Special proxy app name with full dot path", argName = "name")
+    @Parameter(names = {"-p", "--proxyname"}, description = "Special proxy app name with full dot path")
     private String proxyName = "org.lsposed.lspatch.appstub.LSPApplicationStub";
 
-    @Opt(opt = "d", longOpt = "debuggable", description = "Set 1 to make the app debuggable = true, " +
-            "set 0 to make the app debuggable = false", argName = "0 or 1")
-    private int debuggableFlag = -1;  // 0: debuggable = false   1: debuggable = true
+    @Parameter(names = {"-d", "--debuggable"}, description = "Set 1 to make the app debuggable = true, set 0 to make the app debuggable = false")
+    private boolean debuggableFlag = false;
 
-    @Opt(opt = "l", longOpt = "sigbypasslv", description = "Signature bypass level. 0 (disable), 1 (pm), 2 (pm+openat). default 0", argName = "0-2")
+    @Parameter(names = {"-l", "--sigbypasslv"}, description = "Signature bypass level. 0 (disable), 1 (pm), 2 (pm+openat). default 0")
     private int sigbypassLevel = 0;
 
     private int dexFileCount = 0;
@@ -67,59 +72,48 @@ public class LSPatch extends BaseCommand {
             "lib/x86_64"
     };
 
-    public static void main(String... args) {
-        new LSPatch().doMain(args);
+    private static JCommander jCommander;
+
+    public static void main(String... args) throws IOException {
+        LSPatch lsPatch = new LSPatch();
+        jCommander = JCommander.newBuilder()
+                .addObject(lsPatch)
+                .build();
+        jCommander.parse(args);
+        lsPatch.doCommandLine();
     }
 
-    static public void fuckIfFail(boolean b) {
-        if (!b) {
-            throw new IllegalStateException("wtf", new Throwable("DUMPBT"));
-        }
-    }
-
-    @Override
-    protected void doCommandLine() throws IOException {
-        if (remainingArgs.length != 1) {
-            System.out.println();
-            if (remainingArgs.length == 0) {
-                System.out.println("Please choose one apk file you want to process. ");
-            }
-            if (remainingArgs.length > 1) {
-                System.out.println("This tool can only used with one apk file.");
-            }
-            usage();
+    public void doCommandLine() throws IOException {
+        if (apkPath == null || apkPath.isEmpty()) {
+            jCommander.usage();
             return;
         }
-
-        apkPath = remainingArgs[0];
 
         File srcApkFile = new File(apkPath);
 
         if (!srcApkFile.exists()) {
-            System.out.println("The source apk file not exsit, please choose another one.  " +
-                    "current apk file is = " + apkPath);
+            System.out.println("The source apk file not exsit, please choose another one.");
             return;
         }
 
-        File finalApk = new File(String.format("%s-%s-unsigned.apk", getBaseName(srcApkFile.getAbsolutePath()),
+        File finalApk = new File(String.format("%s-%s-unsigned.apk", srcApkFile.getName(),
                 Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel));
         FileUtils.copyFile(srcApkFile, finalApk);
 
-        ZFile zFile = new ZFile(finalApk);
+        ZFile zFile = ZFile.openReadWrite(finalApk);
 
         String currentDir = new File(".").getAbsolutePath();
-        System.out.println("currentDir: " + currentDir);
-        System.out.println("apkPath: " + apkPath);
+        System.out.println("work dir: " + currentDir);
+        System.out.println("apk path: " + apkPath);
 
         if (outputPath == null || outputPath.length() == 0) {
             String sig = Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel;
-            outputPath = String.format("%s-%s-xposed-signed.apk", getBaseName(apkPath), sig);
+            outputPath = String.format("%s-%s-xposed-signed.apk", new File(apkPath).getName(), sig);
         }
 
         File outputFile = new File(outputPath);
         if (outputFile.exists() && !forceOverwrite) {
             System.err.println(outputPath + " exists, use --force to overwrite");
-            usage();
             return;
         }
 
@@ -130,7 +124,7 @@ public class LSPatch extends BaseCommand {
             outputApkFileParentPath = absPath.substring(0, index);
         }
 
-        String apkFileName = getBaseName(srcApkFile);
+        String apkFileName = srcApkFile.getName();
 
         String tempFilePath = outputApkFileParentPath + File.separator +
                 currentTimeStr() + "-tmp" + File.separator;
@@ -252,10 +246,7 @@ public class LSPatch extends BaseCommand {
     private void modifyManifestFile(String filePath, String dstFilePath) {
         ModificationProperty property = new ModificationProperty();
 
-        if (debuggableFlag >= 0) {
-            property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag != 0));
-        }
-
+        property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag));
         property.addApplicationAttribute(new AttributeItem("extractNativeLibs", true));
         property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, proxyName));
 

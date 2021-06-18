@@ -15,6 +15,7 @@ dependencies {
     implementation project(':share')
     implementation 'commons-io:commons-io:2.10.0'
     implementation 'com.android.tools.build:apkzlib:4.2.1'
+    implementation 'com.beust:jcommander:1.81'
 }
 
 sourceSets.main.java.srcDirs += "$rootProject.projectDir/apksigner/src/apksigner/java"

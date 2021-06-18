@@ -50,7 +50,9 @@ public class BuildAndSignApkTask implements Runnable {
 
             // delete unsigned apk file
             if (!keepUnsignedApkFile && unsignedApkFile.exists() && signedApkFile.exists() && signResult) {
-                LSPatch.fuckIfFail(unsignedApkFile.delete());
+                if (!unsignedApkFile.delete()) {
+                    throw new IllegalStateException("wtf");
+                }
             }
         }
         catch (Exception err) {
