@@ -6,8 +6,6 @@ import com.android.tools.build.apkzlib.zip.ZFile;
 
 import org.apache.commons.io.IOUtils;
 import org.lsposed.patch.LSPatch;
-import org.lsposed.patch.util.ZipUtils;
-import org.lsposed.patch.util.ShellCmdUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,12 +36,7 @@ public class BuildAndSignApkTask implements Runnable {
             File unzipApkPathFile = new File(unzipApkFilePath);
             File keyStoreFile = new File(unzipApkPathFile, "keystore");
             String keyStoreAssetPath;
-            if (isAndroid()) {
-                keyStoreAssetPath = "assets/android.keystore";
-            }
-            else {
-                keyStoreAssetPath = "assets/keystore";
-            }
+            keyStoreAssetPath = "assets/keystore";
 
             try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(keyStoreAssetPath);
                  FileOutputStream out = new FileOutputStream(keyStoreFile)) {
@@ -66,57 +59,9 @@ public class BuildAndSignApkTask implements Runnable {
     }
 
     private boolean signApk(String apkPath, String keyStorePath, String signedApkPath) {
-        if (signApkUsingAndroidApksigner(apkPath, keyStorePath, signedApkPath, "123456")) {
-            return true;
-        }
-        if (isAndroid()) {
-            System.out.println(" Sign apk failed, please sign it yourself.");
-            return false;
-        }
-        try {
-            long time = System.currentTimeMillis();
-            File keystoreFile = new File(keyStorePath);
-            if (keystoreFile.exists()) {
-                StringBuilder signCmd;
-                signCmd = new StringBuilder("jarsigner ");
-                signCmd.append(" -keystore ")
-                        .append(keyStorePath)
-                        .append(" -storepass ")
-                        .append("123456")
-                        .append(" -signedjar ")
-                        .append(" " + signedApkPath + " ")
-                        .append(" " + apkPath + " ")
-                        .append(" -digestalg SHA1 -sigalg SHA1withRSA ")
-                        .append(" key0 ");
-                System.out.println("\n" + signCmd + "\n");
-                String result = ShellCmdUtil.execCmd(signCmd.toString(), null);
-                System.out.println(" sign apk time is :" + ((System.currentTimeMillis() - time) / 1000) +
-                        "s\n\n" + "  result=" + result);
-                return true;
-            }
-            System.out.println(" keystore not exist :" + keystoreFile.getAbsolutePath() +
-                    " please sign the apk by hand. \n");
-            return false;
-        }
-        catch (Throwable e) {
-            System.out.println("use default jarsigner to sign apk failed, fail msg is :" +
-                    e.toString());
-            return false;
-        }
+        return signApkUsingAndroidApksigner(apkPath, keyStorePath, signedApkPath, "123456");
     }
 
-    private boolean isAndroid() {
-        boolean isAndroid = true;
-        try {
-            Class.forName("android.content.Context");
-        }
-        catch (ClassNotFoundException e) {
-            isAndroid = false;
-        }
-        return isAndroid;
-    }
-
-    // 使用Android build-tools里自带的apksigner工具进行签名
     private boolean signApkUsingAndroidApksigner(String apkPath, String keyStorePath, String signedApkPath, String keyStorePassword) {
         ArrayList<String> commandList = new ArrayList<>();
 
@@ -139,12 +84,8 @@ public class BuildAndSignApkTask implements Runnable {
         commandList.add("false");
         commandList.add(apkPath);
 
-        int size = commandList.size();
-        String[] commandArray = new String[size];
-        commandArray = commandList.toArray(commandArray);
-
         try {
-            ApkSignerTool.main(commandArray);
+            ApkSignerTool.main(commandList.toArray(new String[0]));
         }
         catch (Exception e) {
             e.printStackTrace();

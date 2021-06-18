@@ -16,7 +16,6 @@ import org.lsposed.lspatch.share.Constants;
 import org.lsposed.patch.base.BaseCommand;
 import org.lsposed.patch.task.BuildAndSignApkTask;
 import org.lsposed.patch.util.ApkSignatureHelper;
-import org.lsposed.patch.util.ZipUtils;
 import org.lsposed.patch.util.ManifestParser;
 
 import java.io.File;
