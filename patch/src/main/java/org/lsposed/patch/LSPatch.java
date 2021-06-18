@@ -3,26 +3,34 @@ package org.lsposed.patch;
 import static org.apache.commons.io.FileUtils.copyDirectory;
 import static org.apache.commons.io.FileUtils.copyFile;
 
+import com.android.tools.build.apkzlib.zip.StoredEntry;
+import com.android.tools.build.apkzlib.zip.ZFile;
 import com.wind.meditor.core.FileProcesser;
 import com.wind.meditor.property.AttributeItem;
 import com.wind.meditor.property.ModificationProperty;
 import com.wind.meditor.utils.NodeValue;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.lsposed.lspatch.share.Constants;
 import org.lsposed.patch.base.BaseCommand;
 import org.lsposed.patch.task.BuildAndSignApkTask;
-import org.lsposed.patch.task.SaveApkSignatureTask;
-import org.lsposed.patch.task.SaveOriginalApplicationNameTask;
-import org.lsposed.patch.task.SoAndDexCopyTask;
+import org.lsposed.patch.util.ApkSignatureHelper;
 import org.lsposed.patch.util.ZipUtils;
 import org.lsposed.patch.util.ManifestParser;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class LSPatch extends BaseCommand {
@@ -50,6 +58,15 @@ public class LSPatch extends BaseCommand {
     private int dexFileCount = 0;
 
     private static final String UNZIP_APK_FILE_NAME = "apk-unzip-files";
+    private static final String APPLICATION_NAME_ASSET_PATH = "assets/original_application_name.ini";
+    private final static String SIGNATURE_INFO_ASSET_PATH = "assets/original_signature_info.ini";
+    private static final String[] APK_LIB_PATH_ARRAY = {
+            "lib/armeabi-v7a",
+            "lib/armeabi",
+            "lib/arm64-v8a",
+            "lib/x86",
+            "lib/x86_64"
+    };
 
     public static void main(String... args) {
         new LSPatch().doMain(args);
@@ -85,12 +102,18 @@ public class LSPatch extends BaseCommand {
             return;
         }
 
+        File finalApk = new File(String.format("%s-%s-unsigned.apk", getBaseName(srcApkFile.getAbsolutePath()),
+                Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel));
+        FileUtils.copyFile(srcApkFile, finalApk);
+
+        ZFile zFile = new ZFile(finalApk);
+
         String currentDir = new File(".").getAbsolutePath();
         System.out.println("currentDir: " + currentDir);
         System.out.println("apkPath: " + apkPath);
 
         if (outputPath == null || outputPath.length() == 0) {
-            String sig = "sigbypasslv" + sigbypassLevel;
+            String sig = Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel;
             outputPath = String.format("%s-%s-xposed-signed.apk", getBaseName(apkPath), sig);
         }
 
@@ -108,8 +131,6 @@ public class LSPatch extends BaseCommand {
             outputApkFileParentPath = absPath.substring(0, index);
         }
 
-        System.out.println("output apk path: " + outputPath);
-
         String apkFileName = getBaseName(srcApkFile);
 
         String tempFilePath = outputApkFileParentPath + File.separator +
@@ -117,25 +138,26 @@ public class LSPatch extends BaseCommand {
 
         unzipApkFilePath = tempFilePath + apkFileName + "-" + UNZIP_APK_FILE_NAME + File.separator;
 
-        System.out.println("outputApkFileParentPath: " + outputApkFileParentPath);
-        System.out.println("unzipApkFilePath = " + unzipApkFilePath);
-
         // save the apk original signature info, to support crach signature.
-        new SaveApkSignatureTask(apkPath, unzipApkFilePath).run();
+        String originalSignature = ApkSignatureHelper.getApkSignInfo(apkPath);
+        if (originalSignature == null || originalSignature.isEmpty()) {
+            throw new IllegalStateException("get original signature failed");
+        }
+        File osi = new File((unzipApkFilePath + SIGNATURE_INFO_ASSET_PATH).replace("/", File.separator));
+        FileUtils.write(osi, originalSignature, Charset.defaultCharset());
+        zFile.add(SIGNATURE_INFO_ASSET_PATH, new FileInputStream(osi));
 
-        long currentTime = System.currentTimeMillis();
-        ZipUtils.decompressZip(apkPath, unzipApkFilePath);
-
-        System.out.println("decompress apk cost time: " + (System.currentTimeMillis() - currentTime) + "ms");
-
-        // Get the dex count in the apk zip file
-        dexFileCount = findDexFileCount(unzipApkFilePath);
+        // get the dex count in the apk zip file
+        dexFileCount = findDexFileCount(zFile);
 
         System.out.println("dexFileCount: " + dexFileCount);
 
-        String manifestFilePath = unzipApkFilePath + "AndroidManifest.xml";
-
-        currentTime = System.currentTimeMillis();
+        // copy out manifest file from zlib
+        int copySize = IOUtils.copy(zFile.get("AndroidManifest.xml").open(), new FileOutputStream(unzipApkFilePath + "AndroidManifest.xml.bak"));
+        if (copySize <= 0) {
+            throw new IllegalStateException("wtf");
+        }
+        String manifestFilePath = unzipApkFilePath + "AndroidManifest.xml.bak";
 
         // parse the app main application full name from the manifest file
         ManifestParser.Pair pair = ManifestParser.parseManifestFile(manifestFilePath);
@@ -147,31 +169,60 @@ public class LSPatch extends BaseCommand {
         System.out.println("original application name: " + applicationName);
 
         // modify manifest
-        File manifestFile = new File(manifestFilePath);
-        String manifestFilePathNew = unzipApkFilePath + "AndroidManifest" + "-" + currentTimeStr() + ".xml";
-        File manifestFileNew = new File(manifestFilePathNew);
-        fuckIfFail(manifestFile.renameTo(manifestFileNew));
-
-        modifyManifestFile(manifestFilePathNew, manifestFilePath);
-
-        // new manifest may not exist
-        if (manifestFile.exists() && manifestFile.length() > 0) {
-            fuckIfFail(manifestFileNew.delete());
-        }
-        else {
-            fuckIfFail(manifestFileNew.renameTo(manifestFile));
-        }
+        modifyManifestFile(manifestFilePath, new File(unzipApkFilePath, "AndroidManifest.xml").getPath());
 
         // save original main application name to asset file even its empty
-        new SaveOriginalApplicationNameTask(applicationName, unzipApkFilePath).run();
+        File oan = new File((unzipApkFilePath + APPLICATION_NAME_ASSET_PATH).replace("/", File.separator));
+        FileUtils.write(oan, applicationName, Charset.defaultCharset());
+        zFile.add(APPLICATION_NAME_ASSET_PATH, new FileInputStream(oan));
 
         // copy so and dex files into the unzipped apk
-        new SoAndDexCopyTask(dexFileCount, unzipApkFilePath).run();
+        Set<String> apkArchs = new HashSet<>();
+
+        System.out.println("search target apk library arch..");
+        for (StoredEntry storedEntry : zFile.entries()) {
+            for (String arch : APK_LIB_PATH_ARRAY) {
+                if (storedEntry.getCentralDirectoryHeader().getName().startsWith(arch)) {
+                    apkArchs.add(arch);
+                }
+            }
+        }
+
+        if (apkArchs.isEmpty()) {
+            apkArchs.add(APK_LIB_PATH_ARRAY[0]);
+        }
+
+        for (String arch : apkArchs) {
+            // lib/armeabi-v7a -> armeabi-v7a
+            String justArch = arch.substring(arch.indexOf('/'));
+            File sod = new File("list-so", justArch);
+            File[] files = sod.listFiles();
+            if (files == null) {
+                System.out.println("Warning: Nothing so file has been copied in " + sod.getPath());
+                continue;
+            }
+            for (File file : files) {
+                zFile.add(arch + "/" + file.getName(), new FileInputStream(file));
+                System.out.println("add " + file.getPath());
+            }
+        }
+
+        // copy all dex files in list-dex
+        File[] files = new File("list-dex").listFiles();
+        if (files == null || files.length == 0) {
+            System.out.println("Warning: Nothing dex file has been copied");
+            return;
+        }
+        for (File file : files) {
+            String copiedDexFileName = "classes" + (dexFileCount + 1) + ".dex";
+            zFile.add(copiedDexFileName, new FileInputStream(file));
+            dexFileCount++;
+        }
 
         // copy origin apk to assets
         // convenient to bypass some check like CRC
-        if (sigbypassLevel >= Constants.SIGBYPASS_LV_PM) {
-            copyFile(srcApkFile, new File(unzipApkFilePath, "assets/origin_apk.bin"));
+        if (sigbypassLevel >= Constants.SIGBYPASS_LV_PM_OPENAT) {
+            zFile.add("assets/origin_apk.bin", new FileInputStream(srcApkFile));
         }
 
         File[] listAssets = new File("list-assets").listFiles();
@@ -179,16 +230,23 @@ public class LSPatch extends BaseCommand {
             System.out.println("Warning: No assets file copyied");
         }
         else {
-            copyDirectory(new File("list-assets"), new File(unzipApkFilePath, "assets"));
+            for (File f : listAssets) {
+                if (f.isDirectory()) {
+                    throw new IllegalStateException("unsupport directory in assets");
+                }
+                zFile.add("assets/" + f.getName(), new FileInputStream(f));
+            }
         }
 
         // save lspatch config to asset..
-        FileUtils.write(new File(unzipApkFilePath, "assets" + File.separator + Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel), "lspatch",
-                Charset.defaultCharset());
+        File sl = new File(unzipApkFilePath, "tmp");
+        FileUtils.write(sl, "42", Charset.defaultCharset());
+        zFile.add("assets/" + Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel, new FileInputStream(sl));
 
-        //  compress all files into an apk and then sign it.
-        new BuildAndSignApkTask(true, unzipApkFilePath, outputPath).run();
+        zFile.update();
+        zFile.close();
 
+        new BuildAndSignApkTask(true, unzipApkFilePath, finalApk.getAbsolutePath(), outputPath).run();
         System.out.println("Output APK: " + outputPath);
     }
 
@@ -205,23 +263,12 @@ public class LSPatch extends BaseCommand {
         FileProcesser.processManifestFile(filePath, dstFilePath, property);
     }
 
-    private int findDexFileCount(String unzipApkFilePath) {
-        File zipfileRoot = new File(unzipApkFilePath);
-        if (!zipfileRoot.exists()) {
-            return 0;
+    private int findDexFileCount(ZFile zFile) {
+        for (int i = 2; i < 30; i++) {
+            if (zFile.get("classes" + i + ".dex") == null)
+                return i - 1;
         }
-        File[] childFiles = zipfileRoot.listFiles();
-        if (childFiles == null || childFiles.length == 0) {
-            return 0;
-        }
-        int count = 0;
-        for (File file : childFiles) {
-            String fileName = file.getName();
-            if (Pattern.matches("classes.*\\.dex", fileName)) {
-                count++;
-            }
-        }
-        return count;
+        throw new IllegalStateException("wtf");
     }
 
     // Use the current timestamp as the name of the build file

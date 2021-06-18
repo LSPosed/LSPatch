@@ -2,6 +2,8 @@ package org.lsposed.patch.task;
 
 import com.android.apksigner.ApkSignerTool;
 
+import com.android.tools.build.apkzlib.zip.ZFile;
+
 import org.apache.commons.io.IOUtils;
 import org.lsposed.patch.LSPatch;
 import org.lsposed.patch.util.ZipUtils;
@@ -17,14 +19,14 @@ import java.util.ArrayList;
  */
 public class BuildAndSignApkTask implements Runnable {
 
-    private boolean keepUnsignedApkFile;
+    private final boolean keepUnsignedApkFile;
+    private final String signedApkPath;
+    private final String unzipApkFilePath;
+    private final String unsignedApkPath;
 
-    private String signedApkPath;
-
-    private String unzipApkFilePath;
-
-    public BuildAndSignApkTask(boolean keepUnsignedApkFile, String unzipApkFilePath, String signedApkPath) {
+    public BuildAndSignApkTask(boolean keepUnsignedApkFile, String unzipApkFilePath, String unsignedApkPath, String signedApkPath) {
         this.keepUnsignedApkFile = keepUnsignedApkFile;
+        this.unsignedApkPath = unsignedApkPath;
         this.unzipApkFilePath = unzipApkFilePath;
         this.signedApkPath = signedApkPath;
     }
@@ -33,42 +35,29 @@ public class BuildAndSignApkTask implements Runnable {
     public void run() {
 
         try {
-            File unzipApkFile = new File(unzipApkFilePath);
-
-            String unsignedApkPath = unzipApkFile.getParent() + File.separator + "unsigned.apk";
-            ZipUtils.compressToZip(unzipApkFilePath, unsignedApkPath);
-
-            String keyStoreFilePath = unzipApkFile.getParent() + File.separator + "keystore";
-
-            File keyStoreFile = new File(keyStoreFilePath);
-            // assets/keystore分隔符不能使用File.separator，否则在windows上抛出IOException !!!
+            File unzipApkPathFile = new File(unzipApkFilePath);
+            File keyStoreFile = new File(unzipApkPathFile, "keystore");
             String keyStoreAssetPath;
             if (isAndroid()) {
-                // BKS-V1 类型
                 keyStoreAssetPath = "assets/android.keystore";
             }
             else {
-                // BKS 类型
                 keyStoreAssetPath = "assets/keystore";
             }
 
             try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(keyStoreAssetPath);
-                 FileOutputStream out = new FileOutputStream(keyStoreFilePath)) {
+                 FileOutputStream out = new FileOutputStream(keyStoreFile)) {
                 IOUtils.copy(inputStream, out);
             }
 
-            boolean signResult = signApk(unsignedApkPath, keyStoreFilePath, signedApkPath);
+            boolean signResult = signApk(unsignedApkPath, keyStoreFile.getAbsolutePath(), signedApkPath);
 
             File unsignedApkFile = new File(unsignedApkPath);
             File signedApkFile = new File(signedApkPath);
+
             // delete unsigned apk file
             if (!keepUnsignedApkFile && unsignedApkFile.exists() && signedApkFile.exists() && signResult) {
                 LSPatch.fuckIfFail(unsignedApkFile.delete());
-            }
-
-            // delete the keystore file
-            if (keyStoreFile.exists()) {
-                LSPatch.fuckIfFail(keyStoreFile.delete());
             }
         }
         catch (Exception err) {
