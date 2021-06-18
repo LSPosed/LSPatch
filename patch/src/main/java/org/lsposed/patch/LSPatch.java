@@ -53,7 +53,7 @@ public class LSPatch {
     @Parameter(names = {"-p", "--proxyname"}, description = "Special proxy app name with full dot path")
     private String proxyName = "org.lsposed.lspatch.appstub.LSPApplicationStub";
 
-    @Parameter(names = {"-d", "--debuggable"}, description = "Set 1 to make the app debuggable = true, set 0 to make the app debuggable = false")
+    @Parameter(names = {"-d", "--debuggable"}, description = "Set true to make the app debuggable, otherwise set 0 (default) to make the app non-debuggable")
     private boolean debuggableFlag = false;
 
     @Parameter(names = {"-l", "--sigbypasslv"}, description = "Signature bypass level. 0 (disable), 1 (pm), 2 (pm+openat). default 0")
