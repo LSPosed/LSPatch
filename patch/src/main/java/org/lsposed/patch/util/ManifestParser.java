@@ -3,6 +3,7 @@ package org.lsposed.patch.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import wind.android.content.res.AXmlResourceParser;
 import wind.v1.XmlPullParser;
@@ -13,23 +14,12 @@ import wind.v1.XmlPullParserException;
  */
 public class ManifestParser {
 
-    /**
-     * Get the package name and the main application name from the manifest file
-     * */
-    public static Pair parseManifestFile(String filePath) {
+    public static Pair parseManifestFile(InputStream is) throws IOException {
         AXmlResourceParser parser = new AXmlResourceParser();
-        File file = new File(filePath);
         String packageName = null;
         String applicationName = null;
-        if (!file.exists()) {
-            System.out.println(" manifest file not exist!!! filePath -> " + filePath);
-            return null;
-        }
-        FileInputStream inputStream = null;
         try {
-            inputStream = new FileInputStream(file);
-
-            parser.open(inputStream);
+            parser.open(is);
 
             while (true) {
                 int type = parser.next();
@@ -64,18 +54,19 @@ public class ManifestParser {
                 }
             }
         } catch (XmlPullParserException | IOException e) {
-            e.printStackTrace();
-            System.out.println("parseManifestFile failed, reason --> " + e.getMessage());
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            return null;
         }
         return new Pair(packageName, applicationName);
+    }
+
+    /**
+     * Get the package name and the main application name from the manifest file
+     */
+    public static Pair parseManifestFile(String filePath) throws IOException {
+        File file = new File(filePath);
+        try (var is = new FileInputStream(file)) {
+            return parseManifestFile(is);
+        }
     }
 
     public static class Pair {

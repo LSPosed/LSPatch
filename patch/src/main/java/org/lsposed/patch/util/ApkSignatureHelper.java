@@ -72,7 +72,6 @@ public class ApkSignatureHelper {
                 }
             }
             jarFile.close();
-            System.out.println("getApkSignInfo result: " + certs[0]);
             return new String(toChars(certs[0].getEncoded()));
         } catch (Exception e) {
             e.printStackTrace();
