@@ -35,7 +35,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: lspatch-debug
-        path: out/
+        path: out/lspatch.jar
         
     - name: Build Release
       run: ./gradlew buildRelease
@@ -43,4 +43,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: lspatch-release
-        path: out/
+        path: out/lspatch.jar

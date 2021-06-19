@@ -26,7 +26,7 @@ public class LSPApplicationStub extends Application {
             throw new IllegalStateException("create context err");
         }
         else {
-            try (InputStream inputStream = context.getAssets().open("lsploader.dex");
+            try (InputStream inputStream = context.getAssets().open("lsp.dex");
                  ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
 
                 int nRead;

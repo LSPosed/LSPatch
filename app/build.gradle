@@ -51,14 +51,14 @@ android {
             dependsOn("assemble$buildType")
             def dexFilePath = "$buildDir/intermediates/dex/${variantLowered}/mergeDex${buildType}/classes.dex"
             from dexFilePath
-            rename "(.*).dex", "lsploader.dex"
-            into "$rootProject.projectDir/out/list-assets"
+            rename "classes.dex", "lsp.dex"
+            into "$rootProject.projectDir/out/dexes"
         }
 
         task "copySo$buildType"(type: Copy) {
             dependsOn("assemble$buildType")
             from "$buildDir/intermediates/merged_native_libs/${variantLowered}/out/lib"
-            into "$rootProject.projectDir/out/list-so"
+            into "$rootProject.projectDir/out/so"
         }
 
         task "copy$buildType"() {

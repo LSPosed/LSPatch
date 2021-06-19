@@ -34,6 +34,13 @@ jar {
     }
 
     from fileTree(dir: 'src/main', includes: ['assets/**'])
+    into("assets/dex") {
+        from fileTree(dir: "$rootProject.projectDir/out/dexes")
+    }
+
+    into("assets/so") {
+        from fileTree(dir: "$rootProject.projectDir/out/so")
+    }
 
     exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF', 'META-INF/*.txt'
 }

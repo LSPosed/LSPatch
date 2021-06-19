@@ -26,7 +26,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,8 +46,8 @@ public class LSPatch {
     @Parameter(names = {"-h", "--help"}, help = true, order = 0, description = "Print this message")
     private boolean help = false;
 
-    @Parameter(names = {"-o", "--output"}, description = "Output apk file")
-    private String outputPath;
+    @Parameter(names = {"-o", "--output"}, description = "Output directory")
+    private String outputPath = ".";
 
     @Parameter(names = {"-f", "--force"}, description = "Force overwrite exists output file")
     private boolean forceOverwrite = false;
@@ -77,13 +79,13 @@ public class LSPatch {
     private static final String SIGNATURE_INFO_ASSET_PATH = "assets/original_signature_info.ini";
     private static final String ORIGIN_APK_ASSET_PATH = "assets/origin_apk.bin";
     private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
-    private static final String[] APK_LIB_PATH_ARRAY = {
-            "lib/armeabi-v7a",
-            "lib/armeabi",
-            "lib/arm64-v8a",
-            "lib/x86",
-            "lib/x86_64"
-    };
+    private static final HashSet<String> APK_LIB_PATH_ARRAY = new HashSet<>(Arrays.asList(
+//            "armeabi",
+            "armeabi-v7a",
+            "arm64-v8a",
+            "x86",
+            "x86_64"
+    ));
 
     private static JCommander jCommander;
 
@@ -109,14 +111,25 @@ public class LSPatch {
             jCommander.usage();
             return;
         }
+
         for (var apk : apkPaths) {
             File srcApkFile = new File(apk).getAbsoluteFile();
-            System.out.println("Processing " + srcApkFile);
-            patch(srcApkFile);
+
+            String apkFileName = srcApkFile.getName();
+
+            var outputDir = new File(outputPath);
+            outputDir.mkdirs();
+
+            File outputFile = new File(outputDir, String.format("%s-lv%s-xposed-signed.apk", FilenameUtils.getBaseName(apkFileName), sigbypassLevel)).getAbsoluteFile();
+
+            if (outputFile.exists() && !forceOverwrite)
+                throw new PatchError(outputPath + " exists. Use --force to overwrite");
+            System.out.println("Processing " + srcApkFile + " -> " + outputFile);
+            patch(srcApkFile, outputFile);
         }
     }
 
-    public void patch(File srcApkFile) throws PatchError, IOException {
+    public void patch(File srcApkFile, File outputFile) throws PatchError, IOException {
         if (!srcApkFile.exists())
             throw new PatchError("The source apk file does not exit. Please provide a correct path.");
 
@@ -128,16 +141,6 @@ public class LSPatch {
                 System.out.println("work dir: " + workingDir);
                 System.out.println("apk path: " + srcApkFile);
             }
-
-            String apkFileName = srcApkFile.getName();
-
-            if (outputPath == null || outputPath.length() == 0) {
-                outputPath = String.format("%s-lv%s-xposed-signed.apk", FilenameUtils.getBaseName(apkFileName), sigbypassLevel);
-            }
-
-            File outputFile = new File(outputPath);
-            if (outputFile.exists() && !forceOverwrite)
-                throw new PatchError(outputPath + " exists. Use --force to overwrite");
 
             System.out.println("Copying to tmp apk...");
 
@@ -155,7 +158,7 @@ public class LSPatch {
                 System.out.println("Original signature\n" + originalSignature);
             try (var is = new ByteArrayInputStream(originalSignature.getBytes(StandardCharsets.UTF_8))) {
                 zFile.add(SIGNATURE_INFO_ASSET_PATH, is);
-            } catch (IOException e) {
+            } catch (Throwable e) {
                 throw new PatchError("Error when saving signature: " + e);
             }
 
@@ -183,14 +186,14 @@ public class LSPatch {
             // modify manifest
             try (var is = new ByteArrayInputStream(modifyManifestFile(manifestEntry.open()))) {
                 zFile.add(APPLICATION_NAME_ASSET_PATH, is);
-            } catch (IOException e) {
+            } catch (Throwable e) {
                 throw new PatchError("Error when modifying manifest: " + e);
             }
 
             // save original main application name to asset file even its empty
             try (var is = new ByteArrayInputStream(applicationName.getBytes(StandardCharsets.UTF_8))) {
                 zFile.add(APPLICATION_NAME_ASSET_PATH, is);
-            } catch (IOException e) {
+            } catch (Throwable e) {
                 throw new PatchError("Error when saving signature: " + e);
             }
 
@@ -198,45 +201,50 @@ public class LSPatch {
             Set<String> apkArchs = new HashSet<>();
 
             if (verbose)
-                System.out.println("search target apk library arch..");
+                System.out.println("Search target apk library arch..");
             for (StoredEntry storedEntry : zFile.entries()) {
-                for (String arch : APK_LIB_PATH_ARRAY) {
-                    if (storedEntry.getCentralDirectoryHeader().getName().startsWith(arch)) {
-                        apkArchs.add(arch);
-                    }
+                var name = storedEntry.getCentralDirectoryHeader().getName();
+                if (name.startsWith("lib/")) {
+                    var arch = name.substring(4, name.indexOf('/', 5));
+                    apkArchs.add(arch);
                 }
             }
 
             if (apkArchs.isEmpty()) {
-                apkArchs.add(APK_LIB_PATH_ARRAY[0]);
+                apkArchs.addAll(APK_LIB_PATH_ARRAY);
             }
+
+            apkArchs.removeIf((arch) -> {
+                if (!APK_LIB_PATH_ARRAY.contains(arch)) {
+                    System.err.println("Warning: unsupported arch " + arch + ". Skipping...");
+                    return true;
+                }
+                return false;
+            });
+            if (verbose)
+                System.out.println("Adding native lib..");
 
             for (String arch : apkArchs) {
                 // lib/armeabi-v7a -> armeabi-v7a
-                String justArch = arch.substring(arch.indexOf('/'));
-                File sod = new File("list-so", justArch);
-                File[] files = sod.listFiles();
-                if (files == null) {
-                    System.err.println("Warning: No so file has been copied in " + sod.getPath());
-                    continue;
+                String entryName = "lib/" + arch + "/liblspd.so";
+                try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + arch + "/liblspd.so")) {
+                    zFile.add(entryName, is);
+                } catch (Throwable e) {
+                    throw new PatchError("Error when adding native lib: " + e);
                 }
-                for (File file : files) {
-                    zFile.add(arch + "/" + file.getName(), new FileInputStream(file));
-                    if (verbose)
-                        System.out.println("add " + file.getPath());
-                }
+                if (verbose)
+                    System.out.println("added " + entryName);
             }
 
-            // copy all dex files in list-dex
-            File[] files = new File("list-dex").listFiles();
-            if (files == null || files.length == 0) {
-                System.err.println("Warning: No dex file has been copied");
-                return;
-            }
-            for (File file : files) {
+            if (verbose)
+                System.out.println("Adding dex..");
+
+            try (var is = getClass().getClassLoader().getResourceAsStream("assets/dex/loader.dex")) {
                 String copiedDexFileName = "classes" + (dexFileCount + 1) + ".dex";
-                zFile.add(copiedDexFileName, new FileInputStream(file));
+                zFile.add(copiedDexFileName, is);
                 dexFileCount++;
+            } catch (Throwable e) {
+                throw new PatchError("Error when add dex: " + e);
             }
 
             // copy origin apk to assets
@@ -245,22 +253,16 @@ public class LSPatch {
                 zFile.add(ORIGIN_APK_ASSET_PATH, new FileInputStream(srcApkFile));
             }
 
-            File[] listAssets = new File("list-assets").listFiles();
-            if (listAssets == null || listAssets.length == 0) {
-                System.err.println("Warning: No assets file copyied");
-            } else {
-                for (File f : listAssets) {
-                    if (f.isDirectory()) {
-                        throw new PatchError("unsupported directory in assets");
-                    }
-                    zFile.add("assets/" + f.getName(), new FileInputStream(f));
-                }
+            try (var is = getClass().getClassLoader().getResourceAsStream("assets/dex/lsp.dex")) {
+                zFile.add("assets/lsp.dex", is);
+            } catch (Throwable e) {
+                throw new PatchError("Error when add assets: " + e);
             }
 
             // save lspatch config to asset..
             try (var is = new ByteArrayInputStream("42".getBytes(StandardCharsets.UTF_8))) {
                 zFile.add("assets/" + Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel, is);
-            } catch (IOException e) {
+            } catch (Throwable e) {
                 throw new PatchError("Error when saving signature: " + e);
             }
 
@@ -272,7 +274,10 @@ public class LSPatch {
 
             System.out.println("Done. Output APK: " + outputFile.getAbsolutePath());
         } finally {
-            FileUtils.deleteDirectory(workingDir);
+            try {
+                FileUtils.deleteDirectory(workingDir);
+            } catch (Throwable ignored) {
+            }
         }
     }
 

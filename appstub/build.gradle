@@ -35,8 +35,8 @@ android {
             dependsOn("assemble$buildType")
             def dexFilePath = "$buildDir/intermediates/dex/${variantLowered}/mergeDex${buildType}/classes.dex"
             from dexFilePath
-            rename "(.*).dex", "classes-${version_name}.dex"
-            into "$rootProject.projectDir/out/list-dex"
+            rename "classes.dex", "loader.dex"
+            into "$rootProject.projectDir/out/dexes"
         }
 
         task "copy$buildType"() {
