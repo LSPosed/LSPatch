@@ -1,15 +1,15 @@
 include ':app'
 rootProject.name='LSPatch'
 include ':lspcore'
-project(':lspcore').projectDir = new File('mmp/core')
+project(':lspcore').projectDir = new File('core/core')
 include ':hiddenapi-stubs'
-project(':hiddenapi-stubs').projectDir = new File('mmp/hiddenapi-stubs')
+project(':hiddenapi-stubs').projectDir = new File('core/hiddenapi-stubs')
 include ':interface'
-project(':interface').projectDir = new File('mmp/service/interface')
+project(':interface').projectDir = new File('core/service/interface')
 include ':hiddenapi-bridge'
-project(':hiddenapi-bridge').projectDir = new File('mmp/hiddenapi-bridge')
+project(':hiddenapi-bridge').projectDir = new File('core/hiddenapi-bridge')
 include ':manager-service'
-project(':manager-service').projectDir = new File('mmp/manager-service')
+project(':manager-service').projectDir = new File('core/manager-service')
 include ':patch'
 include ':axmlprinter'
 include ':share'

@@ -26,6 +26,12 @@ public class MainActivity extends Activity {
                 param.setResult(true);
             }
         });
+        XposedHelpers.findAndHookMethod(this.getClass(), "checkXposed2", new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                param.setResult(true);
+            }
+        });
 
         TextView textView = findViewById(R.id.msg);
         if (checkXposed() && checkXposed2()) {
@@ -43,7 +49,7 @@ public class MainActivity extends Activity {
         return false;
     }
 
-    public boolean checkXposed2() {
+    public static boolean checkXposed2() {
         return false;
     }
 }

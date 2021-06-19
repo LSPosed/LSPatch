@@ -1,8 +1,8 @@
-[submodule "mmp"]
-	path = mmp
-	url = https://github.com/327135569/LSPosed.git
-	branch = lspatch
 [submodule "apksigner"]
 	path = apksigner
 	url = https://android.googlesource.com/platform/tools/apksig.git
 	branch = android10-release
+[submodule "core"]
+	path = core
+	url = https://github.com/LSPosed/LSPosed.git
+	branch = lspatch
