@@ -38,8 +38,8 @@ public class LSPatch {
         }
     }
 
-    @Parameter(description = "apk")
-    private String apkPath = null;
+    @Parameter(description = "apks")
+    private ArrayList<String> apkPaths = new ArrayList<>();
 
     @Parameter(names = {"-h", "--help"}, help = true, order = 0, description = "Print this message")
     private boolean help = false;
@@ -105,13 +105,18 @@ public class LSPatch {
             jCommander.usage();
             return;
         }
-        if (apkPath == null || apkPath.isEmpty()) {
+        if (apkPaths == null || apkPaths.isEmpty()) {
             jCommander.usage();
             return;
         }
+        for (var apk : apkPaths) {
+            File srcApkFile = new File(apk).getAbsoluteFile();
+            System.out.println("Processing " + srcApkFile);
+            patch(srcApkFile);
+        }
+    }
 
-        File srcApkFile = new File(apkPath).getAbsoluteFile();
-
+    public void patch(File srcApkFile) throws PatchError, IOException {
         if (!srcApkFile.exists())
             throw new PatchError("The source apk file does not exit. Please provide a correct path.");
 
@@ -142,7 +147,7 @@ public class LSPatch {
             ZFile zFile = ZFile.openReadWrite(tmpApk);
 
             // save the apk original signature info, to support crach signature.
-            String originalSignature = ApkSignatureHelper.getApkSignInfo(apkPath);
+            String originalSignature = ApkSignatureHelper.getApkSignInfo(srcApkFile.getAbsolutePath());
             if (originalSignature == null || originalSignature.isEmpty()) {
                 throw new PatchError("get original signature failed");
             }
