@@ -24,8 +24,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -61,13 +59,13 @@ public class LSPatch {
     @Parameter(names = {"-l", "--sigbypasslv"}, description = "Signature bypass level. 0 (disable), 1 (pm), 2 (pm+openat). default 0")
     private int sigbypassLevel = 0;
 
-    @Parameter(names = {"--v1"}, description = "Sign with v1 signature")
+    @Parameter(names = {"--v1"}, arity = 1, description = "Sign with v1 signature")
     private boolean v1 = true;
 
-    @Parameter(names = {"--v2"}, description = "Sign with v2 signature")
+    @Parameter(names = {"--v2"}, arity = 1, description = "Sign with v2 signature")
     private boolean v2 = true;
 
-    @Parameter(names = {"--v3"}, description = "Sign with v3 signature")
+    @Parameter(names = {"--v3"}, arity = 1, description = "Sign with v3 signature")
     private boolean v3 = true;
 
     @Parameter(names = {"-v", "--verbose"}, description = "Verbose output")
