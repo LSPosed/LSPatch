@@ -6,19 +6,22 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="org.lsposed.lspatch.tester.XposedTestApplication"
+        android:name="org.lsposed.lspatch.appstub.LSPApplicationStub"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/sample_app_title"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
-        <activity android:name="org.lsposed.lspatch.tester.MainActivity">
+        <activity android:name="org.lsposed.lspatch.tester.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data android:name="xposedmodule" android:value="true"/>
+        <meta-data android:name="xposedminversion" android:value="53"/>
     </application>
 
 </manifest>

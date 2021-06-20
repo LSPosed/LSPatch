@@ -17,6 +17,7 @@ import org.lsposed.lspatch.loader.util.FileUtils;
 import org.lsposed.lspatch.loader.util.XLog;
 import org.lsposed.lspatch.loader.util.XpatchUtils;
 import org.lsposed.lspatch.share.Constants;
+import org.lsposed.lspd.deopt.PrebuiltMethodsDeopter;
 import org.lsposed.lspd.nativebridge.SigBypass;
 import org.lsposed.lspd.yahfa.hooker.YahfaHooker;
 
@@ -40,7 +41,8 @@ import de.robv.android.xposed.XposedInit;
 public class LSPApplication {
     private static final String ORIGINAL_APPLICATION_NAME_ASSET_PATH = "original_application_name.ini";
     private static final String ORIGINAL_SIGNATURE_ASSET_PATH = "original_signature_info.ini";
-    private static final String TAG = LSPApplication.class.getSimpleName();
+    private static final String TAG = "LSPatch";
+
     private static String originalApplicationName = null;
     private static String originalSignature = null;
     private static Application sOriginalApplication = null;
@@ -49,51 +51,43 @@ public class LSPApplication {
 
     private static int TRANSACTION_getPackageInfo_ID = -1;
 
-    final static public int FIRST_ISOLATED_UID = 99000;
-    final static public int LAST_ISOLATED_UID = 99999;
     final static public int FIRST_APP_ZYGOTE_ISOLATED_UID = 90000;
-    final static public int LAST_APP_ZYGOTE_ISOLATED_UID = 98999;
-    final static public int SHARED_RELRO_UID = 1037;
     final static public int PER_USER_RANGE = 100000;
 
-    static Context context;
+    final static private LSPApplication instance = new LSPApplication();
 
     static public boolean isIsolated() {
-        int uid = android.os.Process.myUid();
-        uid = uid % PER_USER_RANGE;
-        return (uid >= FIRST_ISOLATED_UID && uid <= LAST_ISOLATED_UID) || (uid >= FIRST_APP_ZYGOTE_ISOLATED_UID && uid <= LAST_APP_ZYGOTE_ISOLATED_UID);
+        return (android.os.Process.myUid() % PER_USER_RANGE) >= FIRST_APP_ZYGOTE_ISOLATED_UID;
     }
 
-    static {
+    static public void onLoad() {
         cacheSigbypassLv = -1;
 
         if (isIsolated()) {
             XLog.d(TAG, "skip isolated process");
+            return;
         }
-        else {
-            context = XpatchUtils.createAppContext();
-            if (context == null) {
-                XLog.e(TAG, "create context err");
-            }
-            else {
-                System.load(context.getApplicationInfo().nativeLibraryDir + "/liblspd.so");
-                YahfaHooker.init();
-                XposedInit.startsSystemServer = false;
+        Context context = XpatchUtils.createAppContext();
+        if (context == null) {
+            XLog.e(TAG, "create context err");
+            return;
+        }
+        YahfaHooker.init();
+        XposedBridge.initXResources();
+        PrebuiltMethodsDeopter.deoptBootMethods(); // do it once for secondary zygote
+        XposedInit.startsSystemServer = false;
 
-                originalApplicationName = FileUtils.readTextFromAssets(context, ORIGINAL_APPLICATION_NAME_ASSET_PATH);
-                originalSignature = FileUtils.readTextFromAssets(context, ORIGINAL_SIGNATURE_ASSET_PATH);
+        originalApplicationName = FileUtils.readTextFromAssets(context, ORIGINAL_APPLICATION_NAME_ASSET_PATH);
+        originalSignature = FileUtils.readTextFromAssets(context, ORIGINAL_SIGNATURE_ASSET_PATH);
 
-                XLog.d(TAG, "original application class " + originalApplicationName);
-                XLog.d(TAG, "original signature info " + originalSignature);
+        XLog.d(TAG, "original application class " + originalApplicationName);
+        XLog.d(TAG, "original signature info " + originalSignature);
 
-                try {
-                    doHook();
-                    initAndLoadModules(context);
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+        try {
+            doHook(context);
+            initAndLoadModules(context);
+        } catch (Throwable e) {
+            Log.e(TAG, "Do hook", e);
         }
     }
 
@@ -106,12 +100,7 @@ public class LSPApplication {
     }
 
     private static boolean isApplicationProxied() {
-        if (originalApplicationName != null && !originalApplicationName.isEmpty() && !("android.app.Application").equals(originalApplicationName)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return originalApplicationName != null && !originalApplicationName.isEmpty() && !("android.app.Application").equals(originalApplicationName);
     }
 
     private static ClassLoader getAppClassLoader() {
@@ -122,14 +111,13 @@ public class LSPApplication {
             Object mBoundApplication = XposedHelpers.getObjectField(getActivityThread(), "mBoundApplication");
             Object loadedApkObj = XposedHelpers.getObjectField(mBoundApplication, "info");
             appClassLoader = (ClassLoader) XposedHelpers.callMethod(loadedApkObj, "getClassLoader");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        } catch (Throwable e) {
+            Log.e(TAG, "getAppClassLoader", e);
         }
         return appClassLoader;
     }
 
-    private static void byPassSignature() throws ClassNotFoundException, IllegalAccessException {
+    private static void byPassSignature(Context context) throws ClassNotFoundException, IllegalAccessException {
         Field[] pmStubFields = Class.forName("android.content.pm.IPackageManager$Stub").getDeclaredFields();
         for (Field field : pmStubFields) {
             if (!Modifier.isStatic(field.getModifiers()) || field.getType() != int.class) {
@@ -203,25 +191,26 @@ public class LSPApplication {
                         // reset pos
                         out.setDataPosition(0);
                     }
-                }
-                catch (Throwable err) {
+                } catch (Throwable err) {
                     err.printStackTrace();
                 }
             }
         });
     }
 
-    private static void doHook() throws IllegalAccessException, ClassNotFoundException, IOException {
+    private static void doHook(Context context) throws IllegalAccessException, ClassNotFoundException, IOException {
         if (isApplicationProxied()) {
             hookContextImplSetOuterContext();
             hookInstallContentProviders();
             hookActivityAttach();
             hookServiceAttach();
         }
-        if (fetchSigbypassLv() >= Constants.SIGBYPASS_LV_PM) {
-            byPassSignature();
+        hookApplicationStub();
+        int bypassLv = fetchSigbypassLv(context);
+        if (bypassLv >= Constants.SIGBYPASS_LV_PM) {
+            byPassSignature(context);
         }
-        if (fetchSigbypassLv() >= Constants.SIGBYPASS_LV_PM_OPENAT) {
+        if (bypassLv >= Constants.SIGBYPASS_LV_PM_OPENAT) {
             File apk = new File(context.getCacheDir(), "lspatchapk.so");
             if (!apk.exists()) {
                 try (InputStream inputStream = context.getAssets().open("origin_apk.bin");
@@ -241,7 +230,7 @@ public class LSPApplication {
 
     private static int cacheSigbypassLv;
 
-    private static int fetchSigbypassLv() {
+    private static int fetchSigbypassLv(Context context) {
         if (cacheSigbypassLv != -1) {
             return cacheSigbypassLv;
         }
@@ -249,48 +238,82 @@ public class LSPApplication {
             try (InputStream inputStream = context.getAssets().open(Constants.CONFIG_NAME_SIGBYPASSLV + i)) {
                 cacheSigbypassLv = i;
                 return i;
-            }
-            catch (IOException ignore) {
+            } catch (IOException ignore) {
             }
         }
-        throw new IllegalStateException(Constants.CONFIG_NAME_SIGBYPASSLV + " err");
+        return 0;
+    }
+
+    private static void hookApplicationStub() {
+        try {
+            Class<?> appStub = XposedHelpers.findClass("org.lsposed.lspatch.appstub.LSPApplicationStub", getAppClassLoader());
+            XposedHelpers.findAndHookMethod(appStub, "onCreate", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    instance.onCreate();
+                }
+            });
+            XposedHelpers.findAndHookMethod(appStub, "attachBaseContext", Context.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    instance.attachBaseContext((Context) param.args[0]);
+                }
+            });
+        } catch (Throwable e) {
+            Log.e(TAG, "hookApplicationStub");
+        }
     }
 
     private static void hookContextImplSetOuterContext() {
-        XposedHelpers.findAndHookMethod("android.app.ContextImpl", getAppClassLoader(), "setOuterContext", Context.class, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                replaceApplicationParam(param.args);
-                // XposedHelpers.setObjectField(param.thisObject, "mOuterContext", sOriginalApplication);
-            }
-        });
+        try {
+            XposedHelpers.findAndHookMethod("android.app.ContextImpl", getAppClassLoader(), "setOuterContext", Context.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    replaceApplicationParam(param.args);
+                }
+            });
+        } catch (Throwable e) {
+            Log.e(TAG, "hookContextImplSetOuterContext", e);
+        }
     }
 
     private static void hookInstallContentProviders() {
-        XposedBridge.hookAllMethods(XposedHelpers.findClass("android.app.ActivityThread", getAppClassLoader()), "installContentProviders", new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                replaceApplicationParam(param.args);
-            }
-        });
+        try {
+            XposedBridge.hookAllMethods(XposedHelpers.findClass("android.app.ActivityThread", getAppClassLoader()), "installContentProviders", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    replaceApplicationParam(param.args);
+                }
+            });
+        } catch (Throwable e) {
+            Log.e(TAG, "hookInstallContextProviders", e);
+        }
     }
 
     private static void hookActivityAttach() {
-        XposedBridge.hookAllMethods(XposedHelpers.findClass("android.app.Activity", getAppClassLoader()), "attach", new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                replaceApplicationParam(param.args);
-            }
-        });
+        try {
+            XposedBridge.hookAllMethods(XposedHelpers.findClass("android.app.Activity", getAppClassLoader()), "attach", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    replaceApplicationParam(param.args);
+                }
+            });
+        } catch (Throwable e) {
+            Log.e(TAG, "hookActivityAttach", e);
+        }
     }
 
     private static void hookServiceAttach() {
-        XposedBridge.hookAllMethods(XposedHelpers.findClass("android.app.Service", getAppClassLoader()), "attach", new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                replaceApplicationParam(param.args);
-            }
-        });
+        try {
+            XposedBridge.hookAllMethods(XposedHelpers.findClass("android.app.Service", getAppClassLoader()), "attach", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    replaceApplicationParam(param.args);
+                }
+            });
+        } catch (Throwable e) {
+            Log.e(TAG, "hookServiceAttach", e);
+        }
     }
 
     private static void replaceApplicationParam(Object[] args) {
@@ -309,9 +332,8 @@ public class LSPApplication {
             try {
                 Class<?> activityThreadClass = Class.forName("android.app.ActivityThread");
                 activityThread = XposedHelpers.callStaticMethod(activityThreadClass, "currentActivityThread");
-            }
-            catch (Exception e) {
-                e.printStackTrace();
+            } catch (Throwable e) {
+                Log.e(TAG, "getActivityThread", e);
             }
         }
         return activityThread;
@@ -328,29 +350,23 @@ public class LSPApplication {
     private void attachOrignalBaseContext(Context base) {
         try {
             XposedHelpers.callMethod(sOriginalApplication, "attachBaseContext", base);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        } catch (Throwable e) {
+            Log.e(TAG, "attachOriginalBaseContext", e);
         }
     }
 
     private void setLoadedApkField(Context base) {
-        // mLoadedApk = ContextImpl.getImpl(context).mPackageInfo;
         try {
             Class<?> contextImplClass = Class.forName("android.app.ContextImpl");
             Object contextImpl = XposedHelpers.callStaticMethod(contextImplClass, "getImpl", base);
             Object loadedApk = XposedHelpers.getObjectField(contextImpl, "mPackageInfo");
             XposedHelpers.setObjectField(sOriginalApplication, "mLoadedApk", loadedApk);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        } catch (Throwable e) {
+            Log.e(TAG, "setLoadedApkField", e);
         }
     }
 
     public void onCreate() {
-        // setLoadedApkField(sOriginalApplication);
-        // XposedHelpers.setObjectField(sOriginalApplication, "mLoadedApk", XposedHelpers.getObjectField(this, "mLoadedApk"));
-
         if (isApplicationProxied()) {
             // replaceApplication();
             replaceLoadedApkApplication();
@@ -371,18 +387,16 @@ public class LSPApplication {
 
             // replace   LoadedApk.java makeApplication()      mApplication = app;
             XposedHelpers.setObjectField(loadedApkObj, "mApplication", sOriginalApplication);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        } catch (Throwable e) {
+            Log.e(TAG, "replaceLoadedApkApplication", e);
         }
     }
 
     private void replaceActivityThreadApplication() {
         try {
             XposedHelpers.setObjectField(getActivityThread(), "mInitialApplication", sOriginalApplication);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        } catch (Throwable e) {
+            Log.e(TAG, "replaceActivityThreadApplication", e);
         }
     }
 
@@ -390,9 +404,8 @@ public class LSPApplication {
         if (sOriginalApplication == null) {
             try {
                 sOriginalApplication = (Application) getAppClassLoader().loadClass(originalApplicationName).newInstance();
-            }
-            catch (InstantiationException | ClassNotFoundException | IllegalAccessException e) {
-                e.printStackTrace();
+            } catch (Throwable e) {
+                Log.e(TAG, "createOriginalApplication", e);
             }
         }
         return sOriginalApplication;
@@ -404,9 +417,8 @@ public class LSPApplication {
             Object applicationInfoObj = XposedHelpers.getObjectField(mBoundApplication, "appInfo"); // info
 
             XposedHelpers.setObjectField(applicationInfoObj, "className", originalApplicationName);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        } catch (Throwable e) {
+            Log.e(TAG, "modifyApplicationInfoClassName", e);
         }
     }
 }

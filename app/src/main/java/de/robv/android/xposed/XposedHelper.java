@@ -1,9 +1,5 @@
 package de.robv.android.xposed;
 
-import de.robv.android.xposed.IXposedHookZygoteInit;
-import de.robv.android.xposed.IXposedMod;
-import de.robv.android.xposed.XC_MethodHook;
-
 import java.lang.reflect.Member;
 
 public class XposedHelper {

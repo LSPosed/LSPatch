@@ -254,7 +254,7 @@ public class LSPatch {
             }
 
             try (var is = getClass().getClassLoader().getResourceAsStream("assets/dex/lsp.dex")) {
-                zFile.add("assets/lsp.dex", is);
+                zFile.add("assets/lsp", is);
             } catch (Throwable e) {
                 throw new PatchError("Error when add assets: " + e);
             }

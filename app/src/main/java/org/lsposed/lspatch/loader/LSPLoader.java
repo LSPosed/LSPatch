@@ -158,12 +158,6 @@ public class LSPLoader {
 
         appContext = context;
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            if (!FileUtils.isSdcardPermissionGranted(context)) {
-                XLog.e(TAG, "File permission is not granted, can not control xposed module by file " + XPOSED_MODULE_FILE_PATH);
-            }
-        }
-
         initSELinux(context);
 
         ClassLoader originClassLoader = context.getClassLoader();
@@ -195,7 +189,7 @@ public class LSPLoader {
             if (!app.enabled) {
                 continue;
             }
-            if (app.metaData != null && (app.metaData.containsKey("xposedmodule"))) {
+            if (app.metaData != null && app.metaData.containsKey("xposedminversion")) {
                 String apkPath = pkg.applicationInfo.publicSourceDir;
                 String apkName = context.getPackageManager().getApplicationLabel(pkg.applicationInfo).toString();
                 if (TextUtils.isEmpty(apkPath)) {
@@ -211,26 +205,23 @@ public class LSPLoader {
 
         final List<Pair<String, String>> installedModuleListFinal = installedModuleList;
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<String> savedPackageNameList = loadPackageNameListFromFile(false);
-                if (savedPackageNameList == null) {
-                    savedPackageNameList = new ArrayList<>();
+        new Thread(() -> {
+            List<String> savedPackageNameList = loadPackageNameListFromFile(false);
+            if (savedPackageNameList == null) {
+                savedPackageNameList = new ArrayList<>();
+            }
+            List<Pair<String, String>> addPackageList = new ArrayList<>();
+            for (Pair<String, String> packgagePair : installedModuleListFinal) {
+                if (!savedPackageNameList.contains(packgagePair.first)) {
+                    XLog.d(TAG, "append " + packgagePair + " to " + XPOSED_MODULE_FILE_PATH);
+                    addPackageList.add(packgagePair);
                 }
-                List<Pair<String, String>> addPackageList = new ArrayList<>();
-                for (Pair<String, String> packgagePair : installedModuleListFinal) {
-                    if (!savedPackageNameList.contains(packgagePair.first)) {
-                        XLog.d(TAG, "append " + packgagePair + " to " + XPOSED_MODULE_FILE_PATH);
-                        addPackageList.add(packgagePair);
-                    }
-                }
-                try {
-                    appendPackageNameToFile(addPackageList);
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
+            }
+            try {
+                appendPackageNameToFile(addPackageList);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
             }
         }).start();
         return modulePathList;
