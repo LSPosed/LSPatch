@@ -149,17 +149,19 @@ public class LSPatch {
             System.out.println("Parsing original apk...");
             ZFile zFile = ZFile.openReadWrite(tmpApk);
 
-            // save the apk original signature info, to support crach signature.
-            String originalSignature = ApkSignatureHelper.getApkSignInfo(srcApkFile.getAbsolutePath());
-            if (originalSignature == null || originalSignature.isEmpty()) {
-                throw new PatchError("get original signature failed");
-            }
-            if (verbose)
-                System.out.println("Original signature\n" + originalSignature);
-            try (var is = new ByteArrayInputStream(originalSignature.getBytes(StandardCharsets.UTF_8))) {
-                zFile.add(SIGNATURE_INFO_ASSET_PATH, is);
-            } catch (Throwable e) {
-                throw new PatchError("Error when saving signature: " + e);
+            if (sigbypassLevel > 0) {
+                // save the apk original signature info, to support crack signature.
+                String originalSignature = ApkSignatureHelper.getApkSignInfo(srcApkFile.getAbsolutePath());
+                if (originalSignature == null || originalSignature.isEmpty()) {
+                    throw new PatchError("get original signature failed");
+                }
+                if (verbose)
+                    System.out.println("Original signature\n" + originalSignature);
+                try (var is = new ByteArrayInputStream(originalSignature.getBytes(StandardCharsets.UTF_8))) {
+                    zFile.add(SIGNATURE_INFO_ASSET_PATH, is);
+                } catch (Throwable e) {
+                    throw new PatchError("Error when saving signature: " + e);
+                }
             }
 
             // get the dex count in the apk zip file
