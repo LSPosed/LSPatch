@@ -1,6 +1,6 @@
 package org.lsposed.patch;
 
-import com.android.apksigner.ApkSignerTool;
+import com.android.apksig.ApkSigner;
 import com.android.tools.build.apkzlib.zip.StoredEntry;
 import com.android.tools.build.apkzlib.zip.ZFile;
 import com.beust.jcommander.JCommander;
@@ -12,7 +12,6 @@ import com.wind.meditor.utils.NodeValue;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.lsposed.lspatch.share.Constants;
 import org.lsposed.patch.util.ApkSignatureHelper;
 import org.lsposed.patch.util.ManifestParser;
@@ -21,11 +20,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.security.KeyStore;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -136,22 +136,18 @@ public class LSPatch {
         if (!srcApkFile.exists())
             throw new PatchError("The source apk file does not exit. Please provide a correct path.");
 
-        var workingDir = Files.createTempDirectory("LSPatch").toFile();
-        try {
-            File tmpApk = new File(workingDir, String.format("%s-%s-unsigned.apk", srcApkFile.getName(),
-                    Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel));
-            if (verbose) {
-                System.out.println("work dir: " + workingDir);
-                System.out.println("apk path: " + srcApkFile);
-            }
+        File tmpApk = Files.createTempFile(srcApkFile.getName(), "unsigned").toFile();
 
-            System.out.println("Copying to tmp apk...");
+        if (verbose)
+            System.out.println("apk path: " + srcApkFile);
 
-            FileUtils.copyFile(srcApkFile, tmpApk);
+        System.out.println("Copying to tmp apk...");
 
-            System.out.println("Parsing original apk...");
-            ZFile zFile = ZFile.openReadWrite(tmpApk);
+        FileUtils.copyFile(srcApkFile, tmpApk);
 
+        System.out.println("Parsing original apk...");
+
+        try (ZFile zFile = ZFile.openReadWrite(tmpApk)) {
             if (sigbypassLevel > 0) {
                 // save the apk original signature info, to support crack signature.
                 String originalSignature = ApkSignatureHelper.getApkSignInfo(srcApkFile.getAbsolutePath());
@@ -279,14 +275,13 @@ public class LSPatch {
                 sign.delete();
 
             zFile.update();
-            zFile.close();
 
-            signApkUsingAndroidApksigner(workingDir, tmpApk, outputFile);
+            signApkUsingAndroidApksigner(tmpApk, outputFile);
 
             System.out.println("Done. Output APK: " + outputFile.getAbsolutePath());
         } finally {
             try {
-                FileUtils.deleteDirectory(workingDir);
+                tmpApk.delete();
             } catch (Throwable ignored) {
             }
         }
@@ -353,41 +348,29 @@ public class LSPatch {
         }
     }
 
-    private void signApkUsingAndroidApksigner(File workingDir, File apkPath, File outputPath) throws PatchError, IOException {
-        ArrayList<String> commandList = new ArrayList<>();
-
-        var keyStoreFile = new File(workingDir, "keystore");
-
-        try (InputStream is = getClass().getClassLoader().getResourceAsStream("assets/keystore");
-             FileOutputStream os = new FileOutputStream(keyStoreFile)) {
-            if (is == null)
-                throw new PatchError("Fail to save keystore file");
-            IOUtils.copy(is, os);
-        }
-
-        commandList.add("sign");
-        commandList.add("--ks");
-        commandList.add(keyStoreFile.getAbsolutePath());
-        commandList.add("--ks-key-alias");
-        commandList.add("key0");
-        commandList.add("--ks-pass");
-        commandList.add("pass:" + 123456);
-        commandList.add("--key-pass");
-        commandList.add("pass:" + 123456);
-        commandList.add("--min-sdk-version");
-        commandList.add("27");
-        commandList.add("--v1-signing-enabled");
-        commandList.add(Boolean.toString(v1));
-        commandList.add("--v2-signing-enabled");   // v2签名不兼容android 6
-        commandList.add(Boolean.toString(v2));
-        commandList.add("--v3-signing-enabled");   // v3签名不兼容android 6
-        commandList.add(Boolean.toString(v3));
-        commandList.add("--out");
-        commandList.add(outputPath.getAbsolutePath());
-        commandList.add(apkPath.getAbsolutePath());
-
+    private void signApkUsingAndroidApksigner(File apkPath, File outputPath) throws PatchError {
         try {
-            ApkSignerTool.main(commandList.toArray(new String[0]));
+            var keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            try (var is = getClass().getClassLoader().getResourceAsStream("assets/keystore")) {
+                keyStore.load(is, "123456".toCharArray());
+            }
+            var entry = (KeyStore.PrivateKeyEntry) keyStore.getEntry("key0", new KeyStore.PasswordProtection("123456".toCharArray()));
+
+            ApkSigner.SignerConfig signerConfig =
+                    new ApkSigner.SignerConfig.Builder(
+                            "lspatch", entry.getPrivateKey(), Arrays.asList((X509Certificate[]) entry.getCertificateChain()))
+                            .build();
+            ApkSigner apkSigner = new ApkSigner.Builder(List.of(signerConfig))
+                    .setInputApk(apkPath)
+                    .setOutputApk(outputPath)
+                    .setOtherSignersSignaturesPreserved(false)
+                    .setV1SigningEnabled(v1)
+                    .setV2SigningEnabled(v2)
+                    .setV3SigningEnabled(v3)
+                    .setDebuggableApkPermitted(true)
+                    .setSigningCertificateLineage(null)
+                    .setMinSdkVersion(27).build();
+            apkSigner.sign();
         } catch (Exception e) {
             throw new PatchError("Failed to sign apk: " + e.getMessage());
         }
