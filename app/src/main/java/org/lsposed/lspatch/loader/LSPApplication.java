@@ -54,7 +54,7 @@ public class LSPApplication {
     final static public int FIRST_APP_ZYGOTE_ISOLATED_UID = 90000;
     final static public int PER_USER_RANGE = 100000;
 
-    final static private LSPApplication instance = null;
+    static private LSPApplication instance = null;
 
     static public boolean isIsolated() {
         return (android.os.Process.myUid() % PER_USER_RANGE) >= FIRST_APP_ZYGOTE_ISOLATED_UID;
