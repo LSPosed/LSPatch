@@ -154,12 +154,9 @@ public class LSPApplication extends ApplicationServiceClient {
             var name = module.optString("name");
             var enabled = module.optBoolean("enabled", true);
             var useEmbed = module.optBoolean("use_embed", false);
-            var apk = module.optString("path");
+            if (name.isEmpty()) continue;
             if (!enabled) disabled_modules.add(name);
-            if (embedded_modules.contains(name) && useEmbed) continue;
-            if (apk.isEmpty() || name.isEmpty()) continue;
-            if (!new File(apk).exists()) continue;
-            LSPApplication.modules.put(name, apk);
+            if (embedded_modules.contains(name) && !useEmbed) embedded_modules.remove(name);
         }
 
         for (PackageInfo pkg : context.getPackageManager().getInstalledPackages(PackageManager.GET_META_DATA)) {
@@ -167,8 +164,8 @@ public class LSPApplication extends ApplicationServiceClient {
             if (!app.enabled) {
                 continue;
             }
-            if (app.metaData != null && app.metaData.containsKey("xposedminversion")) {
-                LSPApplication.modules.computeIfAbsent(app.packageName, k -> app.publicSourceDir);
+            if (app.metaData != null && app.metaData.containsKey("xposedminversion") && !embedded_modules.contains(app.packageName)) {
+                LSPApplication.modules.put(app.packageName, app.publicSourceDir);
             }
         }
         final var new_modules = new JSONArray();
@@ -194,7 +191,6 @@ public class LSPApplication extends ApplicationServiceClient {
         for (var module : disabled_modules) {
             LSPApplication.modules.remove(module);
         }
-        Log.e(TAG, "DONE LOAD");
     }
 
     public LSPApplication() {
