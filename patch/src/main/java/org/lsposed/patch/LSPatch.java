@@ -52,7 +52,6 @@ public class LSPatch {
     @Parameter(names = {"-f", "--force"}, description = "Force overwrite exists output file")
     private boolean forceOverwrite = false;
 
-    @Parameter(names = {"-p", "--proxyname"}, description = "Special proxy app name with full dot path")
     private String proxyName = "org.lsposed.lspatch.appstub.LSPApplicationStub";
 
     @Parameter(names = {"-d", "--debuggable"}, description = "Set app to be debuggable")
@@ -206,7 +205,7 @@ public class LSPatch {
                 System.out.println("Search target apk library arch..");
             for (StoredEntry storedEntry : zFile.entries()) {
                 var name = storedEntry.getCentralDirectoryHeader().getName();
-                if (name.startsWith("lib/")) {
+                if (name.startsWith("lib/") && name.length() >= 5) {
                     var arch = name.substring(4, name.indexOf('/', 5));
                     apkArchs.add(arch);
                 }
@@ -217,7 +216,7 @@ public class LSPatch {
             }
 
             apkArchs.removeIf((arch) -> {
-                if (!APK_LIB_PATH_ARRAY.contains(arch)) {
+                if (!APK_LIB_PATH_ARRAY.contains(arch) && !arch.equals("armeabi")) {
                     System.err.println("Warning: unsupported arch " + arch + ". Skipping...");
                     return true;
                 }
@@ -229,8 +228,8 @@ public class LSPatch {
             for (String arch : apkArchs) {
                 // lib/armeabi-v7a -> armeabi-v7a
                 String entryName = "lib/" + arch + "/liblspd.so";
-                try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + arch + "/liblspd.so")) {
-                    zFile.add(entryName, is);
+                try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + (arch.equals("armeabi") ? "armeabi-v7a" : arch) + "/liblspd.so")) {
+                    zFile.add(entryName, is, false); // no compress for so
                 } catch (Throwable e) {
                     throw new PatchError("Error when adding native lib: " + e);
                 }
@@ -268,10 +267,14 @@ public class LSPatch {
                 throw new PatchError("Error when saving signature: " + e);
             }
 
+            System.out.println("Signing apk...");
+            var sign = zFile.get("META-INF/MANIFEST.MF");
+            if (sign != null)
+                sign.delete();
+
             zFile.update();
             zFile.close();
 
-            System.out.println("Signing apk...");
             signApkUsingAndroidApksigner(workingDir, tmpApk, outputFile);
 
             System.out.println("Done. Output APK: " + outputFile.getAbsolutePath());
@@ -283,15 +286,17 @@ public class LSPatch {
         }
     }
 
-    private byte[] modifyManifestFile(InputStream is) {
+    private byte[] modifyManifestFile(InputStream is) throws IOException {
         ModificationProperty property = new ModificationProperty();
 
         property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag));
-        property.addApplicationAttribute(new AttributeItem("extractNativeLibs", true));
         property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, proxyName));
 
         var os = new ByteArrayOutputStream();
         (new ManifestEditor(is, os, property)).processManifest();
+        is.close();
+        os.flush();
+        os.close();
         return os.toByteArray();
     }
 
@@ -323,14 +328,16 @@ public class LSPatch {
         commandList.add("pass:" + 123456);
         commandList.add("--key-pass");
         commandList.add("pass:" + 123456);
-        commandList.add("--out");
-        commandList.add(outputPath.getAbsolutePath());
+        commandList.add("--min-sdk-version");
+        commandList.add("27");
         commandList.add("--v1-signing-enabled");
         commandList.add(Boolean.toString(v1));
         commandList.add("--v2-signing-enabled");   // v2签名不兼容android 6
         commandList.add(Boolean.toString(v2));
         commandList.add("--v3-signing-enabled");   // v3签名不兼容android 6
         commandList.add(Boolean.toString(v3));
+        commandList.add("--out");
+        commandList.add(outputPath.getAbsolutePath());
         commandList.add(apkPath.getAbsolutePath());
 
         try {
