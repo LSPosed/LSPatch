@@ -1,44 +1,58 @@
 package org.lsposed.lspatch.loader;
 
 import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
-import static org.lsposed.lspatch.loader.LSPLoader.initAndLoadModules;
 
-import android.annotation.SuppressLint;
+import android.app.ActivityThread;
 import android.app.Application;
+import android.app.LoadedApk;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Build;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.Parcel;
+import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.lsposed.lspatch.loader.util.FileUtils;
 import org.lsposed.lspatch.loader.util.XLog;
-import org.lsposed.lspatch.loader.util.XpatchUtils;
 import org.lsposed.lspatch.share.Constants;
-import org.lsposed.lspd.deopt.PrebuiltMethodsDeopter;
+import org.lsposed.lspd.config.ApplicationServiceClient;
+import org.lsposed.lspd.core.Main;
 import org.lsposed.lspd.nativebridge.SigBypass;
-import org.lsposed.lspd.yahfa.hooker.YahfaHooker;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.XposedInit;
 
 /**
  * Created by Windysha
  */
-@SuppressLint("UnsafeDynamicallyLoadedCode")
-public class LSPApplication {
+@SuppressWarnings("unused")
+public class LSPApplication extends ApplicationServiceClient {
     private static final String ORIGINAL_APPLICATION_NAME_ASSET_PATH = "original_application_name.ini";
     private static final String ORIGINAL_SIGNATURE_ASSET_PATH = "original_signature_info.ini";
     private static final String TAG = "LSPatch";
@@ -56,26 +70,24 @@ public class LSPApplication {
 
     static private LSPApplication instance = null;
 
+    static private final Map<String, String> modules = new HashMap<>();
+
     static public boolean isIsolated() {
         return (android.os.Process.myUid() % PER_USER_RANGE) >= FIRST_APP_ZYGOTE_ISOLATED_UID;
     }
 
-    static public void onLoad() {
+    public static void onLoad() {
         cacheSigbypassLv = -1;
 
         if (isIsolated()) {
             XLog.d(TAG, "skip isolated process");
             return;
         }
-        Context context = XpatchUtils.createAppContext();
+        Context context = createAppContext();
         if (context == null) {
             XLog.e(TAG, "create context err");
             return;
         }
-        YahfaHooker.init();
-        // XposedBridge.initXResources();
-        // PrebuiltMethodsDeopter.deoptBootMethods(); // do it once for secondary zygote
-        XposedInit.startsSystemServer = false;
 
         originalApplicationName = FileUtils.readTextFromAssets(context, ORIGINAL_APPLICATION_NAME_ASSET_PATH);
         originalSignature = FileUtils.readTextFromAssets(context, ORIGINAL_SIGNATURE_ASSET_PATH);
@@ -84,12 +96,105 @@ public class LSPApplication {
         XLog.d(TAG, "original signature info " + originalSignature);
 
         instance = new LSPApplication();
+        serviceClient = instance;
+
         try {
+            loadModules(context);
+            Main.forkPostCommon(false, context.getDataDir().toString(), ActivityThread.currentProcessName());
             doHook(context);
-            initAndLoadModules(context);
+            // WARN: Since it uses `XResource`, the following class should not be initialized
+            // before forkPostCommon is invoke. Otherwise, you will get failure of XResources
+            LSPLoader.initModules(context);
         } catch (Throwable e) {
             Log.e(TAG, "Do hook", e);
         }
+    }
+
+    public static void loadModules(Context context) {
+        var configFile = new File(context.getExternalFilesDir(null), "lspatch.json");
+        var cacheDir = new File(context.getExternalCacheDir(), "modules");
+        cacheDir.mkdirs();
+        JSONObject moduleConfigs = new JSONObject();
+        try (var is = new FileInputStream(configFile)) {
+            moduleConfigs = new JSONObject(FileUtils.readTextFromInputStream(is));
+        } catch (Throwable ignored) {
+        }
+        var modules = moduleConfigs.optJSONArray("modules");
+        if (modules == null) {
+            modules = new JSONArray();
+            try {
+                moduleConfigs.put("modules", modules);
+            } catch (Throwable ignored) {
+
+            }
+        }
+        HashSet<String> embedded_modules = new HashSet<>();
+        HashSet<String> disabled_modules = new HashSet<>();
+        try {
+            for (var name : context.getAssets().list("modules")) {
+                var target = new File(cacheDir, name + ".apk");
+                if (target.exists()) {
+                    embedded_modules.add(name);
+                    LSPApplication.modules.put(name, target.getAbsolutePath());
+                    continue;
+                }
+                try (var is = context.getAssets().open("modules/" + name)) {
+                    Files.copy(is, target.toPath());
+                    embedded_modules.add(name);
+                    LSPApplication.modules.put(name, target.getAbsolutePath());
+                } catch (IOException ignored) {
+
+                }
+            }
+        } catch (Throwable ignored) {
+
+        }
+        for (int i = 0; i < modules.length(); ++i) {
+            var module = modules.optJSONObject(i);
+            var name = module.optString("name");
+            var enabled = module.optBoolean("enabled", true);
+            var useEmbed = module.optBoolean("use_embed", false);
+            var apk = module.optString("path");
+            if (!enabled) disabled_modules.add(name);
+            if (embedded_modules.contains(name) && useEmbed) continue;
+            if (apk.isEmpty() || name.isEmpty()) continue;
+            if (!new File(apk).exists()) continue;
+            LSPApplication.modules.put(name, apk);
+        }
+
+        for (PackageInfo pkg : context.getPackageManager().getInstalledPackages(PackageManager.GET_META_DATA)) {
+            ApplicationInfo app = pkg.applicationInfo;
+            if (!app.enabled) {
+                continue;
+            }
+            if (app.metaData != null && app.metaData.containsKey("xposedminversion")) {
+                LSPApplication.modules.computeIfAbsent(app.packageName, k -> app.publicSourceDir);
+            }
+        }
+        final var new_modules = new JSONArray();
+        LSPApplication.modules.forEach((k, v) -> {
+            try {
+                var module = new JSONObject();
+                module.put("name", k);
+                module.put("enabled", !disabled_modules.contains(k));
+                module.put("use_embed", embedded_modules.contains(k));
+                module.put("path", v);
+                new_modules.put(module);
+            } catch (Throwable ignored) {
+            }
+        });
+        try {
+            moduleConfigs.put("modules", new_modules);
+        } catch (Throwable ignored) {
+        }
+        try (var is = new ByteArrayInputStream(moduleConfigs.toString(4).getBytes(StandardCharsets.UTF_8))) {
+            Files.copy(is, configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (Throwable ignored) {
+        }
+        for (var module : disabled_modules) {
+            LSPApplication.modules.remove(module);
+        }
+        Log.e(TAG, "DONE LOAD");
     }
 
     public LSPApplication() {
@@ -331,8 +436,7 @@ public class LSPApplication {
     private static Object getActivityThread() {
         if (activityThread == null) {
             try {
-                Class<?> activityThreadClass = Class.forName("android.app.ActivityThread");
-                activityThread = XposedHelpers.callStaticMethod(activityThreadClass, "currentActivityThread");
+                activityThread = ActivityThread.currentActivityThread();
             } catch (Throwable e) {
                 Log.e(TAG, "getActivityThread", e);
             }
@@ -421,5 +525,79 @@ public class LSPApplication {
         } catch (Throwable e) {
             Log.e(TAG, "modifyApplicationInfoClassName", e);
         }
+    }
+
+    public static Context createAppContext() {
+        try {
+
+            ActivityThread activityThreadObj = ActivityThread.currentActivityThread();
+
+            Field boundApplicationField = ActivityThread.class.getDeclaredField("mBoundApplication");
+            boundApplicationField.setAccessible(true);
+            Object mBoundApplication = boundApplicationField.get(activityThreadObj);   // AppBindData
+            if (mBoundApplication == null) {
+                Log.e(TAG, "mBoundApplication null");
+                return null;
+            }
+            Field infoField = mBoundApplication.getClass().getDeclaredField("info");   // info
+            infoField.setAccessible(true);
+            LoadedApk loadedApkObj = (LoadedApk) infoField.get(mBoundApplication);  // LoadedApk
+            if (loadedApkObj == null) {
+                Log.e(TAG, "loadedApkObj null");
+                return null;
+            }
+            Class<?> contextImplClass = Class.forName("android.app.ContextImpl");
+            Method createAppContextMethod = contextImplClass.getDeclaredMethod("createAppContext", ActivityThread.class, LoadedApk.class);
+            createAppContextMethod.setAccessible(true);
+
+            Object context = createAppContextMethod.invoke(null, activityThreadObj, loadedApkObj);
+
+            if (context instanceof Context) {
+                return (Context) context;
+            }
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
+            Log.e(TAG, "Fail to create app context", e);
+        }
+        return null;
+    }
+
+    @Override
+    public IBinder requestModuleBinder() {
+        return null;
+    }
+
+    @Override
+    public IBinder requestManagerBinder(String packageName) {
+        return null;
+    }
+
+    @Override
+    public boolean isResourcesHookEnabled() {
+        return false;
+    }
+
+    @Override
+    public Map getModulesList(String processName) {
+        return getModulesList();
+    }
+
+    @Override
+    public Map<String, String> getModulesList() {
+        return modules;
+    }
+
+    @Override
+    public String getPrefsPath(String packageName) {
+        return new File(Environment.getDataDirectory(), "data/" + packageName + "/shared_prefs/").getAbsolutePath();
+    }
+
+    @Override
+    public ParcelFileDescriptor getModuleLogger() {
+        return null;
+    }
+
+    @Override
+    public IBinder asBinder() {
+        return null;
     }
 }

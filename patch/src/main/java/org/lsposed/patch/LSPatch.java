@@ -26,11 +26,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.jar.JarFile;
 
 public class LSPatch {
 
@@ -41,7 +42,7 @@ public class LSPatch {
     }
 
     @Parameter(description = "apks")
-    private ArrayList<String> apkPaths = new ArrayList<>();
+    private List<String> apkPaths = new ArrayList<>();
 
     @Parameter(names = {"-h", "--help"}, help = true, order = 0, description = "Print this message")
     private boolean help = false;
@@ -71,6 +72,9 @@ public class LSPatch {
 
     @Parameter(names = {"-v", "--verbose"}, description = "Verbose output")
     private boolean verbose = false;
+
+    @Parameter(names = {"-m", "--embed"}, description = "Embed provided modules to apk")
+    private List<String> modules = new ArrayList<>();
 
     private int dexFileCount = 0;
 
@@ -195,7 +199,7 @@ public class LSPatch {
             try (var is = new ByteArrayInputStream(applicationName.getBytes(StandardCharsets.UTF_8))) {
                 zFile.add(APPLICATION_NAME_ASSET_PATH, is);
             } catch (Throwable e) {
-                throw new PatchError("Error when saving signature: " + e);
+                throw new PatchError("Error when saving application name: " + e);
             }
 
             // copy so and dex files into the unzipped apk
@@ -264,8 +268,10 @@ public class LSPatch {
             try (var is = new ByteArrayInputStream("42".getBytes(StandardCharsets.UTF_8))) {
                 zFile.add("assets/" + Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel, is);
             } catch (Throwable e) {
-                throw new PatchError("Error when saving signature: " + e);
+                throw new PatchError("Error when saving signature bypass level: " + e);
             }
+
+            embedModules(zFile);
 
             System.out.println("Signing apk...");
             var sign = zFile.get("META-INF/MANIFEST.MF");
@@ -284,6 +290,46 @@ public class LSPatch {
             } catch (Throwable ignored) {
             }
         }
+    }
+
+    private void embedModules(ZFile zFile) {
+        System.out.println("Embedding modules...");
+        for (var module : modules) {
+            var file = new File(module);
+            if (!file.exists()) {
+                System.err.println(file.getAbsolutePath() + " does not exist.");
+            }
+
+            System.out.print("Embedding module ");
+
+            ManifestParser.Pair pair = null;
+            try (JarFile jar = new JarFile(file)) {
+                var manifest = jar.getEntry(ANDROID_MANIFEST_XML);
+                if (manifest == null) {
+                    System.out.println();
+                    System.err.println(file.getAbsolutePath() + " is not a valid apk file.");
+                    continue;
+                }
+                pair = ManifestParser.parseManifestFile(jar.getInputStream(manifest));
+                if (pair == null) {
+                    System.out.println();
+                    System.err.println(file.getAbsolutePath() + " is not a valid apk file.");
+                    continue;
+                }
+                System.out.println(pair.packageName);
+            } catch (Throwable e) {
+                System.out.println();
+                System.err.println(e.getMessage());
+            }
+            if (pair != null) {
+                try (var is = new FileInputStream(file)) {
+                    zFile.add("assets/modules/" + pair.packageName, is);
+                } catch (Throwable e) {
+                    System.err.println("Embed " + pair.packageName + " with error: " + e.getMessage());
+                }
+            }
+        }
+
     }
 
     private byte[] modifyManifestFile(InputStream is) throws IOException {
