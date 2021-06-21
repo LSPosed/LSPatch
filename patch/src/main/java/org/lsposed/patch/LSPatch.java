@@ -186,7 +186,7 @@ public class LSPatch {
             System.out.println("Patching apk...");
             // modify manifest
             try (var is = new ByteArrayInputStream(modifyManifestFile(manifestEntry.open()))) {
-                zFile.add(APPLICATION_NAME_ASSET_PATH, is);
+                zFile.add(ANDROID_MANIFEST_XML, is);
             } catch (Throwable e) {
                 throw new PatchError("Error when modifying manifest: " + e);
             }
