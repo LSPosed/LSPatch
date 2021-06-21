@@ -54,7 +54,7 @@ public class LSPApplication {
     final static public int FIRST_APP_ZYGOTE_ISOLATED_UID = 90000;
     final static public int PER_USER_RANGE = 100000;
 
-    final static private LSPApplication instance = new LSPApplication();
+    final static private LSPApplication instance = null;
 
     static public boolean isIsolated() {
         return (android.os.Process.myUid() % PER_USER_RANGE) >= FIRST_APP_ZYGOTE_ISOLATED_UID;
@@ -73,8 +73,8 @@ public class LSPApplication {
             return;
         }
         YahfaHooker.init();
-        XposedBridge.initXResources();
-        PrebuiltMethodsDeopter.deoptBootMethods(); // do it once for secondary zygote
+        // XposedBridge.initXResources();
+        // PrebuiltMethodsDeopter.deoptBootMethods(); // do it once for secondary zygote
         XposedInit.startsSystemServer = false;
 
         originalApplicationName = FileUtils.readTextFromAssets(context, ORIGINAL_APPLICATION_NAME_ASSET_PATH);
@@ -83,6 +83,7 @@ public class LSPApplication {
         XLog.d(TAG, "original application class " + originalApplicationName);
         XLog.d(TAG, "original signature info " + originalSignature);
 
+        instance = new LSPApplication();
         try {
             doHook(context);
             initAndLoadModules(context);
