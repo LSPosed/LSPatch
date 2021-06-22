@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.ParcelFileDescriptor;
+import android.system.Os;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -39,7 +40,9 @@ import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -47,6 +50,7 @@ import java.util.Map;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
+import hidden.HiddenApiBridge;
 
 /**
  * Created by Windysha
@@ -99,6 +103,7 @@ public class LSPApplication extends ApplicationServiceClient {
         serviceClient = instance;
 
         try {
+            disableProfile(context);
             loadModules(context);
             Main.forkPostCommon(false, context.getDataDir().toString(), ActivityThread.currentProcessName());
             doHook(context);
@@ -108,6 +113,50 @@ public class LSPApplication extends ApplicationServiceClient {
         } catch (Throwable e) {
             Log.e(TAG, "Do hook", e);
         }
+    }
+
+    public static void disableProfile(Context context) {
+        final ArrayList<String> codePaths = new ArrayList<>();
+        var appInfo = context.getApplicationInfo();
+        var pkgName = context.getPackageName();
+        if (appInfo == null) return;
+        if ((appInfo.flags & ApplicationInfo.FLAG_HAS_CODE) != 0) {
+            codePaths.add(appInfo.sourceDir);
+        }
+        if (appInfo.splitSourceDirs != null) {
+            Collections.addAll(codePaths, appInfo.splitSourceDirs);
+        }
+
+        if (codePaths.isEmpty()) {
+            // If there are no code paths there's no need to setup a profile file and register with
+            // the runtime,
+            return;
+        }
+
+        var profileDir = HiddenApiBridge.Environment_getDataProfilesDePackageDirectory(appInfo.uid / PER_USER_RANGE, pkgName);
+
+        var attrs = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("r--------"));
+
+        for (int i = codePaths.size() - 1; i >= 0; i--) {
+            String splitName = i == 0 ? null : appInfo.splitNames[i - 1];
+            File curProfileFile = new File(profileDir, splitName == null ? "primary.prof" : splitName + ".split.prof").getAbsoluteFile();
+            Log.d(TAG, "processing " + curProfileFile.getAbsolutePath());
+            try {
+                if (curProfileFile.exists() && !curProfileFile.delete()) {
+                    try (var writer = new FileOutputStream(curProfileFile)) {
+                        Log.d(TAG, "failed to delete, try to clear content " + curProfileFile.getAbsolutePath());
+                    } catch (Throwable e) {
+                        Log.e(TAG, "failed to delete and clear profile file " + curProfileFile.getAbsolutePath(), e);
+                    }
+                    Os.chmod(curProfileFile.getAbsolutePath(), 00400);
+                } else {
+                    Files.createFile(curProfileFile.toPath(), attrs);
+                }
+            } catch (Throwable e) {
+                Log.e(TAG, "failed to disable profile file " + curProfileFile.getAbsolutePath(), e);
+            }
+        }
+
     }
 
     public static void loadModules(Context context) {

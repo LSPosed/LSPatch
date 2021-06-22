@@ -81,6 +81,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':lspcore')
+    implementation project(path: ':hiddenapi-bridge')
     compileOnly project(":hiddenapi-stubs")
     implementation project(':share')
 }

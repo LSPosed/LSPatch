@@ -15,9 +15,7 @@ public class FileUtils {
         }
         try (InputStream is = context.getAssets().open(assetsFileName)) {
             return readTextFromInputStream(is);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        } catch (Throwable ignored) {
         }
         return null;
     }
@@ -30,9 +28,7 @@ public class FileUtils {
                 builder.append(str);
             }
             return builder.toString();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        } catch (Throwable ignored) {
         }
         return null;
     }
