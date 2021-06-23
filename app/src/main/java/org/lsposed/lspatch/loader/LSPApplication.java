@@ -101,7 +101,6 @@ public class LSPApplication extends ApplicationServiceClient {
 
         instance = new LSPApplication();
         serviceClient = instance;
-
         try {
             disableProfile(context);
             loadModules(context);
@@ -112,6 +111,9 @@ public class LSPApplication extends ApplicationServiceClient {
             LSPLoader.initModules(context);
         } catch (Throwable e) {
             Log.e(TAG, "Do hook", e);
+        }
+        if (isApplicationProxied()) {
+            instance.createOriginalApplication();
         }
     }
 
@@ -142,6 +144,10 @@ public class LSPApplication extends ApplicationServiceClient {
             File curProfileFile = new File(profileDir, splitName == null ? "primary.prof" : splitName + ".split.prof").getAbsoluteFile();
             Log.d(TAG, "processing " + curProfileFile.getAbsolutePath());
             try {
+                if (!curProfileFile.canWrite() && Files.size(curProfileFile.toPath()) == 0) {
+                    Log.d(TAG, "skip profile " + curProfileFile.getAbsolutePath());
+                    continue;
+                }
                 if (curProfileFile.exists() && !curProfileFile.delete()) {
                     try (var writer = new FileOutputStream(curProfileFile)) {
                         Log.d(TAG, "failed to delete, try to clear content " + curProfileFile.getAbsolutePath());
@@ -244,10 +250,6 @@ public class LSPApplication extends ApplicationServiceClient {
 
     public LSPApplication() {
         super();
-
-        if (isApplicationProxied()) {
-            createOriginalApplication();
-        }
     }
 
     private static boolean isApplicationProxied() {
