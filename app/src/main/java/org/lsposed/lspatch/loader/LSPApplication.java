@@ -186,9 +186,10 @@ public class LSPApplication extends ApplicationServiceClient {
         HashSet<String> embedded_modules = new HashSet<>();
         HashSet<String> disabled_modules = new HashSet<>();
         try {
+            var lastInstalledTime = new File(context.getApplicationInfo().sourceDir).lastModified();
             for (var name : context.getAssets().list("modules")) {
                 var target = new File(cacheDir, name + ".apk");
-                if (target.exists()) {
+                if (target.lastModified() > lastInstalledTime) {
                     embedded_modules.add(name);
                     LSPApplication.modules.put(name, target.getAbsolutePath());
                     continue;
