@@ -1,8 +1,10 @@
 package org.lsposed.patch;
 
 import com.android.apksig.ApkSigner;
+import com.android.tools.build.apkzlib.zip.AlignmentRules;
 import com.android.tools.build.apkzlib.zip.StoredEntry;
 import com.android.tools.build.apkzlib.zip.ZFile;
+import com.android.tools.build.apkzlib.zip.ZFileOptions;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.wind.meditor.core.ManifestEditor;
@@ -76,12 +78,11 @@ public class LSPatch {
     @Parameter(names = {"-m", "--embed"}, description = "Embed provided modules to apk")
     private List<String> modules = new ArrayList<>();
 
-    private int dexFileCount = 0;
-
     private static final String APPLICATION_NAME_ASSET_PATH = "assets/original_application_name.ini";
     private static final String SIGNATURE_INFO_ASSET_PATH = "assets/original_signature_info.ini";
     private static final String ORIGIN_APK_ASSET_PATH = "assets/origin_apk.bin";
     private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
+    private static final String RESOURCES_ARSC = "resources.arsc";
     private static final HashSet<String> APK_LIB_PATH_ARRAY = new HashSet<>(Arrays.asList(
 //            "armeabi",
             "armeabi-v7a",
@@ -147,7 +148,23 @@ public class LSPatch {
 
         System.out.println("Parsing original apk...");
 
-        try (ZFile zFile = ZFile.openReadWrite(tmpApk)) {
+        final ZFileOptions zFileOptions = new ZFileOptions();
+
+        final var alignmentRule = AlignmentRules.compose(
+                AlignmentRules.constantForSuffix(RESOURCES_ARSC, 4),
+                AlignmentRules.constantForSuffix(ORIGIN_APK_ASSET_PATH, 4096)
+        );
+        zFileOptions.setAlignmentRule(alignmentRule);
+        try (ZFile zFile = ZFile.openReadWrite(tmpApk, zFileOptions)) {
+            // copy origin apk to assets
+            zFile.add(ORIGIN_APK_ASSET_PATH, new FileInputStream(srcApkFile), false);
+
+            // remove unnecessary files
+            for (StoredEntry storedEntry : zFile.entries()) {
+                var name = storedEntry.getCentralDirectoryHeader().getName();
+                if (name.endsWith(".dex")) storedEntry.delete();
+            }
+
             if (sigbypassLevel > 0) {
                 // save the apk original signature info, to support crack signature.
                 String originalSignature = ApkSignatureHelper.getApkSignInfo(srcApkFile.getAbsolutePath());
@@ -162,12 +179,6 @@ public class LSPatch {
                     throw new PatchError("Error when saving signature: " + e);
                 }
             }
-
-            // get the dex count in the apk zip file
-            dexFileCount = findDexFileCount(zFile);
-
-            if (verbose)
-                System.out.println("dexFileCount: " + dexFileCount);
 
             // copy out manifest file from zlib
             var manifestEntry = zFile.get(ANDROID_MANIFEST_XML);
@@ -241,17 +252,9 @@ public class LSPatch {
                 System.out.println("Adding dex..");
 
             try (var is = getClass().getClassLoader().getResourceAsStream("assets/dex/loader.dex")) {
-                String copiedDexFileName = "classes" + (dexFileCount + 1) + ".dex";
-                zFile.add(copiedDexFileName, is);
-                dexFileCount++;
+                zFile.add("classes.dex", is);
             } catch (Throwable e) {
                 throw new PatchError("Error when add dex: " + e);
-            }
-
-            // copy origin apk to assets
-            // convenient to bypass some check like CRC
-            if (sigbypassLevel >= Constants.SIGBYPASS_LV_PM_OPENAT) {
-                zFile.add(ORIGIN_APK_ASSET_PATH, new FileInputStream(srcApkFile));
             }
 
             try (var is = getClass().getClassLoader().getResourceAsStream("assets/dex/lsp.dex")) {
@@ -274,6 +277,7 @@ public class LSPatch {
             if (sign != null)
                 sign.delete();
 
+            zFile.realign();
             zFile.update();
 
             signApkUsingAndroidApksigner(tmpApk, outputFile);
@@ -339,13 +343,6 @@ public class LSPatch {
         os.flush();
         os.close();
         return os.toByteArray();
-    }
-
-    private int findDexFileCount(ZFile zFile) {
-        for (int i = 2; ; i++) {
-            if (zFile.get("classes" + i + ".dex") == null)
-                return i - 1;
-        }
     }
 
     private void signApkUsingAndroidApksigner(File apkPath, File outputPath) throws PatchError {
