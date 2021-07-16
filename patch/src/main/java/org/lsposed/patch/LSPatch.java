@@ -55,7 +55,8 @@ public class LSPatch {
     @Parameter(names = {"-f", "--force"}, description = "Force overwrite exists output file")
     private boolean forceOverwrite = false;
 
-    private String proxyName = "org.lsposed.lspatch.appstub.LSPApplicationStub";
+    private String proxyApplication = "org.lsposed.lspatch.appstub.LSPApplicationStub";
+    private String proxyAppComponentFactory = "org.lsposed.lspatch.appstub.LSPAppComponentFactoryStub";
 
     @Parameter(names = {"-d", "--debuggable"}, description = "Set app to be debuggable")
     private boolean debuggableFlag = false;
@@ -78,9 +79,10 @@ public class LSPatch {
     @Parameter(names = {"-m", "--embed"}, description = "Embed provided modules to apk")
     private List<String> modules = new ArrayList<>();
 
+    private static final String APP_COMPONENT_FACTORY_ASSET_PATH = "assets/original_app_component_factory.ini";
     private static final String APPLICATION_NAME_ASSET_PATH = "assets/original_application_name.ini";
     private static final String SIGNATURE_INFO_ASSET_PATH = "assets/original_signature_info.ini";
-    private static final String ORIGIN_APK_ASSET_PATH = "assets/origin_apk.bin";
+    private static final String ORIGINAL_APK_ASSET_PATH = "assets/origin_apk.bin";
     private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
     private static final String RESOURCES_ARSC = "resources.arsc";
     private static final HashSet<String> APK_LIB_PATH_ARRAY = new HashSet<>(Arrays.asList(
@@ -152,12 +154,12 @@ public class LSPatch {
 
         final var alignmentRule = AlignmentRules.compose(
                 AlignmentRules.constantForSuffix(RESOURCES_ARSC, 4),
-                AlignmentRules.constantForSuffix(ORIGIN_APK_ASSET_PATH, 4096)
+                AlignmentRules.constantForSuffix(ORIGINAL_APK_ASSET_PATH, 4096)
         );
         zFileOptions.setAlignmentRule(alignmentRule);
         try (ZFile zFile = ZFile.openReadWrite(tmpApk, zFileOptions)) {
             // copy origin apk to assets
-            zFile.add(ORIGIN_APK_ASSET_PATH, new FileInputStream(srcApkFile), false);
+            zFile.add(ORIGINAL_APK_ASSET_PATH, new FileInputStream(srcApkFile), false);
 
             // remove unnecessary files
             for (StoredEntry storedEntry : zFile.entries()) {
@@ -186,13 +188,16 @@ public class LSPatch {
                 throw new PatchError("Provided file is not a valid apk");
 
             // parse the app main application full name from the manifest file
-            ManifestParser.Pair pair = ManifestParser.parseManifestFile(manifestEntry.open());
-            if (pair == null)
+            ManifestParser.Triple triple = ManifestParser.parseManifestFile(manifestEntry.open());
+            if (triple == null)
                 throw new PatchError("Failed to parse AndroidManifest.xml");
-            String applicationName = pair.applicationName == null ? "" : pair.applicationName;
+            String applicationName = triple.applicationName == null ? "" : triple.applicationName;
+            String appComponentFactory = triple.appComponentFactory == null ? "" : triple.appComponentFactory;
 
-            if (verbose)
+            if (verbose) {
                 System.out.println("original application name: " + applicationName);
+                System.out.println("original appComponentFactory class: " + appComponentFactory);
+            }
 
             System.out.println("Patching apk...");
             // modify manifest
@@ -200,6 +205,13 @@ public class LSPatch {
                 zFile.add(ANDROID_MANIFEST_XML, is);
             } catch (Throwable e) {
                 throw new PatchError("Error when modifying manifest: " + e);
+            }
+
+            // save original appComponentFactory name to asset file even its empty
+            try (var is = new ByteArrayInputStream(appComponentFactory.getBytes(StandardCharsets.UTF_8))) {
+                zFile.add(APP_COMPONENT_FACTORY_ASSET_PATH, is);
+            } catch (Throwable e) {
+                throw new PatchError("Error when saving appComponentFactory class: " + e);
             }
 
             // save original main application name to asset file even its empty
@@ -301,7 +313,7 @@ public class LSPatch {
 
             System.out.print("Embedding module ");
 
-            ManifestParser.Pair pair = null;
+            ManifestParser.Triple triple = null;
             try (JarFile jar = new JarFile(file)) {
                 var manifest = jar.getEntry(ANDROID_MANIFEST_XML);
                 if (manifest == null) {
@@ -309,22 +321,22 @@ public class LSPatch {
                     System.err.println(file.getAbsolutePath() + " is not a valid apk file.");
                     continue;
                 }
-                pair = ManifestParser.parseManifestFile(jar.getInputStream(manifest));
-                if (pair == null) {
+                triple = ManifestParser.parseManifestFile(jar.getInputStream(manifest));
+                if (triple == null) {
                     System.out.println();
                     System.err.println(file.getAbsolutePath() + " is not a valid apk file.");
                     continue;
                 }
-                System.out.println(pair.packageName);
+                System.out.println(triple.packageName);
             } catch (Throwable e) {
                 System.out.println();
                 System.err.println(e.getMessage());
             }
-            if (pair != null) {
+            if (triple != null) {
                 try (var is = new FileInputStream(file)) {
-                    zFile.add("assets/modules/" + pair.packageName, is);
+                    zFile.add("assets/modules/" + triple.packageName, is);
                 } catch (Throwable e) {
-                    System.err.println("Embed " + pair.packageName + " with error: " + e.getMessage());
+                    System.err.println("Embed " + triple.packageName + " with error: " + e.getMessage());
                 }
             }
         }
@@ -335,7 +347,8 @@ public class LSPatch {
         ModificationProperty property = new ModificationProperty();
 
         property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag));
-        property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, proxyName));
+        property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, proxyApplication));
+        property.addApplicationAttribute(new AttributeItem("appComponentFactory", proxyAppComponentFactory));
 
         var os = new ByteArrayOutputStream();
         (new ManifestEditor(is, os, property)).processManifest();

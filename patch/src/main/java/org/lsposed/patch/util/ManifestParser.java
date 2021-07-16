@@ -14,10 +14,11 @@ import wind.v1.XmlPullParserException;
  */
 public class ManifestParser {
 
-    public static Pair parseManifestFile(InputStream is) throws IOException {
+    public static Triple parseManifestFile(InputStream is) throws IOException {
         AXmlResourceParser parser = new AXmlResourceParser();
         String packageName = null;
         String applicationName = null;
+        String appComponentFactory = null;
         try {
             parser.open(is);
 
@@ -43,10 +44,15 @@ public class ManifestParser {
                             if ("name".equals(attrName)) {
                                 applicationName = parser.getAttributeValue(i);
                             }
+                            if ("appComponentFactory".equals(attrName)) {
+                                appComponentFactory = parser.getAttributeValue(i);
+                            }
                         }
 
-                        if (packageName != null && packageName.length() > 0 && applicationName != null && applicationName.length() > 0) {
-                            return new Pair(packageName, applicationName);
+                        if (packageName != null && packageName.length() > 0 &&
+                                applicationName != null && applicationName.length() > 0 &&
+                                appComponentFactory != null && appComponentFactory.length() > 0) {
+                            return new Triple(packageName, applicationName, appComponentFactory);
                         }
                     }
                 } else if (type == XmlPullParser.END_TAG) {
@@ -56,26 +62,28 @@ public class ManifestParser {
         } catch (XmlPullParserException | IOException e) {
             return null;
         }
-        return new Pair(packageName, applicationName);
+        return new Triple(packageName, applicationName, appComponentFactory);
     }
 
     /**
      * Get the package name and the main application name from the manifest file
      */
-    public static Pair parseManifestFile(String filePath) throws IOException {
+    public static Triple parseManifestFile(String filePath) throws IOException {
         File file = new File(filePath);
         try (var is = new FileInputStream(file)) {
             return parseManifestFile(is);
         }
     }
 
-    public static class Pair {
+    public static class Triple {
         public String packageName;
         public String applicationName;
+        public String appComponentFactory;
 
-        public Pair(String packageName, String applicationName) {
+        public Triple(String packageName, String applicationName, String appComponentFactory) {
             this.packageName = packageName;
             this.applicationName = applicationName;
+            this.appComponentFactory = appComponentFactory;
         }
     }
 
