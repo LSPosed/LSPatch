@@ -38,7 +38,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
@@ -47,6 +49,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import dalvik.system.PathClassLoader;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
@@ -102,6 +105,7 @@ public class LSPApplication extends ApplicationServiceClient {
         instance = new LSPApplication();
         serviceClient = instance;
         try {
+            initAppClassLoader(context);
             disableProfile(context);
             loadModules(context);
             Main.forkPostCommon(false, context.getDataDir().toString(), ActivityThread.currentProcessName());
@@ -257,18 +261,24 @@ public class LSPApplication extends ApplicationServiceClient {
         return originalApplicationName != null && !originalApplicationName.isEmpty() && !("android.app.Application").equals(originalApplicationName);
     }
 
-    private static ClassLoader getAppClassLoader() {
-        if (appClassLoader != null) {
-            return appClassLoader;
-        }
+    private static void initAppClassLoader(Context context) {
         try {
             Object mBoundApplication = XposedHelpers.getObjectField(getActivityThread(), "mBoundApplication");
             Object loadedApkObj = XposedHelpers.getObjectField(mBoundApplication, "info");
-            appClassLoader = (ClassLoader) XposedHelpers.callMethod(loadedApkObj, "getClassLoader");
+            var mClassLoader = (ClassLoader) XposedHelpers.getObjectField(loadedApkObj, "mClassLoader");
+
+            final String cacheApkPath = context.getCacheDir().getAbsolutePath() + "/origin_apk.bin";
+            try (InputStream inputStream = context.getAssets().open("origin_apk.bin")) {
+                Files.copy(inputStream, Paths.get(cacheApkPath));
+            } catch (FileAlreadyExistsException ignored) {
+            }
+            appClassLoader = new PathClassLoader(cacheApkPath, mClassLoader.getParent());
+            XposedHelpers.setObjectField(loadedApkObj, "mClassLoader", appClassLoader);
+
+            Log.d(TAG, "appClassLoader is now switched to " + appClassLoader);
         } catch (Throwable e) {
-            Log.e(TAG, "getAppClassLoader", e);
+            Log.e(TAG, "initAppClassLoader", e);
         }
-        return appClassLoader;
     }
 
     private static void byPassSignature(Context context) throws ClassNotFoundException, IllegalAccessException {
@@ -292,7 +302,7 @@ public class LSPApplication extends ApplicationServiceClient {
             throw new IllegalStateException("getPackageInfo transaction id null");
         }
 
-        XposedHelpers.findAndHookMethod("android.os.BinderProxy", getAppClassLoader(), "transact", int.class, Parcel.class, Parcel.class, int.class, new XC_MethodHook() {
+        XposedHelpers.findAndHookMethod("android.os.BinderProxy", appClassLoader, "transact", int.class, Parcel.class, Parcel.class, int.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 try {
@@ -400,7 +410,7 @@ public class LSPApplication extends ApplicationServiceClient {
 
     private static void hookApplicationStub() {
         try {
-            Class<?> appStub = XposedHelpers.findClass("org.lsposed.lspatch.appstub.LSPApplicationStub", getAppClassLoader());
+            Class<?> appStub = XposedHelpers.findClass("org.lsposed.lspatch.appstub.LSPApplicationStub", appClassLoader);
             XposedHelpers.findAndHookMethod(appStub, "onCreate", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -420,7 +430,7 @@ public class LSPApplication extends ApplicationServiceClient {
 
     private static void hookContextImplSetOuterContext() {
         try {
-            XposedHelpers.findAndHookMethod("android.app.ContextImpl", getAppClassLoader(), "setOuterContext", Context.class, new XC_MethodHook() {
+            XposedHelpers.findAndHookMethod("android.app.ContextImpl", appClassLoader, "setOuterContext", Context.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     replaceApplicationParam(param.args);
@@ -433,7 +443,7 @@ public class LSPApplication extends ApplicationServiceClient {
 
     private static void hookInstallContentProviders() {
         try {
-            XposedBridge.hookAllMethods(XposedHelpers.findClass("android.app.ActivityThread", getAppClassLoader()), "installContentProviders", new XC_MethodHook() {
+            XposedBridge.hookAllMethods(XposedHelpers.findClass("android.app.ActivityThread", appClassLoader), "installContentProviders", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     replaceApplicationParam(param.args);
@@ -446,7 +456,7 @@ public class LSPApplication extends ApplicationServiceClient {
 
     private static void hookActivityAttach() {
         try {
-            XposedBridge.hookAllMethods(XposedHelpers.findClass("android.app.Activity", getAppClassLoader()), "attach", new XC_MethodHook() {
+            XposedBridge.hookAllMethods(XposedHelpers.findClass("android.app.Activity", appClassLoader), "attach", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     replaceApplicationParam(param.args);
@@ -459,7 +469,7 @@ public class LSPApplication extends ApplicationServiceClient {
 
     private static void hookServiceAttach() {
         try {
-            XposedBridge.hookAllMethods(XposedHelpers.findClass("android.app.Service", getAppClassLoader()), "attach", new XC_MethodHook() {
+            XposedBridge.hookAllMethods(XposedHelpers.findClass("android.app.Service", appClassLoader), "attach", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     replaceApplicationParam(param.args);
@@ -556,7 +566,7 @@ public class LSPApplication extends ApplicationServiceClient {
     private Application createOriginalApplication() {
         if (sOriginalApplication == null) {
             try {
-                sOriginalApplication = (Application) getAppClassLoader().loadClass(originalApplicationName).newInstance();
+                sOriginalApplication = (Application) appClassLoader.loadClass(originalApplicationName).newInstance();
             } catch (Throwable e) {
                 Log.e(TAG, "createOriginalApplication", e);
             }
