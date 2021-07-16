@@ -55,9 +55,6 @@ public class LSPatch {
     @Parameter(names = {"-f", "--force"}, description = "Force overwrite exists output file")
     private boolean forceOverwrite = false;
 
-    private String proxyApplication = "org.lsposed.lspatch.appstub.LSPApplicationStub";
-    private String proxyAppComponentFactory = "org.lsposed.lspatch.appstub.LSPAppComponentFactoryStub";
-
     @Parameter(names = {"-d", "--debuggable"}, description = "Set app to be debuggable")
     private boolean debuggableFlag = false;
 
@@ -79,6 +76,9 @@ public class LSPatch {
     @Parameter(names = {"-m", "--embed"}, description = "Embed provided modules to apk")
     private List<String> modules = new ArrayList<>();
 
+    private static final String PROXY_APP_COMPONENT_FACTORY = "org.lsposed.lspatch.appstub.LSPAppComponentFactoryStub";
+    private static final String PROXY_APPLICATION = "org.lsposed.lspatch.appstub.LSPApplicationStub";
+
     private static final String APP_COMPONENT_FACTORY_ASSET_PATH = "assets/original_app_component_factory.ini";
     private static final String APPLICATION_NAME_ASSET_PATH = "assets/original_application_name.ini";
     private static final String SIGNATURE_INFO_ASSET_PATH = "assets/original_signature_info.ini";
@@ -94,6 +94,7 @@ public class LSPatch {
     ));
 
     private static JCommander jCommander;
+    private boolean hasAppComponentFactory;
 
     public static void main(String... args) throws IOException {
         LSPatch lsPatch = new LSPatch();
@@ -192,7 +193,8 @@ public class LSPatch {
             if (triple == null)
                 throw new PatchError("Failed to parse AndroidManifest.xml");
             String applicationName = triple.applicationName == null ? "" : triple.applicationName;
-            String appComponentFactory = triple.appComponentFactory == null ? "" : triple.appComponentFactory;
+            String appComponentFactory = triple.appComponentFactory;
+            hasAppComponentFactory = appComponentFactory != null;
 
             if (verbose) {
                 System.out.println("original application name: " + applicationName);
@@ -208,11 +210,12 @@ public class LSPatch {
             }
 
             // save original appComponentFactory name to asset file even its empty
-            try (var is = new ByteArrayInputStream(appComponentFactory.getBytes(StandardCharsets.UTF_8))) {
-                zFile.add(APP_COMPONENT_FACTORY_ASSET_PATH, is);
-            } catch (Throwable e) {
-                throw new PatchError("Error when saving appComponentFactory class: " + e);
-            }
+            if (appComponentFactory != null)
+                try (var is = new ByteArrayInputStream(appComponentFactory.getBytes(StandardCharsets.UTF_8))) {
+                    zFile.add(APP_COMPONENT_FACTORY_ASSET_PATH, is);
+                } catch (Throwable e) {
+                    throw new PatchError("Error when saving appComponentFactory class: " + e);
+                }
 
             // save original main application name to asset file even its empty
             try (var is = new ByteArrayInputStream(applicationName.getBytes(StandardCharsets.UTF_8))) {
@@ -347,8 +350,9 @@ public class LSPatch {
         ModificationProperty property = new ModificationProperty();
 
         property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag));
-        property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, proxyApplication));
-        property.addApplicationAttribute(new AttributeItem("appComponentFactory", proxyAppComponentFactory));
+        property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, PROXY_APPLICATION));
+        if (hasAppComponentFactory)
+            property.addApplicationAttribute(new AttributeItem("appComponentFactory", PROXY_APP_COMPONENT_FACTORY));
 
         var os = new ByteArrayOutputStream();
         (new ManifestEditor(is, os, property)).processManifest();
