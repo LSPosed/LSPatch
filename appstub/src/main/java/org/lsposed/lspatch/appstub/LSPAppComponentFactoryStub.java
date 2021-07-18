@@ -34,19 +34,18 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
     /**
      * Instantiate original AppComponentFactory<br/>
      * This method will be called at <b>instantiateClassLoader</b> by <b>createOrUpdateClassLoaderLocked</b>
-     *
-     * @param cl PathClassLoader(originalApk)
      **/
-    private void initOriginalAppComponentFactory(ClassLoader cl, ApplicationInfo aInfo) {
+    private void initOriginalAppComponentFactory(ApplicationInfo aInfo) {
         final String cacheApkPath = aInfo.dataDir + "/cache/origin_apk.bin";
-        final String originalAppComponentFactoryClass = FileUtils.readTextFromInputStream(cl.getResourceAsStream(ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH));
+        final String originalAppComponentFactoryClass =
+                FileUtils.readTextFromInputStream(baseClassLoader.getResourceAsStream(ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH));
 
         try {
-            try (InputStream inputStream = cl.getResourceAsStream(ORIGINAL_APK_ASSET_PATH)) {
+            try (InputStream inputStream = baseClassLoader.getResourceAsStream(ORIGINAL_APK_ASSET_PATH)) {
                 Files.copy(inputStream, Paths.get(cacheApkPath));
             } catch (FileAlreadyExistsException ignored) {
             }
-            appClassLoader = new PathClassLoader(cacheApkPath, cl.getParent());
+            appClassLoader = new PathClassLoader(cacheApkPath, aInfo.nativeLibraryDir, baseClassLoader.getParent());
             if (originalAppComponentFactoryClass == null || originalAppComponentFactoryClass.isEmpty())
                 originalAppComponentFactory = new AppComponentFactory();
             else
@@ -60,7 +59,9 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
     @Override
     public ClassLoader instantiateClassLoader(ClassLoader cl, ApplicationInfo aInfo) {
         baseClassLoader = cl;
-        initOriginalAppComponentFactory(cl, aInfo);
+        initOriginalAppComponentFactory(aInfo);
+        Log.d(TAG, "baseClassLoader is " + baseClassLoader);
+        Log.d(TAG, "appClassLoader is " + appClassLoader);
         return originalAppComponentFactory.instantiateClassLoader(appClassLoader, aInfo);
     }
 
