@@ -116,9 +116,6 @@ public class LSPApplication extends ApplicationServiceClient {
         } catch (Throwable e) {
             Log.e(TAG, "Do hook", e);
         }
-        if (isApplicationProxied()) {
-            instance.createOriginalApplication();
-        }
     }
 
     public static void disableProfile(Context context) {
@@ -265,17 +262,7 @@ public class LSPApplication extends ApplicationServiceClient {
         try {
             Object mBoundApplication = XposedHelpers.getObjectField(getActivityThread(), "mBoundApplication");
             Object loadedApkObj = XposedHelpers.getObjectField(mBoundApplication, "info");
-            var mClassLoader = (ClassLoader) XposedHelpers.getObjectField(loadedApkObj, "mClassLoader");
-
-            final String cacheApkPath = context.getCacheDir().getAbsolutePath() + "/origin_apk.bin";
-            try (InputStream inputStream = context.getAssets().open("origin_apk.bin")) {
-                Files.copy(inputStream, Paths.get(cacheApkPath));
-            } catch (FileAlreadyExistsException ignored) {
-            }
-            appClassLoader = new PathClassLoader(cacheApkPath, mClassLoader.getParent());
-            XposedHelpers.setObjectField(loadedApkObj, "mClassLoader", appClassLoader);
-
-            Log.d(TAG, "appClassLoader is now switched to " + appClassLoader);
+            appClassLoader = (ClassLoader) XposedHelpers.getObjectField(loadedApkObj, "mClassLoader");
         } catch (Throwable e) {
             Log.e(TAG, "initAppClassLoader", e);
         }

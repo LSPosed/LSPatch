@@ -23,13 +23,21 @@ import dalvik.system.PathClassLoader;
 @SuppressLint("NewApi")
 public class LSPAppComponentFactoryStub extends AppComponentFactory {
     private static final String TAG = "LSPatch";
+    private static final String PROXY_APPLICATION = "org.lsposed.lspatch.appstub.LSPApplicationStub";
     private static final String ORIGINAL_APK_ASSET_PATH = "assets/origin_apk.bin";
     private static final String ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH = "assets/original_app_component_factory.ini";
 
+    private ClassLoader appClassLoader = null;
+    private ClassLoader baseClassLoader = null;
     private AppComponentFactory originalAppComponentFactory = null;
 
-    // Proxy appComponentFactory to load the original one
-    private void initOrigin(ClassLoader cl, ApplicationInfo aInfo) {
+    /**
+     * Instantiate original AppComponentFactory<br/>
+     * This method will be called at <b>instantiateClassLoader</b> by <b>createOrUpdateClassLoaderLocked</b>
+     *
+     * @param cl PathClassLoader(originalApk)
+     **/
+    private void initOriginalAppComponentFactory(ClassLoader cl, ApplicationInfo aInfo) {
         final String cacheApkPath = aInfo.dataDir + "/cache/origin_apk.bin";
         final String originalAppComponentFactoryClass = FileUtils.readTextFromInputStream(cl.getResourceAsStream(ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH));
 
@@ -38,22 +46,27 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
                 Files.copy(inputStream, Paths.get(cacheApkPath));
             } catch (FileAlreadyExistsException ignored) {
             }
-            ClassLoader appClassLoader = new PathClassLoader(cacheApkPath, cl.getParent());
-            originalAppComponentFactory = (AppComponentFactory) appClassLoader.loadClass(originalAppComponentFactoryClass).newInstance();
-            Log.d(TAG, "appComponentFactory is now switched to " + originalAppComponentFactory);
+            appClassLoader = new PathClassLoader(cacheApkPath, cl.getParent());
+            if (originalAppComponentFactoryClass == null || originalAppComponentFactoryClass.isEmpty())
+                originalAppComponentFactory = new AppComponentFactory();
+            else
+                originalAppComponentFactory = (AppComponentFactory) appClassLoader.loadClass(originalAppComponentFactoryClass).newInstance();
+            Log.d(TAG, "Instantiate original AppComponentFactory: " + originalAppComponentFactory);
         } catch (Throwable e) {
-            Log.e(TAG, "initOrigin", e);
+            Log.e(TAG, "initOriginalAppComponentFactory", e);
         }
     }
 
     @Override
     public ClassLoader instantiateClassLoader(ClassLoader cl, ApplicationInfo aInfo) {
-        if (originalAppComponentFactory == null) initOrigin(cl, aInfo);
-        return originalAppComponentFactory.instantiateClassLoader(cl, aInfo);
+        baseClassLoader = cl;
+        initOriginalAppComponentFactory(cl, aInfo);
+        return originalAppComponentFactory.instantiateClassLoader(appClassLoader, aInfo);
     }
 
     @Override
     public Application instantiateApplication(ClassLoader cl, String className) throws IllegalAccessException, InstantiationException, ClassNotFoundException {
+        baseClassLoader.loadClass(PROXY_APPLICATION).newInstance();
         return originalAppComponentFactory.instantiateApplication(cl, className);
     }
 

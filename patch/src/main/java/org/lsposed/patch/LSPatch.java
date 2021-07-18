@@ -94,7 +94,6 @@ public class LSPatch {
     ));
 
     private static JCommander jCommander;
-    private boolean hasAppComponentFactory;
 
     public static void main(String... args) throws IOException {
         LSPatch lsPatch = new LSPatch();
@@ -193,8 +192,7 @@ public class LSPatch {
             if (triple == null)
                 throw new PatchError("Failed to parse AndroidManifest.xml");
             String applicationName = triple.applicationName == null ? "" : triple.applicationName;
-            String appComponentFactory = triple.appComponentFactory;
-            hasAppComponentFactory = appComponentFactory != null;
+            String appComponentFactory = triple.appComponentFactory == null ? "" : triple.appComponentFactory;
 
             if (verbose) {
                 System.out.println("original application name: " + applicationName);
@@ -210,12 +208,11 @@ public class LSPatch {
             }
 
             // save original appComponentFactory name to asset file even its empty
-            if (appComponentFactory != null)
-                try (var is = new ByteArrayInputStream(appComponentFactory.getBytes(StandardCharsets.UTF_8))) {
-                    zFile.add(APP_COMPONENT_FACTORY_ASSET_PATH, is);
-                } catch (Throwable e) {
-                    throw new PatchError("Error when saving appComponentFactory class: " + e);
-                }
+            try (var is = new ByteArrayInputStream(appComponentFactory.getBytes(StandardCharsets.UTF_8))) {
+                zFile.add(APP_COMPONENT_FACTORY_ASSET_PATH, is);
+            } catch (Throwable e) {
+                throw new PatchError("Error when saving appComponentFactory class: " + e);
+            }
 
             // save original main application name to asset file even its empty
             try (var is = new ByteArrayInputStream(applicationName.getBytes(StandardCharsets.UTF_8))) {
@@ -350,9 +347,8 @@ public class LSPatch {
         ModificationProperty property = new ModificationProperty();
 
         property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag));
-        property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, PROXY_APPLICATION));
-        if (hasAppComponentFactory)
-            property.addApplicationAttribute(new AttributeItem("appComponentFactory", PROXY_APP_COMPONENT_FACTORY));
+        //property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, PROXY_APPLICATION));
+        property.addApplicationAttribute(new AttributeItem("appComponentFactory", PROXY_APP_COMPONENT_FACTORY));
 
         var os = new ByteArrayOutputStream();
         (new ManifestEditor(is, os, property)).processManifest();
