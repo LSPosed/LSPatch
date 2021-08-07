@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.Parcel;
@@ -25,6 +26,7 @@ import org.lsposed.lspatch.loader.util.XLog;
 import org.lsposed.lspatch.share.Constants;
 import org.lsposed.lspd.config.ApplicationServiceClient;
 import org.lsposed.lspd.core.Main;
+import org.lsposed.lspd.models.Module;
 import org.lsposed.lspd.nativebridge.SigBypass;
 
 import java.io.ByteArrayInputStream;
@@ -43,9 +45,8 @@ import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -74,7 +75,7 @@ public class LSPApplication extends ApplicationServiceClient {
 
     static private LSPApplication instance = null;
 
-    static private final Map<String, String> modules = new HashMap<>();
+    static private final List<Module> modules = new ArrayList<>();
 
     static public boolean isIsolated() {
         return (android.os.Process.myUid() % PER_USER_RANGE) >= FIRST_APP_ZYGOTE_ISOLATED_UID;
@@ -163,6 +164,8 @@ public class LSPApplication extends ApplicationServiceClient {
 
     }
 
+
+    // TODO: set module config
     public static void loadModules(Context context) {
         var configFile = new File(context.getExternalFilesDir(null), "lspatch.json");
         var cacheDir = new File(context.getExternalCacheDir(), "modules");
@@ -189,13 +192,19 @@ public class LSPApplication extends ApplicationServiceClient {
                 var target = new File(cacheDir, name + ".apk");
                 if (target.lastModified() > lastInstalledTime) {
                     embedded_modules.add(name);
-                    LSPApplication.modules.put(name, target.getAbsolutePath());
+                    var module = new Module();
+                    module.apk = target.getAbsolutePath();
+                    module.name = target.getName();
+                    LSPApplication.modules.add(module);
                     continue;
                 }
                 try (var is = context.getAssets().open("modules/" + name)) {
                     Files.copy(is, target.toPath());
                     embedded_modules.add(name);
-                    LSPApplication.modules.put(name, target.getAbsolutePath());
+                    var module = new Module();
+                    module.apk = target.getAbsolutePath();
+                    module.name = target.getName();
+                    LSPApplication.modules.add(module);
                 } catch (IOException ignored) {
 
                 }
@@ -219,17 +228,20 @@ public class LSPApplication extends ApplicationServiceClient {
                 continue;
             }
             if (app.metaData != null && app.metaData.containsKey("xposedminversion") && !embedded_modules.contains(app.packageName)) {
-                LSPApplication.modules.put(app.packageName, app.publicSourceDir);
+                var module = new Module();
+                module.apk = app.publicSourceDir;
+                module.name = app.packageName;
+                LSPApplication.modules.add(module);
             }
         }
         final var new_modules = new JSONArray();
-        LSPApplication.modules.forEach((k, v) -> {
+        LSPApplication.modules.forEach(m -> {
             try {
                 var module = new JSONObject();
-                module.put("name", k);
-                module.put("enabled", !disabled_modules.contains(k));
-                module.put("use_embed", embedded_modules.contains(k));
-                module.put("path", v);
+                module.put("name", m.name);
+                module.put("enabled", !disabled_modules.contains(m.name));
+                module.put("use_embed", embedded_modules.contains(m.name));
+                module.put("path", m.apk);
                 new_modules.put(module);
             } catch (Throwable ignored) {
             }
@@ -604,13 +616,13 @@ public class LSPApplication extends ApplicationServiceClient {
     }
 
     @Override
-    public IBinder requestModuleBinder() {
+    public IBinder requestModuleBinder(String name) {
         return null;
     }
 
     @Override
-    public IBinder requestManagerBinder(String packageName) {
-        return null;
+    public boolean requestManagerBinder(String packageName, String path, List<IBinder> binder) {
+        return false;
     }
 
     @Override
@@ -619,12 +631,12 @@ public class LSPApplication extends ApplicationServiceClient {
     }
 
     @Override
-    public Map getModulesList(String processName) {
+    public List getModulesList(String processName) {
         return getModulesList();
     }
 
     @Override
-    public Map<String, String> getModulesList() {
+    public List<Module> getModulesList() {
         return modules;
     }
 
@@ -635,6 +647,11 @@ public class LSPApplication extends ApplicationServiceClient {
 
     @Override
     public ParcelFileDescriptor getModuleLogger() {
+        return null;
+    }
+
+    @Override
+    public Bundle requestRemotePreference(String packageName, int userId, IBinder callback) {
         return null;
     }
 
