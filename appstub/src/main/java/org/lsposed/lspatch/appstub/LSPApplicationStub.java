@@ -1,10 +1,15 @@
 package org.lsposed.lspatch.appstub;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStreamReader;
 
+@SuppressLint("UnsafeDynamicallyLoadedCode")
 public class LSPApplicationStub extends Application {
 
     private static byte[] dex = null;
@@ -19,9 +24,16 @@ public class LSPApplicationStub extends Application {
             }
             dex = os.toByteArray();
         } catch (Throwable e) {
-            android.util.Log.e("LSPatch", "load dex error", e);
+            Log.e("LSPatch", "load dex error", e);
         }
-        System.loadLibrary("lspd");
+
+        try (var br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("getprop ro.product.cpu.abi").getInputStream()))) {
+            String arch = br.readLine();
+            String path = LSPApplicationStub.class.getClassLoader().getResource("assets/lib/" + arch + "/liblspd.so").getPath().substring(5);
+            System.load(path);
+        } catch (Throwable e) {
+            Log.e("LSPatch", "load lspd error", e);
+        }
     }
 
     @Override

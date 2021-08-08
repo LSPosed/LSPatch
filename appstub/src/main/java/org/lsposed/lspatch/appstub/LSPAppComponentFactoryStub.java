@@ -28,6 +28,7 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
     private static final String ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH = "assets/original_app_component_factory.ini";
 
     private ClassLoader appClassLoader = null;
+    private ClassLoader lspClassLoader = null;
     private ClassLoader baseClassLoader = null;
     private AppComponentFactory originalAppComponentFactory = null;
 
@@ -37,8 +38,7 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
      **/
     private void initOriginalAppComponentFactory(ApplicationInfo aInfo) {
         final String cacheApkPath = aInfo.dataDir + "/cache/origin_apk.bin";
-        final String originalAppComponentFactoryClass =
-                FileUtils.readTextFromInputStream(baseClassLoader.getResourceAsStream(ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH));
+        final String originalAppComponentFactoryClass = FileUtils.readTextFromInputStream(baseClassLoader.getResourceAsStream(ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH));
 
         try {
             try (InputStream inputStream = baseClassLoader.getResourceAsStream(ORIGINAL_APK_ASSET_PATH)) {
@@ -46,10 +46,15 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
             } catch (FileAlreadyExistsException ignored) {
             }
             appClassLoader = new PathClassLoader(cacheApkPath, aInfo.nativeLibraryDir, baseClassLoader.getParent());
-            if (originalAppComponentFactoryClass == null || originalAppComponentFactoryClass.isEmpty())
-                originalAppComponentFactory = new AppComponentFactory();
-            else
+
+            try {
                 originalAppComponentFactory = (AppComponentFactory) appClassLoader.loadClass(originalAppComponentFactoryClass).newInstance();
+            } catch (ClassNotFoundException | NullPointerException ignored) {
+                if (originalAppComponentFactoryClass != null && !originalAppComponentFactoryClass.isEmpty())
+                    Log.w(TAG, "Original AppComponentFactory not found");
+                originalAppComponentFactory = new AppComponentFactory();
+            }
+
             Log.d(TAG, "Instantiate original AppComponentFactory: " + originalAppComponentFactory);
         } catch (Throwable e) {
             Log.e(TAG, "initOriginalAppComponentFactory", e);
@@ -59,6 +64,9 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
     @Override
     public ClassLoader instantiateClassLoader(ClassLoader cl, ApplicationInfo aInfo) {
         baseClassLoader = cl;
+        var apkPath = baseClassLoader.getResource("AndroidManifest.xml").getPath();
+        apkPath = apkPath.substring(5, apkPath.lastIndexOf('!'));
+        lspClassLoader = new PathClassLoader(apkPath, null, null);
         initOriginalAppComponentFactory(aInfo);
         Log.d(TAG, "baseClassLoader is " + baseClassLoader);
         Log.d(TAG, "appClassLoader is " + appClassLoader);
@@ -67,7 +75,7 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
 
     @Override
     public Application instantiateApplication(ClassLoader cl, String className) throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-        baseClassLoader.loadClass(PROXY_APPLICATION).newInstance();
+        lspClassLoader.loadClass(PROXY_APPLICATION).newInstance();
         return originalAppComponentFactory.instantiateApplication(cl, className);
     }
 

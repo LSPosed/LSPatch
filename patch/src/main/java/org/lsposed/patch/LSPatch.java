@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.jar.JarFile;
 
 public class LSPatch {
@@ -97,6 +96,12 @@ public class LSPatch {
             "x86_64"
     ));
 
+    private static final ZFileOptions Z_FILE_OPTIONS = new ZFileOptions().setAlignmentRule(AlignmentRules.compose(
+            AlignmentRules.constantForSuffix(".so", 4096),
+            AlignmentRules.constantForSuffix(RESOURCES_ARSC, 4),
+            AlignmentRules.constantForSuffix(ORIGINAL_APK_ASSET_PATH, 4096)
+    ));
+
     private static JCommander jCommander;
 
     public static void main(String... args) throws IOException {
@@ -154,14 +159,7 @@ public class LSPatch {
 
         System.out.println("Parsing original apk...");
 
-        final ZFileOptions zFileOptions = new ZFileOptions();
-
-        final var alignmentRule = AlignmentRules.compose(
-                AlignmentRules.constantForSuffix(RESOURCES_ARSC, 4),
-                AlignmentRules.constantForSuffix(ORIGINAL_APK_ASSET_PATH, 4096)
-        );
-        zFileOptions.setAlignmentRule(alignmentRule);
-        try (ZFile zFile = ZFile.openReadWrite(tmpApk, zFileOptions)) {
+        try (ZFile zFile = ZFile.openReadWrite(tmpApk, Z_FILE_OPTIONS)) {
             // copy origin apk to assets
             zFile.add(ORIGINAL_APK_ASSET_PATH, new FileInputStream(srcApkFile), false);
 
@@ -225,36 +223,13 @@ public class LSPatch {
                 throw new PatchError("Error when saving application name: " + e);
             }
 
-            // copy so and dex files into the unzipped apk
-            Set<String> apkArchs = new HashSet<>();
-
-            if (verbose)
-                System.out.println("Search target apk library arch..");
-            for (StoredEntry storedEntry : zFile.entries()) {
-                var name = storedEntry.getCentralDirectoryHeader().getName();
-                if (name.startsWith("lib/") && name.length() >= 5) {
-                    var arch = name.substring(4, name.indexOf('/', 5));
-                    apkArchs.add(arch);
-                }
-            }
-
-            if (apkArchs.isEmpty()) {
-                apkArchs.addAll(APK_LIB_PATH_ARRAY);
-            }
-
-            apkArchs.removeIf((arch) -> {
-                if (!APK_LIB_PATH_ARRAY.contains(arch) && !arch.equals("armeabi")) {
-                    System.err.println("Warning: unsupported arch " + arch + ". Skipping...");
-                    return true;
-                }
-                return false;
-            });
             if (verbose)
                 System.out.println("Adding native lib..");
 
-            for (String arch : apkArchs) {
-                // lib/armeabi-v7a -> armeabi-v7a
-                String entryName = "lib/" + arch + "/liblspd.so";
+            // copy so and dex files into the unzipped apk
+            // do not put liblspd.so into apk!lib because x86 native bridge causes crash
+            for (String arch : APK_LIB_PATH_ARRAY) {
+                String entryName = "assets/lib/" + arch + "/liblspd.so";
                 try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + (arch.equals("armeabi") ? "armeabi-v7a" : arch) + "/liblspd.so")) {
                     zFile.add(entryName, is, false); // no compress for so
                 } catch (Throwable e) {
