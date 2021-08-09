@@ -38,6 +38,10 @@ import java.util.jar.JarFile;
 public class LSPatch {
 
     static class PatchError extends Error {
+        public PatchError(String message, Throwable cause) {
+            super(message, cause);
+        }
+
         PatchError(String message) {
             super(message);
         }
@@ -254,7 +258,8 @@ public class LSPatch {
                 try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + (arch.equals("armeabi") ? "armeabi-v7a" : arch) + "/liblspd.so")) {
                     zFile.add(entryName, is, false); // no compress for so
                 } catch (Throwable e) {
-                    throw new PatchError("Error when adding native lib: " + e);
+                    // More exception info
+                    throw new PatchError("Error when adding native lib", e);
                 }
                 if (verbose)
                     System.out.println("added " + entryName);

@@ -68,8 +68,6 @@ public class LSPApplication extends ApplicationServiceClient {
     private static ClassLoader appClassLoader;
     private static Object activityThread;
 
-    private static int TRANSACTION_getPackageInfo_ID = -1;
-
     final static public int FIRST_APP_ZYGOTE_ISOLATED_UID = 90000;
     final static public int PER_USER_RANGE = 100000;
 
@@ -277,27 +275,14 @@ public class LSPApplication extends ApplicationServiceClient {
         }
     }
 
-    private static void byPassSignature(Context context) throws ClassNotFoundException, IllegalAccessException {
-        Field[] pmStubFields = Class.forName("android.content.pm.IPackageManager$Stub").getDeclaredFields();
-        for (Field field : pmStubFields) {
-            if (!Modifier.isStatic(field.getModifiers()) || field.getType() != int.class) {
-                continue;
-            }
-            field.setAccessible(true);
-            int fieldValue = field.getInt(null);
-            String fieldName = field.getName();
-            field.setAccessible(false);
+    private static int getTranscationId(String clsName, String trasncationName) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
+        Field field = Class.forName(clsName).getDeclaredField(trasncationName);
+        field.setAccessible(true);
+        return field.getInt(null);
+    }
 
-            if (fieldName.equals("TRANSACTION_getPackageInfo")) {
-                TRANSACTION_getPackageInfo_ID = fieldValue;
-                break;
-            }
-        }
-
-        if (TRANSACTION_getPackageInfo_ID == -1) {
-            throw new IllegalStateException("getPackageInfo transaction id null");
-        }
-
+    private static void byPassSignature(Context context) throws ClassNotFoundException, IllegalAccessException, NoSuchFieldException {
+        final int TRANSACTION_getPackageInfo = getTranscationId("android.content.pm.IPackageManager$Stub", "TRANSACTION_getPackageInfo");
         XposedHelpers.findAndHookMethod("android.os.BinderProxy", appClassLoader, "transact", int.class, Parcel.class, Parcel.class, int.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -322,7 +307,7 @@ public class LSPApplication extends ApplicationServiceClient {
                     if (desc == null || desc.isEmpty() || !desc.equals("android.content.pm.IPackageManager")) {
                         return;
                     }
-                    if (id == TRANSACTION_getPackageInfo_ID) {
+                    if (id == TRANSACTION_getPackageInfo) {
                         out.readException();
                         if (0 != out.readInt()) {
                             PackageInfo packageInfo = PackageInfo.CREATOR.createFromParcel(out);
@@ -352,13 +337,14 @@ public class LSPApplication extends ApplicationServiceClient {
                         out.setDataPosition(0);
                     }
                 } catch (Throwable err) {
-                    err.printStackTrace();
+                    // should not happen, just crash app
+                    throw new IllegalStateException("lsp hook error", err);
                 }
             }
         });
     }
 
-    private static void doHook(Context context) throws IllegalAccessException, ClassNotFoundException, IOException {
+    private static void doHook(Context context) throws IllegalAccessException, ClassNotFoundException, IOException, NoSuchFieldException {
         if (isApplicationProxied()) {
             hookContextImplSetOuterContext();
             hookInstallContentProviders();
