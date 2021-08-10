@@ -45,6 +45,18 @@ jar {
     exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF', 'META-INF/*.txt'
 }
 
+tasks.register("buildDebug") {
+    jar.dependsOn(':appstub:copyDebug')
+    jar.dependsOn(':app:copyDebug')
+    dependsOn(build)
+}
+
+tasks.register("buildRelease") {
+    jar.dependsOn(':appstub:copyRelease')
+    jar.dependsOn(':app:copyRelease')
+    dependsOn(build)
+}
+
 tasks.build.doLast {
     println("Build to " + jar.archivePath)
     println("Try \'java -jar " + jar.archiveName + "\' find more help")
