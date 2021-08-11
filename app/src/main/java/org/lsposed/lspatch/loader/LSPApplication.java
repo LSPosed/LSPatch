@@ -16,7 +16,10 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.ParcelFileDescriptor;
+import android.os.SharedMemory;
+import android.system.ErrnoException;
 import android.system.Os;
+import android.system.OsConstants;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -27,18 +30,21 @@ import org.lsposed.lspatch.share.Constants;
 import org.lsposed.lspd.config.ApplicationServiceClient;
 import org.lsposed.lspd.core.Main;
 import org.lsposed.lspd.models.Module;
+import org.lsposed.lspd.models.PreLoadedApk;
 import org.lsposed.lspd.nativebridge.SigBypass;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.nio.channels.Channels;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -47,6 +53,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.zip.ZipFile;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -191,8 +198,8 @@ public class LSPApplication extends ApplicationServiceClient {
                 if (target.lastModified() > lastInstalledTime) {
                     embedded_modules.add(name);
                     var module = new Module();
-                    module.apk = target.getAbsolutePath();
-                    module.name = target.getName();
+                    module.apkPath = target.getAbsolutePath();
+                    module.packageName = target.getName();
                     LSPApplication.modules.add(module);
                     continue;
                 }
@@ -200,8 +207,8 @@ public class LSPApplication extends ApplicationServiceClient {
                     Files.copy(is, target.toPath());
                     embedded_modules.add(name);
                     var module = new Module();
-                    module.apk = target.getAbsolutePath();
-                    module.name = target.getName();
+                    module.apkPath = target.getAbsolutePath();
+                    module.packageName = target.getName();
                     LSPApplication.modules.add(module);
                 } catch (IOException ignored) {
 
@@ -227,19 +234,20 @@ public class LSPApplication extends ApplicationServiceClient {
             }
             if (app.metaData != null && app.metaData.containsKey("xposedminversion") && !embedded_modules.contains(app.packageName)) {
                 var module = new Module();
-                module.apk = app.publicSourceDir;
-                module.name = app.packageName;
+                module.apkPath = app.publicSourceDir;
+                module.packageName = app.packageName;
                 LSPApplication.modules.add(module);
             }
         }
         final var new_modules = new JSONArray();
         LSPApplication.modules.forEach(m -> {
             try {
+                m.file = loadModule(m.apkPath);
                 var module = new JSONObject();
-                module.put("name", m.name);
-                module.put("enabled", !disabled_modules.contains(m.name));
-                module.put("use_embed", embedded_modules.contains(m.name));
-                module.put("path", m.apk);
+                module.put("name", m.packageName);
+                module.put("enabled", !disabled_modules.contains(m.packageName));
+                module.put("use_embed", embedded_modules.contains(m.packageName));
+                module.put("path", m.apkPath);
                 new_modules.put(module);
             } catch (Throwable ignored) {
             }
@@ -255,6 +263,60 @@ public class LSPApplication extends ApplicationServiceClient {
         for (var module : disabled_modules) {
             LSPApplication.modules.remove(module);
         }
+    }
+
+    private static void readDexes(ZipFile apkFile, List<SharedMemory> preLoadedDexes) {
+        int secondary = 2;
+        for (var dexFile = apkFile.getEntry("classes.dex"); dexFile != null;
+             dexFile = apkFile.getEntry("classes" + secondary + ".dex"), secondary++) {
+            try (var in = apkFile.getInputStream(dexFile)) {
+                var memory = SharedMemory.create(null, in.available());
+                var byteBuffer = memory.mapReadWrite();
+                Channels.newChannel(in).read(byteBuffer);
+                SharedMemory.unmap(byteBuffer);
+                memory.setProtect(OsConstants.PROT_READ);
+                preLoadedDexes.add(memory);
+            } catch (IOException | ErrnoException e) {
+                Log.w(TAG, "Can not load " + dexFile + " in " + apkFile, e);
+            }
+        }
+    }
+
+    private static void readName(ZipFile apkFile, String initName, List<String> names) {
+        var initEntry = apkFile.getEntry(initName);
+        if (initEntry == null) return;
+        try (var in = apkFile.getInputStream(initEntry)) {
+            var reader = new BufferedReader(new InputStreamReader(in));
+            String name;
+            while ((name = reader.readLine()) != null) {
+                name = name.trim();
+                if (name.isEmpty() || name.startsWith("#")) continue;
+                names.add(name);
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Can not open " + initEntry, e);
+        }
+    }
+
+    private static PreLoadedApk loadModule(String path) {
+        var file = new PreLoadedApk();
+        var preLoadedDexes = new ArrayList<SharedMemory>();
+        var moduleClassNames = new ArrayList<String>(1);
+        var moduleLibraryNames = new ArrayList<String>(1);
+        try (var apkFile = new ZipFile(path)) {
+            readDexes(apkFile, preLoadedDexes);
+            readName(apkFile, "assets/xposed_init", moduleClassNames);
+            readName(apkFile, "assets/native_init", moduleLibraryNames);
+        } catch (IOException e) {
+            Log.e(TAG, "Can not open " + path, e);
+            return null;
+        }
+        if (preLoadedDexes.isEmpty()) return null;
+        if (moduleClassNames.isEmpty()) return null;
+        file.preLoadedDexes = preLoadedDexes;
+        file.moduleClassNames = moduleClassNames;
+        file.moduleLibraryNames = moduleLibraryNames;
+        return file;
     }
 
     public LSPApplication() {
