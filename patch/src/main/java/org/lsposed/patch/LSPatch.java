@@ -258,6 +258,25 @@ public class LSPatch {
 
             dstZFile.realign();
 
+            // create zip link
+            if (verbose)
+                System.out.println("Creating nested apk link...");
+
+            NestedZipLink nestedZipLink = new NestedZipLink(dstZFile);
+            StoredEntry originalZipEntry = dstZFile.get(ORIGINAL_APK_ASSET_PATH);
+            NestedZip nestedZip = new NestedZip(srcZFile, originalZipEntry);
+            for (StoredEntry entry : srcZFile.entries()) {
+                String name = entry.getCentralDirectoryHeader().getName();
+                if (name.startsWith("classes") && name.endsWith(".dex")) continue;
+                if (dstZFile.get(name) != null) continue;
+                if (name.equals("AndroidManifest.xml")) continue;
+                if (name.startsWith("META-INF/CERT")) continue;
+                if (name.equals("META-INF/MANIFEST.MF")) continue;
+                nestedZip.addFileLink(name);
+            }
+            nestedZipLink.nestedZips.add(nestedZip);
+            dstZFile.addZFileExtension(nestedZipLink);
+
             // sign apk
             System.out.println("Signing apk...");
             try {
@@ -277,22 +296,6 @@ public class LSPatch {
             } catch (Exception e) {
                 throw new PatchError("Failed to sign apk: " + e.getMessage());
             }
-
-            // create zip link
-            if (verbose)
-                System.out.println("Creating nested apk link...");
-
-            NestedZipLink nestedZipLink = new NestedZipLink(dstZFile);
-            StoredEntry originalZipEntry = dstZFile.get(ORIGINAL_APK_ASSET_PATH);
-            NestedZip nestedZip = new NestedZip(srcZFile, originalZipEntry);
-            for (StoredEntry entry : srcZFile.entries()) {
-                String name = entry.getCentralDirectoryHeader().getName();
-                if (name.startsWith("classes") && name.endsWith(".dex")) continue;
-                if (name.equals("AndroidManifest.xml")) continue;
-                nestedZip.addFileLink(name);
-            }
-            nestedZipLink.nestedZips.add(nestedZip);
-            dstZFile.addZFileExtension(nestedZipLink);
 
             dstZFile.update();
             FileUtils.copyFile(tmpApk, outputFile);

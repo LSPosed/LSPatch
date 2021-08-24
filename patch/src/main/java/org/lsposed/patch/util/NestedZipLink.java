@@ -54,6 +54,12 @@ public class NestedZipLink extends ZFileExtension {
             deleteDirectoryAndEocd.setAccessible(true);
             deleteDirectoryAndEocd.invoke(zFile);
             appendEntries();
+            Method computeCentralDirectory = ZFile.class.getDeclaredMethod("computeCentralDirectory");
+            computeCentralDirectory.setAccessible(true);
+            computeCentralDirectory.invoke(zFile);
+            Method computeEocd = ZFile.class.getDeclaredMethod("computeEocd");
+            computeEocd.setAccessible(true);
+            computeEocd.invoke(zFile);
         } catch (Exception e) {
             e.printStackTrace();
             var ex = new IOException("Error when writing link entries");
