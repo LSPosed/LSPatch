@@ -1,6 +1,7 @@
 package org.lsposed.patch;
 
-import com.android.apksig.ApkSigner;
+import com.android.tools.build.apkzlib.sign.SigningExtension;
+import com.android.tools.build.apkzlib.sign.SigningOptions;
 import com.android.tools.build.apkzlib.zip.AlignmentRules;
 import com.android.tools.build.apkzlib.zip.StoredEntry;
 import com.android.tools.build.apkzlib.zip.ZFile;
@@ -17,6 +18,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.lsposed.lspatch.share.Constants;
 import org.lsposed.patch.util.ApkSignatureHelper;
 import org.lsposed.patch.util.ManifestParser;
+import org.lsposed.patch.util.NestedZipLink;
+import org.lsposed.patch.util.NestedZipLink.NestedZip;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -87,7 +90,6 @@ public class LSPatch {
     private static final String SIGNATURE_INFO_ASSET_PATH = "assets/original_signature_info.ini";
     private static final String ORIGINAL_APK_ASSET_PATH = "assets/origin_apk.bin";
     private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
-    private static final String RESOURCES_ARSC = "resources.arsc";
     private static final HashSet<String> APK_LIB_PATH_ARRAY = new HashSet<>(Arrays.asList(
 //            "armeabi",
             "armeabi-v7a",
@@ -98,7 +100,6 @@ public class LSPatch {
 
     private static final ZFileOptions Z_FILE_OPTIONS = new ZFileOptions().setAlignmentRule(AlignmentRules.compose(
             AlignmentRules.constantForSuffix(".so", 4096),
-            AlignmentRules.constantForSuffix(RESOURCES_ARSC, 4),
             AlignmentRules.constantForSuffix(ORIGINAL_APK_ASSET_PATH, 4096)
     ));
 
@@ -149,25 +150,16 @@ public class LSPatch {
             throw new PatchError("The source apk file does not exit. Please provide a correct path.");
 
         File tmpApk = Files.createTempFile(srcApkFile.getName(), "unsigned").toFile();
+        tmpApk.delete();
 
         if (verbose)
             System.out.println("apk path: " + srcApkFile);
 
-        System.out.println("Copying to tmp apk...");
-
-        FileUtils.copyFile(srcApkFile, tmpApk);
-
         System.out.println("Parsing original apk...");
 
-        try (ZFile zFile = ZFile.openReadWrite(tmpApk, Z_FILE_OPTIONS)) {
+        try (ZFile srcZFile = ZFile.openReadOnly(srcApkFile); ZFile dstZFile = ZFile.openReadWrite(tmpApk, Z_FILE_OPTIONS)) {
             // copy origin apk to assets
-            zFile.add(ORIGINAL_APK_ASSET_PATH, new FileInputStream(srcApkFile), false);
-
-            // remove unnecessary files
-            for (StoredEntry storedEntry : zFile.entries()) {
-                var name = storedEntry.getCentralDirectoryHeader().getName();
-                if (name.endsWith(".dex")) storedEntry.delete();
-            }
+            dstZFile.add(ORIGINAL_APK_ASSET_PATH, new FileInputStream(srcApkFile), false);
 
             if (sigbypassLevel > 0) {
                 // save the apk original signature info, to support crack signature.
@@ -178,14 +170,14 @@ public class LSPatch {
                 if (verbose)
                     System.out.println("Original signature\n" + originalSignature);
                 try (var is = new ByteArrayInputStream(originalSignature.getBytes(StandardCharsets.UTF_8))) {
-                    zFile.add(SIGNATURE_INFO_ASSET_PATH, is);
+                    dstZFile.add(SIGNATURE_INFO_ASSET_PATH, is);
                 } catch (Throwable e) {
                     throw new PatchError("Error when saving signature: " + e);
                 }
             }
 
             // copy out manifest file from zlib
-            var manifestEntry = zFile.get(ANDROID_MANIFEST_XML);
+            var manifestEntry = srcZFile.get(ANDROID_MANIFEST_XML);
             if (manifestEntry == null)
                 throw new PatchError("Provided file is not a valid apk");
 
@@ -204,21 +196,21 @@ public class LSPatch {
             System.out.println("Patching apk...");
             // modify manifest
             try (var is = new ByteArrayInputStream(modifyManifestFile(manifestEntry.open()))) {
-                zFile.add(ANDROID_MANIFEST_XML, is);
+                dstZFile.add(ANDROID_MANIFEST_XML, is);
             } catch (Throwable e) {
                 throw new PatchError("Error when modifying manifest: " + e);
             }
 
             // save original appComponentFactory name to asset file even its empty
             try (var is = new ByteArrayInputStream(appComponentFactory.getBytes(StandardCharsets.UTF_8))) {
-                zFile.add(APP_COMPONENT_FACTORY_ASSET_PATH, is);
+                dstZFile.add(APP_COMPONENT_FACTORY_ASSET_PATH, is);
             } catch (Throwable e) {
                 throw new PatchError("Error when saving appComponentFactory class: " + e);
             }
 
             // save original main application name to asset file even its empty
             try (var is = new ByteArrayInputStream(applicationName.getBytes(StandardCharsets.UTF_8))) {
-                zFile.add(APPLICATION_NAME_ASSET_PATH, is);
+                dstZFile.add(APPLICATION_NAME_ASSET_PATH, is);
             } catch (Throwable e) {
                 throw new PatchError("Error when saving application name: " + e);
             }
@@ -231,7 +223,7 @@ public class LSPatch {
             for (String arch : APK_LIB_PATH_ARRAY) {
                 String entryName = "assets/lib/" + arch + "/liblspd.so";
                 try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + (arch.equals("armeabi") ? "armeabi-v7a" : arch) + "/liblspd.so")) {
-                    zFile.add(entryName, is, false); // no compress for so
+                    dstZFile.add(entryName, is, false); // no compress for so
                 } catch (Throwable e) {
                     // More exception info
                     throw new PatchError("Error when adding native lib", e);
@@ -244,35 +236,66 @@ public class LSPatch {
                 System.out.println("Adding dex..");
 
             try (var is = getClass().getClassLoader().getResourceAsStream("assets/dex/loader.dex")) {
-                zFile.add("classes.dex", is);
+                dstZFile.add("classes.dex", is);
             } catch (Throwable e) {
                 throw new PatchError("Error when add dex: " + e);
             }
 
             try (var is = getClass().getClassLoader().getResourceAsStream("assets/dex/lsp.dex")) {
-                zFile.add("assets/lsp", is);
+                dstZFile.add("assets/lsp", is);
             } catch (Throwable e) {
                 throw new PatchError("Error when add assets: " + e);
             }
 
             // save lspatch config to asset..
             try (var is = new ByteArrayInputStream("42".getBytes(StandardCharsets.UTF_8))) {
-                zFile.add("assets/" + Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel, is);
+                dstZFile.add("assets/" + Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel, is);
             } catch (Throwable e) {
                 throw new PatchError("Error when saving signature bypass level: " + e);
             }
 
-            embedModules(zFile);
+            embedModules(dstZFile);
 
+            dstZFile.realign();
+
+            // sign apk
             System.out.println("Signing apk...");
-            var sign = zFile.get("META-INF/MANIFEST.MF");
-            if (sign != null)
-                sign.delete();
+            try {
+                var keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                try (var is = getClass().getClassLoader().getResourceAsStream("assets/keystore")) {
+                    keyStore.load(is, "123456".toCharArray());
+                }
+                var entry = (KeyStore.PrivateKeyEntry) keyStore.getEntry("key0", new KeyStore.PasswordProtection("123456".toCharArray()));
+                new SigningExtension(SigningOptions.builder()
+                        .setMinSdkVersion(27)
+                        .setV1SigningEnabled(v1)
+                        // Don't know why it crashes !!
+                        .setV2SigningEnabled(v2)
+                        .setCertificates((X509Certificate[]) entry.getCertificateChain())
+                        .setKey(entry.getPrivateKey())
+                        .build()).register(dstZFile);
+            } catch (Exception e) {
+                throw new PatchError("Failed to sign apk: " + e.getMessage());
+            }
 
-            zFile.realign();
-            zFile.update();
+            // create zip link
+            if (verbose)
+                System.out.println("Creating nested apk link...");
 
-            signApkUsingAndroidApksigner(tmpApk, outputFile);
+            NestedZipLink nestedZipLink = new NestedZipLink(dstZFile);
+            StoredEntry originalZipEntry = dstZFile.get(ORIGINAL_APK_ASSET_PATH);
+            NestedZip nestedZip = new NestedZip(srcZFile, originalZipEntry);
+            for (StoredEntry entry : srcZFile.entries()) {
+                String name = entry.getCentralDirectoryHeader().getName();
+                if (name.startsWith("classes") && name.endsWith(".dex")) continue;
+                if (name.equals("AndroidManifest.xml")) continue;
+                nestedZip.addFileLink(name);
+            }
+            nestedZipLink.nestedZips.add(nestedZip);
+            dstZFile.addZFileExtension(nestedZipLink);
+
+            dstZFile.update();
+            FileUtils.copyFile(tmpApk, outputFile);
 
             System.out.println("Done. Output APK: " + outputFile.getAbsolutePath());
         } finally {
@@ -336,33 +359,5 @@ public class LSPatch {
         os.flush();
         os.close();
         return os.toByteArray();
-    }
-
-    private void signApkUsingAndroidApksigner(File apkPath, File outputPath) throws PatchError {
-        try {
-            var keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            try (var is = getClass().getClassLoader().getResourceAsStream("assets/keystore")) {
-                keyStore.load(is, "123456".toCharArray());
-            }
-            var entry = (KeyStore.PrivateKeyEntry) keyStore.getEntry("key0", new KeyStore.PasswordProtection("123456".toCharArray()));
-
-            ApkSigner.SignerConfig signerConfig =
-                    new ApkSigner.SignerConfig.Builder(
-                            "lspatch", entry.getPrivateKey(), Arrays.asList((X509Certificate[]) entry.getCertificateChain()))
-                            .build();
-            ApkSigner apkSigner = new ApkSigner.Builder(List.of(signerConfig))
-                    .setInputApk(apkPath)
-                    .setOutputApk(outputPath)
-                    .setOtherSignersSignaturesPreserved(false)
-                    .setV1SigningEnabled(v1)
-                    .setV2SigningEnabled(v2)
-                    .setV3SigningEnabled(v3)
-                    .setDebuggableApkPermitted(true)
-                    .setSigningCertificateLineage(null)
-                    .setMinSdkVersion(27).build();
-            apkSigner.sign();
-        } catch (Exception e) {
-            throw new PatchError("Failed to sign apk: " + e.getMessage());
-        }
     }
 }
