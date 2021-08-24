@@ -288,7 +288,6 @@ public class LSPatch {
                 new SigningExtension(SigningOptions.builder()
                         .setMinSdkVersion(27)
                         .setV1SigningEnabled(v1)
-                        // Don't know why it crashes !!
                         .setV2SigningEnabled(v2)
                         .setCertificates((X509Certificate[]) entry.getCertificateChain())
                         .setKey(entry.getPrivateKey())
@@ -297,13 +296,11 @@ public class LSPatch {
                 throw new PatchError("Failed to sign apk: " + e.getMessage());
             }
 
-            dstZFile.update();
-            FileUtils.copyFile(tmpApk, outputFile);
-
             System.out.println("Done. Output APK: " + outputFile.getAbsolutePath());
         } finally {
             try {
-                tmpApk.delete();
+                outputFile.delete();
+                FileUtils.moveFile(tmpApk, outputFile);
             } catch (Throwable ignored) {
             }
         }
