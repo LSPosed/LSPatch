@@ -68,7 +68,7 @@ public class LSPatch {
     private int sigbypassLevel = 0;
 
     @Parameter(names = {"--v1"}, arity = 1, description = "Sign with v1 signature")
-    private boolean v1 = true;
+    private boolean v1 = false;
 
     @Parameter(names = {"--v2"}, arity = 1, description = "Sign with v2 signature")
     private boolean v2 = true;
@@ -141,6 +141,9 @@ public class LSPatch {
             if (outputFile.exists() && !forceOverwrite)
                 throw new PatchError(outputPath + " exists. Use --force to overwrite");
             System.out.println("Processing " + srcApkFile + " -> " + outputFile);
+
+            if (v1) System.err.println("\nWarning: Sign with v1 signature may cause installation failure\n");
+
             patch(srcApkFile, outputFile);
         }
     }
