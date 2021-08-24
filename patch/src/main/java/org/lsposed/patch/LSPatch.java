@@ -91,9 +91,8 @@ public class LSPatch {
     private static final String ORIGINAL_APK_ASSET_PATH = "assets/origin_apk.bin";
     private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
     private static final HashSet<String> APK_LIB_PATH_ARRAY = new HashSet<>(Arrays.asList(
-//            "armeabi",
-            "armeabi-v7a",
-            "arm64-v8a",
+            "arm",
+            "arm64",
             "x86",
             "x86_64"
     ));
@@ -225,7 +224,7 @@ public class LSPatch {
             // do not put liblspd.so into apk!lib because x86 native bridge causes crash
             for (String arch : APK_LIB_PATH_ARRAY) {
                 String entryName = "assets/lib/" + arch + "/liblspd.so";
-                try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + (arch.equals("armeabi") ? "armeabi-v7a" : arch) + "/liblspd.so")) {
+                try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + (arch.equals("arm") ? "armeabi-v7a" : (arch.equals("arm64") ? "arm64-v8a" : arch)) + "/liblspd.so")) {
                     dstZFile.add(entryName, is, false); // no compress for so
                 } catch (Throwable e) {
                     // More exception info
@@ -296,7 +295,7 @@ public class LSPatch {
                         .setKey(entry.getPrivateKey())
                         .build()).register(dstZFile);
             } catch (Exception e) {
-                throw new PatchError("Failed to sign apk: " + e.getMessage());
+                throw new PatchError("Failed to sign apk: " + e);
             }
 
             System.out.println("Done. Output APK: " + outputFile.getAbsolutePath());

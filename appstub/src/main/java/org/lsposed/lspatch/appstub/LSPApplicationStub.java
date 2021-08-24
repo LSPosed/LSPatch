@@ -5,9 +5,8 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 
 @SuppressLint("UnsafeDynamicallyLoadedCode")
 public class LSPApplicationStub extends Application {
@@ -27,8 +26,14 @@ public class LSPApplicationStub extends Application {
             Log.e("LSPatch", "load dex error", e);
         }
 
-        try (var br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("getprop ro.product.cpu.abi").getInputStream()))) {
-            String arch = br.readLine();
+        try {
+            Class<?> VMRuntime = Class.forName("dalvik.system.VMRuntime");
+            Method getRuntime = VMRuntime.getDeclaredMethod("getRuntime");
+            getRuntime.setAccessible(true);
+            Method vmInstructionSet = VMRuntime.getDeclaredMethod("vmInstructionSet");
+            vmInstructionSet.setAccessible(true);
+
+            String arch = (String) vmInstructionSet.invoke(getRuntime.invoke(null));
             String path = LSPApplicationStub.class.getClassLoader().getResource("assets/lib/" + arch + "/liblspd.so").getPath().substring(5);
             System.load(path);
         } catch (Throwable e) {
