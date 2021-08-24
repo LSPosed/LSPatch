@@ -8,7 +8,7 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.0'
+        classpath 'com.android.tools.build:gradle:7.1.0-alpha09'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21"
     }
 }
@@ -16,7 +16,7 @@ buildscript {
 // sync from https://github.com/LSPosed/LSPosed/blob/master/build.gradle.kts
 ext {
     androidCompileSdkVersion = 31
-    androidCompileNdkVersion = "22.1.7171670"
+    androidCompileNdkVersion = "23.0.7599858"
     androidBuildToolsVersion = "31.0.0"
     androidMinSdkVersion = 27
     androidTargetSdkVersion = 30

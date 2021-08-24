@@ -694,11 +694,6 @@ public class LSPApplication extends ApplicationServiceClient {
     }
 
     @Override
-    public ParcelFileDescriptor getModuleLogger() {
-        return null;
-    }
-
-    @Override
     public Bundle requestRemotePreference(String packageName, int userId, IBinder callback) {
         return null;
     }
