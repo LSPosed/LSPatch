@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.Parcel;
-import android.os.ParcelFileDescriptor;
 import android.os.SharedMemory;
 import android.system.ErrnoException;
 import android.system.Os;
@@ -47,6 +46,7 @@ import java.lang.reflect.Method;
 import java.nio.channels.Channels;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
@@ -173,8 +173,6 @@ public class LSPApplication extends ApplicationServiceClient {
     // TODO: set module config
     public static void loadModules(Context context) {
         var configFile = new File(context.getExternalFilesDir(null), "lspatch.json");
-        var cacheDir = new File(context.getExternalCacheDir(), "modules");
-        cacheDir.mkdirs();
         JSONObject moduleConfigs = new JSONObject();
         try (var is = new FileInputStream(configFile)) {
             moduleConfigs = new JSONObject(FileUtils.readTextFromInputStream(is));
@@ -192,27 +190,27 @@ public class LSPApplication extends ApplicationServiceClient {
         HashSet<String> embedded_modules = new HashSet<>();
         HashSet<String> disabled_modules = new HashSet<>();
         try {
-            var lastInstalledTime = new File(context.getApplicationInfo().sourceDir).lastModified();
             for (var name : context.getAssets().list("modules")) {
-                var target = new File(cacheDir, name + ".apk");
-                if (target.lastModified() > lastInstalledTime) {
-                    embedded_modules.add(name);
-                    var module = new Module();
-                    module.apkPath = target.getAbsolutePath();
-                    module.packageName = target.getName();
-                    LSPApplication.modules.add(module);
-                    continue;
+                String modulePath = context.getCacheDir() + "/lspatch/" + name + "/";
+                String cacheApkPath;
+                try (ZipFile sourceFile = new ZipFile(context.getApplicationInfo().sourceDir)) {
+                    cacheApkPath = modulePath + sourceFile.getEntry("assets/modules/" + name).getCrc();
                 }
-                try (var is = context.getAssets().open("modules/" + name)) {
-                    Files.copy(is, target.toPath());
-                    embedded_modules.add(name);
-                    var module = new Module();
-                    module.apkPath = target.getAbsolutePath();
-                    module.packageName = target.getName();
-                    LSPApplication.modules.add(module);
-                } catch (IOException ignored) {
 
+                if (!Files.exists(Paths.get(cacheApkPath))) {
+                    Log.i(TAG, "extract module apk: " + name);
+                    FileUtils.deleteFolderIfExists(Paths.get(modulePath));
+                    Files.createDirectories(Paths.get(modulePath));
+                    try (var is = context.getAssets().open("modules/" + name)) {
+                        Files.copy(is, Paths.get(cacheApkPath));
+                    }
                 }
+
+                embedded_modules.add(name);
+                var module = new Module();
+                module.apkPath = cacheApkPath;
+                module.packageName = name;
+                LSPApplication.modules.add(module);
             }
         } catch (Throwable ignored) {
 
