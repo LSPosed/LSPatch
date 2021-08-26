@@ -13,10 +13,12 @@ import android.util.Log;
 
 import org.lsposed.lspatch.util.FileUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.zip.ZipFile;
 
 import dalvik.system.PathClassLoader;
 
@@ -41,10 +43,25 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
         final String originalAppComponentFactoryClass = FileUtils.readTextFromInputStream(baseClassLoader.getResourceAsStream(ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH));
 
         try {
-            try (InputStream inputStream = baseClassLoader.getResourceAsStream(ORIGINAL_APK_ASSET_PATH)) {
-                Files.copy(inputStream, Paths.get(cacheApkPath));
-            } catch (FileAlreadyExistsException ignored) {
+            File cacheApk = new File(cacheApkPath);
+            if (cacheApk.exists()) {
+                try (ZipFile sourceFile = new ZipFile(aInfo.sourceDir);
+                     InputStream is = new FileInputStream(cacheApk)) {
+                    var sourceCrc = sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc();
+                    var cacheCrc = FileUtils.calculateCrc(is);
+                    if (sourceCrc != cacheCrc) {
+                        Log.i(TAG, "Application updated, extract original apk again");
+                        cacheApk.delete();
+                    }
+                }
             }
+
+            if (!cacheApk.exists()) {
+                try (InputStream is = baseClassLoader.getResourceAsStream(ORIGINAL_APK_ASSET_PATH)) {
+                    Files.copy(is, Paths.get(cacheApkPath));
+                }
+            }
+
             appClassLoader = new PathClassLoader(cacheApkPath, aInfo.nativeLibraryDir, baseClassLoader.getParent());
 
             try {
