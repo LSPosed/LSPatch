@@ -34,7 +34,7 @@ public class LSPApplicationStub extends Application {
             vmInstructionSet.setAccessible(true);
 
             String arch = (String) vmInstructionSet.invoke(getRuntime.invoke(null));
-            String path = LSPApplicationStub.class.getClassLoader().getResource("assets/lib/" + arch + "/liblspd.so").getPath().substring(5);
+            String path = LSPApplicationStub.class.getClassLoader().getResource("assets/lib/lspd/" + arch + "/liblspd.so").getPath().substring(5);
             System.load(path);
         } catch (Throwable e) {
             Log.e("LSPatch", "load lspd error", e);

@@ -191,14 +191,15 @@ public class LSPApplication extends ApplicationServiceClient {
         HashSet<String> disabled_modules = new HashSet<>();
         try {
             for (var name : context.getAssets().list("modules")) {
-                String modulePath = context.getCacheDir() + "/lspatch/" + name + "/";
+                String packageName = name.substring(0, name.length() - 4);
+                String modulePath = context.getCacheDir() + "/lspatch/" + packageName + "/";
                 String cacheApkPath;
                 try (ZipFile sourceFile = new ZipFile(context.getApplicationInfo().sourceDir)) {
                     cacheApkPath = modulePath + sourceFile.getEntry("assets/modules/" + name).getCrc();
                 }
 
                 if (!Files.exists(Paths.get(cacheApkPath))) {
-                    Log.i(TAG, "extract module apk: " + name);
+                    Log.i(TAG, "extract module apk: " + packageName);
                     FileUtils.deleteFolderIfExists(Paths.get(modulePath));
                     Files.createDirectories(Paths.get(modulePath));
                     try (var is = context.getAssets().open("modules/" + name)) {
@@ -206,10 +207,10 @@ public class LSPApplication extends ApplicationServiceClient {
                     }
                 }
 
-                embedded_modules.add(name);
+                embedded_modules.add(packageName);
                 var module = new Module();
                 module.apkPath = cacheApkPath;
-                module.packageName = name;
+                module.packageName = packageName;
                 LSPApplication.modules.add(module);
             }
         } catch (Throwable ignored) {

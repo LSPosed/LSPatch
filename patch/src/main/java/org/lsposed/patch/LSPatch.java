@@ -1,5 +1,6 @@
 package org.lsposed.patch;
 
+import com.android.apksig.internal.util.Pair;
 import com.android.tools.build.apkzlib.sign.SigningExtension;
 import com.android.tools.build.apkzlib.sign.SigningOptions;
 import com.android.tools.build.apkzlib.zip.AlignmentRules;
@@ -99,7 +100,7 @@ public class LSPatch {
 
     private static final ZFileOptions Z_FILE_OPTIONS = new ZFileOptions().setAlignmentRule(AlignmentRules.compose(
             AlignmentRules.constantForSuffix(".so", 4096),
-            AlignmentRules.constantForSuffix(ORIGINAL_APK_ASSET_PATH, 4096)
+            AlignmentRules.constantForSuffix(".bin", 4096)
     ));
 
     private static JCommander jCommander;
@@ -223,7 +224,7 @@ public class LSPatch {
             // copy so and dex files into the unzipped apk
             // do not put liblspd.so into apk!lib because x86 native bridge causes crash
             for (String arch : APK_LIB_PATH_ARRAY) {
-                String entryName = "assets/lib/" + arch + "/liblspd.so";
+                String entryName = "assets/lib/lspd/" + arch + "/liblspd.so";
                 try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + (arch.equals("arm") ? "armeabi-v7a" : (arch.equals("arm64") ? "arm64-v8a" : arch)) + "/liblspd.so")) {
                     dstZFile.add(entryName, is, false); // no compress for so
                 } catch (Throwable e) {
@@ -256,7 +257,7 @@ public class LSPatch {
                 throw new PatchError("Error when saving signature bypass level: " + e);
             }
 
-            embedModules(dstZFile);
+            var embedded = embedModules(dstZFile);
 
             dstZFile.realign();
 
@@ -274,9 +275,22 @@ public class LSPatch {
                 if (name.equals("AndroidManifest.xml")) continue;
                 if (name.startsWith("META-INF/CERT")) continue;
                 if (name.equals("META-INF/MANIFEST.MF")) continue;
-                nestedZip.addFileLink(name);
+                nestedZip.addFileLink(name, name);
             }
             nestedZipLink.nestedZips.add(nestedZip);
+
+            for (var pair : embedded) {
+                ZFile moduleZFile = ZFile.openReadOnly(pair.getFirst());
+                StoredEntry moduleEntry = dstZFile.get("assets/modules/" + pair.getSecond() + ".bin");
+                nestedZip = new NestedZip(moduleZFile, moduleEntry);
+                for (var nestedEntry : moduleZFile.entries()) {
+                    var name = nestedEntry.getCentralDirectoryHeader().getName();
+                    if (name.startsWith("lib/"))
+                        nestedZip.addFileLink(name, "assets/lib/" + pair.getSecond() + name.substring(3));
+                }
+                nestedZipLink.nestedZips.add(nestedZip);
+            }
+
             dstZFile.addZFileExtension(nestedZipLink);
 
             // sign apk
@@ -308,8 +322,9 @@ public class LSPatch {
         }
     }
 
-    private void embedModules(ZFile zFile) {
+    private List<Pair<File, String>> embedModules(ZFile zFile) {
         System.out.println("Embedding modules...");
+        List<Pair<File, String>> list = new ArrayList<>();
         for (var module : modules) {
             var file = new File(module);
             if (!file.exists()) {
@@ -339,13 +354,15 @@ public class LSPatch {
             }
             if (triple != null) {
                 try (var is = new FileInputStream(file)) {
-                    zFile.add("assets/modules/" + triple.packageName, is);
+                    var entryName = "assets/modules/" + triple.packageName + ".bin";
+                    zFile.add(entryName, is, false);
+                    list.add(Pair.of(file, triple.packageName));
                 } catch (Throwable e) {
                     System.err.println("Embed " + triple.packageName + " with error: " + e.getMessage());
                 }
             }
         }
-
+        return list;
     }
 
     private byte[] modifyManifestFile(InputStream is) throws IOException {
