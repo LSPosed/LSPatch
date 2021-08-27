@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.KeyStore;
+import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -141,8 +142,6 @@ public class LSPatch {
             if (outputFile.exists() && !forceOverwrite)
                 throw new PatchError(outputPath + " exists. Use --force to overwrite");
             System.out.println("Processing " + srcApkFile + " -> " + outputFile);
-
-            if (v1) System.err.println("\nWarning: Sign with v1 signature may cause installation failure\n");
 
             patch(srcApkFile, outputFile);
         }
@@ -265,7 +264,27 @@ public class LSPatch {
             if (verbose)
                 System.out.println("Creating nested apk link...");
 
-            NestedZipLink nestedZipLink = new NestedZipLink(dstZFile);
+            SigningExtension signingExtension = null;
+            // sign apk
+            System.out.println("Signing apk...");
+            try {
+                var keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                try (var is = getClass().getClassLoader().getResourceAsStream("assets/keystore")) {
+                    keyStore.load(is, "123456".toCharArray());
+                }
+                var entry = (KeyStore.PrivateKeyEntry) keyStore.getEntry("key0", new KeyStore.PasswordProtection("123456".toCharArray()));
+                signingExtension = new SigningExtension(SigningOptions.builder()
+                        .setMinSdkVersion(27)
+                        .setV1SigningEnabled(v1)
+                        .setV2SigningEnabled(v2)
+                        .setCertificates((X509Certificate[]) entry.getCertificateChain())
+                        .setKey(entry.getPrivateKey())
+                        .build());
+            } catch (Exception e) {
+                throw new PatchError("Failed to create signer: " + e);
+            }
+
+            NestedZipLink nestedZipLink = new NestedZipLink(dstZFile, signingExtension);
             StoredEntry originalZipEntry = dstZFile.get(ORIGINAL_APK_ASSET_PATH);
             NestedZip nestedZip = new NestedZip(srcZFile, originalZipEntry);
             for (StoredEntry entry : srcZFile.entries()) {
@@ -291,25 +310,10 @@ public class LSPatch {
                 nestedZipLink.nestedZips.add(nestedZip);
             }
 
-            dstZFile.addZFileExtension(nestedZipLink);
-
-            // sign apk
-            System.out.println("Signing apk...");
             try {
-                var keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-                try (var is = getClass().getClassLoader().getResourceAsStream("assets/keystore")) {
-                    keyStore.load(is, "123456".toCharArray());
-                }
-                var entry = (KeyStore.PrivateKeyEntry) keyStore.getEntry("key0", new KeyStore.PasswordProtection("123456".toCharArray()));
-                new SigningExtension(SigningOptions.builder()
-                        .setMinSdkVersion(27)
-                        .setV1SigningEnabled(v1)
-                        .setV2SigningEnabled(v2)
-                        .setCertificates((X509Certificate[]) entry.getCertificateChain())
-                        .setKey(entry.getPrivateKey())
-                        .build()).register(dstZFile);
-            } catch (Exception e) {
-                throw new PatchError("Failed to sign apk: " + e);
+                nestedZipLink.register();
+            } catch (NoSuchAlgorithmException e) {
+                throw new PatchError("Failed to create link: " + e);
             }
 
             System.out.println("Done. Output APK: " + outputFile.getAbsolutePath());

@@ -1,6 +1,8 @@
 package org.lsposed.patch.util;
 
+import com.android.apksig.ApkSignerEngine;
 import com.android.apksig.internal.util.Pair;
+import com.android.tools.build.apkzlib.sign.SigningExtension;
 import com.android.tools.build.apkzlib.utils.IOExceptionRunnable;
 import com.android.tools.build.apkzlib.zip.CentralDirectoryHeader;
 import com.android.tools.build.apkzlib.zip.EncodeUtils;
@@ -8,9 +10,12 @@ import com.android.tools.build.apkzlib.zip.StoredEntry;
 import com.android.tools.build.apkzlib.zip.ZFile;
 import com.android.tools.build.apkzlib.zip.ZFileExtension;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -38,14 +43,38 @@ public class NestedZipLink extends ZFileExtension {
 
     private boolean written;
 
-    public NestedZipLink(ZFile zFile) {
+    public final SigningExtension signingExtension;
+
+    public NestedZipLink(ZFile zFile, SigningExtension signingExtension) {
         this.zFile = zFile;
+        this.signingExtension = signingExtension;
     }
 
     @Override
     public IOExceptionRunnable beforeUpdate() {
-        written = false;
-        return null;
+        return () -> {
+            written = false;
+            try {
+
+                var signerField = SigningExtension.class.getDeclaredField("signer");
+                signerField.setAccessible(true);
+                var signer = (ApkSignerEngine) signerField.get(signingExtension);
+
+                for (var nestedZip : nestedZips) {
+                    for (var link : nestedZip.links) {
+                        var entry = nestedZip.zip.get(link.getFirst());
+                        if (entry == null)
+                            throw new IOException("Entry " + link + " does not exist in nested zip");
+                        notifySigner(signer, link.getFirst(), entry);
+                    }
+                }
+
+            } catch (Exception e) {
+                var ex = new IOException("Error when writing link entries");
+                ex.addSuppressed(e);
+                throw ex;
+            }
+        };
     }
 
     @Override
@@ -93,7 +122,8 @@ public class NestedZipLink extends ZFileExtension {
             long nestedZipOffset = nestedZip.entry.getCentralDirectoryHeader().getOffset();
             for (var link : nestedZip.links) {
                 var entry = nestedZip.zip.get(link.getFirst());
-                if (entry == null) throw new IOException("Entry " + link + " does not exist in nested zip");
+                if (entry == null)
+                    throw new IOException("Entry " + link + " does not exist in nested zip");
                 CentralDirectoryHeader cdh = entry.getCentralDirectoryHeader();
                 field_entry_file.set(entry, zFile);
                 field_cdh_file.set(cdh, zFile);
@@ -107,6 +137,21 @@ public class NestedZipLink extends ZFileExtension {
         computeEocd.invoke(zFile);
     }
 
+    private void notifySigner(ApkSignerEngine signer, String entryName, StoredEntry entry) throws IOException {
+        ApkSignerEngine.InspectJarEntryRequest inspectEntryRequest = signer.outputJarEntry(entryName);
+        if (inspectEntryRequest != null) {
+            try (InputStream inputStream = new BufferedInputStream(entry.open())) {
+                int bytesRead;
+                byte[] buffer = new byte[65536];
+                var dataSink = inspectEntryRequest.getDataSink();
+                while ((bytesRead = inputStream.read(buffer)) > 0) {
+                    dataSink.consume(buffer, 0, bytesRead);
+                }
+            }
+            inspectEntryRequest.done();
+        }
+    }
+
     private byte[] encodeFileName(String name) throws Exception {
         Class<?> GPFlags = Class.forName("com.android.tools.build.apkzlib.zip.GPFlags");
         Method make = GPFlags.getDeclaredMethod("make", boolean.class);
@@ -116,5 +161,10 @@ public class NestedZipLink extends ZFileExtension {
         boolean encodeWithUtf8 = !EncodeUtils.canAsciiEncode(name);
         var flags = make.invoke(null, encodeWithUtf8);
         return (byte[]) encode.invoke(null, name, flags);
+    }
+
+    public void register() throws NoSuchAlgorithmException, IOException {
+        zFile.addZFileExtension(this);
+        signingExtension.register(zFile);
     }
 }
