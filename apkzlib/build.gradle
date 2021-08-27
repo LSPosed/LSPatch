@@ -1,0 +1,18 @@
+plugins {
+    id 'java-library'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+dependencies {
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.69'
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.69'
+    api 'com.google.guava:guava:30.1.1-jre'
+    api 'com.android.tools.build:apksig:7.0.1'
+    compileOnlyApi 'com.google.auto.value:auto-value-annotations:1.8.2'
+    annotationProcessor 'com.google.auto.value:auto-value:1.8.2'
+}
