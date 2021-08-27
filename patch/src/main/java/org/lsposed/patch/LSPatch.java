@@ -174,7 +174,7 @@ public class LSPatch {
                 try (var is = new ByteArrayInputStream(originalSignature.getBytes(StandardCharsets.UTF_8))) {
                     dstZFile.add(SIGNATURE_INFO_ASSET_PATH, is);
                 } catch (Throwable e) {
-                    throw new PatchError("Error when saving signature: " + e);
+                    throw new PatchError("Error when saving signature", e);
                 }
             }
 
@@ -200,21 +200,21 @@ public class LSPatch {
             try (var is = new ByteArrayInputStream(modifyManifestFile(manifestEntry.open()))) {
                 dstZFile.add(ANDROID_MANIFEST_XML, is);
             } catch (Throwable e) {
-                throw new PatchError("Error when modifying manifest: " + e);
+                throw new PatchError("Error when modifying manifest", e);
             }
 
             // save original appComponentFactory name to asset file even its empty
             try (var is = new ByteArrayInputStream(appComponentFactory.getBytes(StandardCharsets.UTF_8))) {
                 dstZFile.add(APP_COMPONENT_FACTORY_ASSET_PATH, is);
             } catch (Throwable e) {
-                throw new PatchError("Error when saving appComponentFactory class: " + e);
+                throw new PatchError("Error when saving appComponentFactory class", e);
             }
 
             // save original main application name to asset file even its empty
             try (var is = new ByteArrayInputStream(applicationName.getBytes(StandardCharsets.UTF_8))) {
                 dstZFile.add(APPLICATION_NAME_ASSET_PATH, is);
             } catch (Throwable e) {
-                throw new PatchError("Error when saving application name: " + e);
+                throw new PatchError("Error when saving application name", e);
             }
 
             if (verbose)
@@ -240,20 +240,20 @@ public class LSPatch {
             try (var is = getClass().getClassLoader().getResourceAsStream("assets/dex/loader.dex")) {
                 dstZFile.add("classes.dex", is);
             } catch (Throwable e) {
-                throw new PatchError("Error when add dex: " + e);
+                throw new PatchError("Error when add dex", e);
             }
 
             try (var is = getClass().getClassLoader().getResourceAsStream("assets/dex/lsp.dex")) {
                 dstZFile.add("assets/lsp", is);
             } catch (Throwable e) {
-                throw new PatchError("Error when add assets: " + e);
+                throw new PatchError("Error when add assets", e);
             }
 
             // save lspatch config to asset..
             try (var is = new ByteArrayInputStream("42".getBytes(StandardCharsets.UTF_8))) {
                 dstZFile.add("assets/" + Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel, is);
             } catch (Throwable e) {
-                throw new PatchError("Error when saving signature bypass level: " + e);
+                throw new PatchError("Error when saving signature bypass level", e);
             }
 
             var embedded = embedModules(dstZFile);
@@ -281,7 +281,7 @@ public class LSPatch {
                         .setKey(entry.getPrivateKey())
                         .build());
             } catch (Exception e) {
-                throw new PatchError("Failed to create signer: " + e);
+                throw new PatchError("Failed to create signer", e);
             }
 
             NestedZipLink nestedZipLink = new NestedZipLink(dstZFile, signingExtension);
@@ -313,7 +313,7 @@ public class LSPatch {
             try {
                 nestedZipLink.register();
             } catch (NoSuchAlgorithmException e) {
-                throw new PatchError("Failed to create link: " + e);
+                throw new PatchError("Failed to create link", e);
             }
 
             System.out.println("Done. Output APK: " + outputFile.getAbsolutePath());
