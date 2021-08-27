@@ -13,8 +13,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':axmlprinter')
     implementation project(':share')
-    implementation 'commons-io:commons-io:2.10.0'
-    implementation 'com.android.tools.build:apkzlib:4.2.2'
+    implementation project(':apkzlib')
+    implementation 'commons-io:commons-io:2.11.0'
     implementation 'com.beust:jcommander:1.81'
 }
 
