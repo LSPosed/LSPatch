@@ -40,7 +40,7 @@ jar {
         from fileTree(dir: "$rootProject.projectDir/out/so")
     }
 
-    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF', 'META-INF/*.txt'
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF', 'META-INF/*.txt', "META-INF/versions/**"
 }
 
 tasks.register("buildDebug") {
