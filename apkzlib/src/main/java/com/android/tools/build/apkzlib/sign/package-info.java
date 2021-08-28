@@ -148,8 +148,8 @@
  * <p>Additionally, by adding/removing extensions we can configure what type of apk we want:
  *
  * <ul>
- *   <li>No SigningExtension ⇒ Aligned, unsigned apk.
- *   <li>SigningExtension ⇒ Aligned, signed apk.
+ *   <li>No SigningExtension => Aligned, unsigned apk.
+ *   <li>SigningExtension => Aligned, signed apk.
  * </ul>
  *
  * So, by configuring which extensions to add, the package task can decide what type of apk we want.

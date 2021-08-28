@@ -51,6 +51,9 @@ public class ExtraField {
   /** Header ID for field with zip alignment. */
   static final int ALIGNMENT_ZIP_EXTRA_DATA_FIELD_HEADER_ID = 0xd935;
 
+  /** Header ID for field with linking entry. */
+  static final int LINKING_ENTRY_EXTRA_DATA_FIELD_HEADER_ID = 0x2333;
+
   /**
    * The field's raw data, if it is known. Either this variable or {@link #segments} must be
    * non-{@code null}.
@@ -380,6 +383,45 @@ public class ExtraField {
     @Override
     public int getHeaderId() {
       return ALIGNMENT_ZIP_EXTRA_DATA_FIELD_HEADER_ID;
+    }
+  }
+
+  public static class LinkingEntrySegment implements Segment {
+
+    private final StoredEntry linkingEntry;
+    private int dataOffset = 0;
+    private long zipOffset = 0;
+
+    public LinkingEntrySegment(StoredEntry linkingEntry) throws IOException {
+      Preconditions.checkArgument(linkingEntry.isLinkingEntry(), "linkingEntry is not a linking entry");
+      this.linkingEntry = linkingEntry;
+    }
+
+    @Override
+    public int getHeaderId() {
+      return LINKING_ENTRY_EXTRA_DATA_FIELD_HEADER_ID;
+    }
+
+    @Override
+    public int size() {
+      return linkingEntry.getLocalHeaderSize() + 4;
+    }
+
+    public void setOffset(int dataOffset, long zipOffset) {
+      this.dataOffset = dataOffset;
+      this.zipOffset = zipOffset;
+    }
+
+    @Override
+    public void write(ByteBuffer out) throws IOException {
+      if (dataOffset == 0 || zipOffset == 0) {
+        throw new IOException("linking entry has 0 offset");
+      }
+      LittleEndianUtils.writeUnsigned2Le(out, LINKING_ENTRY_EXTRA_DATA_FIELD_HEADER_ID);
+      LittleEndianUtils.writeUnsigned2Le(out, linkingEntry.getLocalHeaderSize());
+      var offset = out.position();
+      linkingEntry.writeData(out, dataOffset - linkingEntry.getLocalHeaderSize() - offset);
+      linkingEntry.replaceSourceFromZip(offset + zipOffset);
     }
   }
 }

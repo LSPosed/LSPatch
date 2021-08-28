@@ -284,6 +284,11 @@ public class ZFile implements Closeable {
    */
   private final List<StoredEntry> uncompressedEntries;
 
+  /** LSPatch
+   *
+   */
+  private final List<StoredEntry> linkingEntries;
+
   /** Current state of the zip file. */
   private ZipFileState state;
 
@@ -449,6 +454,7 @@ public class ZFile implements Closeable {
 
     entries = Maps.newHashMap();
     uncompressedEntries = Lists.newArrayList();
+    linkingEntries = Lists.newArrayList();
     extraDirectoryOffset = 0;
 
     try {
@@ -578,6 +584,10 @@ public class ZFile implements Closeable {
      */
     for (StoredEntry uncompressed : uncompressedEntries) {
       entries.put(uncompressed.getCentralDirectoryHeader().getName(), uncompressed);
+    }
+
+    for (StoredEntry linking: linkingEntries) {
+      entries.put(linking.getCentralDirectoryHeader().getName(), linking);
     }
 
     return Sets.newHashSet(entries.values());
@@ -1398,7 +1408,15 @@ public class ZFile implements Closeable {
 
     int r;
     // Put header data to the beginning of buffer
+    // LSPatch: write extra entries in the extra field if it's a linking
+    int localHeaderSize = entry.getLocalHeaderSize();
+    for (var segment : entry.getLocalExtra().getSegments()) {
+      if (segment instanceof ExtraField.LinkingEntrySegment) {
+        ((ExtraField.LinkingEntrySegment) segment).setOffset(localHeaderSize, offset);
+      }
+    }
     int readOffset = entry.toHeaderData(chunk);
+    assert localHeaderSize == readOffset;
     long writeOffset = offset;
     try (InputStream is = entry.getSource().getRawByteSource().openStream()) {
       while ((r = is.read(chunk, readOffset, chunk.length - readOffset)) >= 0 || readOffset > 0) {
@@ -1432,6 +1450,8 @@ public class ZFile implements Closeable {
     for (FileUseMapEntry<StoredEntry> mapEntry : entries.values()) {
       newStored.add(mapEntry.getStore());
     }
+
+    newStored.addAll(linkingEntries);
 
     /*
      * Make sure we truncate the map before computing the central directory's location since
@@ -1527,7 +1547,7 @@ public class ZFile implements Closeable {
 
       dirStart = directoryEntry.getStart();
       dirSize = directoryEntry.getSize();
-      Verify.verify(directory.getEntries().size() == entries.size());
+      Verify.verify(directory.getEntries().size() == entries.size() + linkingEntries.size());
     } else {
       /*
        * If we do not have a directory, then we must leave any requested offset empty.
@@ -1707,8 +1727,8 @@ public class ZFile implements Closeable {
    * @throws IOException failed to read the source data
    * @throws IllegalStateException if the file is in read-only mode
    */
-  public void add(String name, InputStream stream, boolean mayCompress) throws IOException {
-    add(name, storage.fromStream(stream), mayCompress);
+  public StoredEntry add(String name, InputStream stream, boolean mayCompress) throws IOException {
+    return add(name, storage.fromStream(stream), mayCompress);
   }
 
   /**
@@ -1735,7 +1755,7 @@ public class ZFile implements Closeable {
     add(name, new CloseableDelegateByteSource(source, sizeBytes.get()), mayCompress);
   }
 
-  private void add(String name, CloseableByteSource source, boolean mayCompress)
+  private StoredEntry add(String name, CloseableByteSource source, boolean mayCompress)
       throws IOException {
     checkNotInReadOnlyMode();
 
@@ -1744,8 +1764,24 @@ public class ZFile implements Closeable {
      */
     processAllReadyEntries();
 
-    add(makeStoredEntry(name, source, mayCompress));
+    return add(makeStoredEntry(name, source, mayCompress));
   }
+
+  public void addLink(String name, StoredEntry linkedEntry)
+          throws CloneNotSupportedException,IOException {
+    Preconditions.checkArgument(linkedEntry != null, "linkedEntry is null");
+    Preconditions.checkArgument(linkedEntry.getCentralDirectoryHeader().getOffset() < 0, "linkedEntry is not new file");
+    Preconditions.checkArgument(!linkedEntry.isLinkingEntry(), "linkedEntry is a linking entry");
+    var linkingEntry = new StoredEntry(name, this, storage, linkedEntry);
+    linkingEntries.add(linkingEntry);
+    linkedEntry.setLocalExtraNoNotify(new ExtraField(ImmutableList.<ExtraField.Segment>builder().add(linkedEntry.getLocalExtra().getSegments().toArray(new ExtraField.Segment[0])).add(new ExtraField.LinkingEntrySegment(linkingEntry)).build()));
+  }
+
+  public void addNestedZipWithLinks(Map<String, String> nameMapping)
+          throws CloneNotSupportedException,IOException {
+    // TODO: nested link
+  }
+
 
   /**
    * Adds a {@link StoredEntry} to the zip. The entry is not immediately added to {@link #entries}
@@ -1760,9 +1796,10 @@ public class ZFile implements Closeable {
    * @throws IOException failed to process this entry (or a previous one whose future only completed
    *     now)
    */
-  private void add(final StoredEntry newEntry) throws IOException {
+  private StoredEntry add(final StoredEntry newEntry) throws IOException {
     uncompressedEntries.add(newEntry);
     processAllReadyEntries();
+    return newEntry;
   }
 
   /**

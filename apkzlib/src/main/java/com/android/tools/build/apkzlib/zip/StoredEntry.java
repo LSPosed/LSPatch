@@ -25,6 +25,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.base.Verify;
+import com.google.common.collect.ImmutableList;
 import com.google.common.io.ByteStreams;
 import com.google.common.primitives.Ints;
 import java.io.BufferedInputStream;
@@ -154,6 +155,12 @@ public class StoredEntry {
   /** Storage used to create buffers when loading storage into memory. */
   private final ByteStorage storage;
 
+  /** Entry it is linking to. */
+  private final StoredEntry linkedEntry;
+
+  /** Offset of the nested link */
+  private final int nestedLinkOffset = 0;
+
   /**
    * Creates a new stored entry.
    *
@@ -165,16 +172,42 @@ public class StoredEntry {
    * @throws IOException failed to create the entry
    */
   StoredEntry(
+          CentralDirectoryHeader header,
+          ZFile file,
+          @Nullable ProcessedAndRawByteSources source,
+          ByteStorage storage)
+          throws IOException {
+      this(header, file, source, storage, null);
+  }
+
+  StoredEntry(
+          String name,
+          ZFile file,
+          ByteStorage storage,
+          StoredEntry linkedEntry)
+          throws IOException {
+    this(linkedEntry.linkingCentralDirectoryHeader(name), file, linkedEntry.getSource(), storage, linkedEntry);
+  }
+
+  private CentralDirectoryHeader linkingCentralDirectoryHeader(String name) {
+    boolean encodeWithUtf8 = !EncodeUtils.canAsciiEncode(name);
+    GPFlags flags = GPFlags.make(encodeWithUtf8);
+    return cdh.link(name, EncodeUtils.encode(name, flags), flags);
+  }
+
+  StoredEntry(
       CentralDirectoryHeader header,
       ZFile file,
       @Nullable ProcessedAndRawByteSources source,
-      ByteStorage storage)
+      ByteStorage storage,
+      StoredEntry linkedEntry)
       throws IOException {
     cdh = header;
     this.file = file;
     deleted = false;
     verifyLog = file.makeVerifyLog();
     this.storage = storage;
+    this.linkedEntry = linkedEntry;
 
     if (header.getOffset() >= 0) {
       readLocalHeader();
@@ -579,7 +612,8 @@ public class StoredEntry {
     ProcessedAndRawByteSources oldSource = source;
     source = createSourceFromZip(zipFileOffset);
     cdh.setOffset(zipFileOffset);
-    oldSource.close();
+    if (!isLinkingEntry())
+      oldSource.close();
   }
 
   /**
@@ -667,6 +701,11 @@ public class StoredEntry {
   }
 
   private void writeData(ByteBuffer out) throws IOException {
+    writeData(out, 0);
+  }
+
+  void writeData(ByteBuffer out, int extraOffset) throws IOException {
+    Preconditions.checkArgument(extraOffset >= 0 , "extraOffset < 0");
     CentralDirectoryHeaderCompressInfo compressInfo = cdh.getCompressionInfoWithWait();
 
     F_LOCAL_SIGNATURE.write(out);
@@ -686,7 +725,7 @@ public class StoredEntry {
     F_COMPRESSED_SIZE.write(out, compressInfo.getCompressedSize());
     F_UNCOMPRESSED_SIZE.write(out, cdh.getUncompressedSize());
     F_FILE_NAME_LENGTH.write(out, cdh.getEncodedFileName().length);
-    F_EXTRA_LENGTH.write(out, localExtra.size());
+    F_EXTRA_LENGTH.write(out, localExtra.size() + extraOffset);
 
     out.put(cdh.getEncodedFileName());
     localExtra.write(out);
@@ -706,7 +745,13 @@ public class StoredEntry {
   public boolean realign() throws IOException {
     Preconditions.checkState(!deleted, "Entry has been deleted.");
 
+    if (isLinkingEntry()) return true;
+
     return file.realign(this);
+  }
+
+  public boolean isLinkingEntry() {
+    return linkedEntry != null;
   }
 
   /**

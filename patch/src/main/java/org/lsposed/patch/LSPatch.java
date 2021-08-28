@@ -225,7 +225,8 @@ public class LSPatch {
             for (String arch : APK_LIB_PATH_ARRAY) {
                 String entryName = "assets/lib/lspd/" + arch + "/liblspd.so";
                 try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + (arch.equals("arm") ? "armeabi-v7a" : (arch.equals("arm64") ? "arm64-v8a" : arch)) + "/liblspd.so")) {
-                    dstZFile.add(entryName, is, false); // no compress for so
+                    var entry = dstZFile.add(entryName, is, false); // no compress for so
+                    dstZFile.addLink("assets/lib/lspd/test/" + arch + "/liblspd.so", entry);
                 } catch (Throwable e) {
                     // More exception info
                     throw new PatchError("Error when adding native lib", e);
