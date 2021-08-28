@@ -25,7 +25,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.base.Verify;
-import com.google.common.collect.ImmutableList;
 import com.google.common.io.ByteStreams;
 import com.google.common.primitives.Ints;
 import java.io.BufferedInputStream;
@@ -159,7 +158,7 @@ public class StoredEntry {
   private final StoredEntry linkedEntry;
 
   /** Offset of the nested link */
-  private final int nestedLinkOffset = 0;
+  private final int nestedOffset;
 
   /**
    * Creates a new stored entry.
@@ -177,30 +176,34 @@ public class StoredEntry {
           @Nullable ProcessedAndRawByteSources source,
           ByteStorage storage)
           throws IOException {
-      this(header, file, source, storage, null);
+      this(header, file, source, storage, null, 0);
   }
 
   StoredEntry(
           String name,
           ZFile file,
           ByteStorage storage,
-          StoredEntry linkedEntry)
+          StoredEntry linkedEntry,
+          StoredEntry nestedEntry,
+          int nestedOffset)
           throws IOException {
-    this(linkedEntry.linkingCentralDirectoryHeader(name), file, linkedEntry.getSource(), storage, linkedEntry);
+      this((nestedEntry == null ? linkedEntry: nestedEntry).linkingCentralDirectoryHeader(name, file),
+              file, linkedEntry.getSource(), storage, linkedEntry, nestedOffset);
   }
 
-  private CentralDirectoryHeader linkingCentralDirectoryHeader(String name) {
+  private CentralDirectoryHeader linkingCentralDirectoryHeader(String name, ZFile file) {
     boolean encodeWithUtf8 = !EncodeUtils.canAsciiEncode(name);
     GPFlags flags = GPFlags.make(encodeWithUtf8);
-    return cdh.link(name, EncodeUtils.encode(name, flags), flags);
+    return cdh.link(name, EncodeUtils.encode(name, flags), flags, file);
   }
 
-  StoredEntry(
+  private StoredEntry(
       CentralDirectoryHeader header,
       ZFile file,
       @Nullable ProcessedAndRawByteSources source,
       ByteStorage storage,
-      StoredEntry linkedEntry)
+      StoredEntry linkedEntry,
+      int nestedOffset)
       throws IOException {
     cdh = header;
     this.file = file;
@@ -208,6 +211,7 @@ public class StoredEntry {
     verifyLog = file.makeVerifyLog();
     this.storage = storage;
     this.linkedEntry = linkedEntry;
+    this.nestedOffset = nestedOffset;
 
     if (header.getOffset() >= 0) {
       readLocalHeader();
@@ -725,7 +729,7 @@ public class StoredEntry {
     F_COMPRESSED_SIZE.write(out, compressInfo.getCompressedSize());
     F_UNCOMPRESSED_SIZE.write(out, cdh.getUncompressedSize());
     F_FILE_NAME_LENGTH.write(out, cdh.getEncodedFileName().length);
-    F_EXTRA_LENGTH.write(out, localExtra.size() + extraOffset);
+    F_EXTRA_LENGTH.write(out, localExtra.size() + extraOffset + nestedOffset);
 
     out.put(cdh.getEncodedFileName());
     localExtra.write(out);

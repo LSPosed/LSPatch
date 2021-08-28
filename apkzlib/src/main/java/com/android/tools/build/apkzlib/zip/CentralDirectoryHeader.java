@@ -152,7 +152,7 @@ public class CentralDirectoryHeader implements Cloneable {
     file = zFile;
   }
 
-  public CentralDirectoryHeader link(String name, byte[] encodedFileName, GPFlags flags) {
+  public CentralDirectoryHeader link(String name, byte[] encodedFileName, GPFlags flags, ZFile file) {
     var newData = new CentralDirectoryHeader(name,
       encodedFileName,
       uncompressedSize,
@@ -162,7 +162,7 @@ public class CentralDirectoryHeader implements Cloneable {
       lastModTime,
       lastModDate);
     newData.extraField = extraField;
-    newData.offset = offset;
+    newData.offset = -1;
     newData.internalAttributes = internalAttributes;
     newData.externalAttributes = externalAttributes;
     newData.comment = comment;

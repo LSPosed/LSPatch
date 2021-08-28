@@ -6,6 +6,7 @@ import com.android.tools.build.apkzlib.sign.SigningExtension;
 import com.android.tools.build.apkzlib.utils.IOExceptionRunnable;
 import com.android.tools.build.apkzlib.zip.CentralDirectoryHeader;
 import com.android.tools.build.apkzlib.zip.EncodeUtils;
+import com.android.tools.build.apkzlib.zip.NestedZip;
 import com.android.tools.build.apkzlib.zip.StoredEntry;
 import com.android.tools.build.apkzlib.zip.ZFile;
 import com.android.tools.build.apkzlib.zip.ZFileExtension;
@@ -21,21 +22,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class NestedZipLink extends ZFileExtension {
-    public static class NestedZip {
-        final Set<Pair<String, String>> links;
-        final ZFile zip;
-        final StoredEntry entry;
-
-        public NestedZip(ZFile zip, StoredEntry entry) {
-            this.zip = zip;
-            this.entry = entry;
-            this.links = new HashSet<>();
-        }
-
-        public void addFileLink(String srcName, String dstName) {
-            links.add(Pair.of(srcName, dstName));
-        }
-    }
 
     public final ZFile zFile;
 
@@ -61,11 +47,9 @@ public class NestedZipLink extends ZFileExtension {
                 var signer = (ApkSignerEngine) signerField.get(signingExtension);
 
                 for (var nestedZip : nestedZips) {
-                    for (var link : nestedZip.links) {
-                        var entry = nestedZip.zip.get(link.getFirst());
-                        if (entry == null)
-                            throw new IOException("Entry " + link + " does not exist in nested zip");
-                        notifySigner(signer, link.getFirst(), entry);
+                    for (var link : nestedZip.getLinks().entrySet()) {
+                        var entry = link.getKey();
+                        notifySigner(signer, link.getValue(), entry);
                     }
                 }
 
@@ -119,18 +103,16 @@ public class NestedZipLink extends ZFileExtension {
 
         var entries = (Map<String, Object>) field_entries.get(zFile);
         for (var nestedZip : nestedZips) {
-            long nestedZipOffset = nestedZip.entry.getCentralDirectoryHeader().getOffset();
-            for (var link : nestedZip.links) {
-                var entry = nestedZip.zip.get(link.getFirst());
-                if (entry == null)
-                    throw new IOException("Entry " + link + " does not exist in nested zip");
+            long nestedZipOffset = nestedZip.getEntry().getCentralDirectoryHeader().getOffset();
+            for (var link : nestedZip.getLinks().entrySet()) {
+                var entry = link.getKey();
                 CentralDirectoryHeader cdh = entry.getCentralDirectoryHeader();
                 field_entry_file.set(entry, zFile);
                 field_cdh_file.set(cdh, zFile);
-                field_cdh_encodedFileName.set(cdh, encodeFileName(link.getSecond()));
-                field_cdh_offset.set(cdh, nestedZipOffset + cdh.getOffset() + nestedZip.entry.getLocalHeaderSize());
+                field_cdh_encodedFileName.set(cdh, encodeFileName(link.getValue()));
+                field_cdh_offset.set(cdh, nestedZipOffset + cdh.getOffset() + nestedZip.getEntry().getLocalHeaderSize());
                 var newFileUseMapEntry = makeFree.invoke(null, 0, 1, entry);
-                entries.put(link.getSecond(), newFileUseMapEntry);
+                entries.put(link.getValue(), newFileUseMapEntry);
             }
         }
         computeCentralDirectory.invoke(zFile);

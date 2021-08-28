@@ -4,6 +4,7 @@ import com.android.apksig.internal.util.Pair;
 import com.android.tools.build.apkzlib.sign.SigningExtension;
 import com.android.tools.build.apkzlib.sign.SigningOptions;
 import com.android.tools.build.apkzlib.zip.AlignmentRules;
+import com.android.tools.build.apkzlib.zip.NestedZip;
 import com.android.tools.build.apkzlib.zip.StoredEntry;
 import com.android.tools.build.apkzlib.zip.ZFile;
 import com.android.tools.build.apkzlib.zip.ZFileOptions;
@@ -20,7 +21,6 @@ import org.lsposed.lspatch.share.Constants;
 import org.lsposed.patch.util.ApkSignatureHelper;
 import org.lsposed.patch.util.ManifestParser;
 import org.lsposed.patch.util.NestedZipLink;
-import org.lsposed.patch.util.NestedZipLink.NestedZip;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -159,10 +159,7 @@ public class LSPatch {
 
         System.out.println("Parsing original apk...");
 
-        try (ZFile srcZFile = ZFile.openReadOnly(srcApkFile); ZFile dstZFile = ZFile.openReadWrite(tmpApk, Z_FILE_OPTIONS)) {
-            // copy origin apk to assets
-            dstZFile.add(ORIGINAL_APK_ASSET_PATH, new FileInputStream(srcApkFile), false);
-
+        try (ZFile dstZFile = ZFile.openReadWrite(tmpApk, Z_FILE_OPTIONS); var srcZFile = dstZFile.addNestedZip(ORIGINAL_APK_ASSET_PATH, srcApkFile, false)) {
             if (sigbypassLevel > 0) {
                 // save the apk original signature info, to support crack signature.
                 String originalSignature = ApkSignatureHelper.getApkSignInfo(srcApkFile.getAbsolutePath());
@@ -259,8 +256,6 @@ public class LSPatch {
 
             var embedded = embedModules(dstZFile);
 
-            dstZFile.realign();
-
             // create zip link
             if (verbose)
                 System.out.println("Creating nested apk link...");
@@ -286,8 +281,6 @@ public class LSPatch {
             }
 
             NestedZipLink nestedZipLink = new NestedZipLink(dstZFile, signingExtension);
-            StoredEntry originalZipEntry = dstZFile.get(ORIGINAL_APK_ASSET_PATH);
-            NestedZip nestedZip = new NestedZip(srcZFile, originalZipEntry);
             for (StoredEntry entry : srcZFile.entries()) {
                 String name = entry.getCentralDirectoryHeader().getName();
                 if (name.startsWith("classes") && name.endsWith(".dex")) continue;
@@ -295,27 +288,29 @@ public class LSPatch {
                 if (name.equals("AndroidManifest.xml")) continue;
                 if (name.startsWith("META-INF/CERT")) continue;
                 if (name.equals("META-INF/MANIFEST.MF")) continue;
-                nestedZip.addFileLink(name, name);
+                srcZFile.addFileLink(name, name);
             }
-            nestedZipLink.nestedZips.add(nestedZip);
+            nestedZipLink.nestedZips.add(srcZFile);
 
-            for (var pair : embedded) {
-                ZFile moduleZFile = ZFile.openReadOnly(pair.getFirst());
-                StoredEntry moduleEntry = dstZFile.get("assets/modules/" + pair.getSecond() + ".bin");
-                nestedZip = new NestedZip(moduleZFile, moduleEntry);
-                for (var nestedEntry : moduleZFile.entries()) {
-                    var name = nestedEntry.getCentralDirectoryHeader().getName();
-                    if (name.startsWith("lib/"))
-                        nestedZip.addFileLink(name, "assets/lib/" + pair.getSecond() + name.substring(3));
-                }
-                nestedZipLink.nestedZips.add(nestedZip);
-            }
+//            for (var pair : embedded) {
+//                ZFile moduleZFile = ZFile.openReadOnly(pair.getFirst());
+//                StoredEntry moduleEntry = dstZFile.get("assets/modules/" + pair.getSecond() + ".bin");
+//                nestedZip = new NestedZip(dstZFile, moduleZFile, moduleEntry);
+//                for (var nestedEntry : moduleZFile.entries()) {
+//                    var name = nestedEntry.getCentralDirectoryHeader().getName();
+//                    if (name.startsWith("lib/"))
+//                        nestedZip.addFileLink(name, "assets/lib/" + pair.getSecond() + name.substring(3));
+//                }
+//                nestedZipLink.nestedZips.add(nestedZip);
+//            }
 
             try {
                 nestedZipLink.register();
             } catch (NoSuchAlgorithmException e) {
                 throw new PatchError("Failed to create link", e);
             }
+
+            dstZFile.realign();
 
             System.out.println("Done. Output APK: " + outputFile.getAbsolutePath());
         } finally {

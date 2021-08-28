@@ -223,7 +223,7 @@ public class ZFile implements Closeable {
    * Minimum size for the extra field when we have to add one. We rely on the alignment segment to
    * do that so the minimum size for the extra field is the minimum size of an alignment segment.
    */
-  private static final int MINIMUM_EXTRA_FIELD_SIZE = ExtraField.AlignmentSegment.MINIMUM_SIZE;
+  protected static final int MINIMUM_EXTRA_FIELD_SIZE = ExtraField.AlignmentSegment.MINIMUM_SIZE;
 
   /**
    * Maximum size of the extra field.
@@ -231,10 +231,10 @@ public class ZFile implements Closeable {
    * <p>Theoretically, this is (1 << 16) - 1 = 65535 and not (1 < 15) -1 = 32767. However, due to
    * http://b.android.com/221703, we need to keep this limited.
    */
-  private static final int MAX_LOCAL_EXTRA_FIELD_CONTENTS_SIZE = (1 << 15) - 1;
+  protected static final int MAX_LOCAL_EXTRA_FIELD_CONTENTS_SIZE = (1 << 15) - 1;
 
   /** File zip file. */
-  private final File file;
+  protected final File file;
 
   /**
    * The random access file used to access the zip file. This will be {@code null} if and only if
@@ -1768,18 +1768,23 @@ public class ZFile implements Closeable {
   }
 
   public void addLink(String name, StoredEntry linkedEntry)
-          throws CloneNotSupportedException,IOException {
+          throws IOException {
+      addNestedLink(name, linkedEntry, null, 0);
+  }
+
+  void addNestedLink(String name, StoredEntry linkedEntry, StoredEntry nestedEntry, int nestedOffset)
+          throws IOException {
     Preconditions.checkArgument(linkedEntry != null, "linkedEntry is null");
     Preconditions.checkArgument(linkedEntry.getCentralDirectoryHeader().getOffset() < 0, "linkedEntry is not new file");
     Preconditions.checkArgument(!linkedEntry.isLinkingEntry(), "linkedEntry is a linking entry");
-    var linkingEntry = new StoredEntry(name, this, storage, linkedEntry);
+    var linkingEntry = new StoredEntry(name, this, storage, linkedEntry, nestedEntry, nestedOffset);
     linkingEntries.add(linkingEntry);
     linkedEntry.setLocalExtraNoNotify(new ExtraField(ImmutableList.<ExtraField.Segment>builder().add(linkedEntry.getLocalExtra().getSegments().toArray(new ExtraField.Segment[0])).add(new ExtraField.LinkingEntrySegment(linkingEntry)).build()));
+    reAdd(linkedEntry, PositionHint.LOWEST_OFFSET);
   }
 
-  public void addNestedZipWithLinks(Map<String, String> nameMapping)
-          throws CloneNotSupportedException,IOException {
-    // TODO: nested link
+  public NestedZip addNestedZip(String name, File src, boolean mayCompress) throws IOException {
+    return new NestedZip(name, this, src, mayCompress);
   }
 
 
