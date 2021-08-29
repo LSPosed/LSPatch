@@ -1767,23 +1767,23 @@ public class ZFile implements Closeable {
     return add(makeStoredEntry(name, source, mayCompress));
   }
 
-  public void addLink(String name, StoredEntry linkedEntry)
+  public void addLink(StoredEntry linkedEntry, String dstName)
           throws IOException {
-      addNestedLink(name, linkedEntry, null, 0L, false);
+      addNestedLink(linkedEntry, dstName, null, 0L, false);
   }
 
-  void addNestedLink(String name, StoredEntry linkedEntry, StoredEntry nestedEntry, long nestedOffset, boolean dummy)
+  void addNestedLink(StoredEntry linkedEntry, String dstName, StoredEntry nestedEntry, long nestedOffset, boolean dummy)
           throws IOException {
     Preconditions.checkArgument(linkedEntry != null, "linkedEntry is null");
     Preconditions.checkArgument(linkedEntry.getCentralDirectoryHeader().getOffset() < 0, "linkedEntry is not new file");
     Preconditions.checkArgument(!linkedEntry.isLinkingEntry(), "linkedEntry is a linking entry");
-    var linkingEntry = new StoredEntry(name, this, storage, linkedEntry, nestedEntry, nestedOffset, dummy);
+    var linkingEntry = new StoredEntry(dstName, this, storage, linkedEntry, nestedEntry, nestedOffset, dummy);
     linkingEntries.add(linkingEntry);
     linkedEntry.setLocalExtraNoNotify(new ExtraField(ImmutableList.<ExtraField.Segment>builder().add(linkedEntry.getLocalExtra().getSegments().toArray(new ExtraField.Segment[0])).add(new ExtraField.LinkingEntrySegment(linkingEntry)).build()));
     reAdd(linkedEntry, PositionHint.LOWEST_OFFSET);
   }
 
-  public NestedZip addNestedZip(String name, File src, boolean mayCompress) throws IOException {
+  public NestedZip addNestedZip(NestedZip.NameCallback name, File src, boolean mayCompress) throws IOException {
     return new NestedZip(name, this, src, mayCompress);
   }
 

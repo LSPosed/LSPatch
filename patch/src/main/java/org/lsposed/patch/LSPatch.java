@@ -4,6 +4,7 @@ import com.android.apksig.internal.util.Pair;
 import com.android.tools.build.apkzlib.sign.SigningExtension;
 import com.android.tools.build.apkzlib.sign.SigningOptions;
 import com.android.tools.build.apkzlib.zip.AlignmentRules;
+import com.android.tools.build.apkzlib.zip.NestedZip;
 import com.android.tools.build.apkzlib.zip.StoredEntry;
 import com.android.tools.build.apkzlib.zip.ZFile;
 import com.android.tools.build.apkzlib.zip.ZFileOptions;
@@ -157,7 +158,7 @@ public class LSPatch {
 
         System.out.println("Parsing original apk...");
 
-        try (ZFile dstZFile = ZFile.openReadWrite(tmpApk, Z_FILE_OPTIONS); var srcZFile = dstZFile.addNestedZip(ORIGINAL_APK_ASSET_PATH, srcApkFile, false)) {
+        try (ZFile dstZFile = ZFile.openReadWrite(tmpApk, Z_FILE_OPTIONS); var srcZFile = dstZFile.addNestedZip((ignore) -> ORIGINAL_APK_ASSET_PATH, srcApkFile, false)) {
 
             // sign apk
             System.out.println("Register apk signer...");
@@ -240,7 +241,7 @@ public class LSPatch {
                 String entryName = "assets/lib/lspd/" + arch + "/liblspd.so";
                 try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + (arch.equals("arm") ? "armeabi-v7a" : (arch.equals("arm64") ? "arm64-v8a" : arch)) + "/liblspd.so")) {
                     var entry = dstZFile.add(entryName, is, false); // no compress for so
-                    dstZFile.addLink("assets/lib/lspd/test/" + arch + "/liblspd.so", entry);
+                    dstZFile.addLink(entry, "assets/lib/lspd/test/" + arch + "/liblspd.so");
                 } catch (Throwable e) {
                     // More exception info
                     throw new PatchError("Error when adding native lib", e);
@@ -271,32 +272,45 @@ public class LSPatch {
                 throw new PatchError("Error when saving signature bypass level", e);
             }
 
-            var embedded = embedModules(dstZFile);
-
             // create zip link
             if (verbose)
                 System.out.println("Creating nested apk link...");
 
-            for (StoredEntry entry : srcZFile.entries()) {
-                String name = entry.getCentralDirectoryHeader().getName();
-                if (name.startsWith("classes") && name.endsWith(".dex")) continue;
-                if (dstZFile.get(name) != null) continue;
-                if (name.equals("AndroidManifest.xml")) continue;
-                if (name.startsWith("META-INF/CERT")) continue;
-                if (name.equals("META-INF/MANIFEST.MF")) continue;
-                srcZFile.addFileLink(name, name);
+            for (var moduleFile : modules) {
+                final var moduleManifest = new ManifestParser.Triple[]{null};
+                try (var nested = dstZFile.addNestedZip((module) -> {
+                    var manifest = module.get(ANDROID_MANIFEST_XML);
+                    if (manifest == null) {
+                        throw new PatchError(moduleFile + " is not a valid apk file.");
+                    }
+                    moduleManifest[0] = ManifestParser.parseManifestFile(manifest.open());
+                    if (moduleManifest[0] == null) {
+                        throw new PatchError(moduleFile + " is not a valid apk file.");
+                    }
+                    return "assets/modules/" + moduleManifest[0].packageName + ".bin";
+                }, new File(moduleFile), false)) {
+                    var packageName = moduleManifest[0].packageName;
+                    for (var nestedEntry : nested.entries()) {
+                        var name = nestedEntry.getCentralDirectoryHeader().getName();
+                        if (name.startsWith("lib/")) {
+                            var dstName = "assets/lib/" + packageName + name.substring(3);
+                            System.out.println("add link: " + dstName);
+                            if (!nested.addFileLink(nestedEntry, dstName)) {
+                                throw new PatchError("module " + packageName + " is too large to embed");
+                            }
+                        }
+                    }
+                }
             }
 
-//            for (var pair : embedded) {
-//                ZFile moduleZFile = ZFile.openReadOnly(pair.getFirst());
-//                StoredEntry moduleEntry = dstZFile.get("assets/modules/" + pair.getSecond() + ".bin");
-//                nestedZip = new NestedZip(dstZFile, moduleZFile, moduleEntry);
-//                for (var nestedEntry : moduleZFile.entries()) {
-//                    var name = nestedEntry.getCentralDirectoryHeader().getName();
-//                    if (name.startsWith("lib/"))
-//                        nestedZip.addFileLink(name, "assets/lib/" + pair.getSecond() + name.substring(3));
-//                }
-//                nestedZipLink.nestedZips.add(nestedZip);
+//            for (StoredEntry entry : srcZFile.entries()) {
+//                String name = entry.getCentralDirectoryHeader().getName();
+//                if (name.startsWith("classes") && name.endsWith(".dex")) continue;
+//                if (dstZFile.get(name) != null) continue;
+//                if (name.equals("AndroidManifest.xml")) continue;
+//                if (name.startsWith("META-INF/CERT")) continue;
+//                if (name.equals("META-INF/MANIFEST.MF")) continue;
+//                srcZFile.addFileLink(name, name);
 //            }
 
             dstZFile.realign();
@@ -311,49 +325,6 @@ public class LSPatch {
                 throw new PatchError("Error writing apk", e);
             }
         }
-    }
-
-    private List<Pair<File, String>> embedModules(ZFile zFile) {
-        System.out.println("Embedding modules...");
-        List<Pair<File, String>> list = new ArrayList<>();
-        for (var module : modules) {
-            var file = new File(module);
-            if (!file.exists()) {
-                System.err.println(file.getAbsolutePath() + " does not exist.");
-            }
-
-            System.out.print("Embedding module ");
-
-            ManifestParser.Triple triple = null;
-            try (JarFile jar = new JarFile(file)) {
-                var manifest = jar.getEntry(ANDROID_MANIFEST_XML);
-                if (manifest == null) {
-                    System.out.println();
-                    System.err.println(file.getAbsolutePath() + " is not a valid apk file.");
-                    continue;
-                }
-                triple = ManifestParser.parseManifestFile(jar.getInputStream(manifest));
-                if (triple == null) {
-                    System.out.println();
-                    System.err.println(file.getAbsolutePath() + " is not a valid apk file.");
-                    continue;
-                }
-                System.out.println(triple.packageName);
-            } catch (Throwable e) {
-                System.out.println();
-                System.err.println(e.getMessage());
-            }
-            if (triple != null) {
-                try (var is = new FileInputStream(file)) {
-                    var entryName = "assets/modules/" + triple.packageName + ".bin";
-                    zFile.add(entryName, is, false);
-                    list.add(Pair.of(file, triple.packageName));
-                } catch (Throwable e) {
-                    System.err.println("Embed " + triple.packageName + " with error: " + e.getMessage());
-                }
-            }
-        }
-        return list;
     }
 
     private byte[] modifyManifestFile(InputStream is) throws IOException {
