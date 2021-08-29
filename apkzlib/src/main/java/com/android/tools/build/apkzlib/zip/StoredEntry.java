@@ -192,7 +192,7 @@ public class StoredEntry {
           boolean dummy)
           throws IOException {
       this((nestedEntry == null ? linkedEntry: nestedEntry).linkingCentralDirectoryHeader(name, file),
-              file, linkedEntry.getSource(), storage, linkedEntry, nestedOffset, dummy);
+              file, (nestedEntry == null ? linkedEntry : nestedEntry).getSource(), storage, linkedEntry, nestedOffset, dummy);
   }
 
   private CentralDirectoryHeader linkingCentralDirectoryHeader(String name, ZFile file) {
