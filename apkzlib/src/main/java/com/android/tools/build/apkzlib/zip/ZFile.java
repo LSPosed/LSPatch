@@ -1769,15 +1769,15 @@ public class ZFile implements Closeable {
 
   public void addLink(String name, StoredEntry linkedEntry)
           throws IOException {
-      addNestedLink(name, linkedEntry, null, 0);
+      addNestedLink(name, linkedEntry, null, 0L, false);
   }
 
-  void addNestedLink(String name, StoredEntry linkedEntry, StoredEntry nestedEntry, int nestedOffset)
+  void addNestedLink(String name, StoredEntry linkedEntry, StoredEntry nestedEntry, long nestedOffset, boolean dummy)
           throws IOException {
     Preconditions.checkArgument(linkedEntry != null, "linkedEntry is null");
     Preconditions.checkArgument(linkedEntry.getCentralDirectoryHeader().getOffset() < 0, "linkedEntry is not new file");
     Preconditions.checkArgument(!linkedEntry.isLinkingEntry(), "linkedEntry is a linking entry");
-    var linkingEntry = new StoredEntry(name, this, storage, linkedEntry, nestedEntry, nestedOffset);
+    var linkingEntry = new StoredEntry(name, this, storage, linkedEntry, nestedEntry, nestedOffset, dummy);
     linkingEntries.add(linkingEntry);
     linkedEntry.setLocalExtraNoNotify(new ExtraField(ImmutableList.<ExtraField.Segment>builder().add(linkedEntry.getLocalExtra().getSegments().toArray(new ExtraField.Segment[0])).add(new ExtraField.LinkingEntrySegment(linkingEntry)).build()));
     reAdd(linkedEntry, PositionHint.LOWEST_OFFSET);

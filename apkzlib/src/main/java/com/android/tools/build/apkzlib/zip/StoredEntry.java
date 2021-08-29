@@ -157,8 +157,11 @@ public class StoredEntry {
   /** Entry it is linking to. */
   private final StoredEntry linkedEntry;
 
-  /** Offset of the nested link */
-  private final int nestedOffset;
+  /** Offset of the nested link. */
+  private final long nestedOffset;
+
+  /** Dummy entry won't be written to file. */
+  private final boolean dummy;
 
   /**
    * Creates a new stored entry.
@@ -176,7 +179,7 @@ public class StoredEntry {
           @Nullable ProcessedAndRawByteSources source,
           ByteStorage storage)
           throws IOException {
-      this(header, file, source, storage, null, 0);
+      this(header, file, source, storage, null, 0, false);
   }
 
   StoredEntry(
@@ -185,10 +188,11 @@ public class StoredEntry {
           ByteStorage storage,
           StoredEntry linkedEntry,
           StoredEntry nestedEntry,
-          int nestedOffset)
+          long nestedOffset,
+          boolean dummy)
           throws IOException {
       this((nestedEntry == null ? linkedEntry: nestedEntry).linkingCentralDirectoryHeader(name, file),
-              file, linkedEntry.getSource(), storage, linkedEntry, nestedOffset);
+              file, linkedEntry.getSource(), storage, linkedEntry, nestedOffset, dummy);
   }
 
   private CentralDirectoryHeader linkingCentralDirectoryHeader(String name, ZFile file) {
@@ -203,7 +207,8 @@ public class StoredEntry {
       @Nullable ProcessedAndRawByteSources source,
       ByteStorage storage,
       StoredEntry linkedEntry,
-      int nestedOffset)
+      long nestedOffset,
+      boolean dummy)
       throws IOException {
     cdh = header;
     this.file = file;
@@ -212,6 +217,7 @@ public class StoredEntry {
     this.storage = storage;
     this.linkedEntry = linkedEntry;
     this.nestedOffset = nestedOffset;
+    this.dummy = dummy;
 
     if (header.getOffset() >= 0) {
       readLocalHeader();
@@ -756,6 +762,14 @@ public class StoredEntry {
 
   public boolean isLinkingEntry() {
     return linkedEntry != null;
+  }
+
+  public boolean isDummyEntry() {
+    return dummy;
+  }
+
+  public long getNestedOffset() {
+    return nestedOffset;
   }
 
   /**

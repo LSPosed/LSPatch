@@ -4,7 +4,6 @@ import com.android.apksig.internal.util.Pair;
 import com.android.tools.build.apkzlib.sign.SigningExtension;
 import com.android.tools.build.apkzlib.sign.SigningOptions;
 import com.android.tools.build.apkzlib.zip.AlignmentRules;
-import com.android.tools.build.apkzlib.zip.NestedZip;
 import com.android.tools.build.apkzlib.zip.StoredEntry;
 import com.android.tools.build.apkzlib.zip.ZFile;
 import com.android.tools.build.apkzlib.zip.ZFileOptions;
@@ -20,7 +19,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.lsposed.lspatch.share.Constants;
 import org.lsposed.patch.util.ApkSignatureHelper;
 import org.lsposed.patch.util.ManifestParser;
-import org.lsposed.patch.util.NestedZipLink;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -115,7 +113,7 @@ public class LSPatch {
         try {
             lsPatch.doCommandLine();
         } catch (PatchError e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace(System.err);
         }
     }
 
@@ -160,6 +158,25 @@ public class LSPatch {
         System.out.println("Parsing original apk...");
 
         try (ZFile dstZFile = ZFile.openReadWrite(tmpApk, Z_FILE_OPTIONS); var srcZFile = dstZFile.addNestedZip(ORIGINAL_APK_ASSET_PATH, srcApkFile, false)) {
+
+            // sign apk
+            System.out.println("Register apk signer...");
+            try {
+                var keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                try (var is = getClass().getClassLoader().getResourceAsStream("assets/keystore")) {
+                    keyStore.load(is, "123456".toCharArray());
+                }
+                var entry = (KeyStore.PrivateKeyEntry) keyStore.getEntry("key0", new KeyStore.PasswordProtection("123456".toCharArray()));
+                new SigningExtension(SigningOptions.builder()
+                        .setMinSdkVersion(27)
+                        .setV1SigningEnabled(v1)
+                        .setV2SigningEnabled(v2)
+                        .setCertificates((X509Certificate[]) entry.getCertificateChain())
+                        .setKey(entry.getPrivateKey())
+                        .build()).register(dstZFile);
+            } catch (Exception e) {
+                throw new PatchError("Failed to register signer", e);
+            }
             if (sigbypassLevel > 0) {
                 // save the apk original signature info, to support crack signature.
                 String originalSignature = ApkSignatureHelper.getApkSignInfo(srcApkFile.getAbsolutePath());
@@ -260,27 +277,6 @@ public class LSPatch {
             if (verbose)
                 System.out.println("Creating nested apk link...");
 
-            SigningExtension signingExtension = null;
-            // sign apk
-            System.out.println("Signing apk...");
-            try {
-                var keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-                try (var is = getClass().getClassLoader().getResourceAsStream("assets/keystore")) {
-                    keyStore.load(is, "123456".toCharArray());
-                }
-                var entry = (KeyStore.PrivateKeyEntry) keyStore.getEntry("key0", new KeyStore.PasswordProtection("123456".toCharArray()));
-                signingExtension = new SigningExtension(SigningOptions.builder()
-                        .setMinSdkVersion(27)
-                        .setV1SigningEnabled(v1)
-                        .setV2SigningEnabled(v2)
-                        .setCertificates((X509Certificate[]) entry.getCertificateChain())
-                        .setKey(entry.getPrivateKey())
-                        .build());
-            } catch (Exception e) {
-                throw new PatchError("Failed to create signer", e);
-            }
-
-            NestedZipLink nestedZipLink = new NestedZipLink(dstZFile, signingExtension);
             for (StoredEntry entry : srcZFile.entries()) {
                 String name = entry.getCentralDirectoryHeader().getName();
                 if (name.startsWith("classes") && name.endsWith(".dex")) continue;
@@ -290,7 +286,6 @@ public class LSPatch {
                 if (name.equals("META-INF/MANIFEST.MF")) continue;
                 srcZFile.addFileLink(name, name);
             }
-            nestedZipLink.nestedZips.add(srcZFile);
 
 //            for (var pair : embedded) {
 //                ZFile moduleZFile = ZFile.openReadOnly(pair.getFirst());
@@ -304,20 +299,16 @@ public class LSPatch {
 //                nestedZipLink.nestedZips.add(nestedZip);
 //            }
 
-            try {
-                nestedZipLink.register();
-            } catch (NoSuchAlgorithmException e) {
-                throw new PatchError("Failed to create link", e);
-            }
-
             dstZFile.realign();
 
-            System.out.println("Done. Output APK: " + outputFile.getAbsolutePath());
+            System.out.println("Writing apk...");
         } finally {
             try {
                 outputFile.delete();
                 FileUtils.moveFile(tmpApk, outputFile);
-            } catch (Throwable ignored) {
+                System.out.println("Done. Output APK: " + outputFile.getAbsolutePath());
+            } catch (Throwable e) {
+                throw new PatchError("Error writing apk", e);
             }
         }
     }

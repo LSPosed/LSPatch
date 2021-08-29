@@ -404,7 +404,7 @@ public class ExtraField {
 
     @Override
     public int size() {
-      return linkingEntry.getLocalHeaderSize() + 4;
+      return linkingEntry.isDummyEntry() ? 0 : linkingEntry.getLocalHeaderSize() + 4;
     }
 
     public void setOffset(int dataOffset, long zipOffset) {
@@ -417,11 +417,15 @@ public class ExtraField {
       if (dataOffset == 0 || zipOffset == 0) {
         throw new IOException("linking entry has 0 offset");
       }
-      LittleEndianUtils.writeUnsigned2Le(out, LINKING_ENTRY_EXTRA_DATA_FIELD_HEADER_ID);
-      LittleEndianUtils.writeUnsigned2Le(out, linkingEntry.getLocalHeaderSize());
-      var offset = out.position();
-      linkingEntry.writeData(out, dataOffset - linkingEntry.getLocalHeaderSize() - offset);
-      linkingEntry.replaceSourceFromZip(offset + zipOffset);
+      if (!linkingEntry.isDummyEntry()) {
+        LittleEndianUtils.writeUnsigned2Le(out, LINKING_ENTRY_EXTRA_DATA_FIELD_HEADER_ID);
+        LittleEndianUtils.writeUnsigned2Le(out, linkingEntry.getLocalHeaderSize());
+        var offset = out.position();
+        linkingEntry.writeData(out, dataOffset - linkingEntry.getLocalHeaderSize() - offset);
+        linkingEntry.replaceSourceFromZip(offset + zipOffset);
+      } else {
+        linkingEntry.replaceSourceFromZip(zipOffset + dataOffset + linkingEntry.getNestedOffset());
+      }
     }
   }
 }

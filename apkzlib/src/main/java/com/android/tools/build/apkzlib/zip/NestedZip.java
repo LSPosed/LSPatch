@@ -18,18 +18,22 @@ public class NestedZip extends ZFile {
         this.links = Maps.newHashMap();
     }
 
+    /**
+     * @return true if lfh is consistent with cdh otherwise inconsistent
+     */
     public boolean addFileLink(String srcName, String dstName) throws IOException {
         var srcEntry = get(srcName);
         if (entry == null)
             throw new IOException("Entry " + srcEntry + " does not exist in nested zip");
         var offset = srcEntry.getCentralDirectoryHeader().getOffset() + srcEntry.getLocalHeaderSize();
-        if (offset < MAX_LOCAL_EXTRA_FIELD_CONTENTS_SIZE) {
-            target.addNestedLink(srcName, entry, srcEntry, (int) offset);
+        if (srcName.equals(dstName)) {
+            target.addNestedLink(srcName, entry, srcEntry, srcEntry.getCentralDirectoryHeader().getOffset(), true);
             return true;
-        } else {
-            links.put(srcEntry, dstName);
-            return false;
+        } else if (offset < MAX_LOCAL_EXTRA_FIELD_CONTENTS_SIZE) {
+            target.addNestedLink(srcName, entry, srcEntry, offset, false);
+            return true;
         }
+        return false;
     }
 
     public Map<StoredEntry, String> getLinks() {
