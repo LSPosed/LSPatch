@@ -1556,7 +1556,7 @@ public class ZFile implements Closeable {
     }
 
     Verify.verify(eocdComment != null);
-    Eocd eocd = new Eocd(entries.size(), dirStart, dirSize, eocdComment);
+    Eocd eocd = new Eocd(entries.size() + linkingEntries.size(), dirStart, dirSize, eocdComment);
     eocdComment = null;
 
     byte[] eocdBytes = eocd.toBytes();
