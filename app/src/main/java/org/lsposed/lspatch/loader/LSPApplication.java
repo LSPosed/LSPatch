@@ -241,7 +241,7 @@ public class LSPApplication extends ApplicationServiceClient {
         final var new_modules = new JSONArray();
         LSPApplication.modules.forEach(m -> {
             try {
-                m.file = loadModule(m.apkPath);
+                m.file = loadModule(context, m.apkPath);
                 var module = new JSONObject();
                 module.put("name", m.packageName);
                 module.put("enabled", !disabled_modules.contains(m.packageName));
@@ -297,7 +297,7 @@ public class LSPApplication extends ApplicationServiceClient {
         }
     }
 
-    private static PreLoadedApk loadModule(String path) {
+    private static PreLoadedApk loadModule(Context context, String path) {
         var file = new PreLoadedApk();
         var preLoadedDexes = new ArrayList<SharedMemory>();
         var moduleClassNames = new ArrayList<String>(1);
@@ -312,6 +312,7 @@ public class LSPApplication extends ApplicationServiceClient {
         }
         if (preLoadedDexes.isEmpty()) return null;
         if (moduleClassNames.isEmpty()) return null;
+        file.hostApk = context.getApplicationInfo().sourceDir;
         file.preLoadedDexes = preLoadedDexes;
         file.moduleClassNames = moduleClassNames;
         file.moduleLibraryNames = moduleLibraryNames;

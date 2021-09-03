@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.jar.JarFile;
 
 public class LSPatch {
@@ -91,6 +92,12 @@ public class LSPatch {
     private static final String SIGNATURE_INFO_ASSET_PATH = "assets/original_signature_info.ini";
     private static final String ORIGINAL_APK_ASSET_PATH = "assets/origin_apk.bin";
     private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
+    private static final HashSet<String> ARCHES = new HashSet<>(Arrays.asList(
+            "armeabi-v7a",
+            "arm64-v8a",
+            "x86",
+            "x86_64"
+    ));
     private static final HashSet<String> APK_LIB_PATH_ARRAY = new HashSet<>(Arrays.asList(
             "arm",
             "arm64",
@@ -240,8 +247,7 @@ public class LSPatch {
             for (String arch : APK_LIB_PATH_ARRAY) {
                 String entryName = "assets/lib/lspd/" + arch + "/liblspd.so";
                 try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + (arch.equals("arm") ? "armeabi-v7a" : (arch.equals("arm64") ? "arm64-v8a" : arch)) + "/liblspd.so")) {
-                    var entry = dstZFile.add(entryName, is, false); // no compress for so
-                    dstZFile.addLink(entry, "assets/lib/lspd/test/" + arch + "/liblspd.so");
+                    dstZFile.add(entryName, is, false); // no compress for so
                 } catch (Throwable e) {
                     // More exception info
                     throw new PatchError("Error when adding native lib", e);
@@ -272,6 +278,27 @@ public class LSPatch {
                 throw new PatchError("Error when saving signature bypass level", e);
             }
 
+            Set<String> apkArchs = new HashSet<>();
+
+            if (verbose)
+                System.out.println("Search target apk library arch...");
+
+            for (StoredEntry storedEntry : srcZFile.entries()) {
+                var name = storedEntry.getCentralDirectoryHeader().getName();
+                if (name.startsWith("lib/") && name.length() >= 5) {
+                    var arch = name.substring(4, name.indexOf('/', 5));
+                    apkArchs.add(arch);
+                }
+            }
+            if (apkArchs.isEmpty()) apkArchs.addAll(ARCHES);
+            apkArchs.removeIf((arch) -> {
+                if (!ARCHES.contains(arch) && !arch.equals("armeabi")) {
+                    System.err.println("Warning: unsupported arch " + arch + ". Skipping...");
+                    return true;
+                }
+                return false;
+            });
+
             // create zip link
             if (verbose)
                 System.out.println("Creating nested apk link...");
@@ -290,28 +317,21 @@ public class LSPatch {
                     return "assets/modules/" + moduleManifest[0].packageName + ".bin";
                 }, new File(moduleFile), false)) {
                     var packageName = moduleManifest[0].packageName;
-                    for (var nestedEntry : nested.entries()) {
-                        var name = nestedEntry.getCentralDirectoryHeader().getName();
-                        if (name.startsWith("lib/")) {
-                            var dstName = "assets/lib/" + packageName + name.substring(3);
-                            System.out.println("add link: " + dstName);
-                            if (!nested.addFileLink(nestedEntry, dstName)) {
-                                throw new PatchError("module " + packageName + " is too large to embed");
-                            }
-                        }
+                    for (var arch : apkArchs) {
+                        dstZFile.addLink(nested.getEntry(), "lib/" + arch + "/" + packageName + ".so");
                     }
                 }
             }
 
-//            for (StoredEntry entry : srcZFile.entries()) {
-//                String name = entry.getCentralDirectoryHeader().getName();
-//                if (name.startsWith("classes") && name.endsWith(".dex")) continue;
-//                if (dstZFile.get(name) != null) continue;
-//                if (name.equals("AndroidManifest.xml")) continue;
-//                if (name.startsWith("META-INF/CERT")) continue;
-//                if (name.equals("META-INF/MANIFEST.MF")) continue;
-//                srcZFile.addFileLink(name, name);
-//            }
+            for (StoredEntry entry : srcZFile.entries()) {
+                String name = entry.getCentralDirectoryHeader().getName();
+                if (name.startsWith("classes") && name.endsWith(".dex")) continue;
+                if (dstZFile.get(name) != null) continue;
+                if (name.equals("AndroidManifest.xml")) continue;
+                if (name.startsWith("META-INF/CERT")) continue;
+                if (name.equals("META-INF/MANIFEST.MF")) continue;
+                srcZFile.addFileLink(name, name);
+            }
 
             dstZFile.realign();
 
@@ -330,6 +350,8 @@ public class LSPatch {
     private byte[] modifyManifestFile(InputStream is) throws IOException {
         ModificationProperty property = new ModificationProperty();
 
+        if (!modules.isEmpty())
+            property.addApplicationAttribute(new AttributeItem("extractNativeLibs", true));
         property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag));
         //property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, PROXY_APPLICATION));
         property.addApplicationAttribute(new AttributeItem("appComponentFactory", PROXY_APP_COMPONENT_FACTORY));
