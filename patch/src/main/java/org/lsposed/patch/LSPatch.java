@@ -78,6 +78,9 @@ public class LSPatch {
     @Parameter(names = {"--v3"}, arity = 1, description = "Sign with v3 signature")
     private boolean v3 = true;
 
+    @Parameter(names = {"--manager"}, arity = 1, description = "Whether use manager (Cannot be true when has module embedded)")
+    private boolean useManager = false;
+
     @Parameter(names = {"-v", "--verbose"}, description = "Verbose output")
     private boolean verbose = false;
 
@@ -90,6 +93,7 @@ public class LSPatch {
     private static final String APP_COMPONENT_FACTORY_ASSET_PATH = "assets/original_app_component_factory.ini";
     private static final String APPLICATION_NAME_ASSET_PATH = "assets/original_application_name.ini";
     private static final String SIGNATURE_INFO_ASSET_PATH = "assets/original_signature_info.ini";
+    private static final String USE_MANAGER_CONTROL_PATH = "assets/use_manager.ini";
     private static final String ORIGINAL_APK_ASSET_PATH = "assets/origin_apk.bin";
     private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
     private static final HashSet<String> ARCHES = new HashSet<>(Arrays.asList(
@@ -131,6 +135,11 @@ public class LSPatch {
             return;
         }
         if (apkPaths == null || apkPaths.isEmpty()) {
+            jCommander.usage();
+            return;
+        }
+
+        if (!modules.isEmpty() && useManager) {
             jCommander.usage();
             return;
         }
@@ -274,8 +283,9 @@ public class LSPatch {
             // save lspatch config to asset..
             try (var is = new ByteArrayInputStream("42".getBytes(StandardCharsets.UTF_8))) {
                 dstZFile.add("assets/" + Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel, is);
-            } catch (Throwable e) {
-                throw new PatchError("Error when saving signature bypass level", e);
+            }
+            try (var is = new ByteArrayInputStream(Boolean.toString(useManager).getBytes(StandardCharsets.UTF_8))){
+                dstZFile.add(USE_MANAGER_CONTROL_PATH, is);
             }
 
             Set<String> apkArchs = new HashSet<>();
