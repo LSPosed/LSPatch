@@ -84,4 +84,5 @@ dependencies {
     implementation project(path: ':hiddenapi-bridge')
     compileOnly project(":hiddenapi-stubs")
     implementation project(':share')
+    implementation project(':imanager')
 }

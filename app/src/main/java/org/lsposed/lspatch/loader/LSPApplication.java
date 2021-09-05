@@ -8,21 +8,19 @@ import android.app.LoadedApk;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.Parcel;
+import android.os.RemoteException;
 import android.os.SharedMemory;
 import android.system.ErrnoException;
 import android.system.Os;
 import android.system.OsConstants;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.lsposed.lspatch.loader.util.FileUtils;
 import org.lsposed.lspatch.loader.util.XLog;
 import org.lsposed.lspatch.share.Constants;
@@ -33,9 +31,7 @@ import org.lsposed.lspd.models.PreLoadedApk;
 import org.lsposed.lspd.nativebridge.SigBypass;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,15 +40,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.channels.Channels;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.zip.ZipFile;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -67,11 +61,14 @@ import hidden.HiddenApiBridge;
 public class LSPApplication extends ApplicationServiceClient {
     private static final String ORIGINAL_APPLICATION_NAME_ASSET_PATH = "original_application_name.ini";
     private static final String ORIGINAL_SIGNATURE_ASSET_PATH = "original_signature_info.ini";
+    private static final String USE_MANAGER_CONTROL_PATH = "use_manager.ini";
     private static final String TAG = "LSPatch";
 
+    private static boolean useManager;
     private static String originalApplicationName = null;
     private static String originalSignature = null;
     private static Application sOriginalApplication = null;
+    private static ManagerResolver managerResolver = null;
     private static ClassLoader appClassLoader;
     private static Object activityThread;
 
@@ -99,8 +96,15 @@ public class LSPApplication extends ApplicationServiceClient {
             return;
         }
 
+        useManager = Boolean.parseBoolean(Objects.requireNonNull(FileUtils.readTextFromAssets(context, USE_MANAGER_CONTROL_PATH)));
         originalApplicationName = FileUtils.readTextFromAssets(context, ORIGINAL_APPLICATION_NAME_ASSET_PATH);
         originalSignature = FileUtils.readTextFromAssets(context, ORIGINAL_SIGNATURE_ASSET_PATH);
+
+        if (useManager) try {
+            managerResolver = new ManagerResolver(context);
+        } catch (RemoteException e) {
+            Log.e(TAG, "Failed to instantiate manager resolver", e);
+        }
 
         XLog.d(TAG, "original application class " + originalApplicationName);
         XLog.d(TAG, "original signature info " + originalSignature);
@@ -169,98 +173,40 @@ public class LSPApplication extends ApplicationServiceClient {
 
     }
 
-
-    // TODO: set module config
     public static void loadModules(Context context) {
-        var configFile = new File(context.getExternalFilesDir(null), "lspatch.json");
-        JSONObject moduleConfigs = new JSONObject();
-        try (var is = new FileInputStream(configFile)) {
-            moduleConfigs = new JSONObject(FileUtils.readTextFromInputStream(is));
-        } catch (Throwable ignored) {
-        }
-        var modules = moduleConfigs.optJSONArray("modules");
-        if (modules == null) {
-            modules = new JSONArray();
+        if (useManager) {
             try {
-                moduleConfigs.put("modules", modules);
-            } catch (Throwable ignored) {
-
+                LSPApplication.modules.addAll(managerResolver.getModules());
+            } catch (NullPointerException | RemoteException e) {
+                Log.e(TAG, "Failed to get modules from manager", e);
             }
-        }
-        HashSet<String> embedded_modules = new HashSet<>();
-        HashSet<String> disabled_modules = new HashSet<>();
-        try {
-            for (var name : context.getAssets().list("modules")) {
-                String packageName = name.substring(0, name.length() - 4);
-                String modulePath = context.getCacheDir() + "/lspatch/" + packageName + "/";
-                String cacheApkPath;
-                try (ZipFile sourceFile = new ZipFile(context.getApplicationInfo().sourceDir)) {
-                    cacheApkPath = modulePath + sourceFile.getEntry("assets/modules/" + name).getCrc();
-                }
-
-                if (!Files.exists(Paths.get(cacheApkPath))) {
-                    Log.i(TAG, "extract module apk: " + packageName);
-                    FileUtils.deleteFolderIfExists(Paths.get(modulePath));
-                    Files.createDirectories(Paths.get(modulePath));
-                    try (var is = context.getAssets().open("modules/" + name)) {
-                        Files.copy(is, Paths.get(cacheApkPath));
+        } else {
+            try {
+                for (var name : context.getAssets().list("modules")) {
+                    String packageName = name.substring(0, name.length() - 4);
+                    String modulePath = context.getCacheDir() + "/lspatch/" + packageName + "/";
+                    String cacheApkPath;
+                    try (ZipFile sourceFile = new ZipFile(context.getApplicationInfo().sourceDir)) {
+                        cacheApkPath = modulePath + sourceFile.getEntry("assets/modules/" + name).getCrc();
                     }
+
+                    if (!Files.exists(Paths.get(cacheApkPath))) {
+                        Log.i(TAG, "extract module apk: " + packageName);
+                        FileUtils.deleteFolderIfExists(Paths.get(modulePath));
+                        Files.createDirectories(Paths.get(modulePath));
+                        try (var is = context.getAssets().open("modules/" + name)) {
+                            Files.copy(is, Paths.get(cacheApkPath));
+                        }
+                    }
+
+                    var module = new Module();
+                    module.apkPath = cacheApkPath;
+                    module.packageName = packageName;
+                    module.file = loadModule(context, cacheApkPath);
+                    modules.add(module);
                 }
-
-                embedded_modules.add(packageName);
-                var module = new Module();
-                module.apkPath = cacheApkPath;
-                module.packageName = packageName;
-                LSPApplication.modules.add(module);
-            }
-        } catch (Throwable ignored) {
-
-        }
-        for (int i = 0; i < modules.length(); ++i) {
-            var module = modules.optJSONObject(i);
-            var name = module.optString("name");
-            var enabled = module.optBoolean("enabled", true);
-            var useEmbed = module.optBoolean("use_embed", false);
-            if (name.isEmpty()) continue;
-            if (!enabled) disabled_modules.add(name);
-            if (embedded_modules.contains(name) && !useEmbed) embedded_modules.remove(name);
-        }
-
-        for (PackageInfo pkg : context.getPackageManager().getInstalledPackages(PackageManager.GET_META_DATA)) {
-            ApplicationInfo app = pkg.applicationInfo;
-            if (!app.enabled) {
-                continue;
-            }
-            if (app.metaData != null && app.metaData.containsKey("xposedminversion") && !embedded_modules.contains(app.packageName)) {
-                var module = new Module();
-                module.apkPath = app.publicSourceDir;
-                module.packageName = app.packageName;
-                LSPApplication.modules.add(module);
-            }
-        }
-        final var new_modules = new JSONArray();
-        LSPApplication.modules.forEach(m -> {
-            try {
-                m.file = loadModule(context, m.apkPath);
-                var module = new JSONObject();
-                module.put("name", m.packageName);
-                module.put("enabled", !disabled_modules.contains(m.packageName));
-                module.put("use_embed", embedded_modules.contains(m.packageName));
-                module.put("path", m.apkPath);
-                new_modules.put(module);
             } catch (Throwable ignored) {
             }
-        });
-        try {
-            moduleConfigs.put("modules", new_modules);
-        } catch (Throwable ignored) {
-        }
-        try (var is = new ByteArrayInputStream(moduleConfigs.toString(4).getBytes(StandardCharsets.UTF_8))) {
-            Files.copy(is, configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (Throwable ignored) {
-        }
-        for (var module : disabled_modules) {
-            LSPApplication.modules.remove(module);
         }
     }
 
