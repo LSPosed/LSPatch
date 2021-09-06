@@ -1,6 +1,7 @@
 package org.lsposed.lspatch.loader;
 
 import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
+import static org.lsposed.lspd.service.ConfigFileManager.loadModule;
 
 import android.app.ActivityThread;
 import android.app.Application;
@@ -15,10 +16,7 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
-import android.os.SharedMemory;
-import android.system.ErrnoException;
 import android.system.Os;
-import android.system.OsConstants;
 import android.util.Log;
 
 import org.lsposed.lspatch.loader.util.FileUtils;
@@ -27,19 +25,15 @@ import org.lsposed.lspatch.share.Constants;
 import org.lsposed.lspd.config.ApplicationServiceClient;
 import org.lsposed.lspd.core.Main;
 import org.lsposed.lspd.models.Module;
-import org.lsposed.lspd.models.PreLoadedApk;
 import org.lsposed.lspd.nativebridge.SigBypass;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.nio.channels.Channels;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermissions;
@@ -176,7 +170,8 @@ public class LSPApplication extends ApplicationServiceClient {
     public static void loadModules(Context context) {
         if (useManager) {
             try {
-                LSPApplication.modules.addAll(managerResolver.getModules());
+                modules.addAll(managerResolver.getModules());
+                modules.forEach(m -> Log.i(TAG, "Load module " + m.packageName + " from manager"));
             } catch (NullPointerException | RemoteException e) {
                 Log.e(TAG, "Failed to get modules from manager", e);
             }
@@ -202,67 +197,13 @@ public class LSPApplication extends ApplicationServiceClient {
                     var module = new Module();
                     module.apkPath = cacheApkPath;
                     module.packageName = packageName;
-                    module.file = loadModule(context, cacheApkPath);
+                    module.file = loadModule(cacheApkPath);
+                    if (module.file != null) module.file.hostApk = context.getApplicationInfo().sourceDir;
                     modules.add(module);
                 }
             } catch (Throwable ignored) {
             }
         }
-    }
-
-    private static void readDexes(ZipFile apkFile, List<SharedMemory> preLoadedDexes) {
-        int secondary = 2;
-        for (var dexFile = apkFile.getEntry("classes.dex"); dexFile != null;
-             dexFile = apkFile.getEntry("classes" + secondary + ".dex"), secondary++) {
-            try (var in = apkFile.getInputStream(dexFile)) {
-                var memory = SharedMemory.create(null, in.available());
-                var byteBuffer = memory.mapReadWrite();
-                Channels.newChannel(in).read(byteBuffer);
-                SharedMemory.unmap(byteBuffer);
-                memory.setProtect(OsConstants.PROT_READ);
-                preLoadedDexes.add(memory);
-            } catch (IOException | ErrnoException e) {
-                Log.w(TAG, "Can not load " + dexFile + " in " + apkFile, e);
-            }
-        }
-    }
-
-    private static void readName(ZipFile apkFile, String initName, List<String> names) {
-        var initEntry = apkFile.getEntry(initName);
-        if (initEntry == null) return;
-        try (var in = apkFile.getInputStream(initEntry)) {
-            var reader = new BufferedReader(new InputStreamReader(in));
-            String name;
-            while ((name = reader.readLine()) != null) {
-                name = name.trim();
-                if (name.isEmpty() || name.startsWith("#")) continue;
-                names.add(name);
-            }
-        } catch (IOException e) {
-            Log.e(TAG, "Can not open " + initEntry, e);
-        }
-    }
-
-    private static PreLoadedApk loadModule(Context context, String path) {
-        var file = new PreLoadedApk();
-        var preLoadedDexes = new ArrayList<SharedMemory>();
-        var moduleClassNames = new ArrayList<String>(1);
-        var moduleLibraryNames = new ArrayList<String>(1);
-        try (var apkFile = new ZipFile(path)) {
-            readDexes(apkFile, preLoadedDexes);
-            readName(apkFile, "assets/xposed_init", moduleClassNames);
-            readName(apkFile, "assets/native_init", moduleLibraryNames);
-        } catch (IOException e) {
-            Log.e(TAG, "Can not open " + path, e);
-            return null;
-        }
-        if (preLoadedDexes.isEmpty()) return null;
-        if (moduleClassNames.isEmpty()) return null;
-        file.hostApk = context.getApplicationInfo().sourceDir;
-        file.preLoadedDexes = preLoadedDexes;
-        file.moduleClassNames = moduleClassNames;
-        file.moduleLibraryNames = moduleLibraryNames;
-        return file;
     }
 
     public LSPApplication() {
