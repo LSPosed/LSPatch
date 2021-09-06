@@ -1,10 +1,8 @@
 package org.lsposed.patch;
 
-import com.android.apksig.internal.util.Pair;
 import com.android.tools.build.apkzlib.sign.SigningExtension;
 import com.android.tools.build.apkzlib.sign.SigningOptions;
 import com.android.tools.build.apkzlib.zip.AlignmentRules;
-import com.android.tools.build.apkzlib.zip.NestedZip;
 import com.android.tools.build.apkzlib.zip.StoredEntry;
 import com.android.tools.build.apkzlib.zip.ZFile;
 import com.android.tools.build.apkzlib.zip.ZFileOptions;
@@ -24,20 +22,17 @@ import org.lsposed.patch.util.ManifestParser;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.KeyStore;
-import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.jar.JarFile;
 
 public class LSPatch {
 
@@ -365,6 +360,8 @@ public class LSPatch {
         property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag));
         //property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, PROXY_APPLICATION));
         property.addApplicationAttribute(new AttributeItem("appComponentFactory", PROXY_APP_COMPONENT_FACTORY));
+        // TODO: replace query_all with queries -> manager
+        property.addUsesPermission("android.permission.QUERY_ALL_PACKAGES");
 
         var os = new ByteArrayOutputStream();
         (new ManifestEditor(is, os, property)).processManifest();
