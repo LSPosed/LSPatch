@@ -73,7 +73,7 @@ public class LSPatch {
     @Parameter(names = {"--v3"}, arity = 1, description = "Sign with v3 signature")
     private boolean v3 = true;
 
-    @Parameter(names = {"--manager"}, arity = 1, description = "Whether use manager (Cannot be true when has module embedded)")
+    @Parameter(names = {"--manager"}, description = "Use manager (Cannot work with embedding modules)")
     private boolean useManager = false;
 
     @Parameter(names = {"-v", "--verbose"}, description = "Verbose output")
@@ -109,14 +109,17 @@ public class LSPatch {
             AlignmentRules.constantForSuffix(".bin", 4096)
     ));
 
-    private static JCommander jCommander;
+    private final JCommander jCommander;
 
-    public static void main(String... args) throws IOException {
-        LSPatch lsPatch = new LSPatch();
+    public LSPatch(String... args) {
         jCommander = JCommander.newBuilder()
-                .addObject(lsPatch)
+                .addObject(this)
                 .build();
         jCommander.parse(args);
+    }
+
+    public static void main(String... args) throws IOException {
+        LSPatch lsPatch = new LSPatch(args);
         try {
             lsPatch.doCommandLine();
         } catch (PatchError e) {

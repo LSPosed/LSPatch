@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation project(":patch")
     implementation project(":imanager")
     implementation project(path: ':lspcore')
 
