@@ -11,7 +11,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
-import org.lsposed.lspatch.util.FileUtils;
+import org.lsposed.lspatch.share.FileUtils;
 
 import java.io.InputStream;
 import java.nio.file.Files;

@@ -187,7 +187,7 @@ public class LSPApplication extends ApplicationServiceClient {
 
                     if (!Files.exists(Paths.get(cacheApkPath))) {
                         Log.i(TAG, "extract module apk: " + packageName);
-                        FileUtils.deleteFolderIfExists(Paths.get(modulePath));
+                        org.lsposed.lspatch.share.FileUtils.deleteFolderIfExists(Paths.get(modulePath));
                         Files.createDirectories(Paths.get(modulePath));
                         try (var is = context.getAssets().open("modules/" + name)) {
                             Files.copy(is, Paths.get(cacheApkPath));
@@ -355,7 +355,7 @@ public class LSPApplication extends ApplicationServiceClient {
                 }
             });
         } catch (Throwable e) {
-            Log.e(TAG, "hookApplicationStub");
+            Log.e(TAG, "hookApplicationStub", e);
         }
     }
 

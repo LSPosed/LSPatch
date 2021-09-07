@@ -1,4 +1,4 @@
-package org.lsposed.lspatch.util;
+package org.lsposed.lspatch.share;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +12,6 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
 public class FileUtils {
-
     public static String readTextFromInputStream(InputStream is) {
         try (InputStreamReader reader = new InputStreamReader(is, StandardCharsets.UTF_8); BufferedReader bufferedReader = new BufferedReader(reader)) {
             StringBuilder builder = new StringBuilder();
