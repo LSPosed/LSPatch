@@ -86,6 +86,7 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
     @Override
     public Application instantiateApplication(ClassLoader cl, String className) throws IllegalAccessException, InstantiationException, ClassNotFoundException {
         lspClassLoader.loadClass(PROXY_APPLICATION).newInstance();
+        Log.i(TAG, "lspd initialized, instantiate original application");
         return originalAppComponentFactory.instantiateApplication(cl, className);
     }
 

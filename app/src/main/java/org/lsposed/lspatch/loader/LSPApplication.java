@@ -171,7 +171,7 @@ public class LSPApplication extends ApplicationServiceClient {
         if (useManager) {
             try {
                 modules.addAll(managerResolver.getModules());
-                modules.forEach(m -> Log.i(TAG, "Load module " + m.packageName + " from manager"));
+                modules.forEach(m -> Log.i(TAG, "load module from manager: " + m.packageName));
             } catch (NullPointerException | RemoteException e) {
                 Log.e(TAG, "Failed to get modules from manager", e);
             }
@@ -300,7 +300,7 @@ public class LSPApplication extends ApplicationServiceClient {
             hookActivityAttach();
             hookServiceAttach();
         }
-        hookApplicationStub();
+        // hookApplicationStub();
         int bypassLv = fetchSigbypassLv(context);
         if (bypassLv >= Constants.SIGBYPASS_LV_PM) {
             byPassSignature(context);
