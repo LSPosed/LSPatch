@@ -1,5 +1,8 @@
 package org.lsposed.lspatch.appstub;
 
+import static org.lsposed.lspatch.share.Constants.ORIGINAL_APK_ASSET_PATH;
+import static org.lsposed.lspatch.share.Constants.ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AppComponentFactory;
@@ -24,8 +27,6 @@ import dalvik.system.PathClassLoader;
 public class LSPAppComponentFactoryStub extends AppComponentFactory {
     private static final String TAG = "LSPatch";
     private static final String PROXY_APPLICATION = "org.lsposed.lspatch.appstub.LSPApplicationStub";
-    private static final String ORIGINAL_APK_ASSET_PATH = "assets/origin_apk.bin";
-    private static final String ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH = "assets/original_app_component_factory.ini";
 
     private ClassLoader appClassLoader = null;
     private ClassLoader lspClassLoader = null;

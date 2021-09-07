@@ -1,6 +1,7 @@
 package org.lsposed.lspatch.loader;
 
 import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
+import static org.lsposed.lspatch.share.Constants.ORIGINAL_APK_ASSET_PATH;
 import static org.lsposed.lspd.service.ConfigFileManager.loadModule;
 
 import android.app.ActivityThread;
@@ -276,20 +277,12 @@ public class LSPApplication extends ApplicationServiceClient {
             byPassSignature(context);
         }
         if (bypassLv >= Constants.SIGBYPASS_LV_PM_OPENAT) {
-            File apk = new File(context.getCacheDir(), "lspatchapk.so");
-            if (!apk.exists()) {
-                try (InputStream inputStream = context.getAssets().open("origin_apk.bin");
-                     FileOutputStream buffer = new FileOutputStream(apk)) {
-
-                    int nRead;
-                    byte[] data = new byte[16384];
-
-                    while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-                        buffer.write(data, 0, nRead);
-                    }
-                }
+            String cacheApkPath;
+            var aInfo = context.getApplicationInfo();
+            try (ZipFile sourceFile = new ZipFile(aInfo.sourceDir)) {
+                cacheApkPath = aInfo.dataDir + "/cache/lspatch/origin/" + sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc();
             }
-            SigBypass.enableOpenatHook(context.getApplicationInfo().packageName);
+            SigBypass.enableOpenatHook(context.getApplicationInfo().sourceDir, cacheApkPath);
         }
     }
 

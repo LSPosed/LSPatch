@@ -1,5 +1,8 @@
 package org.lsposed.patch;
 
+import static org.lsposed.lspatch.share.Constants.ORIGINAL_APK_ASSET_PATH;
+import static org.lsposed.lspatch.share.Constants.ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH;
+
 import com.android.tools.build.apkzlib.sign.SigningExtension;
 import com.android.tools.build.apkzlib.sign.SigningOptions;
 import com.android.tools.build.apkzlib.zip.AlignmentRules;
@@ -84,10 +87,8 @@ public class LSPatch {
 
     private static final String PROXY_APP_COMPONENT_FACTORY = "org.lsposed.lspatch.appstub.LSPAppComponentFactoryStub";
 
-    private static final String APP_COMPONENT_FACTORY_ASSET_PATH = "assets/original_app_component_factory.ini";
     private static final String SIGNATURE_INFO_ASSET_PATH = "assets/original_signature_info.ini";
     private static final String USE_MANAGER_CONTROL_PATH = "assets/use_manager.ini";
-    private static final String ORIGINAL_APK_ASSET_PATH = "assets/origin_apk.bin";
     private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
     private static final HashSet<String> ARCHES = new HashSet<>(Arrays.asList(
             "armeabi-v7a",
@@ -229,7 +230,7 @@ public class LSPatch {
 
             // save original appComponentFactory name to asset file even its empty
             try (var is = new ByteArrayInputStream(appComponentFactory.getBytes(StandardCharsets.UTF_8))) {
-                dstZFile.add(APP_COMPONENT_FACTORY_ASSET_PATH, is);
+                dstZFile.add(ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH, is);
             }
 
             if (verbose)
@@ -268,7 +269,7 @@ public class LSPatch {
             try (var is = new ByteArrayInputStream("42".getBytes(StandardCharsets.UTF_8))) {
                 dstZFile.add("assets/" + Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel, is);
             }
-            try (var is = new ByteArrayInputStream(Boolean.toString(useManager).getBytes(StandardCharsets.UTF_8))){
+            try (var is = new ByteArrayInputStream(Boolean.toString(useManager).getBytes(StandardCharsets.UTF_8))) {
                 dstZFile.add(USE_MANAGER_CONTROL_PATH, is);
             }
 
