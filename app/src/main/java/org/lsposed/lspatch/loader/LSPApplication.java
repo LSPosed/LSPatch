@@ -4,7 +4,6 @@ import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
 import static org.lsposed.lspd.service.ConfigFileManager.loadModule;
 
 import android.app.ActivityThread;
-import android.app.Application;
 import android.app.LoadedApk;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -44,7 +43,6 @@ import java.util.Objects;
 import java.util.zip.ZipFile;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import hidden.HiddenApiBridge;
 
@@ -53,17 +51,13 @@ import hidden.HiddenApiBridge;
  */
 @SuppressWarnings("unused")
 public class LSPApplication extends ApplicationServiceClient {
-    private static final String ORIGINAL_APPLICATION_NAME_ASSET_PATH = "original_application_name.ini";
     private static final String ORIGINAL_SIGNATURE_ASSET_PATH = "original_signature_info.ini";
     private static final String USE_MANAGER_CONTROL_PATH = "use_manager.ini";
     private static final String TAG = "LSPatch";
 
     private static boolean useManager;
-    private static String originalApplicationName = null;
     private static String originalSignature = null;
-    private static Application sOriginalApplication = null;
     private static ManagerResolver managerResolver = null;
-    private static ClassLoader appClassLoader;
     private static Object activityThread;
 
     final static public int FIRST_APP_ZYGOTE_ISOLATED_UID = 90000;
@@ -91,7 +85,6 @@ public class LSPApplication extends ApplicationServiceClient {
         }
 
         useManager = Boolean.parseBoolean(Objects.requireNonNull(FileUtils.readTextFromAssets(context, USE_MANAGER_CONTROL_PATH)));
-        originalApplicationName = FileUtils.readTextFromAssets(context, ORIGINAL_APPLICATION_NAME_ASSET_PATH);
         originalSignature = FileUtils.readTextFromAssets(context, ORIGINAL_SIGNATURE_ASSET_PATH);
 
         if (useManager) try {
@@ -100,13 +93,11 @@ public class LSPApplication extends ApplicationServiceClient {
             Log.e(TAG, "Failed to instantiate manager resolver", e);
         }
 
-        XLog.d(TAG, "original application class " + originalApplicationName);
         XLog.d(TAG, "original signature info " + originalSignature);
 
         instance = new LSPApplication();
         serviceClient = instance;
         try {
-            initAppClassLoader(context);
             disableProfile(context);
             loadModules(context);
             Main.forkPostCommon(false, context.getDataDir().toString(), ActivityThread.currentProcessName());
@@ -210,20 +201,6 @@ public class LSPApplication extends ApplicationServiceClient {
         super();
     }
 
-    private static boolean isApplicationProxied() {
-        return originalApplicationName != null && !originalApplicationName.isEmpty() && !("android.app.Application").equals(originalApplicationName);
-    }
-
-    private static void initAppClassLoader(Context context) {
-        try {
-            Object mBoundApplication = XposedHelpers.getObjectField(getActivityThread(), "mBoundApplication");
-            Object loadedApkObj = XposedHelpers.getObjectField(mBoundApplication, "info");
-            appClassLoader = (ClassLoader) XposedHelpers.getObjectField(loadedApkObj, "mClassLoader");
-        } catch (Throwable e) {
-            Log.e(TAG, "initAppClassLoader", e);
-        }
-    }
-
     private static int getTranscationId(String clsName, String trasncationName) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
         Field field = Class.forName(clsName).getDeclaredField(trasncationName);
         field.setAccessible(true);
@@ -232,7 +209,7 @@ public class LSPApplication extends ApplicationServiceClient {
 
     private static void byPassSignature(Context context) throws ClassNotFoundException, IllegalAccessException, NoSuchFieldException {
         final int TRANSACTION_getPackageInfo = getTranscationId("android.content.pm.IPackageManager$Stub", "TRANSACTION_getPackageInfo");
-        XposedHelpers.findAndHookMethod("android.os.BinderProxy", appClassLoader, "transact", int.class, Parcel.class, Parcel.class, int.class, new XC_MethodHook() {
+        XposedHelpers.findAndHookMethod("android.os.BinderProxy", null, "transact", int.class, Parcel.class, Parcel.class, int.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 try {
@@ -294,13 +271,6 @@ public class LSPApplication extends ApplicationServiceClient {
     }
 
     private static void doHook(Context context) throws IllegalAccessException, ClassNotFoundException, IOException, NoSuchFieldException {
-        if (isApplicationProxied()) {
-            hookContextImplSetOuterContext();
-            hookInstallContentProviders();
-            hookActivityAttach();
-            hookServiceAttach();
-        }
-        // hookApplicationStub();
         int bypassLv = fetchSigbypassLv(context);
         if (bypassLv >= Constants.SIGBYPASS_LV_PM) {
             byPassSignature(context);
@@ -339,89 +309,6 @@ public class LSPApplication extends ApplicationServiceClient {
         return 0;
     }
 
-    private static void hookApplicationStub() {
-        try {
-            Class<?> appStub = XposedHelpers.findClass("org.lsposed.lspatch.appstub.LSPApplicationStub", appClassLoader);
-            XposedHelpers.findAndHookMethod(appStub, "onCreate", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    instance.onCreate();
-                }
-            });
-            XposedHelpers.findAndHookMethod(appStub, "attachBaseContext", Context.class, new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    instance.attachBaseContext((Context) param.args[0]);
-                }
-            });
-        } catch (Throwable e) {
-            Log.e(TAG, "hookApplicationStub", e);
-        }
-    }
-
-    private static void hookContextImplSetOuterContext() {
-        try {
-            XposedHelpers.findAndHookMethod("android.app.ContextImpl", appClassLoader, "setOuterContext", Context.class, new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    replaceApplicationParam(param.args);
-                }
-            });
-        } catch (Throwable e) {
-            Log.e(TAG, "hookContextImplSetOuterContext", e);
-        }
-    }
-
-    private static void hookInstallContentProviders() {
-        try {
-            XposedBridge.hookAllMethods(XposedHelpers.findClass("android.app.ActivityThread", appClassLoader), "installContentProviders", new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    replaceApplicationParam(param.args);
-                }
-            });
-        } catch (Throwable e) {
-            Log.e(TAG, "hookInstallContextProviders", e);
-        }
-    }
-
-    private static void hookActivityAttach() {
-        try {
-            XposedBridge.hookAllMethods(XposedHelpers.findClass("android.app.Activity", appClassLoader), "attach", new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    replaceApplicationParam(param.args);
-                }
-            });
-        } catch (Throwable e) {
-            Log.e(TAG, "hookActivityAttach", e);
-        }
-    }
-
-    private static void hookServiceAttach() {
-        try {
-            XposedBridge.hookAllMethods(XposedHelpers.findClass("android.app.Service", appClassLoader), "attach", new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    replaceApplicationParam(param.args);
-                }
-            });
-        } catch (Throwable e) {
-            Log.e(TAG, "hookServiceAttach", e);
-        }
-    }
-
-    private static void replaceApplicationParam(Object[] args) {
-        if (args == null || args.length == 0) {
-            return;
-        }
-        for (Object para : args) {
-            if (para instanceof LSPApplication) {
-                para = sOriginalApplication;
-            }
-        }
-    }
-
     private static Object getActivityThread() {
         if (activityThread == null) {
             try {
@@ -431,89 +318,6 @@ public class LSPApplication extends ApplicationServiceClient {
             }
         }
         return activityThread;
-    }
-
-    protected void attachBaseContext(Context base) {
-        if (isApplicationProxied()) {
-            modifyApplicationInfoClassName();
-            attachOrignalBaseContext(base);
-            setLoadedApkField(base);
-        }
-    }
-
-    private void attachOrignalBaseContext(Context base) {
-        try {
-            XposedHelpers.callMethod(sOriginalApplication, "attachBaseContext", base);
-        } catch (Throwable e) {
-            Log.e(TAG, "attachOriginalBaseContext", e);
-        }
-    }
-
-    private void setLoadedApkField(Context base) {
-        try {
-            Class<?> contextImplClass = Class.forName("android.app.ContextImpl");
-            Object contextImpl = XposedHelpers.callStaticMethod(contextImplClass, "getImpl", base);
-            Object loadedApk = XposedHelpers.getObjectField(contextImpl, "mPackageInfo");
-            XposedHelpers.setObjectField(sOriginalApplication, "mLoadedApk", loadedApk);
-        } catch (Throwable e) {
-            Log.e(TAG, "setLoadedApkField", e);
-        }
-    }
-
-    public void onCreate() {
-        if (isApplicationProxied()) {
-            // replaceApplication();
-            replaceLoadedApkApplication();
-            replaceActivityThreadApplication();
-
-            sOriginalApplication.onCreate();
-        }
-    }
-
-    private void replaceLoadedApkApplication() {
-        try {
-            // replace   LoadedApk.java makeApplication()      mActivityThread.mAllApplications.add(app);
-            ArrayList<Application> list = (ArrayList<Application>) XposedHelpers.getObjectField(getActivityThread(), "mAllApplications");
-            list.add(sOriginalApplication);
-
-            Object mBoundApplication = XposedHelpers.getObjectField(getActivityThread(), "mBoundApplication"); // AppBindData
-            Object loadedApkObj = XposedHelpers.getObjectField(mBoundApplication, "info"); // info
-
-            // replace   LoadedApk.java makeApplication()      mApplication = app;
-            XposedHelpers.setObjectField(loadedApkObj, "mApplication", sOriginalApplication);
-        } catch (Throwable e) {
-            Log.e(TAG, "replaceLoadedApkApplication", e);
-        }
-    }
-
-    private void replaceActivityThreadApplication() {
-        try {
-            XposedHelpers.setObjectField(getActivityThread(), "mInitialApplication", sOriginalApplication);
-        } catch (Throwable e) {
-            Log.e(TAG, "replaceActivityThreadApplication", e);
-        }
-    }
-
-    private Application createOriginalApplication() {
-        if (sOriginalApplication == null) {
-            try {
-                sOriginalApplication = (Application) appClassLoader.loadClass(originalApplicationName).newInstance();
-            } catch (Throwable e) {
-                Log.e(TAG, "createOriginalApplication", e);
-            }
-        }
-        return sOriginalApplication;
-    }
-
-    private void modifyApplicationInfoClassName() {
-        try {
-            Object mBoundApplication = XposedHelpers.getObjectField(getActivityThread(), "mBoundApplication"); // AppBindData
-            Object applicationInfoObj = XposedHelpers.getObjectField(mBoundApplication, "appInfo"); // info
-
-            XposedHelpers.setObjectField(applicationInfoObj, "className", originalApplicationName);
-        } catch (Throwable e) {
-            Log.e(TAG, "modifyApplicationInfoClassName", e);
-        }
     }
 
     public static Context createAppContext() {

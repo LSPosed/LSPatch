@@ -83,10 +83,8 @@ public class LSPatch {
     private List<String> modules = new ArrayList<>();
 
     private static final String PROXY_APP_COMPONENT_FACTORY = "org.lsposed.lspatch.appstub.LSPAppComponentFactoryStub";
-    private static final String PROXY_APPLICATION = "org.lsposed.lspatch.appstub.LSPApplicationStub";
 
     private static final String APP_COMPONENT_FACTORY_ASSET_PATH = "assets/original_app_component_factory.ini";
-    private static final String APPLICATION_NAME_ASSET_PATH = "assets/original_application_name.ini";
     private static final String SIGNATURE_INFO_ASSET_PATH = "assets/original_signature_info.ini";
     private static final String USE_MANAGER_CONTROL_PATH = "assets/use_manager.ini";
     private static final String ORIGINAL_APK_ASSET_PATH = "assets/origin_apk.bin";
@@ -213,16 +211,13 @@ public class LSPatch {
                 throw new PatchError("Provided file is not a valid apk");
 
             // parse the app main application full name from the manifest file
-            ManifestParser.Triple triple = ManifestParser.parseManifestFile(manifestEntry.open());
-            if (triple == null)
+            ManifestParser.Pair pair = ManifestParser.parseManifestFile(manifestEntry.open());
+            if (pair == null)
                 throw new PatchError("Failed to parse AndroidManifest.xml");
-            String applicationName = triple.applicationName == null ? "" : triple.applicationName;
-            String appComponentFactory = triple.appComponentFactory == null ? "" : triple.appComponentFactory;
+            String appComponentFactory = pair.appComponentFactory == null ? "" : pair.appComponentFactory;
 
-            if (verbose) {
-                System.out.println("original application name: " + applicationName);
+            if (verbose)
                 System.out.println("original appComponentFactory class: " + appComponentFactory);
-            }
 
             System.out.println("Patching apk...");
             // modify manifest
@@ -235,15 +230,6 @@ public class LSPatch {
             // save original appComponentFactory name to asset file even its empty
             try (var is = new ByteArrayInputStream(appComponentFactory.getBytes(StandardCharsets.UTF_8))) {
                 dstZFile.add(APP_COMPONENT_FACTORY_ASSET_PATH, is);
-            } catch (Throwable e) {
-                throw new PatchError("Error when saving appComponentFactory class", e);
-            }
-
-            // save original main application name to asset file even its empty
-            try (var is = new ByteArrayInputStream(applicationName.getBytes(StandardCharsets.UTF_8))) {
-                dstZFile.add(APPLICATION_NAME_ASSET_PATH, is);
-            } catch (Throwable e) {
-                throw new PatchError("Error when saving application name", e);
             }
 
             if (verbose)
@@ -312,7 +298,7 @@ public class LSPatch {
                 System.out.println("Creating nested apk link...");
 
             for (var moduleFile : modules) {
-                final var moduleManifest = new ManifestParser.Triple[]{null};
+                final var moduleManifest = new ManifestParser.Pair[]{null};
                 try (var nested = dstZFile.addNestedZip((module) -> {
                     var manifest = module.get(ANDROID_MANIFEST_XML);
                     if (manifest == null) {
@@ -361,7 +347,6 @@ public class LSPatch {
         if (!modules.isEmpty())
             property.addApplicationAttribute(new AttributeItem("extractNativeLibs", true));
         property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag));
-        //property.addApplicationAttribute(new AttributeItem(NodeValue.Application.NAME, PROXY_APPLICATION));
         property.addApplicationAttribute(new AttributeItem("appComponentFactory", PROXY_APP_COMPONENT_FACTORY));
         // TODO: replace query_all with queries -> manager
         property.addUsesPermission("android.permission.QUERY_ALL_PACKAGES");

@@ -1,15 +1,13 @@
 package org.lsposed.lspatch.appstub;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
-import android.content.Context;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Method;
 
 @SuppressLint("UnsafeDynamicallyLoadedCode")
-public class LSPApplicationStub extends Application {
+public class LSPApplicationStub {
 
     private static byte[] dex = null;
 
@@ -39,15 +37,5 @@ public class LSPApplicationStub extends Application {
         } catch (Throwable e) {
             Log.e("LSPatch", "load lspd error", e);
         }
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
     }
 }
