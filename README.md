@@ -28,7 +28,8 @@ gradlew build<Debug|Release>
 
 ## Supported Android Versions
 
-In theory, same with [LSPosed](https://github.com/LSPosed/LSPosed#supported-versions)
+- Min: Android 9
+- Max: In theory, same with [LSPosed](https://github.com/LSPosed/LSPosed#supported-versions)
 
 ## Known issues
 
