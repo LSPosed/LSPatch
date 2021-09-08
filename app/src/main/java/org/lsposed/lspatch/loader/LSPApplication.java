@@ -240,11 +240,13 @@ public class LSPApplication extends ApplicationServiceClient {
                             PackageInfo packageInfo = PackageInfo.CREATOR.createFromParcel(out);
                             if (packageInfo.packageName.equals(context.getApplicationInfo().packageName)) {
                                 if (packageInfo.signatures != null && packageInfo.signatures.length > 0) {
+                                    XLog.d(TAG, "replace signature info [0]");
                                     packageInfo.signatures[0] = new Signature(originalSignature);
                                 }
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                                     if (packageInfo.signingInfo != null) {
+                                        XLog.d(TAG, "replace signature info [1]");
                                         Signature[] signaturesArray = packageInfo.signingInfo.getApkContentsSigners();
                                         if (signaturesArray != null && signaturesArray.length > 0) {
                                             signaturesArray[0] = new Signature(originalSignature);
