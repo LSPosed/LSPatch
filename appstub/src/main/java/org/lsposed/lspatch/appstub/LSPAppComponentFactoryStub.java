@@ -21,7 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.zip.ZipFile;
 
-import dalvik.system.PathClassLoader;
+import dalvik.system.DelegateLastClassLoader;
 
 @SuppressLint("NewApi")
 public class LSPAppComponentFactoryStub extends AppComponentFactory {
@@ -29,7 +29,6 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
     private static final String PROXY_APPLICATION = "org.lsposed.lspatch.appstub.LSPApplicationStub";
 
     private ClassLoader appClassLoader = null;
-    private ClassLoader lspClassLoader = null;
     private ClassLoader baseClassLoader = null;
     private AppComponentFactory originalAppComponentFactory = null;
 
@@ -56,7 +55,7 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
                 }
             }
 
-            appClassLoader = new PathClassLoader(cacheApkPath, aInfo.nativeLibraryDir, baseClassLoader.getParent());
+            appClassLoader = new DelegateLastClassLoader(cacheApkPath, aInfo.nativeLibraryDir, baseClassLoader);
 
             try {
                 originalAppComponentFactory = (AppComponentFactory) appClassLoader.loadClass(originalAppComponentFactoryClass).newInstance();
@@ -75,9 +74,6 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
     @Override
     public ClassLoader instantiateClassLoader(ClassLoader cl, ApplicationInfo aInfo) {
         baseClassLoader = cl;
-        var apkPath = baseClassLoader.getResource("AndroidManifest.xml").getPath();
-        apkPath = apkPath.substring(5, apkPath.lastIndexOf('!'));
-        lspClassLoader = new PathClassLoader(apkPath, null, null);
         initOriginalAppComponentFactory(aInfo);
         Log.d(TAG, "baseClassLoader is " + baseClassLoader);
         Log.d(TAG, "appClassLoader is " + appClassLoader);
@@ -86,7 +82,7 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
 
     @Override
     public Application instantiateApplication(ClassLoader cl, String className) throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-        lspClassLoader.loadClass(PROXY_APPLICATION).newInstance();
+        baseClassLoader.loadClass(PROXY_APPLICATION).newInstance();
         Log.i(TAG, "lspd initialized, instantiate original application");
         return originalAppComponentFactory.instantiateApplication(cl, className);
     }
