@@ -45,6 +45,7 @@ import java.util.zip.ZipFile;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.XposedInit;
 import hidden.HiddenApiBridge;
 
 /**
@@ -103,6 +104,8 @@ public class LSPApplication extends ApplicationServiceClient {
             loadModules(context);
             Main.forkPostCommon(false, context.getDataDir().toString(), ActivityThread.currentProcessName());
             doHook(context);
+            Log.i(TAG, "Start loading modules");
+            XposedInit.loadModules();
             // WARN: Since it uses `XResource`, the following class should not be initialized
             // before forkPostCommon is invoke. Otherwise, you will get failure of XResources
             LSPLoader.initModules(context);
@@ -173,7 +176,7 @@ public class LSPApplication extends ApplicationServiceClient {
                     String packageName = name.substring(0, name.length() - 4);
                     String modulePath = context.getCacheDir() + "/lspatch/" + packageName + "/";
                     String cacheApkPath;
-                    try (ZipFile sourceFile = new ZipFile(context.getApplicationInfo().sourceDir)) {
+                    try (ZipFile sourceFile = new ZipFile(context.getPackageResourcePath())) {
                         cacheApkPath = modulePath + sourceFile.getEntry("assets/modules/" + name).getCrc();
                     }
 
@@ -190,7 +193,7 @@ public class LSPApplication extends ApplicationServiceClient {
                     module.apkPath = cacheApkPath;
                     module.packageName = packageName;
                     module.file = loadModule(cacheApkPath);
-                    if (module.file != null) module.file.hostApk = context.getApplicationInfo().sourceDir;
+                    if (module.file != null) module.file.hostApk = context.getPackageResourcePath();
                     modules.add(module);
                 }
             } catch (Throwable ignored) {
@@ -280,11 +283,10 @@ public class LSPApplication extends ApplicationServiceClient {
         }
         if (bypassLv >= Constants.SIGBYPASS_LV_PM_OPENAT) {
             String cacheApkPath;
-            var aInfo = context.getApplicationInfo();
-            try (ZipFile sourceFile = new ZipFile(aInfo.sourceDir)) {
-                cacheApkPath = aInfo.dataDir + "/cache/lspatch/origin/" + sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc();
+            try (ZipFile sourceFile = new ZipFile(context.getPackageResourcePath())) {
+                cacheApkPath = context.getCacheDir() + "/lspatch/origin/" + sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc();
             }
-            SigBypass.enableOpenatHook(context.getApplicationInfo().sourceDir, cacheApkPath);
+            SigBypass.enableOpenatHook(context.getPackageResourcePath(), cacheApkPath);
         }
     }
 
