@@ -2,9 +2,12 @@ package org.lsposed.lspatch.loader;
 
 import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
 import static org.lsposed.lspatch.share.Constants.ORIGINAL_APK_ASSET_PATH;
+import static org.lsposed.lspatch.share.Constants.ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH;
 import static org.lsposed.lspd.service.ConfigFileManager.loadModule;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityThread;
+import android.app.AppComponentFactory;
 import android.app.LoadedApk;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -43,6 +46,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.zip.ZipFile;
 
+import dalvik.system.DelegateLastClassLoader;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.XposedInit;
@@ -61,6 +65,7 @@ public class LSPApplication extends ApplicationServiceClient {
     private static String originalSignature = null;
     private static ManagerResolver managerResolver = null;
     private static Object activityThread;
+    private static LoadedApk loadedApkObj;
 
     final static public int FIRST_APP_ZYGOTE_ISOLATED_UID = 90000;
     final static public int PER_USER_RANGE = 100000;
@@ -85,6 +90,8 @@ public class LSPApplication extends ApplicationServiceClient {
             XLog.e(TAG, "create context err");
             return;
         }
+
+        initAppComponentFactory(context);
 
         useManager = Boolean.parseBoolean(Objects.requireNonNull(FileUtils.readTextFromAssets(context, USE_MANAGER_CONTROL_PATH)));
         originalSignature = FileUtils.readTextFromAssets(context, ORIGINAL_SIGNATURE_ASSET_PATH);
@@ -111,6 +118,49 @@ public class LSPApplication extends ApplicationServiceClient {
             LSPLoader.initModules(context);
         } catch (Throwable e) {
             Log.e(TAG, "Do hook", e);
+        }
+    }
+
+    @SuppressLint("DiscouragedPrivateApi")
+    private static void initAppComponentFactory(Context context) {
+        try {
+            ApplicationInfo aInfo = context.getApplicationInfo();
+            ClassLoader baseClassLoader = context.getClassLoader();
+            Class<?> stubClass = Class.forName("org.lsposed.lspatch.appstub.LSPAppComponentFactoryStub", false, baseClassLoader);
+
+            String originPath = aInfo.dataDir + "/cache/lspatch/origin/";
+            String originalAppComponentFactoryClass = FileUtils.readTextFromInputStream(baseClassLoader.getResourceAsStream(ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH));
+            String cacheApkPath;
+            try (ZipFile sourceFile = new ZipFile(aInfo.sourceDir)) {
+                cacheApkPath = originPath + sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc();
+            }
+            if (!Files.exists(Paths.get(cacheApkPath))) {
+                Log.i(TAG, "extract original apk");
+                FileUtils.deleteFolderIfExists(Paths.get(originPath));
+                Files.createDirectories(Paths.get(originPath));
+                try (InputStream is = baseClassLoader.getResourceAsStream(ORIGINAL_APK_ASSET_PATH)) {
+                    Files.copy(is, Paths.get(cacheApkPath));
+                }
+            }
+            var appClassLoader = new DelegateLastClassLoader(cacheApkPath, aInfo.nativeLibraryDir, baseClassLoader.getParent());
+            AppComponentFactory originalAppComponentFactory;
+            try {
+                originalAppComponentFactory = (AppComponentFactory) appClassLoader.loadClass(originalAppComponentFactoryClass).newInstance();
+            } catch (ClassNotFoundException | NullPointerException ignored) {
+                if (originalAppComponentFactoryClass != null && !originalAppComponentFactoryClass.isEmpty())
+                    Log.w(TAG, "original AppComponentFactory not found");
+                originalAppComponentFactory = new AppComponentFactory();
+            }
+            Field mClassLoaderField = LoadedApk.class.getDeclaredField("mClassLoader");
+            mClassLoaderField.setAccessible(true);
+            mClassLoaderField.set(loadedApkObj, appClassLoader);
+
+            stubClass.getDeclaredField("appClassLoader").set(null, appClassLoader);
+            stubClass.getDeclaredField("originalAppComponentFactory").set(null, originalAppComponentFactory);
+
+            Log.d(TAG, "set up original AppComponentFactory");
+        } catch (Throwable e) {
+            Log.e(TAG, "initAppComponentFactory", e);
         }
     }
 
@@ -182,7 +232,7 @@ public class LSPApplication extends ApplicationServiceClient {
 
                     if (!Files.exists(Paths.get(cacheApkPath))) {
                         Log.i(TAG, "extract module apk: " + packageName);
-                        org.lsposed.lspatch.share.FileUtils.deleteFolderIfExists(Paths.get(modulePath));
+                        FileUtils.deleteFolderIfExists(Paths.get(modulePath));
                         Files.createDirectories(Paths.get(modulePath));
                         try (var is = context.getAssets().open("modules/" + name)) {
                             Files.copy(is, Paths.get(cacheApkPath));
@@ -331,7 +381,7 @@ public class LSPApplication extends ApplicationServiceClient {
             }
             Field infoField = mBoundApplication.getClass().getDeclaredField("info");   // info
             infoField.setAccessible(true);
-            LoadedApk loadedApkObj = (LoadedApk) infoField.get(mBoundApplication);  // LoadedApk
+            loadedApkObj = (LoadedApk) infoField.get(mBoundApplication);  // LoadedApk
             if (loadedApkObj == null) {
                 Log.e(TAG, "loadedApkObj null");
                 return null;

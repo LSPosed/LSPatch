@@ -16,7 +16,7 @@ ext {
     androidCompileSdkVersion = 31
     androidCompileNdkVersion = "23.0.7599858"
     androidBuildToolsVersion = "31.0.0"
-    androidMinSdkVersion = 27
+    androidMinSdkVersion = 28
     androidTargetSdkVersion = 30
     verCode = 1
     verName = "lspatch"
