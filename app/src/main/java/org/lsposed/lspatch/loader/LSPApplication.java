@@ -3,17 +3,15 @@ package org.lsposed.lspatch.loader;
 import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
 import static org.lsposed.lspatch.share.Constants.ORIGINAL_APK_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH;
-import static org.lsposed.lspatch.share.Constants.PROXY_APP_COMPONENT_FACTORY;
 import static org.lsposed.lspd.service.ConfigFileManager.loadModule;
 
-import android.annotation.SuppressLint;
 import android.app.ActivityThread;
-import android.app.AppComponentFactory;
 import android.app.LoadedApk;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.Signature;
+import android.content.res.CompatibilityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,6 +19,7 @@ import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
 import android.system.Os;
+import android.util.ArrayMap;
 import android.util.Log;
 
 import org.lsposed.lspatch.loader.util.FileUtils;
@@ -36,18 +35,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.zip.ZipFile;
 
-import dalvik.system.DelegateLastClassLoader;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.XposedInit;
@@ -62,11 +57,11 @@ public class LSPApplication extends ApplicationServiceClient {
     private static final String USE_MANAGER_CONTROL_PATH = "use_manager.ini";
     private static final String TAG = "LSPatch";
 
+    private static ActivityThread activityThread;
+    private static LoadedApk appLoadedApk;
     private static boolean useManager;
     private static String originalSignature = null;
     private static ManagerResolver managerResolver = null;
-    private static Object activityThread;
-    private static LoadedApk loadedApkObj;
 
     final static public int FIRST_APP_ZYGOTE_ISOLATED_UID = 90000;
     final static public int PER_USER_RANGE = 100000;
@@ -86,15 +81,14 @@ public class LSPApplication extends ApplicationServiceClient {
             XLog.d(TAG, "skip isolated process");
             return;
         }
-        Context context = createAppContext();
+        activityThread = ActivityThread.currentActivityThread();
+        var context = createLoadedApkWithContext();
         if (context == null) {
             XLog.e(TAG, "create context err");
             return;
         }
 
-        initAppComponentFactory(context);
-
-        useManager = Boolean.parseBoolean(Objects.requireNonNull(FileUtils.readTextFromAssets(context, USE_MANAGER_CONTROL_PATH)));
+        useManager = Boolean.parseBoolean(FileUtils.readTextFromAssets(context, USE_MANAGER_CONTROL_PATH));
         originalSignature = FileUtils.readTextFromAssets(context, ORIGINAL_SIGNATURE_ASSET_PATH);
 
         if (useManager) try {
@@ -116,25 +110,31 @@ public class LSPApplication extends ApplicationServiceClient {
             XposedInit.loadModules();
             // WARN: Since it uses `XResource`, the following class should not be initialized
             // before forkPostCommon is invoke. Otherwise, you will get failure of XResources
-            LSPLoader.initModules(context);
+            LSPLoader.initModules(appLoadedApk);
         } catch (Throwable e) {
             Log.e(TAG, "Do hook", e);
         }
     }
 
-    @SuppressLint("DiscouragedPrivateApi")
-    private static void initAppComponentFactory(Context context) {
+    private static Context createLoadedApkWithContext() {
         try {
-            ApplicationInfo aInfo = context.getApplicationInfo();
-            ClassLoader baseClassLoader = context.getClassLoader();
-            Class<?> stubClass = Class.forName(PROXY_APP_COMPONENT_FACTORY, false, baseClassLoader);
+            var baseClassLoader = LSPApplication.class.getClassLoader().getParent();
 
-            String originPath = aInfo.dataDir + "/cache/lspatch/origin/";
-            String originalAppComponentFactoryClass = FileUtils.readTextFromInputStream(baseClassLoader.getResourceAsStream(ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH));
+            var mBoundApplication = XposedHelpers.getObjectField(activityThread, "mBoundApplication");
+            var stubLoadedApk = (LoadedApk) XposedHelpers.getObjectField(mBoundApplication, "info");
+            var appInfo = (ApplicationInfo) XposedHelpers.getObjectField(mBoundApplication, "appInfo");
+            var compatInfo = (CompatibilityInfo) XposedHelpers.getObjectField(mBoundApplication, "compatInfo");
+
+            String originPath = appInfo.dataDir + "/cache/lspatch/origin/";
             String cacheApkPath;
-            try (ZipFile sourceFile = new ZipFile(aInfo.sourceDir)) {
+            try (ZipFile sourceFile = new ZipFile(appInfo.sourceDir)) {
                 cacheApkPath = originPath + sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc();
             }
+
+            appInfo.sourceDir = cacheApkPath;
+            appInfo.publicSourceDir = cacheApkPath;
+            appInfo.appComponentFactory = FileUtils.readTextFromInputStream(baseClassLoader.getResourceAsStream(ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH));
+
             if (!Files.exists(Paths.get(cacheApkPath))) {
                 Log.i(TAG, "extract original apk");
                 FileUtils.deleteFolderIfExists(Paths.get(originPath));
@@ -143,26 +143,17 @@ public class LSPApplication extends ApplicationServiceClient {
                     Files.copy(is, Paths.get(cacheApkPath));
                 }
             }
-            // TODO: The last param should be baseClassLoader.getParent(), but it breaks sigbypass and I don't know why
-            var appClassLoader = new DelegateLastClassLoader(cacheApkPath, aInfo.nativeLibraryDir, baseClassLoader);
-            AppComponentFactory originalAppComponentFactory;
-            try {
-                originalAppComponentFactory = (AppComponentFactory) appClassLoader.loadClass(originalAppComponentFactoryClass).newInstance();
-            } catch (ClassNotFoundException | NullPointerException ignored) {
-                if (originalAppComponentFactoryClass != null && !originalAppComponentFactoryClass.isEmpty())
-                    Log.w(TAG, "original AppComponentFactory not found");
-                originalAppComponentFactory = new AppComponentFactory();
-            }
-            Field mClassLoaderField = LoadedApk.class.getDeclaredField("mClassLoader");
-            mClassLoaderField.setAccessible(true);
-            mClassLoaderField.set(loadedApkObj, appClassLoader);
 
-            stubClass.getDeclaredField("appClassLoader").set(null, appClassLoader);
-            stubClass.getDeclaredField("originalAppComponentFactory").set(null, originalAppComponentFactory);
+            var mPackages = (ArrayMap<?, ?>) XposedHelpers.getObjectField(activityThread, "mPackages");
+            mPackages.remove(appInfo.packageName);
+            appLoadedApk = activityThread.getPackageInfoNoCheck(appInfo, compatInfo);
+            XposedHelpers.setObjectField(mBoundApplication, "info", appLoadedApk);
+            Log.i(TAG, "appClassLoader initialized: " + appLoadedApk.getClassLoader());
 
-            Log.d(TAG, "set up original AppComponentFactory");
+            return (Context) XposedHelpers.callStaticMethod(Class.forName("android.app.ContextImpl"), "createAppContext", activityThread, stubLoadedApk);
         } catch (Throwable e) {
-            Log.e(TAG, "initAppComponentFactory", e);
+            Log.e(TAG, "createLoadedApk", e);
+            return null;
         }
     }
 
@@ -356,51 +347,6 @@ public class LSPApplication extends ApplicationServiceClient {
             }
         }
         return 0;
-    }
-
-    private static Object getActivityThread() {
-        if (activityThread == null) {
-            try {
-                activityThread = ActivityThread.currentActivityThread();
-            } catch (Throwable e) {
-                Log.e(TAG, "getActivityThread", e);
-            }
-        }
-        return activityThread;
-    }
-
-    public static Context createAppContext() {
-        try {
-
-            ActivityThread activityThreadObj = ActivityThread.currentActivityThread();
-
-            Field boundApplicationField = ActivityThread.class.getDeclaredField("mBoundApplication");
-            boundApplicationField.setAccessible(true);
-            Object mBoundApplication = boundApplicationField.get(activityThreadObj);   // AppBindData
-            if (mBoundApplication == null) {
-                Log.e(TAG, "mBoundApplication null");
-                return null;
-            }
-            Field infoField = mBoundApplication.getClass().getDeclaredField("info");   // info
-            infoField.setAccessible(true);
-            loadedApkObj = (LoadedApk) infoField.get(mBoundApplication);  // LoadedApk
-            if (loadedApkObj == null) {
-                Log.e(TAG, "loadedApkObj null");
-                return null;
-            }
-            Class<?> contextImplClass = Class.forName("android.app.ContextImpl");
-            Method createAppContextMethod = contextImplClass.getDeclaredMethod("createAppContext", ActivityThread.class, LoadedApk.class);
-            createAppContextMethod.setAccessible(true);
-
-            Object context = createAppContextMethod.invoke(null, activityThreadObj, loadedApkObj);
-
-            if (context instanceof Context) {
-                return (Context) context;
-            }
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
-            Log.e(TAG, "Fail to create app context", e);
-        }
-        return null;
     }
 
     @Override
