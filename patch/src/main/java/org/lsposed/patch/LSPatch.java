@@ -2,6 +2,7 @@ package org.lsposed.patch;
 
 import static org.lsposed.lspatch.share.Constants.ORIGINAL_APK_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH;
+import static org.lsposed.lspatch.share.Constants.PROXY_APP_COMPONENT_FACTORY;
 
 import com.android.tools.build.apkzlib.sign.SigningExtension;
 import com.android.tools.build.apkzlib.sign.SigningOptions;
@@ -84,8 +85,6 @@ public class LSPatch {
 
     @Parameter(names = {"-m", "--embed"}, description = "Embed provided modules to apk")
     private List<String> modules = new ArrayList<>();
-
-    private static final String PROXY_APP_COMPONENT_FACTORY = "org.lsposed.lspatch.appstub.LSPAppComponentFactoryStub";
 
     private static final String SIGNATURE_INFO_ASSET_PATH = "assets/original_signature_info.ini";
     private static final String USE_MANAGER_CONTROL_PATH = "assets/use_manager.ini";

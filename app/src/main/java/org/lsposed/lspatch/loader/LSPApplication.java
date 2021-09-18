@@ -3,6 +3,7 @@ package org.lsposed.lspatch.loader;
 import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
 import static org.lsposed.lspatch.share.Constants.ORIGINAL_APK_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH;
+import static org.lsposed.lspatch.share.Constants.PROXY_APP_COMPONENT_FACTORY;
 import static org.lsposed.lspd.service.ConfigFileManager.loadModule;
 
 import android.annotation.SuppressLint;
@@ -126,7 +127,7 @@ public class LSPApplication extends ApplicationServiceClient {
         try {
             ApplicationInfo aInfo = context.getApplicationInfo();
             ClassLoader baseClassLoader = context.getClassLoader();
-            Class<?> stubClass = Class.forName("org.lsposed.lspatch.appstub.LSPAppComponentFactoryStub", false, baseClassLoader);
+            Class<?> stubClass = Class.forName(PROXY_APP_COMPONENT_FACTORY, false, baseClassLoader);
 
             String originPath = aInfo.dataDir + "/cache/lspatch/origin/";
             String originalAppComponentFactoryClass = FileUtils.readTextFromInputStream(baseClassLoader.getResourceAsStream(ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH));
