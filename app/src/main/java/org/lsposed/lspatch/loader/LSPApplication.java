@@ -143,7 +143,8 @@ public class LSPApplication extends ApplicationServiceClient {
                     Files.copy(is, Paths.get(cacheApkPath));
                 }
             }
-            var appClassLoader = new DelegateLastClassLoader(cacheApkPath, aInfo.nativeLibraryDir, baseClassLoader.getParent());
+            // TODO: The last param should be baseClassLoader.getParent(), but it breaks sigbypass and I don't know why
+            var appClassLoader = new DelegateLastClassLoader(cacheApkPath, aInfo.nativeLibraryDir, baseClassLoader);
             AppComponentFactory originalAppComponentFactory;
             try {
                 originalAppComponentFactory = (AppComponentFactory) appClassLoader.loadClass(originalAppComponentFactoryClass).newInstance();
