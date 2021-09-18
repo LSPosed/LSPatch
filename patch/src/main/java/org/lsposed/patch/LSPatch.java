@@ -80,6 +80,9 @@ public class LSPatch {
     @Parameter(names = {"--manager"}, description = "Use manager (Cannot work with embedding modules)")
     private boolean useManager = false;
 
+    @Parameter(names = {"-r", "--allowdown"}, description = "Allow downgrade installation by overriding versionCode to 1 (In most cases, the app can still get the correct versionCode)")
+    private boolean overrideVersionCode = false;
+
     @Parameter(names = {"-v", "--verbose"}, description = "Verbose output")
     private boolean verbose = false;
 
@@ -345,6 +348,8 @@ public class LSPatch {
 
         if (!modules.isEmpty())
             property.addApplicationAttribute(new AttributeItem("extractNativeLibs", true));
+        if (overrideVersionCode)
+            property.addManifestAttribute(new AttributeItem(NodeValue.Manifest.VERSION_CODE, 1));
         property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag));
         property.addApplicationAttribute(new AttributeItem("appComponentFactory", PROXY_APP_COMPONENT_FACTORY));
         // TODO: replace query_all with queries -> manager

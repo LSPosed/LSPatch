@@ -12,6 +12,7 @@ object Patcher {
         private val v2: Boolean,
         private val v3: Boolean,
         private val useManager: Boolean,
+        private val overrideVersionCode: Boolean,
         private val verbose: Boolean,
         private val embeddedModules: List<String>
     ) {
@@ -26,6 +27,7 @@ object Patcher {
                 add("--v2"); add(v2.toString())
                 add("--v3"); add(v3.toString())
                 if (useManager) add("--manager")
+                if (overrideVersionCode) add("-r")
                 if (verbose) add("-v")
                 if (embeddedModules.isNotEmpty()) {
                     add("-m"); addAll(embeddedModules)
