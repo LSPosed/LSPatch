@@ -389,8 +389,8 @@ public class ExtraField {
   public static class LinkingEntrySegment implements Segment {
 
     private final StoredEntry linkingEntry;
-    private int dataOffset = 0;
-    private long zipOffset = 0;
+    private int dataOffset = -1;
+    private long zipOffset = -1;
 
     public LinkingEntrySegment(StoredEntry linkingEntry) throws IOException {
       Preconditions.checkArgument(linkingEntry.isLinkingEntry(), "linkingEntry is not a linking entry");
@@ -414,8 +414,8 @@ public class ExtraField {
 
     @Override
     public void write(ByteBuffer out) throws IOException {
-      if (dataOffset == 0 || zipOffset == 0) {
-        throw new IOException("linking entry has 0 offset");
+      if (dataOffset < 0 || zipOffset < 0) {
+        throw new IOException("linking entry has wrong offset");
       }
       if (!linkingEntry.isDummyEntry()) {
         LittleEndianUtils.writeUnsigned2Le(out, LINKING_ENTRY_EXTRA_DATA_FIELD_HEADER_ID);
