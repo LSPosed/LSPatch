@@ -14,7 +14,7 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
 
     static {
         var cl = Objects.requireNonNull(LSPAppComponentFactoryStub.class.getClassLoader());
-        try (var is = cl.getResourceAsStream("assets/lsp");
+        try (var is = cl.getResourceAsStream("assets/lspatch/lsp.dex");
              var os = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[8192];
             int n;
@@ -34,7 +34,7 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
             vmInstructionSet.setAccessible(true);
 
             String arch = (String) vmInstructionSet.invoke(getRuntime.invoke(null));
-            String path = cl.getResource("assets/lib/lspd/" + arch + "/liblspd.so").getPath().substring(5);
+            String path = cl.getResource("assets/lspatch/lspd/" + arch + "/liblspd.so").getPath().substring(5);
             System.load(path);
         } catch (Throwable e) {
             Log.e("LSPatch", "load lspd error", e);

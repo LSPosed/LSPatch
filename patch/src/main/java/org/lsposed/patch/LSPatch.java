@@ -1,7 +1,8 @@
 package org.lsposed.patch;
 
+import static org.lsposed.lspatch.share.Constants.CONFIG_ASSET_PATH;
+import static org.lsposed.lspatch.share.Constants.DEX_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.ORIGINAL_APK_ASSET_PATH;
-import static org.lsposed.lspatch.share.Constants.ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.PROXY_APP_COMPONENT_FACTORY;
 
 import com.android.tools.build.apkzlib.sign.SigningExtension;
@@ -12,6 +13,7 @@ import com.android.tools.build.apkzlib.zip.ZFile;
 import com.android.tools.build.apkzlib.zip.ZFileOptions;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.google.gson.Gson;
 import com.wind.meditor.core.ManifestEditor;
 import com.wind.meditor.property.AttributeItem;
 import com.wind.meditor.property.ModificationProperty;
@@ -19,13 +21,14 @@ import com.wind.meditor.utils.NodeValue;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.lsposed.lspatch.share.Constants;
+import org.lsposed.lspatch.share.PatchConfig;
 import org.lsposed.patch.util.ApkSignatureHelper;
 import org.lsposed.patch.util.ManifestParser;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -36,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class LSPatch {
@@ -89,8 +93,6 @@ public class LSPatch {
     @Parameter(names = {"-m", "--embed"}, description = "Embed provided modules to apk")
     private List<String> modules = new ArrayList<>();
 
-    private static final String SIGNATURE_INFO_ASSET_PATH = "assets/original_signature_info.ini";
-    private static final String USE_MANAGER_CONTROL_PATH = "assets/use_manager.ini";
     private static final String ANDROID_MANIFEST_XML = "AndroidManifest.xml";
     private static final HashSet<String> ARCHES = new HashSet<>(Arrays.asList(
             "armeabi-v7a",
@@ -107,7 +109,7 @@ public class LSPatch {
 
     private static final ZFileOptions Z_FILE_OPTIONS = new ZFileOptions().setAlignmentRule(AlignmentRules.compose(
             AlignmentRules.constantForSuffix(".so", 4096),
-            AlignmentRules.constantForSuffix(".bin", 4096)
+            AlignmentRules.constantForSuffix(ORIGINAL_APK_ASSET_PATH, 4096)
     ));
 
     private final JCommander jCommander;
@@ -173,7 +175,8 @@ public class LSPatch {
 
         System.out.println("Parsing original apk...");
 
-        try (ZFile dstZFile = ZFile.openReadWrite(tmpApk, Z_FILE_OPTIONS); var srcZFile = dstZFile.addNestedZip((ignore) -> ORIGINAL_APK_ASSET_PATH, srcApkFile, false)) {
+        try (var dstZFile = ZFile.openReadWrite(tmpApk, Z_FILE_OPTIONS);
+             var srcZFile = dstZFile.addNestedZip((ignore) -> ORIGINAL_APK_ASSET_PATH, srcApkFile, false)) {
 
             // sign apk
             System.out.println("Register apk signer...");
@@ -193,19 +196,17 @@ public class LSPatch {
             } catch (Exception e) {
                 throw new PatchError("Failed to register signer", e);
             }
+
+            String originalSignature = null;
             if (sigbypassLevel > 0) {
                 // save the apk original signature info, to support crack signature.
-                String originalSignature = ApkSignatureHelper.getApkSignInfo(srcApkFile.getAbsolutePath());
+                originalSignature = ApkSignatureHelper.getApkSignInfo(srcApkFile.getAbsolutePath());
                 if (originalSignature == null || originalSignature.isEmpty()) {
                     throw new PatchError("get original signature failed");
                 }
+
                 if (verbose)
                     System.out.println("Original signature\n" + originalSignature);
-                try (var is = new ByteArrayInputStream(originalSignature.getBytes(StandardCharsets.UTF_8))) {
-                    dstZFile.add(SIGNATURE_INFO_ASSET_PATH, is);
-                } catch (Throwable e) {
-                    throw new PatchError("Error when saving signature", e);
-                }
             }
 
             // copy out manifest file from zlib
@@ -213,14 +214,17 @@ public class LSPatch {
             if (manifestEntry == null)
                 throw new PatchError("Provided file is not a valid apk");
 
-            // parse the app main application full name from the manifest file
-            ManifestParser.Pair pair = ManifestParser.parseManifestFile(manifestEntry.open());
-            if (pair == null)
-                throw new PatchError("Failed to parse AndroidManifest.xml");
-            String appComponentFactory = pair.appComponentFactory == null ? "" : pair.appComponentFactory;
+            // parse the app appComponentFactory full name from the manifest file
+            String appComponentFactory;
+            try (var is = manifestEntry.open()) {
+                var pair =ManifestParser.parseManifestFile(is);
+                if (pair == null)
+                    throw new PatchError("Failed to parse AndroidManifest.xml");
+                appComponentFactory = pair.appComponentFactory == null ? "" : pair.appComponentFactory;
 
-            if (verbose)
-                System.out.println("original appComponentFactory class: " + appComponentFactory);
+                if (verbose)
+                    System.out.println("original appComponentFactory class: " + appComponentFactory);
+            }
 
             System.out.println("Patching apk...");
             // modify manifest
@@ -230,18 +234,13 @@ public class LSPatch {
                 throw new PatchError("Error when modifying manifest", e);
             }
 
-            // save original appComponentFactory name to asset file even its empty
-            try (var is = new ByteArrayInputStream(appComponentFactory.getBytes(StandardCharsets.UTF_8))) {
-                dstZFile.add(ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH, is);
-            }
-
             if (verbose)
                 System.out.println("Adding native lib..");
 
             // copy so and dex files into the unzipped apk
             // do not put liblspd.so into apk!lib because x86 native bridge causes crash
             for (String arch : APK_LIB_PATH_ARRAY) {
-                String entryName = "assets/lib/lspd/" + arch + "/liblspd.so";
+                String entryName = "assets/lspatch/lspd/" + arch + "/liblspd.so";
                 try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + (arch.equals("arm") ? "armeabi-v7a" : (arch.equals("arm64") ? "arm64-v8a" : arch)) + "/liblspd.so")) {
                     dstZFile.add(entryName, is, false); // no compress for so
                 } catch (Throwable e) {
@@ -258,21 +257,23 @@ public class LSPatch {
             try (var is = getClass().getClassLoader().getResourceAsStream("assets/dex/loader.dex")) {
                 dstZFile.add("classes.dex", is);
             } catch (Throwable e) {
-                throw new PatchError("Error when add dex", e);
+                throw new PatchError("Error when adding dex", e);
             }
 
             try (var is = getClass().getClassLoader().getResourceAsStream("assets/dex/lsp.dex")) {
-                dstZFile.add("assets/lsp", is);
+                dstZFile.add(DEX_ASSET_PATH, is);
             } catch (Throwable e) {
-                throw new PatchError("Error when add assets", e);
+                throw new PatchError("Error when adding assets", e);
             }
 
             // save lspatch config to asset..
-            try (var is = new ByteArrayInputStream("42".getBytes(StandardCharsets.UTF_8))) {
-                dstZFile.add("assets/" + Constants.CONFIG_NAME_SIGBYPASSLV + sigbypassLevel, is);
-            }
-            try (var is = new ByteArrayInputStream(Boolean.toString(useManager).getBytes(StandardCharsets.UTF_8))) {
-                dstZFile.add(USE_MANAGER_CONTROL_PATH, is);
+            var config = new PatchConfig(useManager, sigbypassLevel, originalSignature, appComponentFactory);
+            var configBytes = new Gson().toJson(config).getBytes(StandardCharsets.UTF_8);
+
+            try (var is = new ByteArrayInputStream(configBytes)) {
+                dstZFile.add(CONFIG_ASSET_PATH, is);
+            } catch (Throwable e) {
+                throw new PatchError("Error when saving config");
             }
 
             Set<String> apkArchs = new HashSet<>();
@@ -296,29 +297,11 @@ public class LSPatch {
                 return false;
             });
 
+            embedModules(dstZFile);
+
             // create zip link
             if (verbose)
                 System.out.println("Creating nested apk link...");
-
-            for (var moduleFile : modules) {
-                final var moduleManifest = new ManifestParser.Pair[]{null};
-                try (var nested = dstZFile.addNestedZip((module) -> {
-                    var manifest = module.get(ANDROID_MANIFEST_XML);
-                    if (manifest == null) {
-                        throw new PatchError(moduleFile + " is not a valid apk file.");
-                    }
-                    moduleManifest[0] = ManifestParser.parseManifestFile(manifest.open());
-                    if (moduleManifest[0] == null) {
-                        throw new PatchError(moduleFile + " is not a valid apk file.");
-                    }
-                    return "assets/modules/" + moduleManifest[0].packageName + ".bin";
-                }, new File(moduleFile), false)) {
-                    var packageName = moduleManifest[0].packageName;
-                    for (var arch : apkArchs) {
-                        dstZFile.addLink(nested.getEntry(), "lib/" + arch + "/" + packageName + ".so");
-                    }
-                }
-            }
 
             for (StoredEntry entry : srcZFile.entries()) {
                 String name = entry.getCentralDirectoryHeader().getName();
@@ -343,11 +326,27 @@ public class LSPatch {
         }
     }
 
+    private void embedModules(ZFile zFile) {
+        System.out.println("Embedding modules...");
+        for (var module : modules) {
+            File file = new File(module);
+            try (var apk = ZFile.openReadOnly(new File(module));
+                 var fileIs = new FileInputStream(file);
+                 var xmlIs = Objects.requireNonNull(apk.get(ANDROID_MANIFEST_XML)).open()
+            ) {
+                var manifest = Objects.requireNonNull(ManifestParser.parseManifestFile(xmlIs));
+                var packageName = manifest.packageName;
+                System.out.println("  - " + packageName);
+                zFile.add("assets/lspatch/modules/" + packageName + ".bin", fileIs);
+            } catch (NullPointerException | IOException e) {
+                System.err.println(module + " does not exist or is not a valid apk file.");
+            }
+        }
+    }
+
     private byte[] modifyManifestFile(InputStream is) throws IOException {
         ModificationProperty property = new ModificationProperty();
 
-        if (!modules.isEmpty())
-            property.addApplicationAttribute(new AttributeItem("extractNativeLibs", true));
         if (overrideVersionCode)
             property.addManifestAttribute(new AttributeItem(NodeValue.Manifest.VERSION_CODE, 1));
         property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag));

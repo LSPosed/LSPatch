@@ -1,8 +1,8 @@
 package org.lsposed.lspatch.loader;
 
 import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
+import static org.lsposed.lspatch.share.Constants.CONFIG_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.ORIGINAL_APK_ASSET_PATH;
-import static org.lsposed.lspatch.share.Constants.ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH;
 import static org.lsposed.lspd.service.ConfigFileManager.loadModule;
 
 import android.app.ActivityThread;
@@ -22,19 +22,25 @@ import android.system.Os;
 import android.util.ArrayMap;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.lsposed.lspatch.loader.util.FileUtils;
 import org.lsposed.lspatch.loader.util.XLog;
 import org.lsposed.lspatch.share.Constants;
+import org.lsposed.lspatch.share.PatchConfig;
 import org.lsposed.lspd.config.ApplicationServiceClient;
 import org.lsposed.lspd.core.Main;
 import org.lsposed.lspd.models.Module;
 import org.lsposed.lspd.nativebridge.SigBypass;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermissions;
@@ -53,14 +59,12 @@ import hidden.HiddenApiBridge;
  */
 @SuppressWarnings("unused")
 public class LSPApplication extends ApplicationServiceClient {
-    private static final String ORIGINAL_SIGNATURE_ASSET_PATH = "original_signature_info.ini";
-    private static final String USE_MANAGER_CONTROL_PATH = "use_manager.ini";
     private static final String TAG = "LSPatch";
 
     private static ActivityThread activityThread;
     private static LoadedApk appLoadedApk;
-    private static boolean useManager;
-    private static String originalSignature = null;
+
+    private static PatchConfig config;
     private static ManagerResolver managerResolver = null;
 
     final static public int FIRST_APP_ZYGOTE_ISOLATED_UID = 90000;
@@ -75,29 +79,22 @@ public class LSPApplication extends ApplicationServiceClient {
     }
 
     public static void onLoad() {
-        cacheSigbypassLv = -1;
-
         if (isIsolated()) {
-            XLog.d(TAG, "skip isolated process");
+            XLog.d(TAG, "Skip isolated process");
             return;
         }
         activityThread = ActivityThread.currentActivityThread();
         var context = createLoadedApkWithContext();
         if (context == null) {
-            XLog.e(TAG, "create context err");
+            XLog.e(TAG, "Error when creating context");
             return;
         }
 
-        useManager = Boolean.parseBoolean(FileUtils.readTextFromAssets(context, USE_MANAGER_CONTROL_PATH));
-        originalSignature = FileUtils.readTextFromAssets(context, ORIGINAL_SIGNATURE_ASSET_PATH);
-
-        if (useManager) try {
+        if (config.useManager) try {
             managerResolver = new ManagerResolver(context);
         } catch (RemoteException e) {
             Log.e(TAG, "Failed to instantiate manager resolver", e);
         }
-
-        XLog.d(TAG, "original signature info " + originalSignature);
 
         instance = new LSPApplication();
         serviceClient = instance;
@@ -111,6 +108,7 @@ public class LSPApplication extends ApplicationServiceClient {
             // WARN: Since it uses `XResource`, the following class should not be initialized
             // before forkPostCommon is invoke. Otherwise, you will get failure of XResources
             LSPLoader.initModules(appLoadedApk);
+            Log.i(TAG, "Modules initialized");
         } catch (Throwable e) {
             Log.e(TAG, "Do hook", e);
         }
@@ -118,12 +116,21 @@ public class LSPApplication extends ApplicationServiceClient {
 
     private static Context createLoadedApkWithContext() {
         try {
-            var baseClassLoader = LSPApplication.class.getClassLoader().getParent();
-
             var mBoundApplication = XposedHelpers.getObjectField(activityThread, "mBoundApplication");
             var stubLoadedApk = (LoadedApk) XposedHelpers.getObjectField(mBoundApplication, "info");
             var appInfo = (ApplicationInfo) XposedHelpers.getObjectField(mBoundApplication, "appInfo");
             var compatInfo = (CompatibilityInfo) XposedHelpers.getObjectField(mBoundApplication, "compatInfo");
+            var baseClassLoader = stubLoadedApk.getClassLoader();
+
+            try (var is = baseClassLoader.getResourceAsStream(CONFIG_ASSET_PATH)) {
+                BufferedReader streamReader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+                config = new Gson().fromJson(streamReader, PatchConfig.class);
+            } catch (IOException e) {
+                Log.e(TAG, "Failed to load config file");
+                return null;
+            }
+            Log.i(TAG, "Use manager: " + config.useManager);
+            Log.i(TAG, "Signature bypass level: " + config.sigBypassLevel);
 
             String originPath = appInfo.dataDir + "/cache/lspatch/origin/";
             String cacheApkPath;
@@ -133,10 +140,10 @@ public class LSPApplication extends ApplicationServiceClient {
 
             appInfo.sourceDir = cacheApkPath;
             appInfo.publicSourceDir = cacheApkPath;
-            appInfo.appComponentFactory = FileUtils.readTextFromInputStream(baseClassLoader.getResourceAsStream(ORIGINAL_APP_COMPONENT_FACTORY_ASSET_PATH));
+            appInfo.appComponentFactory = config.appComponentFactory;
 
             if (!Files.exists(Paths.get(cacheApkPath))) {
-                Log.i(TAG, "extract original apk");
+                Log.i(TAG, "Extract original apk");
                 FileUtils.deleteFolderIfExists(Paths.get(originPath));
                 Files.createDirectories(Paths.get(originPath));
                 try (InputStream is = baseClassLoader.getResourceAsStream(ORIGINAL_APK_ASSET_PATH)) {
@@ -182,31 +189,31 @@ public class LSPApplication extends ApplicationServiceClient {
         for (int i = codePaths.size() - 1; i >= 0; i--) {
             String splitName = i == 0 ? null : appInfo.splitNames[i - 1];
             File curProfileFile = new File(profileDir, splitName == null ? "primary.prof" : splitName + ".split.prof").getAbsoluteFile();
-            Log.d(TAG, "processing " + curProfileFile.getAbsolutePath());
+            Log.d(TAG, "Processing " + curProfileFile.getAbsolutePath());
             try {
                 if (!curProfileFile.canWrite() && Files.size(curProfileFile.toPath()) == 0) {
-                    Log.d(TAG, "skip profile " + curProfileFile.getAbsolutePath());
+                    Log.d(TAG, "Skip profile " + curProfileFile.getAbsolutePath());
                     continue;
                 }
                 if (curProfileFile.exists() && !curProfileFile.delete()) {
                     try (var writer = new FileOutputStream(curProfileFile)) {
-                        Log.d(TAG, "failed to delete, try to clear content " + curProfileFile.getAbsolutePath());
+                        Log.d(TAG, "Failed to delete, try to clear content " + curProfileFile.getAbsolutePath());
                     } catch (Throwable e) {
-                        Log.e(TAG, "failed to delete and clear profile file " + curProfileFile.getAbsolutePath(), e);
+                        Log.e(TAG, "Failed to delete and clear profile file " + curProfileFile.getAbsolutePath(), e);
                     }
                     Os.chmod(curProfileFile.getAbsolutePath(), 00400);
                 } else {
                     Files.createFile(curProfileFile.toPath(), attrs);
                 }
             } catch (Throwable e) {
-                Log.e(TAG, "failed to disable profile file " + curProfileFile.getAbsolutePath(), e);
+                Log.e(TAG, "Failed to disable profile file " + curProfileFile.getAbsolutePath(), e);
             }
         }
 
     }
 
     public static void loadModules(Context context) {
-        if (useManager) {
+        if (config.useManager) {
             try {
                 modules.addAll(managerResolver.getModules());
                 modules.forEach(m -> Log.i(TAG, "load module from manager: " + m.packageName));
@@ -215,19 +222,19 @@ public class LSPApplication extends ApplicationServiceClient {
             }
         } else {
             try {
-                for (var name : context.getAssets().list("modules")) {
+                for (var name : context.getAssets().list("lspatch/modules")) {
                     String packageName = name.substring(0, name.length() - 4);
                     String modulePath = context.getCacheDir() + "/lspatch/" + packageName + "/";
                     String cacheApkPath;
                     try (ZipFile sourceFile = new ZipFile(context.getPackageResourcePath())) {
-                        cacheApkPath = modulePath + sourceFile.getEntry("assets/modules/" + name).getCrc();
+                        cacheApkPath = modulePath + sourceFile.getEntry("assets/lspatch/modules/" + name).getCrc();
                     }
 
                     if (!Files.exists(Paths.get(cacheApkPath))) {
-                        Log.i(TAG, "extract module apk: " + packageName);
+                        Log.i(TAG, "Extract module apk: " + packageName);
                         FileUtils.deleteFolderIfExists(Paths.get(modulePath));
                         Files.createDirectories(Paths.get(modulePath));
-                        try (var is = context.getAssets().open("modules/" + name)) {
+                        try (var is = context.getAssets().open("lspatch/modules/" + name)) {
                             Files.copy(is, Paths.get(cacheApkPath));
                         }
                     }
@@ -236,7 +243,6 @@ public class LSPApplication extends ApplicationServiceClient {
                     module.apkPath = cacheApkPath;
                     module.packageName = packageName;
                     module.file = loadModule(cacheApkPath);
-                    if (module.file != null) module.file.hostApk = context.getPackageResourcePath();
                     modules.add(module);
                 }
             } catch (Throwable ignored) {
@@ -286,16 +292,16 @@ public class LSPApplication extends ApplicationServiceClient {
                             PackageInfo packageInfo = PackageInfo.CREATOR.createFromParcel(out);
                             if (packageInfo.packageName.equals(context.getApplicationInfo().packageName)) {
                                 if (packageInfo.signatures != null && packageInfo.signatures.length > 0) {
-                                    XLog.d(TAG, "replace signature info [0]");
-                                    packageInfo.signatures[0] = new Signature(originalSignature);
+                                    XLog.d(TAG, "Replace signature info (method 1)");
+                                    packageInfo.signatures[0] = new Signature(config.originalSignature);
                                 }
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                                     if (packageInfo.signingInfo != null) {
-                                        XLog.d(TAG, "replace signature info [1]");
+                                        XLog.d(TAG, "Replace signature info (method 2)");
                                         Signature[] signaturesArray = packageInfo.signingInfo.getApkContentsSigners();
                                         if (signaturesArray != null && signaturesArray.length > 0) {
-                                            signaturesArray[0] = new Signature(originalSignature);
+                                            signaturesArray[0] = new Signature(config.originalSignature);
                                         }
                                     }
                                 }
@@ -320,33 +326,17 @@ public class LSPApplication extends ApplicationServiceClient {
     }
 
     private static void doHook(Context context) throws IllegalAccessException, ClassNotFoundException, IOException, NoSuchFieldException {
-        int bypassLv = fetchSigbypassLv(context);
-        if (bypassLv >= Constants.SIGBYPASS_LV_PM) {
+        if (config.sigBypassLevel >= Constants.SIGBYPASS_LV_PM) {
+            XLog.d(TAG, "Original signature: " + config.originalSignature.substring(0, 16) + "...");
             byPassSignature(context);
         }
-        if (bypassLv >= Constants.SIGBYPASS_LV_PM_OPENAT) {
+        if (config.sigBypassLevel >= Constants.SIGBYPASS_LV_PM_OPENAT) {
             String cacheApkPath;
             try (ZipFile sourceFile = new ZipFile(context.getPackageResourcePath())) {
                 cacheApkPath = context.getCacheDir() + "/lspatch/origin/" + sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc();
             }
             SigBypass.enableOpenatHook(context.getPackageResourcePath(), cacheApkPath);
         }
-    }
-
-    private static int cacheSigbypassLv;
-
-    private static int fetchSigbypassLv(Context context) {
-        if (cacheSigbypassLv != -1) {
-            return cacheSigbypassLv;
-        }
-        for (int i = Constants.SIGBYPASS_LV_DISABLE; i < Constants.SIGBYPASS_LV_MAX; i++) {
-            try (InputStream inputStream = context.getAssets().open(Constants.CONFIG_NAME_SIGBYPASSLV + i)) {
-                cacheSigbypassLv = i;
-                return i;
-            } catch (IOException ignore) {
-            }
-        }
-        return 0;
     }
 
     @Override

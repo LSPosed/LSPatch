@@ -16,6 +16,7 @@ dependencies {
     implementation project(':apkzlib')
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'com.beust:jcommander:1.81'
+    implementation 'com.google.code.gson:gson:2.8.8'
 }
 
 jar {
