@@ -187,7 +187,7 @@ public class LSPatch {
                 }
                 var entry = (KeyStore.PrivateKeyEntry) keyStore.getEntry("key0", new KeyStore.PasswordProtection("123456".toCharArray()));
                 new SigningExtension(SigningOptions.builder()
-                        .setMinSdkVersion(27)
+                        .setMinSdkVersion(28)
                         .setV1SigningEnabled(v1)
                         .setV2SigningEnabled(v2)
                         .setCertificates((X509Certificate[]) entry.getCertificateChain())

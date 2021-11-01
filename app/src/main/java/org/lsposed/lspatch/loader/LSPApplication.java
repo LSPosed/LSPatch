@@ -19,7 +19,6 @@ import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
 import android.system.Os;
-import android.util.ArrayMap;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -47,6 +46,7 @@ import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipFile;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -62,6 +62,7 @@ public class LSPApplication extends ApplicationServiceClient {
     private static final String TAG = "LSPatch";
 
     private static ActivityThread activityThread;
+    private static LoadedApk stubLoadedApk;
     private static LoadedApk appLoadedApk;
 
     private static PatchConfig config;
@@ -109,6 +110,10 @@ public class LSPApplication extends ApplicationServiceClient {
             // before forkPostCommon is invoke. Otherwise, you will get failure of XResources
             LSPLoader.initModules(appLoadedApk);
             Log.i(TAG, "Modules initialized");
+
+            switchClassLoader("mBaseClassLoader");
+            switchClassLoader("mDefaultClassLoader");
+            switchClassLoader("mClassLoader");
         } catch (Throwable e) {
             Log.e(TAG, "Do hook", e);
         }
@@ -117,7 +122,8 @@ public class LSPApplication extends ApplicationServiceClient {
     private static Context createLoadedApkWithContext() {
         try {
             var mBoundApplication = XposedHelpers.getObjectField(activityThread, "mBoundApplication");
-            var stubLoadedApk = (LoadedApk) XposedHelpers.getObjectField(mBoundApplication, "info");
+
+            stubLoadedApk = (LoadedApk) XposedHelpers.getObjectField(mBoundApplication, "info");
             var appInfo = (ApplicationInfo) XposedHelpers.getObjectField(mBoundApplication, "appInfo");
             var compatInfo = (CompatibilityInfo) XposedHelpers.getObjectField(mBoundApplication, "compatInfo");
             var baseClassLoader = stubLoadedApk.getClassLoader();
@@ -151,7 +157,7 @@ public class LSPApplication extends ApplicationServiceClient {
                 }
             }
 
-            var mPackages = (ArrayMap<?, ?>) XposedHelpers.getObjectField(activityThread, "mPackages");
+            var mPackages = (Map<?, ?>) XposedHelpers.getObjectField(activityThread, "mPackages");
             mPackages.remove(appInfo.packageName);
             appLoadedApk = activityThread.getPackageInfoNoCheck(appInfo, compatInfo);
             XposedHelpers.setObjectField(mBoundApplication, "info", appLoadedApk);
@@ -337,6 +343,11 @@ public class LSPApplication extends ApplicationServiceClient {
             }
             SigBypass.enableOpenatHook(context.getPackageResourcePath(), cacheApkPath);
         }
+    }
+
+    private static void switchClassLoader(String fieldName) {
+        var obj = XposedHelpers.getObjectField(appLoadedApk, fieldName);
+        XposedHelpers.setObjectField(stubLoadedApk, fieldName, obj);
     }
 
     @Override
