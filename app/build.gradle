@@ -53,7 +53,7 @@ android {
     }
     applicationVariants.all { variant ->
         def buildType = variant.name.capitalize()
-        def variantLowered = variant.name.toLowerCase()
+        def variantName = variant.name
 
         variant.outputs.all {
             outputFileName = "${variant.getFlavorName()}-${variant.versionName}.apk"
@@ -61,7 +61,7 @@ android {
 
         task "copyDex$buildType"(type: Copy) {
             dependsOn("assemble$buildType")
-            def dexFilePath = "$buildDir/intermediates/dex/${variantLowered}/mergeDex${buildType}/classes.dex"
+            def dexFilePath = "$buildDir/intermediates/dex/${variantName}/mergeDex${buildType}/classes.dex"
             from dexFilePath
             rename "classes.dex", "lsp.dex"
             into "$rootProject.projectDir/out/dexes"
@@ -69,7 +69,7 @@ android {
 
         task "copySo$buildType"(type: Copy) {
             dependsOn("assemble$buildType")
-            from "$buildDir/intermediates/merged_native_libs/${variantLowered}/out/lib"
+            from "$buildDir/intermediates/merged_native_libs/${variantName}/out/lib"
             into "$rootProject.projectDir/out/so"
         }
 
