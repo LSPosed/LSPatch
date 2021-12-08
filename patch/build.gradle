@@ -52,7 +52,7 @@ tasks.register("buildDebug") {
 
 tasks.register("buildRelease") {
     jar.dependsOn(':appstub:copyRelease')
-    jar.dependsOn(':app:copyRelease')
+    jar.dependsOn(':app:copyRiruRelease')
     dependsOn(build)
 }
 
