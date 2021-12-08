@@ -2,6 +2,8 @@ include ':app'
 rootProject.name='LSPatch'
 include ':lspcore'
 project(':lspcore').projectDir = new File('core/core')
+include ':lspapp'
+project(':lspapp').projectDir = new File('core/app')
 include ':hiddenapi-stubs'
 project(':hiddenapi-stubs').projectDir = new File('core/hiddenapi-stubs')
 include ':interface'

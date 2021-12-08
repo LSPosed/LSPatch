@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.Parcel;
+import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.system.Os;
 import android.util.Log;
@@ -374,16 +375,6 @@ public class LSPApplication extends ApplicationServiceClient {
     }
 
     @Override
-    public boolean requestManagerBinder(String packageName, String path, List<IBinder> binder) {
-        return false;
-    }
-
-    @Override
-    public boolean isResourcesHookEnabled() {
-        return false;
-    }
-
-    @Override
     public List getModulesList(String processName) {
         return getModulesList();
     }
@@ -400,6 +391,11 @@ public class LSPApplication extends ApplicationServiceClient {
 
     @Override
     public Bundle requestRemotePreference(String packageName, int userId, IBinder callback) {
+        return null;
+    }
+
+    @Override
+    public ParcelFileDescriptor requestInjectedManagerBinder(List<IBinder> binder) throws RemoteException {
         return null;
     }
 

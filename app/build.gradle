@@ -1,6 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
+    flavorDimensions "api"
+    productFlavors {
+        Riru {
+            dimension 'api'
+        }
+    }
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
     defaultConfig {
         applicationId "org.lsposed.lspatch"

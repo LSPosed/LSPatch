@@ -46,7 +46,7 @@ jar {
 
 tasks.register("buildDebug") {
     jar.dependsOn(':appstub:copyDebug')
-    jar.dependsOn(':app:copyDebug')
+    jar.dependsOn(':app:copyRiruDebug')
     dependsOn(build)
 }
 

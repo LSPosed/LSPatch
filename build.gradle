@@ -8,6 +8,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.3'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31'
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.0-beta02")
     }
 }
 
@@ -24,6 +25,8 @@ ext {
     defaultManagerPackageName = "org.lsposed.lspatch"
     androidSourceCompatibility = JavaVersion.VERSION_11
     androidTargetCompatibility = JavaVersion.VERSION_11
+    agpVersion = "7.0.3"
+    navVersion = "2.4.0-beta02"
 }
 
 allprojects {

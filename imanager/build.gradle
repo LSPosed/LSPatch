@@ -3,6 +3,12 @@ plugins {
 }
 
 android {
+    flavorDimensions "api"
+    productFlavors {
+        Riru {
+            dimension 'api'
+        }
+    }
     compileSdk 31
 
     defaultConfig {
