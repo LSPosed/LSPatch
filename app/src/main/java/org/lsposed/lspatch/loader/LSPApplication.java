@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.zip.ZipFile;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -161,7 +162,24 @@ public class LSPApplication extends ApplicationServiceClient {
             mPackages.remove(appInfo.packageName);
             appLoadedApk = activityThread.getPackageInfoNoCheck(appInfo, compatInfo);
             XposedHelpers.setObjectField(mBoundApplication, "info", appLoadedApk);
-            Log.i(TAG, "appClassLoader initialized: " + appLoadedApk.getClassLoader());
+
+            var activityClientRecordClass = XposedHelpers.findClass("android.app.ActivityThread$ActivityClientRecord", ActivityThread.class.getClassLoader());
+            var fixActivityClientRecord = (BiConsumer<Object, Object>)(k, v) -> {
+                if (activityClientRecordClass.isInstance(v)) {
+                    var pkgInfo = XposedHelpers.getObjectField(v, "packageInfo");
+                    if (pkgInfo == stubLoadedApk) {
+                        Log.d(TAG, "fix loadedapk from ActivityClientRecord");
+                        XposedHelpers.setObjectField(v, "packageInfo", appLoadedApk);
+                    }
+                }
+            };
+            var mActivities = (Map<?, ?>) XposedHelpers.getObjectField(activityThread, "mActivities");
+            mActivities.forEach(fixActivityClientRecord);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                var mLaunchingActivities = (Map<?, ?>) XposedHelpers.getObjectField(activityThread, "mLaunchingActivities");
+                mLaunchingActivities.forEach(fixActivityClientRecord);
+            }
+            Log.i(TAG, "hooked app initialized: " + appLoadedApk);
 
             return (Context) XposedHelpers.callStaticMethod(Class.forName("android.app.ContextImpl"), "createAppContext", activityThread, stubLoadedApk);
         } catch (Throwable e) {
