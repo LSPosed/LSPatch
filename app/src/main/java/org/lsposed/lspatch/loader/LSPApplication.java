@@ -3,7 +3,6 @@ package org.lsposed.lspatch.loader;
 import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
 import static org.lsposed.lspatch.share.Constants.CONFIG_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.ORIGINAL_APK_ASSET_PATH;
-import static org.lsposed.lspd.service.ConfigFileManager.loadModule;
 
 import android.app.ActivityThread;
 import android.app.LoadedApk;
@@ -25,6 +24,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import org.lsposed.lspatch.loader.util.FileUtils;
+import org.lsposed.lspatch.loader.util.ModuleLoader;
 import org.lsposed.lspatch.loader.util.XLog;
 import org.lsposed.lspatch.share.Constants;
 import org.lsposed.lspatch.share.PatchConfig;
@@ -267,7 +267,7 @@ public class LSPApplication extends ApplicationServiceClient {
                     var module = new Module();
                     module.apkPath = cacheApkPath;
                     module.packageName = packageName;
-                    module.file = loadModule(cacheApkPath);
+                    module.file = ModuleLoader.loadModule(cacheApkPath);
                     modules.add(module);
                 }
             } catch (Throwable ignored) {

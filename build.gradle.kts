@@ -5,12 +5,10 @@ buildscript {
         google()
         mavenCentral()
     }
-    val agpVersion by extra("7.0.3")
-    val navVersion by extra("2.5.0-alpha01")
+    val agpVersion by extra("7.1.1")
     dependencies {
         classpath("com.android.tools.build:gradle:$agpVersion")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion")
     }
 }
 

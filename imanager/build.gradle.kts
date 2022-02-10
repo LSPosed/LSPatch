@@ -36,5 +36,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":lspcore"))
+    api(project(":daemon-service"))
 }

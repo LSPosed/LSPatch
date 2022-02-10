@@ -47,8 +47,7 @@ android {
 }
 
 dependencies {
-    compileOnly(project(":patch"))
-    compileOnly(project(":lspcore"))
+    implementation(project(":patch"))
     implementation(project(":imanager"))
 
     implementation("androidx.core:core-ktx:1.7.0")

@@ -57,7 +57,7 @@ android {
     }
 
     lint {
-        isAbortOnError = false
+        abortOnError = false
     }
 }
 
@@ -89,6 +89,7 @@ androidComponents.onVariants { variant ->
 }
 
 dependencies {
+    implementation(project(":daemon-service"))
     implementation(project(":lspcore"))
     implementation(project(":hiddenapi-bridge"))
     compileOnly(project(":hiddenapi-stubs"))
