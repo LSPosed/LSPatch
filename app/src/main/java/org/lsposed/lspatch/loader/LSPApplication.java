@@ -24,8 +24,8 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import org.lsposed.lspatch.loader.util.FileUtils;
-import org.lsposed.lspatch.loader.util.ModuleLoader;
 import org.lsposed.lspatch.loader.util.XLog;
+import org.lsposed.lspatch.manager.ModuleLoader;
 import org.lsposed.lspatch.share.Constants;
 import org.lsposed.lspatch.share.PatchConfig;
 import org.lsposed.lspd.config.ApplicationServiceClient;

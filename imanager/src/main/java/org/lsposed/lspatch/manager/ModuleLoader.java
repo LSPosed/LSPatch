@@ -1,4 +1,4 @@
-package org.lsposed.lspatch.loader.util;
+package org.lsposed.lspatch.manager;
 
 import android.os.SharedMemory;
 import android.system.ErrnoException;
@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.zip.ZipFile;
 
 public class ModuleLoader {
+
     private static final String TAG = "LSPatch";
 
     private static void readDexes(ZipFile apkFile, List<SharedMemory> preLoadedDexes) {

@@ -1,4 +1,4 @@
-package org.lsposed.lspatch
+package org.lsposed.lspatch.manager
 
 import android.content.ContentProvider
 import android.content.ContentValues
@@ -8,11 +8,11 @@ import android.net.Uri
 import android.os.Binder
 import android.os.Bundle
 import android.util.Log
-import org.lsposed.lspatch.LSPApplication.Companion.TAG
+import org.lsposed.lspatch.TAG
 import org.lsposed.lspd.models.Module
-import org.lsposed.lspd.service.ConfigFileManager.loadModule
 
 class ModuleProvider : ContentProvider() {
+
     companion object {
         lateinit var allModules: List<Module>
     }
@@ -43,7 +43,7 @@ class ModuleProvider : ContentProvider() {
                 Module().apply {
                     apkPath = app.publicSourceDir
                     packageName = app.packageName
-                    file = loadModule(apkPath)
+                    file = ModuleLoader.loadModule(apkPath)
                 }.also { list.add(it) }
                 Log.d(TAG, "send module ${app.packageName}")
             }

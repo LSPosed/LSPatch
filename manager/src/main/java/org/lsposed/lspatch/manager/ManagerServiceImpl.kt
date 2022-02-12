@@ -1,6 +1,5 @@
-package org.lsposed.lspatch
+package org.lsposed.lspatch.manager
 
-import org.lsposed.lspatch.manager.IManagerService
 import org.lsposed.lspd.models.Module
 
 class ManagerServiceImpl : IManagerService.Stub() {

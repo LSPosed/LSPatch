@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">LSPatch</string>
+
+    <string name="page_repo">Repo</string>
+    <string name="page_settings">Settings</string>
+    <string name="page_select_app">Select App</string>
+
+    <!-- Patches Page -->
+    <string name="page_patches">Patches</string>
+    <string name="patches_add">Add</string>
+
+    <!-- New Patch Page -->
+    <string name="page_new_patch">New Patch</string>
+    <string name="patch_mode">Patch Mode</string>
+    <string name="patch_local">Local</string>
+    <string name="patch_local_desc">Patch an app without modules embedded.\nThe patched app need the manager running in background, and Xposed scope can be changed dynamically without re-patch.\nLocal patched apps can only run on the local device.</string>
+    <string name="patch_portable">Portable</string>
+    <string name="patch_portable_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nPortable patched apps can be used on devices that do not have LSPatch Manager installed.</string>
+    <string name="patch_embed_modules">Embed modules</string>
+    <string name="patch_start">Start Patch</string>
 </resources>
