@@ -19,9 +19,9 @@ object SelectionColumnScope {
 
     @Composable
     fun SelectionItem(
+        modifier: Modifier = Modifier,
         selected: Boolean,
         onClick: () -> Unit,
-        modifier: Modifier = Modifier,
         icon: ImageVector,
         title: String,
         desc: String? = null,
@@ -45,7 +45,8 @@ object SelectionColumnScope {
         ) {
             Icon(
                 imageVector = icon,
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
             )
             Column {
                 Text(
@@ -59,9 +60,9 @@ object SelectionColumnScope {
                         exit = fadeOut() + shrinkVertically(shrinkTowards = Alignment.Bottom)
                     ) {
                         Column {
-                            desc?.let {
+                            if (desc != null) {
                                 Text(
-                                    text = it,
+                                    text = desc,
                                     modifier = Modifier.padding(top = 8.dp),
                                     style = MaterialTheme.typography.bodyMedium
                                 )

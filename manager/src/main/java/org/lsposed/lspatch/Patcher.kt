@@ -4,7 +4,7 @@ import org.lsposed.patch.LSPatch
 
 object Patcher {
     class Options(
-        private val apkPaths: List<String>,
+        private val apkPaths: Array<String>,
         private val outputPath: String,
         private val debuggable: Boolean,
         private val sigbypassLevel: Int,
@@ -18,7 +18,7 @@ object Patcher {
     ) {
         fun toStringArray(): Array<String> {
             return arrayListOf<String>().run {
-                add("-f");
+                add("-f")
                 addAll(apkPaths)
                 add("-o"); add(outputPath)
                 if (debuggable) add("-d")
