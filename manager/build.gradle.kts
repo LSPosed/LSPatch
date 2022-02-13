@@ -51,10 +51,7 @@ android {
         kotlinCompilerExtensionVersion = composeVersion
     }
 
-    sourceSets["main"].assets.srcDirs(
-        projects.patch.dependencyProject.projectDir.resolve("src/main/assets"),
-        rootProject.projectDir.resolve("out/assets")
-    )
+    sourceSets["main"].assets.srcDirs(rootProject.projectDir.resolve("out/assets"))
 }
 
 afterEvaluate {

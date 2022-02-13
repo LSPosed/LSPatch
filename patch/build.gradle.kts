@@ -20,8 +20,3 @@ dependencies {
     implementation("com.beust:jcommander:1.82")
     implementation("com.google.code.gson:gson:2.8.9")
 }
-
-sourceSets["main"].resources {
-    srcDirs("src/main/java")
-    include("**/*.*")
-}

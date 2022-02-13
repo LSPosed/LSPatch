@@ -24,7 +24,7 @@ tasks.jar {
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
 
     into("assets") {
-        from(projects.patch.dependencyProject.projectDir.resolve("src/main/assets"))
+        from("src/main/assets")
         from("${rootProject.projectDir}/out/assets")
     }
 

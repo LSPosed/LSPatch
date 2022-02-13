@@ -217,7 +217,7 @@ public class LSPatch {
             // parse the app appComponentFactory full name from the manifest file
             String appComponentFactory;
             try (var is = manifestEntry.open()) {
-                var pair =ManifestParser.parseManifestFile(is);
+                var pair = ManifestParser.parseManifestFile(is);
                 if (pair == null)
                     throw new PatchError("Failed to parse AndroidManifest.xml");
                 appComponentFactory = pair.appComponentFactory == null ? "" : pair.appComponentFactory;
