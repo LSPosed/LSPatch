@@ -69,13 +69,13 @@ androidComponents.onVariants { variant ->
         dependsOn("assemble$variantCapped")
         from("$buildDir/intermediates/dex/$variantLowered/mergeDex$variantCapped/classes.dex")
         rename("classes.dex", "lsp.dex")
-        into("${rootProject.projectDir}/out/dexes")
+        into("${rootProject.projectDir}/out/assets/dex")
     }
 
     task<Copy>("copySo$variantCapped") {
         dependsOn("assemble$variantCapped")
         from("$buildDir/intermediates/merged_native_libs/$variantLowered/out/lib")
-        into("${rootProject.projectDir}/out/so")
+        into("${rootProject.projectDir}/out/assets/so")
     }
 
     task("copy$variantCapped") {
@@ -89,12 +89,12 @@ androidComponents.onVariants { variant ->
 }
 
 dependencies {
-    implementation(project(":daemon-service"))
-    implementation(project(":lspcore"))
-    implementation(project(":hiddenapi-bridge"))
-    compileOnly(project(":hiddenapi-stubs"))
-    implementation(project(":share"))
-    implementation(project(":imanager"))
+    compileOnly(projects.hiddenapiStubs)
+    implementation(projects.daemonService)
+    implementation(projects.lspcore)
+    implementation(projects.hiddenapiBridge)
+    implementation(projects.share)
+    implementation(projects.imanager)
 
     implementation("com.google.code.gson:gson:2.8.9")
 }

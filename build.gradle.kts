@@ -39,6 +39,7 @@ tasks.register<Delete>("clean") {
 listOf("Debug", "Release").forEach { variant ->
     tasks.register("build$variant") {
         description = "Build LSPatch with $variant"
-        dependsOn(tasks.getByPath(":patch:build$variant"))
+        dependsOn(projects.patchJar.dependencyProject.tasks["build$variant"])
+        dependsOn(projects.manager.dependencyProject.tasks["build$variant"])
     }
 }

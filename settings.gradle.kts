@@ -1,5 +1,7 @@
 rootProject.name = "LSPatch"
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include(":daemon-service")
 include(":hiddenapi-bridge")
 include(":hiddenapi-stubs")
@@ -21,4 +23,5 @@ include(":axmlprinter")
 include(":imanager")
 include(":manager")
 include(":patch")
+include(":patch-jar")
 include(":share")

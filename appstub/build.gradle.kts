@@ -42,7 +42,7 @@ androidComponents.onVariants { variant ->
         dependsOn("assemble$variantCapped")
         from("$buildDir/intermediates/dex/$variantLowered/mergeDex$variantCapped/classes.dex")
         rename("classes.dex", "loader.dex")
-        into("${rootProject.projectDir}/out/dexes")
+        into("${rootProject.projectDir}/out/assets/dex")
     }
 
     task("copy$variantCapped") {
@@ -55,6 +55,7 @@ androidComponents.onVariants { variant ->
 }
 
 dependencies {
+    compileOnly(projects.hiddenapiStubs)
+
     implementation("de.upb.cs.swt:axml:2.1.2")
-    compileOnly(project(":hiddenapi-stubs"))
 }
