@@ -23,6 +23,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.lsposed.lspatch.share.PatchConfig;
 import org.lsposed.patch.util.ApkSignatureHelper;
+import org.lsposed.patch.util.JavaLogger;
+import org.lsposed.patch.util.Logger;
 import org.lsposed.patch.util.ManifestParser;
 
 import java.io.ByteArrayInputStream;
@@ -114,15 +116,19 @@ public class LSPatch {
 
     private final JCommander jCommander;
 
-    public LSPatch(String... args) {
+    private final Logger logger;
+
+    public LSPatch(Logger logger, String... args) {
         jCommander = JCommander.newBuilder()
                 .addObject(this)
                 .build();
         jCommander.parse(args);
+        this.logger = logger;
+        logger.verbose = verbose;
     }
 
     public static void main(String... args) throws IOException {
-        LSPatch lsPatch = new LSPatch(args);
+        LSPatch lsPatch = new LSPatch(new JavaLogger(), args);
         try {
             lsPatch.doCommandLine();
         } catch (PatchError e) {
@@ -157,7 +163,7 @@ public class LSPatch {
 
             if (outputFile.exists() && !forceOverwrite)
                 throw new PatchError(outputPath + " exists. Use --force to overwrite");
-            System.out.println("Processing " + srcApkFile + " -> " + outputFile);
+            logger.i("Processing " + srcApkFile + " -> " + outputFile);
 
             patch(srcApkFile, outputFile);
         }
@@ -170,16 +176,15 @@ public class LSPatch {
         File tmpApk = Files.createTempFile(srcApkFile.getName(), "unsigned").toFile();
         tmpApk.delete();
 
-        if (verbose)
-            System.out.println("apk path: " + srcApkFile);
+        logger.d("apk path: " + srcApkFile);
 
-        System.out.println("Parsing original apk...");
+        logger.i("Parsing original apk...");
 
         try (var dstZFile = ZFile.openReadWrite(tmpApk, Z_FILE_OPTIONS);
              var srcZFile = dstZFile.addNestedZip((ignore) -> ORIGINAL_APK_ASSET_PATH, srcApkFile, false)) {
 
             // sign apk
-            System.out.println("Register apk signer...");
+            logger.i("Register apk signer...");
             try {
                 var keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
                 try (var is = getClass().getClassLoader().getResourceAsStream("assets/keystore")) {
@@ -205,8 +210,7 @@ public class LSPatch {
                     throw new PatchError("get original signature failed");
                 }
 
-                if (verbose)
-                    System.out.println("Original signature\n" + originalSignature);
+                logger.d("Original signature\n" + originalSignature);
             }
 
             // copy out manifest file from zlib
@@ -222,11 +226,10 @@ public class LSPatch {
                     throw new PatchError("Failed to parse AndroidManifest.xml");
                 appComponentFactory = pair.appComponentFactory == null ? "" : pair.appComponentFactory;
 
-                if (verbose)
-                    System.out.println("original appComponentFactory class: " + appComponentFactory);
+                logger.d("original appComponentFactory class: " + appComponentFactory);
             }
 
-            System.out.println("Patching apk...");
+            logger.i("Patching apk...");
             // modify manifest
             try (var is = new ByteArrayInputStream(modifyManifestFile(manifestEntry.open()))) {
                 dstZFile.add(ANDROID_MANIFEST_XML, is);
@@ -234,8 +237,7 @@ public class LSPatch {
                 throw new PatchError("Error when modifying manifest", e);
             }
 
-            if (verbose)
-                System.out.println("Adding native lib..");
+            logger.d("Adding native lib..");
 
             // copy so and dex files into the unzipped apk
             // do not put liblspd.so into apk!lib because x86 native bridge causes crash
@@ -247,12 +249,10 @@ public class LSPatch {
                     // More exception info
                     throw new PatchError("Error when adding native lib", e);
                 }
-                if (verbose)
-                    System.out.println("added " + entryName);
+                logger.d("added " + entryName);
             }
 
-            if (verbose)
-                System.out.println("Adding dex..");
+            logger.d("Adding dex..");
 
             try (var is = getClass().getClassLoader().getResourceAsStream("assets/dex/loader.dex")) {
                 dstZFile.add("classes.dex", is);
@@ -278,8 +278,7 @@ public class LSPatch {
 
             Set<String> apkArchs = new HashSet<>();
 
-            if (verbose)
-                System.out.println("Search target apk library arch...");
+            logger.d("Search target apk library arch...");
 
             for (StoredEntry storedEntry : srcZFile.entries()) {
                 var name = storedEntry.getCentralDirectoryHeader().getName();
@@ -291,7 +290,7 @@ public class LSPatch {
             if (apkArchs.isEmpty()) apkArchs.addAll(ARCHES);
             apkArchs.removeIf((arch) -> {
                 if (!ARCHES.contains(arch) && !arch.equals("armeabi")) {
-                    System.err.println("Warning: unsupported arch " + arch + ". Skipping...");
+                    logger.e("Warning: unsupported arch " + arch + ". Skipping...");
                     return true;
                 }
                 return false;
@@ -300,8 +299,7 @@ public class LSPatch {
             embedModules(dstZFile);
 
             // create zip link
-            if (verbose)
-                System.out.println("Creating nested apk link...");
+            logger.d("Creating nested apk link...");
 
             for (StoredEntry entry : srcZFile.entries()) {
                 String name = entry.getCentralDirectoryHeader().getName();
@@ -314,12 +312,12 @@ public class LSPatch {
 
             dstZFile.realign();
 
-            System.out.println("Writing apk...");
+            logger.i("Writing apk...");
         } finally {
             try {
                 outputFile.delete();
                 FileUtils.moveFile(tmpApk, outputFile);
-                System.out.println("Done. Output APK: " + outputFile.getAbsolutePath());
+                logger.i("Done. Output APK: " + outputFile.getAbsolutePath());
             } catch (Throwable e) {
                 throw new PatchError("Error writing apk", e);
             }
@@ -327,7 +325,7 @@ public class LSPatch {
     }
 
     private void embedModules(ZFile zFile) {
-        System.out.println("Embedding modules...");
+        logger.i("Embedding modules...");
         for (var module : modules) {
             File file = new File(module);
             try (var apk = ZFile.openReadOnly(new File(module));
@@ -336,10 +334,10 @@ public class LSPatch {
             ) {
                 var manifest = Objects.requireNonNull(ManifestParser.parseManifestFile(xmlIs));
                 var packageName = manifest.packageName;
-                System.out.println("  - " + packageName);
+                logger.i("  - " + packageName);
                 zFile.add("assets/lspatch/modules/" + packageName + ".bin", fileIs);
             } catch (NullPointerException | IOException e) {
-                System.err.println(module + " does not exist or is not a valid apk file.");
+                logger.e(module + " does not exist or is not a valid apk file.");
             }
         }
     }

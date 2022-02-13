@@ -1,11 +1,17 @@
 package org.lsposed.lspatch.ui.page
 
+import android.os.Environment
 import android.util.Log
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Api
@@ -18,7 +24,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -26,25 +34,32 @@ import org.lsposed.lspatch.Patcher
 import org.lsposed.lspatch.R
 import org.lsposed.lspatch.TAG
 import org.lsposed.lspatch.ui.component.SelectionColumn
+import org.lsposed.lspatch.ui.component.ShimmerAnimation
 import org.lsposed.lspatch.ui.component.settings.SettingsCheckBox
 import org.lsposed.lspatch.ui.component.settings.SettingsItem
 import org.lsposed.lspatch.ui.util.LocalNavController
+import org.lsposed.lspatch.ui.util.isScrolledToEnd
+import org.lsposed.lspatch.ui.util.lastItemIndex
 import org.lsposed.lspatch.ui.viewmodel.AppInfo
+import org.lsposed.patch.util.Logger
+
+enum class PatchState {
+    SELECTING, CONFIGURING, SUBMITTING, PATCHING, FINISHED
+}
 
 class NewPatchPageViewModel : ViewModel() {
-    var patchApp by mutableStateOf<AppInfo?>(null)
-    var confirm by mutableStateOf(false)
+    var patchState by mutableStateOf(PatchState.SELECTING)
     var patchOptions by mutableStateOf<Patcher.Options?>(null)
 }
 
 @Composable
 fun NewPatchFab() {
     val viewModel = viewModel<NewPatchPageViewModel>()
-    if (viewModel.patchApp != null) {
+    if (viewModel.patchState == PatchState.CONFIGURING) {
         ExtendedFloatingActionButton(
             text = { Text(stringResource(R.string.patch_start)) },
             icon = { Icon(Icons.Outlined.AutoFixHigh, null) },
-            onClick = { viewModel.confirm = true }
+            onClick = { viewModel.patchState = PatchState.SUBMITTING }
         )
     }
 }
@@ -53,21 +68,20 @@ fun NewPatchFab() {
 fun NewPatchPage() {
     val viewModel = viewModel<NewPatchPageViewModel>()
     val navController = LocalNavController.current
-    val appInfo by navController.currentBackStackEntry!!.savedStateHandle
+    val patchApp by navController.currentBackStackEntry!!.savedStateHandle
         .getLiveData<AppInfo>("appInfo").observeAsState()
-    viewModel.patchApp = appInfo
+    if (viewModel.patchState == PatchState.SELECTING && patchApp != null) viewModel.patchState = PatchState.CONFIGURING
 
-    Log.d(TAG, "confirm = ${viewModel.confirm}")
-
-    when {
-        viewModel.patchApp == null -> navController.navigate(PageList.SelectApps.name + "/false")
-        viewModel.patchOptions == null -> PatchOptionsPage(viewModel.patchApp!!, viewModel.confirm)
-        else -> PatchingPage(viewModel.patchOptions!!)
+    Log.d(TAG, "NewPatchPage: ${viewModel.patchState}")
+    when (viewModel.patchState) {
+        PatchState.SELECTING -> navController.navigate(PageList.SelectApps.name + "/false")
+        PatchState.CONFIGURING, PatchState.SUBMITTING -> PatchOptionsPage(patchApp!!)
+        PatchState.PATCHING, PatchState.FINISHED -> DoPatchPage(viewModel.patchOptions!!)
     }
 }
 
 @Composable
-private fun PatchOptionsPage(patchApp: AppInfo, confirm: Boolean) {
+private fun PatchOptionsPage(patchApp: AppInfo) {
     val viewModel = viewModel<NewPatchPageViewModel>()
     var useManager by rememberSaveable { mutableStateOf(true) }
     var debuggable by rememberSaveable { mutableStateOf(false) }
@@ -77,9 +91,11 @@ private fun PatchOptionsPage(patchApp: AppInfo, confirm: Boolean) {
     val sigBypassLevel by rememberSaveable { mutableStateOf(2) }
     var overrideVersionCode by rememberSaveable { mutableStateOf(false) }
 
-    if (confirm) LaunchedEffect(patchApp) {
+    if (viewModel.patchState == PatchState.SUBMITTING) LaunchedEffect(patchApp) {
+        val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
         viewModel.patchOptions = Patcher.Options(
             apkPaths = arrayOf(patchApp.app.sourceDir), // TODO: Split Apk
+            outputPath = downloadDir,
             debuggable = debuggable,
             sigbypassLevel = sigBypassLevel,
             v1 = v1, v2 = v2, v3 = v3,
@@ -88,6 +104,7 @@ private fun PatchOptionsPage(patchApp: AppInfo, confirm: Boolean) {
             verbose = true,
             embeddedModules = emptyList() // TODO: Embed modules
         )
+        viewModel.patchState = PatchState.PATCHING
     }
 
     Column(
@@ -172,6 +189,89 @@ private fun PatchOptionsPage(patchApp: AppInfo, confirm: Boolean) {
 }
 
 @Composable
-private fun PatchingPage(patcherOptions: Patcher.Options) {
+private fun DoPatchPage(patcherOptions: Patcher.Options) {
+    val viewModel = viewModel<NewPatchPageViewModel>()
+    val navController = LocalNavController.current
+    val logs = remember { mutableStateListOf<Pair<Int, String>>() }
+    val logger = remember {
+        object : Logger() {
+            override fun d(msg: String) {
+                if (verbose) {
+                    Log.d(TAG, msg)
+                    logs += Log.DEBUG to msg
+                }
+            }
 
+            override fun i(msg: String) {
+                Log.i(TAG, msg)
+                logs += Log.INFO to msg
+            }
+
+            override fun e(msg: String) {
+                Log.e(TAG, msg)
+                logs += Log.ERROR to msg
+            }
+        }
+    }
+
+    LaunchedEffect(patcherOptions) {
+        Patcher.patch(logger, patcherOptions)
+        viewModel.patchState = PatchState.FINISHED
+    }
+
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(24.dp)
+            .wrapContentHeight()
+            .animateContentSize(spring(stiffness = Spring.StiffnessLow))
+    ) {
+        val patching by remember { derivedStateOf { viewModel.patchState == PatchState.PATCHING } }
+        ShimmerAnimation(enabled = patching) {
+            CompositionLocalProvider(
+                LocalTextStyle provides MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace)
+            ) {
+                val scrollState = rememberLazyListState()
+                LazyColumn(
+                    state = scrollState,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 300.dp)
+                        .clip(RoundedCornerShape(32.dp))
+                        .background(brush)
+                        .padding(horizontal = 24.dp, vertical = 18.dp)
+                ) {
+                    items(logs) {
+                        when (it.first) {
+                            Log.DEBUG -> Text(text = it.second)
+                            Log.INFO -> Text(text = it.second)
+                            Log.ERROR -> Text(text = it.second, color = MaterialTheme.colorScheme.error)
+                        }
+                    }
+                }
+
+                LaunchedEffect(scrollState.lastItemIndex) {
+                    if (!scrollState.isScrolledToEnd) {
+                        scrollState.animateScrollToItem(scrollState.lastItemIndex!!)
+                    }
+                }
+            }
+        }
+
+        if (!patching) {
+            Row(Modifier.padding(top = 12.dp)) {
+                Button(
+                    onClick = { navController.popBackStack() },
+                    modifier = Modifier.weight(1f),
+                    content = { Text(stringResource(R.string.patch_return)) }
+                )
+                Spacer(Modifier.weight(0.2f))
+                Button(
+                    onClick = { /* TODO: Install */ },
+                    modifier = Modifier.weight(1f),
+                    content = { Text(stringResource(R.string.patch_install)) }
+                )
+            }
+        }
+    }
 }

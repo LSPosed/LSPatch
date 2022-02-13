@@ -1,6 +1,9 @@
 package org.lsposed.lspatch
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.lsposed.patch.LSPatch
+import org.lsposed.patch.util.Logger
 
 object Patcher {
     class Options(
@@ -38,7 +41,9 @@ object Patcher {
         }
     }
 
-    fun patch(options: Options) {
-        LSPatch(*options.toStringArray()).doCommandLine()
+    suspend fun patch(logger: Logger, options: Options) {
+        withContext(Dispatchers.IO) {
+            LSPatch(logger, *options.toStringArray()).doCommandLine()
+        }
     }
 }

@@ -26,4 +26,6 @@
     <string name="patch_override_version_code">Override version code</string>
     <string name="patch_override_version_code_desc">Override the patched app\'s version code to 1\nThis allows downgrade installation</string>
     <string name="patch_start">Start Patch</string>
+    <string name="patch_return">Return</string>
+    <string name="patch_install">Install</string>
 </resources>
