@@ -12,21 +12,21 @@ import org.lsposed.lspatch.R
 import org.lsposed.lspatch.ui.util.LocalNavController
 
 @Composable
-fun PatchesTopBar() {
+fun ManageTopBar() {
     SmallTopAppBar(
-        title = { Text(PageList.Patches.title) }
+        title = { Text(PageList.Manage.title) }
     )
 }
 
 @Composable
-fun PatchesFab() {
+fun ManageFab() {
     val navController = LocalNavController.current
     FloatingActionButton(onClick = { navController.navigate(PageList.NewPatch.name) }) {
-        Icon(Icons.Filled.Add, stringResource(R.string.patches_add))
+        Icon(Icons.Filled.Add, stringResource(R.string.add))
     }
 }
 
 @Composable
-fun PatchesPage() {
+fun ManagePage() {
 
 }

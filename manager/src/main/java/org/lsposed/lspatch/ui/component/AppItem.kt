@@ -5,9 +5,7 @@ import android.graphics.drawable.GradientDrawable
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,8 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import org.lsposed.lspatch.ui.theme.LSPTheme
 
-
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AppItem(
     modifier: Modifier = Modifier,
@@ -28,7 +25,8 @@ fun AppItem(
     packageName: String,
     additionalInfo: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
-    onLongClick: (() -> Unit)? = null
+    onLongClick: (() -> Unit)? = null,
+    checked: Boolean? = null
 ) {
     Column(
         modifier = modifier
@@ -39,18 +37,27 @@ fun AppItem(
             )
             .padding(20.dp)
     ) {
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Icon(
                 painter = rememberDrawablePainter(icon),
                 contentDescription = label,
                 modifier = Modifier.size(32.dp),
                 tint = Color.Unspecified
             )
-            Column(Modifier.padding(start = 20.dp)) {
+            Column(Modifier.weight(1f)) {
                 Text(text = label, style = MaterialTheme.typography.bodyMedium)
                 Text(text = packageName, style = MaterialTheme.typography.bodySmall)
                 additionalInfo?.invoke()
+            }
+            if (checked != null) {
+                Checkbox(
+                    checked = checked,
+                    onCheckedChange = { onClick() },
+                    modifier = Modifier.padding(start = 20.dp)
+                )
             }
         }
     }

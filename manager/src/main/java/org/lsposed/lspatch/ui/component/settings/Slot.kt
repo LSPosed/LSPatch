@@ -23,14 +23,15 @@ fun SettingsSlot(
     extraContent: (@Composable ColumnScope.() -> Unit)? = null,
     action: (@Composable RowScope.() -> Unit)?,
 ) {
+    val enabledModifier =
+        if (enabled) Modifier
+            .alpha(1f)
+            .clickable(onClick = onClick)
+        else Modifier.alpha(0.5f)
     Row(
         modifier = modifier
-            .fillMaxWidth() then (
-                if (enabled) Modifier
-                    .alpha(1f)
-                    .clickable(onClick = onClick)
-                else Modifier.alpha(0.5f)
-                )
+            .fillMaxWidth()
+            .then(enabledModifier)
             .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -54,7 +55,9 @@ fun SettingsSlot(
                     Text(
                         text = desc,
                         style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.alpha(0.75f).padding(top = 4.dp)
+                        modifier = Modifier
+                            .alpha(0.75f)
+                            .padding(top = 4.dp)
                     )
                 }
                 extraContent?.invoke(this)

@@ -20,8 +20,8 @@ import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material.icons.outlined.WorkOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,6 +40,7 @@ import org.lsposed.lspatch.ui.component.settings.SettingsItem
 import org.lsposed.lspatch.ui.util.LocalNavController
 import org.lsposed.lspatch.ui.util.isScrolledToEnd
 import org.lsposed.lspatch.ui.util.lastItemIndex
+import org.lsposed.lspatch.ui.util.observeState
 import org.lsposed.lspatch.ui.viewmodel.AppInfo
 import org.lsposed.patch.util.Logger
 
@@ -68,8 +69,7 @@ fun NewPatchFab() {
 fun NewPatchPage() {
     val viewModel = viewModel<NewPatchPageViewModel>()
     val navController = LocalNavController.current
-    val patchApp by navController.currentBackStackEntry!!.savedStateHandle
-        .getLiveData<AppInfo>("appInfo").observeAsState()
+    val patchApp by navController.currentBackStackEntry!!.observeState<AppInfo>("appInfo")
     if (viewModel.patchState == PatchState.SELECTING && patchApp != null) viewModel.patchState = PatchState.CONFIGURING
 
     Log.d(TAG, "NewPatchPage: ${viewModel.patchState}")
@@ -83,6 +83,7 @@ fun NewPatchPage() {
 @Composable
 private fun PatchOptionsPage(patchApp: AppInfo) {
     val viewModel = viewModel<NewPatchPageViewModel>()
+    val navController = LocalNavController.current
     var useManager by rememberSaveable { mutableStateOf(true) }
     var debuggable by rememberSaveable { mutableStateOf(false) }
     var v1 by rememberSaveable { mutableStateOf(false) }
@@ -90,9 +91,12 @@ private fun PatchOptionsPage(patchApp: AppInfo) {
     var v3 by rememberSaveable { mutableStateOf(true) }
     val sigBypassLevel by rememberSaveable { mutableStateOf(2) }
     var overrideVersionCode by rememberSaveable { mutableStateOf(false) }
+    val embeddedModules = navController.currentBackStackEntry!!
+        .savedStateHandle.getLiveData<SnapshotStateList<AppInfo>>("selected", SnapshotStateList())
 
     if (viewModel.patchState == PatchState.SUBMITTING) LaunchedEffect(patchApp) {
         val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
+        if (useManager) embeddedModules.value?.clear()
         viewModel.patchOptions = Patcher.Options(
             apkPaths = arrayOf(patchApp.app.sourceDir), // TODO: Split Apk
             outputPath = downloadDir,
@@ -102,7 +106,7 @@ private fun PatchOptionsPage(patchApp: AppInfo) {
             useManager = useManager,
             overrideVersionCode = overrideVersionCode,
             verbose = true,
-            embeddedModules = emptyList() // TODO: Embed modules
+            embeddedModules = embeddedModules.value?.map { it.app.sourceDir } ?: emptyList() // TODO: Split Apk
         )
         viewModel.patchState = PatchState.PATCHING
     }
@@ -145,7 +149,7 @@ private fun PatchOptionsPage(patchApp: AppInfo) {
                 desc = stringResource(R.string.patch_portable_desc),
                 extraContent = {
                     TextButton(
-                        onClick = { /* TODO */ }
+                        onClick = { navController.navigate(PageList.SelectApps.name + "/true") }
                     ) {
                         Text(text = stringResource(R.string.patch_embed_modules), style = MaterialTheme.typography.bodyLarge)
                     }
@@ -229,14 +233,14 @@ private fun DoPatchPage(patcherOptions: Patcher.Options) {
         val patching by remember { derivedStateOf { viewModel.patchState == PatchState.PATCHING } }
         ShimmerAnimation(enabled = patching) {
             CompositionLocalProvider(
-                LocalTextStyle provides MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace)
+                LocalTextStyle provides MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace)
             ) {
                 val scrollState = rememberLazyListState()
                 LazyColumn(
                     state = scrollState,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(max = 300.dp)
+                        .heightIn(max = 320.dp)
                         .clip(RoundedCornerShape(32.dp))
                         .background(brush)
                         .padding(horizontal = 24.dp, vertical = 18.dp)

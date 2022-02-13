@@ -1,14 +1,8 @@
 package org.lsposed.lspatch.ui.page
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.GetApp
-import androidx.compose.material.icons.filled.Healing
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.GetApp
-import androidx.compose.material.icons.outlined.Healing
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -32,11 +26,11 @@ enum class PageList(
         topBar = { HomeTopBar() },
         body = { HomePage() }
     ),
-    Patches(
-        iconSelected = Icons.Filled.Healing,
-        iconNotSelected = Icons.Outlined.Healing,
-        topBar = { PatchesTopBar() },
-        fab = { PatchesFab() },
+    Manage(
+        iconSelected = Icons.Filled.Dashboard,
+        iconNotSelected = Icons.Outlined.Dashboard,
+        topBar = { ManageTopBar() },
+        fab = { ManageFab() },
         body = {}
     ),
     Repo(
@@ -60,17 +54,18 @@ enum class PageList(
         arguments = listOf(
             navArgument("multiSelect") { type = NavType.BoolType }
         ),
-        topBar = {},
+        topBar = { SelectAppsTopBar() },
+        fab = { SelectAppsFab() },
         body = { SelectAppsPage(this) }
     );
 
     val title: String
         @Composable get() = when (this) {
             Home -> stringResource(R.string.app_name)
-            Patches -> stringResource(R.string.page_patches)
+            Manage -> stringResource(R.string.page_manage)
             Repo -> stringResource(R.string.page_repo)
             Settings -> stringResource(R.string.page_settings)
             NewPatch -> stringResource(R.string.page_new_patch)
-            SelectApps -> stringResource(R.string.page_select_app)
+            SelectApps -> stringResource(R.string.page_select_apps)
         }
 }

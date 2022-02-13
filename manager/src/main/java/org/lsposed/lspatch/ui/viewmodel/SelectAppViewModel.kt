@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.os.Parcelable
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,46 +12,54 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.parcelize.Parcelize
 import org.lsposed.lspatch.TAG
 
-class AppInfo(val app: ApplicationInfo, val icon: Drawable, val label: String)
+@Parcelize
+class AppInfo(val app: ApplicationInfo, val label: String) : Parcelable
 
-class SelectAppViewModel : ViewModel() {
+private var appList = listOf<AppInfo>()
+private val appIcon = mutableMapOf<String, Drawable>()
+
+class SelectAppsViewModel : ViewModel() {
 
     init {
-        Log.d(TAG, "SelectAppViewModel ${toString().substringAfterLast('@')} construct")
+        Log.d(TAG, "SelectAppsViewModel ${toString().substringAfterLast('@')} construct")
     }
 
-    companion object {
-        var appList by mutableStateOf(listOf<AppInfo>())
-            private set
-    }
+    var done by mutableStateOf(false)
 
-    private val _isRefreshing = MutableStateFlow(false)
-    val isRefreshing: StateFlow<Boolean>
-        get() = _isRefreshing.asStateFlow()
+    var isRefreshing by mutableStateOf(false)
+        private set
 
-    fun loadAppList(context: Context) {
-        viewModelScope.launch {
-            Log.d(TAG, "Start refresh apps")
-            _isRefreshing.emit(true)
-            val pm = context.packageManager
-            val collection = mutableListOf<AppInfo>()
-            withContext(Dispatchers.IO) {
-                pm.getInstalledApplications(PackageManager.GET_META_DATA).forEach {
-                    val icon = pm.getApplicationIcon(it)
-                    val label = pm.getApplicationLabel(it)
-                    collection.add(AppInfo(it, icon, label.toString()))
-                }
+    var filteredList by mutableStateOf(listOf<AppInfo>())
+        private set
+
+    private suspend fun refreshAppList(context: Context) {
+        Log.d(TAG, "Start refresh apps")
+        isRefreshing = true
+        val pm = context.packageManager
+        val collection = mutableListOf<AppInfo>()
+        withContext(Dispatchers.IO) {
+            pm.getInstalledApplications(PackageManager.GET_META_DATA).forEach {
+                val label = pm.getApplicationLabel(it)
+                appIcon[it.packageName] = pm.getApplicationIcon(it)
+                collection.add(AppInfo(it, label.toString()))
             }
-            appList = collection
-            _isRefreshing.emit(false)
-            Log.d(TAG, "Refreshed ${appList.size} apps")
+        }
+        appList = collection
+        isRefreshing = false
+        Log.d(TAG, "Refreshed ${appList.size} apps")
+    }
+
+    fun filterAppList(context: Context, refresh: Boolean, filter: (AppInfo) -> Boolean) {
+        viewModelScope.launch {
+            if (appList.isEmpty() || refresh) refreshAppList(context)
+            filteredList = appList.filter(filter)
         }
     }
+
+    fun getIcon(appInfo: AppInfo) = appIcon[appInfo.app.packageName]!!
 }

@@ -2,6 +2,8 @@ package org.lsposed.lspatch.ui.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -16,6 +18,13 @@ val NavController.currentRoute: String?
 
 val NavController.startRoute: String?
     get() = graph.findStartDestination().route
+
+fun <T> NavBackStackEntry.setState(key: String, value: T?) {
+    savedStateHandle.getLiveData<T>(key).value = value
+}
+
+@Composable
+fun <T> NavBackStackEntry.observeState(key: String, initial: T? = null) = savedStateHandle.getLiveData(key, initial).observeAsState()
 
 @Composable
 fun NavController.isAtStartRoute(): Boolean = currentRoute == startRoute

@@ -13,6 +13,7 @@ val composeVersion = "1.2.0-alpha03"
 
 plugins {
     id("com.android.application")
+    id("kotlin-parcelize")
     kotlin("android")
 }
 
