@@ -1,14 +1,21 @@
 package org.lsposed.lspatch
 
+import android.content.ContentValues
+import android.content.Context
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.lsposed.patch.LSPatch
 import org.lsposed.patch.util.Logger
+import java.io.File
+import java.nio.file.Files
+import kotlin.io.path.absolutePathString
 
 object Patcher {
     class Options(
         private val apkPaths: Array<String>,
-        private val outputPath: String,
         private val debuggable: Boolean,
         private val sigbypassLevel: Int,
         private val v1: Boolean,
@@ -19,9 +26,10 @@ object Patcher {
         private val verbose: Boolean,
         private val embeddedModules: List<String>
     ) {
+        lateinit var outputPath: String
+
         fun toStringArray(): Array<String> {
             return arrayListOf<String>().run {
-                add("-f")
                 addAll(apkPaths)
                 add("-o"); add(outputPath)
                 if (debuggable) add("-d")
@@ -41,9 +49,31 @@ object Patcher {
         }
     }
 
-    suspend fun patch(logger: Logger, options: Options) {
+    suspend fun patch(context: Context, logger: Logger, options: Options) {
         withContext(Dispatchers.IO) {
+            val download = "${Environment.DIRECTORY_DOWNLOADS}/LSPatch"
+            options.outputPath = Files.createTempDirectory("patch").absolutePathString()
             LSPatch(logger, *options.toStringArray()).doCommandLine()
+            File(options.outputPath)
+                .walk()
+                .filter { it.isFile }
+                .forEach {
+                    //FIXME: Android 9
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        val contentDetails = ContentValues().apply {
+                            put(MediaStore.Downloads.DISPLAY_NAME, it.name)
+                            put(MediaStore.Downloads.RELATIVE_PATH, download)
+                        }
+                        val uri = context.contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentDetails)
+                            ?: throw IllegalStateException("Failed to save files to Download")
+                        it.inputStream().use { input ->
+                            context.contentResolver.openOutputStream(uri)!!.use { output ->
+                                input.copyTo(output)
+                            }
+                        }
+                    }
+                }
+            logger.i("Patched files are saved to $download")
         }
     }
 }

@@ -1,6 +1,5 @@
 package org.lsposed.lspatch.ui.page
 
-import android.os.Environment
 import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
@@ -25,6 +24,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -43,9 +43,10 @@ import org.lsposed.lspatch.ui.util.lastItemIndex
 import org.lsposed.lspatch.ui.util.observeState
 import org.lsposed.lspatch.ui.viewmodel.AppInfo
 import org.lsposed.patch.util.Logger
+import java.io.File
 
 enum class PatchState {
-    SELECTING, CONFIGURING, SUBMITTING, PATCHING, FINISHED
+    SELECTING, CONFIGURING, SUBMITTING, PATCHING, FINISHED, ERROR
 }
 
 class NewPatchPageViewModel : ViewModel() {
@@ -76,7 +77,7 @@ fun NewPatchPage() {
     when (viewModel.patchState) {
         PatchState.SELECTING -> navController.navigate(PageList.SelectApps.name + "/false")
         PatchState.CONFIGURING, PatchState.SUBMITTING -> PatchOptionsPage(patchApp!!)
-        PatchState.PATCHING, PatchState.FINISHED -> DoPatchPage(viewModel.patchOptions!!)
+        PatchState.PATCHING, PatchState.FINISHED, PatchState.ERROR -> DoPatchPage(viewModel.patchOptions!!)
     }
 }
 
@@ -95,11 +96,9 @@ private fun PatchOptionsPage(patchApp: AppInfo) {
         .savedStateHandle.getLiveData<SnapshotStateList<AppInfo>>("selected", SnapshotStateList())
 
     if (viewModel.patchState == PatchState.SUBMITTING) LaunchedEffect(patchApp) {
-        val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
         if (useManager) embeddedModules.value?.clear()
         viewModel.patchOptions = Patcher.Options(
             apkPaths = arrayOf(patchApp.app.sourceDir), // TODO: Split Apk
-            outputPath = downloadDir,
             debuggable = debuggable,
             sigbypassLevel = sigBypassLevel,
             v1 = v1, v2 = v2, v3 = v3,
@@ -194,6 +193,7 @@ private fun PatchOptionsPage(patchApp: AppInfo) {
 
 @Composable
 private fun DoPatchPage(patcherOptions: Patcher.Options) {
+    val context = LocalContext.current
     val viewModel = viewModel<NewPatchPageViewModel>()
     val navController = LocalNavController.current
     val logs = remember { mutableStateListOf<Pair<Int, String>>() }
@@ -219,8 +219,16 @@ private fun DoPatchPage(patcherOptions: Patcher.Options) {
     }
 
     LaunchedEffect(patcherOptions) {
-        Patcher.patch(logger, patcherOptions)
-        viewModel.patchState = PatchState.FINISHED
+        try {
+            Patcher.patch(context, logger, patcherOptions)
+            viewModel.patchState = PatchState.FINISHED
+        } catch (t: Throwable) {
+            logger.e(t.message.orEmpty())
+            logger.e(t.stackTraceToString())
+            viewModel.patchState = PatchState.ERROR
+        } finally {
+            File(patcherOptions.outputPath).deleteRecursively()
+        }
     }
 
     Column(
@@ -230,8 +238,7 @@ private fun DoPatchPage(patcherOptions: Patcher.Options) {
             .wrapContentHeight()
             .animateContentSize(spring(stiffness = Spring.StiffnessLow))
     ) {
-        val patching by remember { derivedStateOf { viewModel.patchState == PatchState.PATCHING } }
-        ShimmerAnimation(enabled = patching) {
+        ShimmerAnimation(enabled = viewModel.patchState == PatchState.PATCHING) {
             CompositionLocalProvider(
                 LocalTextStyle provides MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace)
             ) {
@@ -262,7 +269,7 @@ private fun DoPatchPage(patcherOptions: Patcher.Options) {
             }
         }
 
-        if (!patching) {
+        if (viewModel.patchState == PatchState.FINISHED) {
             Row(Modifier.padding(top = 12.dp)) {
                 Button(
                     onClick = { navController.popBackStack() },

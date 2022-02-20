@@ -173,14 +173,13 @@ public class LSPatch {
         if (!srcApkFile.exists())
             throw new PatchError("The source apk file does not exit. Please provide a correct path.");
 
-        File tmpApk = Files.createTempFile(srcApkFile.getName(), "unsigned").toFile();
-        tmpApk.delete();
+        outputFile.delete();
 
         logger.d("apk path: " + srcApkFile);
 
         logger.i("Parsing original apk...");
 
-        try (var dstZFile = ZFile.openReadWrite(tmpApk, Z_FILE_OPTIONS);
+        try (var dstZFile = ZFile.openReadWrite(outputFile, Z_FILE_OPTIONS);
              var srcZFile = dstZFile.addNestedZip((ignore) -> ORIGINAL_APK_ASSET_PATH, srcApkFile, false)) {
 
             // sign apk
@@ -313,15 +312,8 @@ public class LSPatch {
             dstZFile.realign();
 
             logger.i("Writing apk...");
-        } finally {
-            try {
-                outputFile.delete();
-                FileUtils.moveFile(tmpApk, outputFile);
-                logger.i("Done. Output APK: " + outputFile.getAbsolutePath());
-            } catch (Throwable e) {
-                throw new PatchError("Error writing apk", e);
-            }
         }
+        logger.i("Done. Output APK: " + outputFile.getAbsolutePath());
     }
 
     private void embedModules(ZFile zFile) {
