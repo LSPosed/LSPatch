@@ -1,3 +1,5 @@
+import com.android.build.gradle.BaseExtension
+
 val androidCompileSdkVersion: Int by rootProject.extra
 val androidMinSdkVersion: Int by rootProject.extra
 val androidTargetSdkVersion: Int by rootProject.extra
@@ -32,6 +34,7 @@ android {
         release {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = projects.app.dependencyProject.extensions.getByName<BaseExtension>("android").buildTypes["release"].signingConfig
         }
     }
 
