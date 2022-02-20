@@ -52,14 +52,23 @@ object Patcher {
     suspend fun patch(context: Context, logger: Logger, options: Options) {
         withContext(Dispatchers.IO) {
             val download = "${Environment.DIRECTORY_DOWNLOADS}/LSPatch"
+            val externalStorageDir = Environment.getExternalStoragePublicDirectory(download)
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) externalStorageDir.mkdirs()
             options.outputPath = Files.createTempDirectory("patch").absolutePathString()
+
             LSPatch(logger, *options.toStringArray()).doCommandLine()
+
             File(options.outputPath)
                 .walk()
                 .filter { it.isFile }
                 .forEach {
-                    //FIXME: Android 9
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                        it.inputStream().use { input ->
+                            externalStorageDir.resolve(it.name).outputStream().use { output ->
+                                input.copyTo(output)
+                            }
+                        }
+                    } else {
                         val contentDetails = ContentValues().apply {
                             put(MediaStore.Downloads.DISPLAY_NAME, it.name)
                             put(MediaStore.Downloads.RELATIVE_PATH, download)

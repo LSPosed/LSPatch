@@ -1,5 +1,6 @@
 package org.lsposed.lspatch.ui.page
 
+import android.os.Build
 import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
@@ -30,6 +31,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.rememberPermissionState
 import org.lsposed.lspatch.Patcher
 import org.lsposed.lspatch.R
 import org.lsposed.lspatch.TAG
@@ -66,12 +70,35 @@ fun NewPatchFab() {
     }
 }
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun NewPatchPage() {
     val viewModel = viewModel<NewPatchPageViewModel>()
     val navController = LocalNavController.current
     val patchApp by navController.currentBackStackEntry!!.observeState<AppInfo>("appInfo")
     if (viewModel.patchState == PatchState.SELECTING && patchApp != null) viewModel.patchState = PatchState.CONFIGURING
+
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+        val filePermissionState = rememberPermissionState(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (filePermissionState.status is PermissionStatus.Denied) {
+            AlertDialog(
+                onDismissRequest = {},
+                confirmButton = {
+                    TextButton(onClick = { filePermissionState.launchPermissionRequest() }) {
+                        Text(stringResource(android.R.string.ok))
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { navController.popBackStack() }) {
+                        Text(stringResource(android.R.string.cancel))
+                    }
+                },
+                title = { Text(stringResource(R.string.patch_permission_title)) },
+                text = { Text(stringResource(R.string.patch_permission_text)) }
+            )
+            return
+        }
+    }
 
     Log.d(TAG, "NewPatchPage: ${viewModel.patchState}")
     when (viewModel.patchState) {
