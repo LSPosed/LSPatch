@@ -44,7 +44,11 @@ class MainActivity : ComponentActivity() {
                         bottomBar = {
                             MainNavigationBar(mainPage) {
                                 mainPage = it
-                                navController.navigate(it.name)
+                                navController.navigate(it.name) {
+                                    currentRoute?.let { route ->
+                                        popUpTo(route) { inclusive = true }
+                                    }
+                                }
                             }
                         },
                         floatingActionButton = {
