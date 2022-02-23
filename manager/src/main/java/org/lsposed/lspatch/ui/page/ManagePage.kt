@@ -21,7 +21,9 @@ fun ManageTopBar() {
 @Composable
 fun ManageFab() {
     val navController = LocalNavController.current
-    FloatingActionButton(onClick = { navController.navigate(PageList.NewPatch.name) }) {
+    FloatingActionButton(
+        onClick = { navController.navigate(PageList.NewPatch.name) }
+    ) {
         Icon(Icons.Filled.Add, stringResource(R.string.add))
     }
 }

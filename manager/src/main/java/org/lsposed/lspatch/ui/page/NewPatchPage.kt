@@ -50,7 +50,7 @@ import org.lsposed.patch.util.Logger
 import java.io.File
 
 enum class PatchState {
-    SELECTING, CONFIGURING, SUBMITTING, PATCHING, FINISHED, ERROR
+    SELECTING, CONFIGURING, SUBMITTING, PATCHING, FINISHED, ERROR, CANCEL
 }
 
 class NewPatchPageViewModel : ViewModel() {

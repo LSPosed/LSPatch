@@ -31,7 +31,7 @@ enum class PageList(
         iconNotSelected = Icons.Outlined.Dashboard,
         topBar = { ManageTopBar() },
         fab = { ManageFab() },
-        body = {}
+        body = { ManagePage() }
     ),
     Repo(
         iconSelected = Icons.Filled.GetApp,

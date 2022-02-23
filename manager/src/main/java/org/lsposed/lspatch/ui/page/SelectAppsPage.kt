@@ -1,6 +1,7 @@
 package org.lsposed.lspatch.ui.page
 
 import android.content.pm.ApplicationInfo
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,6 +25,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import org.lsposed.lspatch.R
 import org.lsposed.lspatch.ui.component.AppItem
 import org.lsposed.lspatch.ui.util.LocalNavController
+import org.lsposed.lspatch.ui.util.currentRoute
 import org.lsposed.lspatch.ui.util.observeState
 import org.lsposed.lspatch.ui.util.setState
 import org.lsposed.lspatch.ui.viewmodel.AppInfo
@@ -52,12 +54,21 @@ fun SelectAppsFab() {
 
 @Composable
 fun SelectAppsPage(entry: NavBackStackEntry) {
+    val navController = LocalNavController.current
+    val currentRoute = navController.currentRoute
     val multiSelect = entry.arguments?.get("multiSelect") as? Boolean
         ?: throw IllegalArgumentException("multiSelect is null")
     if (multiSelect) {
         MultiSelect(filter = { it.app.metaData?.get("xposedminversion") != null })
     } else {
         SingleSelect()
+    }
+    BackHandler {
+        navController.navigate(PageList.Manage.name) {
+            currentRoute?.let { popUpTo(it) { inclusive = true } }
+            popUpTo(PageList.NewPatch.name) { inclusive = true }
+            popUpTo(PageList.Manage.name) { inclusive = true } // first times
+        }
     }
 }
 
