@@ -1,6 +1,12 @@
 package org.lsposed.patch.util;
 
 import java.io.InputStream;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.Arrays;
 import java.security.cert.Certificate;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
@@ -10,6 +16,8 @@ import java.util.jar.JarFile;
  * Created by Wind
  */
 public class ApkSignatureHelper {
+    private static final byte[] APK_V2_MAGIC = {'A', 'P', 'K', ' ', 'S', 'i', 'g', ' ',
+            'B', 'l', 'o', 'c', 'k', ' ', '4', '2'};
 
     private static char[] toChars(byte[] mSignature) {
         byte[] sig = mSignature;
@@ -39,6 +47,14 @@ public class ApkSignatureHelper {
     }
 
     public static String getApkSignInfo(String apkFilePath) {
+        try {
+            return getApkSignV2(apkFilePath);
+        } catch (Exception e) {
+            return getApkSignV1(apkFilePath);
+        }
+    }
+
+    public static String getApkSignV1(String apkFilePath) {
         byte[] readBuffer = new byte[8192];
         Certificate[] certs = null;
         try {
@@ -76,5 +92,63 @@ public class ApkSignatureHelper {
         } catch (Throwable ignored) {
         }
         return null;
+    }
+
+    private static String getApkSignV2(String apkFilePath) throws IOException {
+        try (RandomAccessFile apk = new RandomAccessFile(apkFilePath, "r")) {
+            ByteBuffer buffer = ByteBuffer.allocate(0x10);
+            buffer.order(ByteOrder.LITTLE_ENDIAN);
+
+            apk.seek(apk.length() - 0x6);
+            apk.readFully(buffer.array(), 0x0, 0x6);
+            int offset = buffer.getInt();
+            if (buffer.getShort() != 0) {
+                throw new UnsupportedEncodingException("no zip");
+            }
+
+            apk.seek(offset - 0x10);
+            apk.readFully(buffer.array(), 0x0, 0x10);
+
+            if (!Arrays.equals(buffer.array(), APK_V2_MAGIC)) {
+                throw new UnsupportedEncodingException("no apk v2");
+            }
+
+            // Read and compare size fields
+            apk.seek(offset - 0x18);
+            apk.readFully(buffer.array(), 0x0, 0x8);
+            buffer.rewind();
+            int size = (int) buffer.getLong();
+
+            ByteBuffer block = ByteBuffer.allocate(size + 0x8);
+            block.order(ByteOrder.LITTLE_ENDIAN);
+            apk.seek(offset - block.capacity());
+            apk.readFully(block.array(), 0x0, block.capacity());
+
+            if (size != block.getLong()) {
+                throw new UnsupportedEncodingException("no apk v2");
+            }
+
+            while (block.remaining() > 24) {
+                size = (int) block.getLong();
+                if (block.getInt() == 0x7109871a) {
+                    // signer-sequence length, signer length, signed data length
+                    block.position(block.position() + 12);
+                    size = block.getInt(); // digests-sequence length
+
+                    // digests, certificates length
+                    block.position(block.position() + size + 0x4);
+
+                    size = block.getInt(); // certificate length
+                    break;
+                } else {
+                    block.position(block.position() + size - 0x4);
+                }
+            }
+
+            byte[] certificate = new byte[size];
+            block.get(certificate);
+
+            return new String(toChars(certificate));
+        }
     }
 }
