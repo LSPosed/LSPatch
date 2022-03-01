@@ -16,46 +16,35 @@ enum class PageList(
     val iconSelected: ImageVector? = null,
     val iconNotSelected: ImageVector? = null,
     val arguments: List<NamedNavArgument> = emptyList(),
-    val topBar: @Composable () -> Unit,
-    val fab: @Composable () -> Unit = {},
     val body: @Composable NavBackStackEntry.() -> Unit
 ) {
     Home(
         iconSelected = Icons.Filled.Home,
         iconNotSelected = Icons.Outlined.Home,
-        topBar = { HomeTopBar() },
         body = { HomePage() }
     ),
     Manage(
         iconSelected = Icons.Filled.Dashboard,
         iconNotSelected = Icons.Outlined.Dashboard,
-        topBar = { ManageTopBar() },
-        fab = { ManageFab() },
-        body = {}
+        body = { ManagePage() }
     ),
     Repo(
         iconSelected = Icons.Filled.GetApp,
         iconNotSelected = Icons.Outlined.GetApp,
-        topBar = {},
         body = {}
     ),
     Settings(
         iconSelected = Icons.Filled.Settings,
         iconNotSelected = Icons.Outlined.Settings,
-        topBar = {},
         body = {}
     ),
     NewPatch(
-        topBar = {},
-        fab = { NewPatchFab() },
-        body = { NewPatchPage() }
+        body = { NewPatchPage(this) }
     ),
     SelectApps(
         arguments = listOf(
             navArgument("multiSelect") { type = NavType.BoolType }
         ),
-        topBar = { SelectAppsTopBar() },
-        fab = { SelectAppsFab() },
         body = { SelectAppsPage(this) }
     );
 

@@ -29,6 +29,7 @@
     <string name="patch_start">Start Patch</string>
     <string name="patch_return">Return</string>
     <string name="patch_install">Install</string>
+    <string name="patch_copy_error">Copy error</string>
 
     <!-- Select Apps Page -->
     <string name="page_select_apps">Select Apps</string>

@@ -5,7 +5,7 @@ buildscript {
         google()
         mavenCentral()
     }
-    val agpVersion by extra("7.1.1")
+    val agpVersion by extra("7.1.2")
     dependencies {
         classpath("com.android.tools.build:gradle:$agpVersion")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")

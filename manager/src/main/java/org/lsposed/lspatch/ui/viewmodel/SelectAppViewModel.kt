@@ -29,8 +29,6 @@ class SelectAppsViewModel : ViewModel() {
         Log.d(TAG, "SelectAppsViewModel ${toString().substringAfterLast('@')} construct")
     }
 
-    var done by mutableStateOf(false)
-
     var isRefreshing by mutableStateOf(false)
         private set
 

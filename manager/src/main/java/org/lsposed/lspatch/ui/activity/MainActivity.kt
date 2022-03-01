@@ -10,7 +10,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -34,23 +33,13 @@ class MainActivity : ComponentActivity() {
             LSPTheme {
                 CompositionLocalProvider(LocalNavController provides navController) {
                     Scaffold(
-                        topBar = {
-                            navController.currentBackStackEntry?.let {
-                                CompositionLocalProvider(LocalViewModelStoreOwner provides it) {
-                                    currentPage?.topBar?.invoke()
-                                }
-                            }
-                        },
                         bottomBar = {
                             MainNavigationBar(mainPage) {
                                 mainPage = it
-                                navController.navigate(it.name)
-                            }
-                        },
-                        floatingActionButton = {
-                            navController.currentBackStackEntry?.let {
-                                CompositionLocalProvider(LocalViewModelStoreOwner provides it) {
-                                    currentPage?.fab?.invoke()
+                                navController.navigate(it.name) {
+                                    currentRoute?.let { route ->
+                                        popUpTo(route) { inclusive = true }
+                                    }
                                 }
                             }
                         }
