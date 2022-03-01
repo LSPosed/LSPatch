@@ -306,74 +306,78 @@ private fun DoPatchBody(
         }
     }
 
-    Column(
-        modifier
-            .fillMaxSize()
-            .padding(24.dp)
-            .wrapContentHeight()
-            .animateContentSize(spring(stiffness = Spring.StiffnessLow))
-    ) {
-        ShimmerAnimation(enabled = patchState == PatchState.PATCHING) {
-            CompositionLocalProvider(
-                LocalTextStyle provides MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace)
-            ) {
-                val scrollState = rememberLazyListState()
-                LazyColumn(
-                    state = scrollState,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(max = 320.dp)
-                        .clip(RoundedCornerShape(32.dp))
-                        .background(brush)
-                        .padding(horizontal = 24.dp, vertical = 18.dp)
+    BoxWithConstraints(modifier.padding(24.dp)) {
+        val shellBoxMaxHeight =
+            if (patchState == PatchState.PATCHING) maxHeight
+            else maxHeight - ButtonDefaults.MinHeight - 12.dp
+        Column(
+            Modifier
+                .fillMaxSize()
+                .wrapContentHeight()
+                .animateContentSize(spring(stiffness = Spring.StiffnessLow))
+        ) {
+            ShimmerAnimation(enabled = patchState == PatchState.PATCHING) {
+                CompositionLocalProvider(
+                    LocalTextStyle provides MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace)
                 ) {
-                    items(logs) {
-                        when (it.first) {
-                            Log.DEBUG -> Text(text = it.second)
-                            Log.INFO -> Text(text = it.second)
-                            Log.ERROR -> Text(text = it.second, color = MaterialTheme.colorScheme.error)
+                    val scrollState = rememberLazyListState()
+                    LazyColumn(
+                        state = scrollState,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = shellBoxMaxHeight)
+                            .clip(RoundedCornerShape(32.dp))
+                            .background(brush)
+                            .padding(horizontal = 24.dp, vertical = 18.dp)
+                    ) {
+                        items(logs) {
+                            when (it.first) {
+                                Log.DEBUG -> Text(text = it.second)
+                                Log.INFO -> Text(text = it.second)
+                                Log.ERROR -> Text(text = it.second, color = MaterialTheme.colorScheme.error)
+                            }
+                        }
+                    }
+
+                    LaunchedEffect(scrollState.lastItemIndex) {
+                        if (!scrollState.isScrolledToEnd) {
+                            scrollState.animateScrollToItem(scrollState.lastItemIndex!!)
                         }
                     }
                 }
+            }
 
-                LaunchedEffect(scrollState.lastItemIndex) {
-                    if (!scrollState.isScrolledToEnd) {
-                        scrollState.animateScrollToItem(scrollState.lastItemIndex!!)
-                    }
+            if (patchState == PatchState.FINISHED) {
+                Row(Modifier.padding(top = 12.dp)) {
+                    Button(
+                        onClick = { navController.popBackStack() },
+                        modifier = Modifier.weight(1f),
+                        content = { Text(stringResource(R.string.patch_return)) }
+                    )
+                    Spacer(Modifier.weight(0.2f))
+                    Button(
+                        onClick = { /* TODO: Install */ },
+                        modifier = Modifier.weight(1f),
+                        content = { Text(stringResource(R.string.patch_install)) }
+                    )
                 }
-            }
-        }
-
-        if (patchState == PatchState.FINISHED) {
-            Row(Modifier.padding(top = 12.dp)) {
-                Button(
-                    onClick = { navController.popBackStack() },
-                    modifier = Modifier.weight(1f),
-                    content = { Text(stringResource(R.string.patch_return)) }
-                )
-                Spacer(Modifier.weight(0.2f))
-                Button(
-                    onClick = { /* TODO: Install */ },
-                    modifier = Modifier.weight(1f),
-                    content = { Text(stringResource(R.string.patch_install)) }
-                )
-            }
-        } else if (patchState == PatchState.ERROR) {
-            Row(Modifier.padding(top = 12.dp)) {
-                Button(
-                    onClick = { navController.popBackStack() },
-                    modifier = Modifier.weight(1f),
-                    content = { Text(stringResource(R.string.patch_return)) }
-                )
-                Spacer(Modifier.weight(0.2f))
-                Button(
-                    onClick = {
-                        val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        cm.setPrimaryClip(ClipData.newPlainText("LSPatch", logs.joinToString { it.second + "\n" }))
-                    },
-                    modifier = Modifier.weight(1f),
-                    content = { Text(stringResource(R.string.patch_copy_error)) }
-                )
+            } else if (patchState == PatchState.ERROR) {
+                Row(Modifier.padding(top = 12.dp)) {
+                    Button(
+                        onClick = { navController.popBackStack() },
+                        modifier = Modifier.weight(1f),
+                        content = { Text(stringResource(R.string.patch_return)) }
+                    )
+                    Spacer(Modifier.weight(0.2f))
+                    Button(
+                        onClick = {
+                            val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                            cm.setPrimaryClip(ClipData.newPlainText("LSPatch", logs.joinToString { it.second + "\n" }))
+                        },
+                        modifier = Modifier.weight(1f),
+                        content = { Text(stringResource(R.string.patch_copy_error)) }
+                    )
+                }
             }
         }
     }
