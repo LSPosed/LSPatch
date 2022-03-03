@@ -162,6 +162,15 @@ private fun ConfiguringFab(onClick: () -> Unit) {
 }
 
 @Composable
+private fun sigBypassLvStr(level: Int) = when (level) {
+    0 -> stringResource(R.string.patch_sigbypasslv_0)
+    1 -> stringResource(R.string.patch_sigbypasslv_1)
+    2 -> stringResource(R.string.patch_sigbypasslv_2)
+    else -> throw IllegalArgumentException("Invalid sigBypassLv: $level")
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 private fun PatchOptionsBody(
     modifier: Modifier,
     patchState: PatchState,
@@ -174,7 +183,7 @@ private fun PatchOptionsBody(
     var v1 by rememberSaveable { mutableStateOf(false) }
     var v2 by rememberSaveable { mutableStateOf(true) }
     var v3 by rememberSaveable { mutableStateOf(true) }
-    val sigBypassLevel by rememberSaveable { mutableStateOf(2) }
+    var sigBypassLevel by rememberSaveable { mutableStateOf(2) }
     var overrideVersionCode by rememberSaveable { mutableStateOf(false) }
     val embeddedModules = navController.currentBackStackEntry!!
         .savedStateHandle.getLiveData<SnapshotStateList<AppInfo>>("selected", SnapshotStateList())
@@ -246,11 +255,27 @@ private fun PatchOptionsBody(
             onClick = { v3 = !v3 },
             title = stringResource(R.string.patch_v3)
         )
-        SettingsItem(
-            onClick = { /*TODO*/ },
-            title = stringResource(R.string.patch_sigbypasslv),
-            desc = stringResource(R.string.patch_sigbypasslv_desc)
-        )
+        Box {
+            var expanded by remember { mutableStateOf(false) }
+            SettingsItem(
+                onClick = { expanded = true },
+                title = stringResource(R.string.patch_sigbypasslv),
+                desc = sigBypassLvStr(sigBypassLevel)
+            )
+            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                repeat(3) {
+                    DropdownMenuItem(
+                        text = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                RadioButton(selected = sigBypassLevel == it, onClick = { sigBypassLevel = it })
+                                Text(sigBypassLvStr(it))
+                            }
+                        },
+                        onClick = { sigBypassLevel = it }
+                    )
+                }
+            }
+        }
         SettingsCheckBox(
             checked = overrideVersionCode,
             onClick = { overrideVersionCode = !overrideVersionCode },
