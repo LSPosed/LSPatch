@@ -223,8 +223,7 @@ public class LSPatch {
                 var pair = ManifestParser.parseManifestFile(is);
                 if (pair == null)
                     throw new PatchError("Failed to parse AndroidManifest.xml");
-                appComponentFactory = pair.appComponentFactory == null ? "" : pair.appComponentFactory;
-
+                appComponentFactory = pair.appComponentFactory;
                 logger.d("original appComponentFactory class: " + appComponentFactory);
             }
 

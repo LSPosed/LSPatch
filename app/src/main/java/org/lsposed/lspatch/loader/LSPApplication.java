@@ -165,7 +165,7 @@ public class LSPApplication extends ApplicationServiceClient {
             XposedHelpers.setObjectField(mBoundApplication, "info", appLoadedApk);
 
             var activityClientRecordClass = XposedHelpers.findClass("android.app.ActivityThread$ActivityClientRecord", ActivityThread.class.getClassLoader());
-            var fixActivityClientRecord = (BiConsumer<Object, Object>)(k, v) -> {
+            var fixActivityClientRecord = (BiConsumer<Object, Object>) (k, v) -> {
                 if (activityClientRecordClass.isInstance(v)) {
                     var pkgInfo = XposedHelpers.getObjectField(v, "packageInfo");
                     if (pkgInfo == stubLoadedApk) {
@@ -182,7 +182,16 @@ public class LSPApplication extends ApplicationServiceClient {
             }
             Log.i(TAG, "hooked app initialized: " + appLoadedApk);
 
-            return (Context) XposedHelpers.callStaticMethod(Class.forName("android.app.ContextImpl"), "createAppContext", activityThread, stubLoadedApk);
+            var context = (Context) XposedHelpers.callStaticMethod(Class.forName("android.app.ContextImpl"), "createAppContext", activityThread, stubLoadedApk);
+            if (config.appComponentFactory != null) {
+                try {
+                    context.getClassLoader().loadClass(config.appComponentFactory);
+                } catch (ClassNotFoundException e) { // This will happen on some strange shells like 360
+                    Log.w(TAG, "Original AppComponentFactory not found: " + config.appComponentFactory);
+                    appInfo.appComponentFactory = null;
+                }
+            }
+            return context;
         } catch (Throwable e) {
             Log.e(TAG, "createLoadedApk", e);
             return null;
