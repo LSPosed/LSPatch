@@ -96,5 +96,5 @@ dependencies {
     implementation(projects.share)
     implementation(projects.imanager)
 
-    implementation("com.google.code.gson:gson:2.8.9")
+    implementation("com.google.code.gson:gson:2.9.0")
 }

@@ -1,4 +1,5 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+import org.eclipse.jgit.api.Git
+import org.eclipse.jgit.internal.storage.file.FileRepository
 
 buildscript {
     repositories {
@@ -8,14 +9,19 @@ buildscript {
     val agpVersion by extra("7.1.2")
     dependencies {
         classpath("com.android.tools.build:gradle:$agpVersion")
+        classpath("org.eclipse.jgit:org.eclipse.jgit:6.0.0.202111291000-r")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
     }
 }
 
+val repo = FileRepository(rootProject.file(".git"))
+val refId = repo.refDatabase.exactRef("refs/remotes/origin/lsp").objectId!!
+val commitCount = Git(repo).log().add(refId).call().count()
+
 // sync from https://github.com/LSPosed/LSPosed/blob/master/build.gradle.kts
 val defaultManagerPackageName by extra("org.lsposed.lspatch")
 val apiCode by extra(93)
-val verCode by extra(1)
+val verCode by extra(commitCount)
 val verName by extra("0.3")
 val androidMinSdkVersion by extra(28)
 val androidTargetSdkVersion by extra(32)
