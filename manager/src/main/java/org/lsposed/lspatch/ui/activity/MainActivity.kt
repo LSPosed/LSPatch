@@ -70,7 +70,7 @@ private fun MainNavHost(navController: NavHostController, modifier: Modifier) {
 @Composable
 private fun MainNavigationBar(page: PageList, onClick: (PageList) -> Unit) {
     NavigationBar(tonalElevation = 8.dp) {
-        arrayOf(PageList.Home, PageList.Manage, PageList.Repo, PageList.Settings).forEach {
+        arrayOf(PageList.Repo, PageList.Manage, PageList.Home, PageList.Logs, PageList.Settings).forEach {
             NavigationBarItem(
                 selected = page == it,
                 onClick = { onClick(it) },

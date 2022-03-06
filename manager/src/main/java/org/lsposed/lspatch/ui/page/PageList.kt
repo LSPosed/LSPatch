@@ -35,7 +35,7 @@ enum class PageList(
         body = { HomePage() }
     ),
     Logs(
-        iconSelected = Icons.Filled.Assessment,
+        iconSelected = Icons.Filled.Assignment,
         iconNotSelected = Icons.Outlined.Assignment,
         body = {}
     ),

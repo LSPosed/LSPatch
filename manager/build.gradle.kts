@@ -5,8 +5,11 @@ val androidMinSdkVersion: Int by rootProject.extra
 val androidTargetSdkVersion: Int by rootProject.extra
 
 val defaultManagerPackageName: String by rootProject.extra
+val apiCode: Int by rootProject.extra
 val verCode: Int by rootProject.extra
 val verName: String by rootProject.extra
+val coreVerCode: Int by rootProject.extra
+val coreVerName: String by rootProject.extra
 
 val androidSourceCompatibility: JavaVersion by rootProject.extra
 val androidTargetCompatibility: JavaVersion by rootProject.extra
@@ -26,6 +29,10 @@ android {
         targetSdk = androidTargetSdkVersion
         versionCode = verCode
         versionName = verName
+
+        buildConfigField("int", "API_CODE", """$apiCode""")
+        buildConfigField("int", "CORE_VERSION_CODE", """$coreVerCode""")
+        buildConfigField("String", "CORE_VERSION_NAME", """"$coreVerName"""")
     }
 
     buildTypes {

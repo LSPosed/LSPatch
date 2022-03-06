@@ -14,15 +14,25 @@ buildscript {
     }
 }
 
-val repo = FileRepository(rootProject.file(".git"))
-val refId = repo.refDatabase.exactRef("refs/remotes/origin/lsp").objectId!!
-val commitCount = Git(repo).log().add(refId).call().count()
+val commitCount = run {
+    val repo = FileRepository(rootProject.file(".git"))
+    val refId = repo.refDatabase.exactRef("refs/remotes/origin/lsp").objectId!!
+    Git(repo).log().add(refId).call().count()
+}
+
+val coreCommitCount = run {
+    val repo = FileRepository(rootProject.file("core/.git"))
+    val refId = repo.refDatabase.exactRef("refs/remotes/origin/lspatch").objectId!!
+    Git(repo).log().add(refId).call().count()
+}
 
 // sync from https://github.com/LSPosed/LSPosed/blob/master/build.gradle.kts
 val defaultManagerPackageName by extra("org.lsposed.lspatch")
 val apiCode by extra(93)
 val verCode by extra(commitCount)
 val verName by extra("0.3")
+val coreVerCode by extra(coreCommitCount + 4200)
+val coreVerName by extra("1.7.2")
 val androidMinSdkVersion by extra(28)
 val androidTargetSdkVersion by extra(32)
 val androidCompileSdkVersion by extra(32)

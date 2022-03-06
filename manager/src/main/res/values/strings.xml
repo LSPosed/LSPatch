@@ -6,6 +6,15 @@
     <string name="page_logs">Logs</string>
     <string name="page_settings">Settings</string>
 
+    <!-- Home Page -->
+    <string name="home_api_version">API Version</string>
+    <string name="home_lspatch_version">LSPatch Version</string>
+    <string name="home_framework_version">Framework Version</string>
+    <string name="home_system_version">System Version</string>
+    <string name="home_device">Device</string>
+    <string name="home_system_abi">System ABI</string>
+    <string name="home_info_copied">Copied to clipboard</string>
+
     <!-- Manage Page -->
     <string name="page_manage">Manage</string>
 
