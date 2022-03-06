@@ -18,19 +18,25 @@ enum class PageList(
     val arguments: List<NamedNavArgument> = emptyList(),
     val body: @Composable NavBackStackEntry.() -> Unit
 ) {
-    Home(
-        iconSelected = Icons.Filled.Home,
-        iconNotSelected = Icons.Outlined.Home,
-        body = { HomePage() }
+
+    Repo(
+        iconSelected = Icons.Filled.GetApp,
+        iconNotSelected = Icons.Outlined.GetApp,
+        body = {}
     ),
     Manage(
         iconSelected = Icons.Filled.Dashboard,
         iconNotSelected = Icons.Outlined.Dashboard,
         body = { ManagePage() }
     ),
-    Repo(
-        iconSelected = Icons.Filled.GetApp,
-        iconNotSelected = Icons.Outlined.GetApp,
+    Home(
+        iconSelected = Icons.Filled.Home,
+        iconNotSelected = Icons.Outlined.Home,
+        body = { HomePage() }
+    ),
+    Logs(
+        iconSelected = Icons.Filled.Assessment,
+        iconNotSelected = Icons.Outlined.Assignment,
         body = {}
     ),
     Settings(
@@ -50,9 +56,10 @@ enum class PageList(
 
     val title: String
         @Composable get() = when (this) {
-            Home -> stringResource(R.string.app_name)
-            Manage -> stringResource(R.string.page_manage)
             Repo -> stringResource(R.string.page_repo)
+            Manage -> stringResource(R.string.page_manage)
+            Home -> stringResource(R.string.app_name)
+            Logs -> stringResource(R.string.page_logs)
             Settings -> stringResource(R.string.page_settings)
             NewPatch -> stringResource(R.string.page_new_patch)
             SelectApps -> stringResource(R.string.page_select_apps)

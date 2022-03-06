@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
@@ -48,6 +49,7 @@ import org.lsposed.lspatch.ui.util.isScrolledToEnd
 import org.lsposed.lspatch.ui.util.lastItemIndex
 import org.lsposed.lspatch.ui.util.observeState
 import org.lsposed.lspatch.ui.viewmodel.AppInfo
+import org.lsposed.lspatch.ui.viewmodel.NewPatchViewModel
 import org.lsposed.patch.util.Logger
 import java.io.File
 
@@ -178,25 +180,19 @@ private fun PatchOptionsBody(
     onSubmit: (Patcher.Options) -> Unit
 ) {
     val navController = LocalNavController.current
-    var useManager by rememberSaveable { mutableStateOf(true) }
-    var debuggable by rememberSaveable { mutableStateOf(false) }
-    var v1 by rememberSaveable { mutableStateOf(false) }
-    var v2 by rememberSaveable { mutableStateOf(true) }
-    var v3 by rememberSaveable { mutableStateOf(true) }
-    var sigBypassLevel by rememberSaveable { mutableStateOf(2) }
-    var overrideVersionCode by rememberSaveable { mutableStateOf(false) }
+    val viewModel = viewModel<NewPatchViewModel>()
     val embeddedModules = navController.currentBackStackEntry!!
         .savedStateHandle.getLiveData<SnapshotStateList<AppInfo>>("selected", SnapshotStateList())
 
     if (patchState == PatchState.SUBMITTING) LaunchedEffect(patchApp) {
-        if (useManager) embeddedModules.value?.clear()
+        if (viewModel.useManager) embeddedModules.value?.clear()
         val options = Patcher.Options(
             apkPaths = arrayOf(patchApp.app.sourceDir), // TODO: Split Apk
-            debuggable = debuggable,
-            sigbypassLevel = sigBypassLevel,
-            v1 = v1, v2 = v2, v3 = v3,
-            useManager = useManager,
-            overrideVersionCode = overrideVersionCode,
+            debuggable = viewModel.debuggable,
+            sigbypassLevel = viewModel.sigBypassLevel,
+            v1 = viewModel.sign[0], v2 = viewModel.sign[1], v3 = viewModel.sign[2],
+            useManager = viewModel.useManager,
+            overrideVersionCode = viewModel.overrideVersionCode,
             verbose = true,
             embeddedModules = embeddedModules.value?.map { it.app.sourceDir } ?: emptyList() // TODO: Split Apk
         )
@@ -213,15 +209,15 @@ private fun PatchOptionsBody(
         )
         SelectionColumn(Modifier.padding(horizontal = 24.dp)) {
             SelectionItem(
-                selected = useManager,
-                onClick = { useManager = true },
+                selected = viewModel.useManager,
+                onClick = { viewModel.useManager = true },
                 icon = Icons.Outlined.Api,
                 title = stringResource(R.string.patch_local),
                 desc = stringResource(R.string.patch_local_desc)
             )
             SelectionItem(
-                selected = !useManager,
-                onClick = { useManager = false },
+                selected = !viewModel.useManager,
+                onClick = { viewModel.useManager = false },
                 icon = Icons.Outlined.WorkOutline,
                 title = stringResource(R.string.patch_portable),
                 desc = stringResource(R.string.patch_portable_desc),
@@ -235,54 +231,62 @@ private fun PatchOptionsBody(
             )
         }
         SettingsCheckBox(
-            checked = debuggable,
-            onClick = { debuggable = !debuggable },
+            checked = viewModel.debuggable,
+            onClick = { viewModel.debuggable = !viewModel.debuggable },
             icon = Icons.Outlined.BugReport,
             title = stringResource(R.string.patch_debuggable)
         )
         SettingsCheckBox(
-            checked = v1,
-            onClick = { v1 = !v1 },
-            title = stringResource(R.string.patch_v1)
-        )
-        SettingsCheckBox(
-            checked = v2,
-            onClick = { v2 = !v2 },
-            title = stringResource(R.string.patch_v2)
-        )
-        SettingsCheckBox(
-            checked = v3,
-            onClick = { v3 = !v3 },
-            title = stringResource(R.string.patch_v3)
+            checked = viewModel.overrideVersionCode,
+            onClick = { viewModel.overrideVersionCode = !viewModel.overrideVersionCode },
+            title = stringResource(R.string.patch_override_version_code),
+            desc = stringResource(R.string.patch_override_version_code_desc)
         )
         Box {
             var expanded by remember { mutableStateOf(false) }
             SettingsItem(
                 onClick = { expanded = true },
+                title = stringResource(R.string.patch_sign),
+                desc = viewModel.sign.mapIndexedNotNull { index, on -> if (on) "V" + (index + 1) else null }.joinToString(" + ").ifEmpty { "None" }
+            )
+            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                repeat(3) { index ->
+                    DropdownMenuItem(
+                        text = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Checkbox(checked = viewModel.sign[index], onCheckedChange = { viewModel.sign[index] = !viewModel.sign[index] })
+                                Text("V" + (index + 1))
+                            }
+                        },
+                        onClick = { viewModel.sign[index] = !viewModel.sign[index] }
+                    )
+                }
+            }
+        }
+        Box {
+            var expanded by remember { mutableStateOf(false) }
+            SettingsItem(
+                onClick = { expanded = true },
                 title = stringResource(R.string.patch_sigbypasslv),
-                desc = sigBypassLvStr(sigBypassLevel)
+                desc = sigBypassLvStr(viewModel.sigBypassLevel)
             )
             DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                 repeat(3) {
                     DropdownMenuItem(
                         text = {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                RadioButton(selected = sigBypassLevel == it, onClick = { sigBypassLevel = it })
+                                RadioButton(selected = viewModel.sigBypassLevel == it, onClick = { viewModel.sigBypassLevel = it })
                                 Text(sigBypassLvStr(it))
                             }
                         },
-                        onClick = { sigBypassLevel = it }
+                        onClick = {
+                            viewModel.sigBypassLevel = it
+                            expanded = false
+                        }
                     )
                 }
             }
         }
-        SettingsCheckBox(
-            checked = overrideVersionCode,
-            onClick = { overrideVersionCode = !overrideVersionCode },
-            title = stringResource(R.string.patch_override_version_code),
-            desc = stringResource(R.string.patch_override_version_code_desc)
-        )
-        Spacer(Modifier.height(56.dp))
     }
 }
 

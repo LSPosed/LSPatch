@@ -3,6 +3,7 @@
     <string name="add">Add</string>
 
     <string name="page_repo">Repo</string>
+    <string name="page_logs">Logs</string>
     <string name="page_settings">Settings</string>
 
     <!-- Manage Page -->
@@ -19,9 +20,7 @@
     <string name="patch_portable_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nPortable patched apps can be used on devices that do not have LSPatch Manager installed.</string>
     <string name="patch_embed_modules">Embed modules</string>
     <string name="patch_debuggable">Debuggable</string>
-    <string name="patch_v1">V1 signature</string>
-    <string name="patch_v2">V2 signature</string>
-    <string name="patch_v3">V3 signature</string>
+    <string name="patch_sign">Sign</string>
     <string name="patch_sigbypasslv">Signature bypass level</string>
     <string name="patch_sigbypasslv_0">lv0: Off</string>
     <string name="patch_sigbypasslv_1">lv1: Bypass PM</string>
