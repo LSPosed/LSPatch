@@ -159,7 +159,7 @@ public class LSPatch {
             var outputDir = new File(outputPath);
             outputDir.mkdirs();
 
-            File outputFile = new File(outputDir, String.format("%s-lv%s-xposed-signed.apk", FilenameUtils.getBaseName(apkFileName), sigbypassLevel)).getAbsoluteFile();
+            File outputFile = new File(outputDir, String.format("%s-lv%s-lspatched.apk", FilenameUtils.getBaseName(apkFileName), sigbypassLevel)).getAbsoluteFile();
 
             if (outputFile.exists() && !forceOverwrite)
                 throw new PatchError(outputPath + " exists. Use --force to overwrite");
