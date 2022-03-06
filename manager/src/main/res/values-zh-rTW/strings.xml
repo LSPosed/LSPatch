@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">新增</string>
+
+    <string name="page_repo">倉庫</string>
+    <string name="page_settings">設定</string>
+
+    <!-- Manage Page -->
+    <string name="page_manage">管理</string>
+
+    <!-- New Patch Page -->
+    <string name="page_new_patch">新打包</string>
+    <string name="patch_permission_title">權限</string>
+    <string name="patch_permission_text">請授予寫入外部儲存權限，以允許儲存打包的應用程式到下載（Download）資料夾</string>
+    <string name="patch_mode">打包模式</string>
+    <string name="patch_local">本機</string>
+    <string name="patch_local_desc">打包沒有內建模組的應用程式。\n打包後的程式需要此管理器背景執行，Xposed 作用域可以動態更改而無需重新打包。\n本機打包的應用程式，只能在本機執行。</string>
+    <string name="patch_portable">可攜式</string>
+    <string name="patch_portable_desc">打包內建模組的應用程式。\n打包後的程式，可以在沒有管理器的情況下執行，但無法動態管理啟用的模組。\n可攜式打包的應用程式，可以在沒有安裝 LSPatch Manager 的裝置上使用。</string>
+    <string name="patch_embed_modules">內建模組</string>
+    <string name="patch_debuggable">程式可偵錯</string>
+    <string name="patch_v1">V1 簽名</string>
+    <string name="patch_v2">V2 簽名</string>
+    <string name="patch_v3">V3 簽名</string>
+    <string name="patch_sigbypasslv">繞過簽名驗證的等級</string>
+    <string name="patch_sigbypasslv_0">lv0: 關閉</string>
+    <string name="patch_sigbypasslv_1">lv1: Bypass PM</string>
+    <string name="patch_sigbypasslv_2">lv2: Bypass PM + openat (libc)</string>
+    <string name="patch_override_version_code">覆蓋版本編號</string>
+    <string name="patch_override_version_code_desc">將打包應用程式的版本編號改成 1\n以便降級安裝</string>
+    <string name="patch_start">開始打包</string>
+    <string name="patch_return">返回</string>
+    <string name="patch_install">安裝</string>
+    <string name="patch_copy_error">複製錯誤</string>
+
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">選擇應用程式</string>
+</resources>
