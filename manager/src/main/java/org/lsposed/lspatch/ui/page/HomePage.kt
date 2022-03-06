@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.lsposed.lspatch.BuildConfig
 import org.lsposed.lspatch.R
+import org.lsposed.lspatch.ui.util.HtmlText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,6 +39,8 @@ fun HomePage() {
                 .verticalScroll(rememberScrollState())
         ) {
             InfoCard(snackbarHostState)
+            Spacer(Modifier.height(16.dp))
+            SupportCard()
         }
     }
 }
@@ -116,6 +119,37 @@ private fun InfoCard(snackbarHostState: SnackbarHostState) {
                     scope.launch { snackbarHostState.showSnackbar(copiedMessage) }
                 },
                 content = { Text(stringResource(android.R.string.copy)) }
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview
+@Composable
+private fun SupportCard() {
+    Card {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.home_support),
+                fontWeight = FontWeight.SemiBold,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                modifier = Modifier.padding(vertical = 8.dp),
+                text = stringResource(R.string.home_description),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            HtmlText(
+                stringResource(
+                    R.string.home_view_source_code,
+                    "<b><a href=\"https://github.com/LSPosed/LSPatch\">GitHub</a></b>",
+                    "<b><a href=\"https://t.me/LSPosed\">Telegram</a></b>"
+                )
             )
         }
     }

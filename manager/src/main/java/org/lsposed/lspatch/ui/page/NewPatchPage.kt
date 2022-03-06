@@ -17,10 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Api
-import androidx.compose.material.icons.outlined.AutoFixHigh
-import androidx.compose.material.icons.outlined.BugReport
-import androidx.compose.material.icons.outlined.WorkOutline
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -165,9 +162,9 @@ private fun ConfiguringFab(onClick: () -> Unit) {
 
 @Composable
 private fun sigBypassLvStr(level: Int) = when (level) {
-    0 -> stringResource(R.string.patch_sigbypasslv_0)
-    1 -> stringResource(R.string.patch_sigbypasslv_1)
-    2 -> stringResource(R.string.patch_sigbypasslv_2)
+    0 -> stringResource(R.string.patch_sigbypasslv0)
+    1 -> stringResource(R.string.patch_sigbypasslv1)
+    2 -> stringResource(R.string.patch_sigbypasslv2)
     else -> throw IllegalArgumentException("Invalid sigBypassLv: $level")
 }
 
@@ -239,6 +236,7 @@ private fun PatchOptionsBody(
         SettingsCheckBox(
             checked = viewModel.overrideVersionCode,
             onClick = { viewModel.overrideVersionCode = !viewModel.overrideVersionCode },
+            icon = Icons.Outlined.Layers,
             title = stringResource(R.string.patch_override_version_code),
             desc = stringResource(R.string.patch_override_version_code_desc)
         )
@@ -246,6 +244,7 @@ private fun PatchOptionsBody(
             var expanded by remember { mutableStateOf(false) }
             SettingsItem(
                 onClick = { expanded = true },
+                icon = Icons.Outlined.Edit,
                 title = stringResource(R.string.patch_sign),
                 desc = viewModel.sign.mapIndexedNotNull { index, on -> if (on) "V" + (index + 1) else null }.joinToString(" + ").ifEmpty { "None" }
             )
@@ -267,7 +266,8 @@ private fun PatchOptionsBody(
             var expanded by remember { mutableStateOf(false) }
             SettingsItem(
                 onClick = { expanded = true },
-                title = stringResource(R.string.patch_sigbypasslv),
+                icon = Icons.Outlined.RemoveModerator,
+                title = stringResource(R.string.patch_sigbypass),
                 desc = sigBypassLvStr(viewModel.sigBypassLevel)
             )
             DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
