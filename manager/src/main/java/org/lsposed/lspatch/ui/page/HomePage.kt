@@ -3,14 +3,17 @@ package org.lsposed.lspatch.ui.page
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -21,8 +24,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.lsposed.lspatch.BuildConfig
+import org.lsposed.lspatch.LSPApplication
 import org.lsposed.lspatch.R
 import org.lsposed.lspatch.ui.util.HtmlText
+import rikka.shizuku.Shizuku
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,6 +43,8 @@ fun HomePage() {
                 .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
+            ShizukuCard()
+            Spacer(Modifier.height(16.dp))
             InfoCard(snackbarHostState)
             Spacer(Modifier.height(16.dp))
             SupportCard()
@@ -59,6 +66,73 @@ private fun TopBar() {
             )
         },
     )
+}
+
+private val listener: (Int, Int) -> Unit = { _, grantResult ->
+    LSPApplication.shizukuGranted = grantResult == PackageManager.PERMISSION_GRANTED
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ShizukuCard() {
+    val key = remember { true }
+    LaunchedEffect(key) {
+        Shizuku.addRequestPermissionResultListener(listener)
+    }
+    DisposableEffect(key) {
+        onDispose {
+            Shizuku.removeRequestPermissionResultListener(listener)
+        }
+    }
+
+    ElevatedCard(
+        modifier = Modifier.clickable {
+            if (!LSPApplication.shizukuGranted) {
+                Shizuku.requestPermission(114514)
+            }
+        },
+        containerColor = run {
+            if (LSPApplication.shizukuGranted) MaterialTheme.colorScheme.secondaryContainer
+            else MaterialTheme.colorScheme.errorContainer
+        }
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (LSPApplication.shizukuGranted) {
+                Icon(Icons.Outlined.CheckCircle, stringResource(R.string.home_shizuku_available))
+                Column(Modifier.padding(start = 20.dp)) {
+                    Text(
+                        text = stringResource(R.string.home_shizuku_available),
+                        fontFamily = FontFamily.Serif,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = "API " + Shizuku.getVersion(),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            } else {
+                Icon(Icons.Outlined.Warning, stringResource(R.string.home_shizuku_unavailable))
+                Column(Modifier.padding(start = 20.dp)) {
+                    Text(
+                        text = stringResource(R.string.home_shizuku_unavailable),
+                        fontFamily = FontFamily.Serif,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = stringResource(R.string.home_shizuku_warning),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        }
+    }
 }
 
 private val apiVersion = if (Build.VERSION.PREVIEW_SDK_INT != 0) {

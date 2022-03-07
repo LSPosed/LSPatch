@@ -7,6 +7,9 @@
     <string name="page_settings">Settings</string>
 
     <!-- Home Page -->
+    <string name="home_shizuku_available">Shizuku service available</string>
+    <string name="home_shizuku_unavailable">Shizuku service not connected</string>
+    <string name="home_shizuku_warning">Some functions unavailable</string>
     <string name="home_api_version">API Version</string>
     <string name="home_lspatch_version">LSPatch Version</string>
     <string name="home_framework_version">Framework Version</string>

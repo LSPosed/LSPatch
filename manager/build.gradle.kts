@@ -104,4 +104,6 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.24.2-alpha")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.24.2-alpha")
     implementation("com.google.android.material:material:1.5.0")
+    implementation("dev.rikka.shizuku:api:12.1.0")
+    implementation("dev.rikka.shizuku:provider:12.1.0")
 }

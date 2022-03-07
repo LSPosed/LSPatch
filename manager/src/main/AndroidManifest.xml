@@ -34,6 +34,14 @@
             android:authorities="org.lsposed.lspatch.provider"
             android:enabled="true"
             android:exported="true" />
+
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:authorities="org.lsposed.lspatch.shizuku"
+            android:multiprocess="false"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
     </application>
 
 </manifest>
