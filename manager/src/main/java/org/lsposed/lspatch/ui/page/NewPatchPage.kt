@@ -228,6 +228,7 @@ private fun PatchOptionsBody(
             )
         }
         SettingsCheckBox(
+            modifier = Modifier.padding(top = 6.dp),
             checked = viewModel.debuggable,
             onClick = { viewModel.debuggable = !viewModel.debuggable },
             icon = Icons.Outlined.BugReport,

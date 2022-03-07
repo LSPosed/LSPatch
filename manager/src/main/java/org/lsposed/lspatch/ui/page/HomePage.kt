@@ -80,7 +80,7 @@ private val device = buildString {
 private fun InfoCard(snackbarHostState: SnackbarHostState) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    Card {
+    ElevatedCard {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -128,7 +128,7 @@ private fun InfoCard(snackbarHostState: SnackbarHostState) {
 @Preview
 @Composable
 private fun SupportCard() {
-    Card {
+    ElevatedCard {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

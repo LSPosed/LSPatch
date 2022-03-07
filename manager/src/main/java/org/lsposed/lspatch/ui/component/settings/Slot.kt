@@ -48,7 +48,7 @@ fun SettingsSlot(
                 )
             }
         }
-        Column(Modifier.weight(1f)) {
+        Column(Modifier.weight(1f).padding(vertical = 6.dp)) {
             Text(text = title, style = MaterialTheme.typography.titleMedium)
             Column {
                 if (desc != null) {

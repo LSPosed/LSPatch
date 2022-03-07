@@ -18,7 +18,6 @@ enum class PageList(
     val arguments: List<NamedNavArgument> = emptyList(),
     val body: @Composable NavBackStackEntry.() -> Unit
 ) {
-
     Repo(
         iconSelected = Icons.Filled.GetApp,
         iconNotSelected = Icons.Outlined.GetApp,
