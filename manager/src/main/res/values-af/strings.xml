@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Voeg by</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Logs</string>
+    <string name="page_settings">Instellings</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Shizuku diens beskikbaar</string>
+    <string name="home_shizuku_unavailable">Shizuku-diens nie gekoppel nie</string>
+    <string name="home_shizuku_warning">Sommige funksies nie beskikbaar nie</string>
+    <string name="home_api_version">API weergawe</string>
+    <string name="home_lspatch_version">LSPatch weergawe</string>
+    <string name="home_framework_version">Raamwerk weergawe</string>
+    <string name="home_system_version">Stelsel weergawe</string>
+    <string name="home_device">Toestel</string>
+    <string name="home_system_abi">Stelsel ABI</string>
+    <string name="home_info_copied">Gekopieer na knipbord</string>
+    <string name="home_support">Ondersteuning</string>
+    <string name="home_description">LSPatch is \'n gratis nie-wortel Xposed-raamwerk gebaseer op LSPosed-kern.</string>
+    <string name="home_view_source_code"><![CDATA[Bekyk bronkode by %1$s<br/>Sluit aan by ons %2$s -kanaal]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Bestuur</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Nuwe Patch</string>
+    <string name="patch_permission_title">Toestemming</string>
+    <string name="patch_permission_text">Gee asseblief skryf-eksterne berging-toestemming om die stoor van gelapte APK\'s na die aflaaigids toe te laat</string>
+    <string name="patch_mode">Patch Mode</string>
+    <string name="patch_local">Plaaslik</string>
+    <string name="patch_local_desc">Plak \'n toepassing sonder modules ingebed.\nDie gelapte toepassing moet die bestuurder in die agtergrond laat loop, en Xposed-omvang kan dinamies verander word sonder om te herpleister.\nPlaaslike gelapte toepassings kan slegs op die plaaslike toestel loop.</string>
+    <string name="patch_portable">Draagbaar</string>
+    <string name="patch_portable_desc">Plak \'n toepassing met modules ingebed.\nDie reggemaakte toepassing kan sonder die bestuurder loop, maar kan nie dinamies bestuur word nie.\nDraagbare gelapte toepassings kan gebruik word op toestelle wat nie LSPatch Manager geïnstalleer het nie.</string>
+    <string name="patch_embed_modules">Sluit modules in</string>
+    <string name="patch_debuggable">Ontfoutbaar</string>
+    <string name="patch_sign">Teken</string>
+    <string name="patch_sigbypass">Handtekening omseil</string>
+    <string name="patch_sigbypasslv0">lv0: af</string>
+    <string name="patch_sigbypasslv1">lv1: Omseil PM</string>
+    <string name="patch_sigbypasslv2">lv2: Omseil PM + openat (libc)</string>
+    <string name="patch_override_version_code">Ignoreer weergawekode</string>
+    <string name="patch_override_version_code_desc">Ignoreer die gelapte toepassing se weergawekode na 1\nDit laat afgradering installasie toe</string>
+    <string name="patch_start">Begin Patch</string>
+    <string name="patch_return">Keer terug</string>
+    <string name="patch_install">Installeer</string>
+    <string name="patch_copy_error">Kopieerfout</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Kies Toepassings</string>
+</resources>
