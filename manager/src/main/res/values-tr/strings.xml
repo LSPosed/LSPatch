@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Ekle</string>
+    <string name="page_repo">depo</string>
+    <string name="page_logs">Kütükler</string>
+    <string name="page_settings">Ayarlar</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Shizuku servisi mevcut</string>
+    <string name="home_shizuku_unavailable">Shizuku hizmeti bağlı değil</string>
+    <string name="home_shizuku_warning">Bazı işlevler kullanılamıyor</string>
+    <string name="home_api_version">API Sürümü</string>
+    <string name="home_lspatch_version">LSPatch Sürümü</string>
+    <string name="home_framework_version">Çerçeve Sürümü</string>
+    <string name="home_system_version">Sistem Sürümü</string>
+    <string name="home_device">Cihaz</string>
+    <string name="home_system_abi">Sistem ABI\'si</string>
+    <string name="home_info_copied">Panoya kopyalandı</string>
+    <string name="home_support">Destek</string>
+    <string name="home_description">LSPatch, LSPosed çekirdeğine dayalı ücretsiz bir kök olmayan Xposed çerçevesidir.</string>
+    <string name="home_view_source_code"><![CDATA[Kaynak kodunu %1$sgörüntüleyin<br/> %2$s kanalımıza katılın]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Üstesinden gelmek</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Yeni Yama</string>
+    <string name="patch_permission_title">İzin</string>
+    <string name="patch_permission_text">Yamalı apk\'lerin İndirme dizinine kaydedilmesine izin vermek için lütfen Harici Depolama Yazma izni verin</string>
+    <string name="patch_mode">Yama Modu</string>
+    <string name="patch_local">Yerel</string>
+    <string name="patch_local_desc">Gömülü modüller olmadan bir uygulamayı yamalayın.\nYama uygulanmış uygulamanın arka planda çalışan yöneticiye ihtiyacı vardır ve Xposed kapsamı, yeniden yama yapılmadan dinamik olarak değiştirilebilir.\nYerel yamalı uygulamalar yalnızca yerel cihazda çalışabilir.</string>
+    <string name="patch_portable">Taşınabilir</string>
+    <string name="patch_portable_desc">Gömülü modüller içeren bir uygulamayı yamalayın.\nYama uygulanmış uygulama yönetici olmadan çalışabilir, ancak dinamik olarak yönetilemez.\nTaşınabilir yama uygulanmış uygulamalar, LSPtch Manager\'ın kurulu olmadığı cihazlarda kullanılabilir.</string>
+    <string name="patch_embed_modules">Gömülü modüller</string>
+    <string name="patch_debuggable">Hata ayıklanabilir</string>
+    <string name="patch_sign">İmza</string>
+    <string name="patch_sigbypass">İmza atlama</string>
+    <string name="patch_sigbypasslv0">lv0: Kapalı</string>
+    <string name="patch_sigbypasslv1">lv1: PM\'yi atla</string>
+    <string name="patch_sigbypasslv2">lv2: PM + openat\'ı atla (libc)</string>
+    <string name="patch_override_version_code">Sürüm kodunu geçersiz kıl</string>
+    <string name="patch_override_version_code_desc">Yamalı uygulamanın sürüm kodunu 1\nolarak geçersiz kıl Bu, sürüm düşürme kurulumuna izin verir</string>
+    <string name="patch_start">Yama Başlat</string>
+    <string name="patch_return">Dönüş</string>
+    <string name="patch_install">Düzenlemek</string>
+    <string name="patch_copy_error">Kopyalama hatası</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Uygulamaları Seçin</string>
+</resources>
