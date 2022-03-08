@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Add</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Logs</string>
+    <string name="page_settings">Settings</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Shizuku service available</string>
+    <string name="home_shizuku_unavailable">Shizuku service not connected</string>
+    <string name="home_shizuku_warning">Some functions unavailable</string>
+    <string name="home_api_version">API Version</string>
+    <string name="home_lspatch_version">LSPatch Version</string>
+    <string name="home_framework_version">Framework Version</string>
+    <string name="home_system_version">System Version</string>
+    <string name="home_device">Device</string>
+    <string name="home_system_abi">System ABI</string>
+    <string name="home_info_copied">Copied to clipboard</string>
+    <string name="home_support">Support</string>
+    <string name="home_description">LSPatch is a free non-root Xposed framework based on LSPosed core.</string>
+    <string name="home_view_source_code"><![CDATA[View source code at %1$s<br/>Join our %2$s channel]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Manage</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">New Patch</string>
+    <string name="patch_permission_title">Permission</string>
+    <string name="patch_permission_text">Please grant Write External Storage permission to allow saving patched apks to Download directory</string>
+    <string name="patch_mode">Patch Mode</string>
+    <string name="patch_local">Local</string>
+    <string name="patch_local_desc">Patch an app without modules embedded.\nThe patched app need the manager running in background, and Xposed scope can be changed dynamically without re-patch.\nLocal patched apps can only run on the local device.</string>
+    <string name="patch_portable">Portable</string>
+    <string name="patch_portable_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nPortable patched apps can be used on devices that do not have LSPatch Manager installed.</string>
+    <string name="patch_embed_modules">Embed modules</string>
+    <string name="patch_debuggable">Debuggable</string>
+    <string name="patch_sign">Sign</string>
+    <string name="patch_sigbypass">Signature bypass</string>
+    <string name="patch_sigbypasslv0">lv0: Off</string>
+    <string name="patch_sigbypasslv1">lv1: Bypass PM</string>
+    <string name="patch_sigbypasslv2">lv2: Bypass PM + openat (libc)</string>
+    <string name="patch_override_version_code">Override version code</string>
+    <string name="patch_override_version_code_desc">Override the patched app\'s version code to 1\nThis allows downgrade installation</string>
+    <string name="patch_start">Start Patch</string>
+    <string name="patch_return">Return</string>
+    <string name="patch_install">Install</string>
+    <string name="patch_copy_error">Copy error</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Select Apps</string>
+</resources>
