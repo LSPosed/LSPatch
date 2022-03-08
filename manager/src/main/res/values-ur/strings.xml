@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ایل ایس پیچ</string>
+    <string name="add">شامل کریں۔</string>
+    <string name="page_repo">ریپو</string>
+    <string name="page_logs">نوشتہ جات</string>
+    <string name="page_settings">ترتیبات</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">شیزوکو سروس دستیاب ہے۔</string>
+    <string name="home_shizuku_unavailable">شیزوکو سروس منسلک نہیں ہے۔</string>
+    <string name="home_shizuku_warning">کچھ فنکشنز دستیاب نہیں ہیں۔</string>
+    <string name="home_api_version">API ورژن</string>
+    <string name="home_lspatch_version">ایل ایس پیچ ورژن</string>
+    <string name="home_framework_version">فریم ورک ورژن</string>
+    <string name="home_system_version">سسٹم ورژن</string>
+    <string name="home_device">ڈیوائس</string>
+    <string name="home_system_abi">سسٹم ABI</string>
+    <string name="home_info_copied">کلپ بورڈ پر کاپی ہو گیا۔</string>
+    <string name="home_support">حمایت</string>
+    <string name="home_description">LSPatch LSPosed کور پر مبنی ایک مفت نان روٹ Xposed فریم ورک ہے۔</string>
+    <string name="home_view_source_code"><![CDATA[%1$s<br/>پر سورس کوڈ دیکھیں ہمارے %2$s چینل میں شامل ہوں۔]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">انتظام کریں۔</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">نیا پیچ</string>
+    <string name="patch_permission_title">اجازت</string>
+    <string name="patch_permission_text">براہ کرم ایکسٹرنل سٹوریج لکھنے کی اجازت دیں تاکہ پیچ شدہ apks کو ڈائرکٹری ڈاؤن لوڈ میں محفوظ کیا جا سکے۔</string>
+    <string name="patch_mode">پیچ موڈ</string>
+    <string name="patch_local">مقامی</string>
+    <string name="patch_local_desc">ایمبیڈڈ ماڈیولز کے بغیر ایپ کو پیچ کریں۔\nپیچ شدہ ایپ کو پس منظر میں چلنے والے مینیجر کی ضرورت ہے، اور Xposed اسکوپ کو دوبارہ پیچ کے بغیر متحرک طور پر تبدیل کیا جا سکتا ہے۔\nمقامی پیچ والی ایپس صرف مقامی ڈیوائس پر چل سکتی ہیں۔</string>
+    <string name="patch_portable">پورٹیبل</string>
+    <string name="patch_portable_desc">ایمبیڈڈ ماڈیولز کے ساتھ ایک ایپ پیچ کریں۔\nپیچ شدہ ایپ مینیجر کے بغیر چل سکتی ہے، لیکن اسے متحرک طور پر منظم نہیں کیا جا سکتا۔\nپورٹیبل پیچ شدہ ایپس ان آلات پر استعمال کی جا سکتی ہیں جن میں LSPatch مینیجر انسٹال نہیں ہے۔</string>
+    <string name="patch_embed_modules">ایمبیڈ ماڈیولز</string>
+    <string name="patch_debuggable">ڈیبگ ایبل</string>
+    <string name="patch_sign">دستخط</string>
+    <string name="patch_sigbypass">دستخط بائی پاس</string>
+    <string name="patch_sigbypasslv0">lv0: آف</string>
+    <string name="patch_sigbypasslv1">lv1: PM کو بائی پاس کریں۔</string>
+    <string name="patch_sigbypasslv2">lv2: بائی پاس PM + openat (libc)</string>
+    <string name="patch_override_version_code">ورژن کوڈ کو اوور رائڈ کریں۔</string>
+    <string name="patch_override_version_code_desc">پیچ شدہ ایپ کے ورژن کوڈ کو 1\nپر اوور رائیڈ کریں یہ تنصیب کو ڈاؤن گریڈ کرنے کی اجازت دیتا ہے۔</string>
+    <string name="patch_start">پیچ شروع کریں۔</string>
+    <string name="patch_return">واپسی</string>
+    <string name="patch_install">انسٹال کریں۔</string>
+    <string name="patch_copy_error">کاپی کی غلطی</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">ایپس کو منتخب کریں۔</string>
+</resources>
