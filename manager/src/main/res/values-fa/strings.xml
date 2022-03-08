@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">اضافه کردن</string>
+    <string name="page_repo">مخزن</string>
+    <string name="page_logs">سیاهههای مربوط</string>
+    <string name="page_settings">تنظیمات</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">سرویس شیزوکو در دسترس است</string>
+    <string name="home_shizuku_unavailable">سرویس Shizuku متصل نیست</string>
+    <string name="home_shizuku_warning">برخی از عملکردها در دسترس نیستند</string>
+    <string name="home_api_version">نسخه API</string>
+    <string name="home_lspatch_version">نسخه LSPatch</string>
+    <string name="home_framework_version">نسخه چارچوب</string>
+    <string name="home_system_version">نسخه سیستم</string>
+    <string name="home_device">دستگاه</string>
+    <string name="home_system_abi">سیستم ABI</string>
+    <string name="home_info_copied">در کلیپ بورد کپی شد</string>
+    <string name="home_support">حمایت کردن</string>
+    <string name="home_description">LSPatch یک فریمورک Xposed غیر روت رایگان است که مبتنی بر هسته LSPosed است.</string>
+    <string name="home_view_source_code"><![CDATA[مشاهده کد منبع در %1$s<br/>به کانال %2$s ما بپیوندید]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">مدیریت کنید</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">پچ جدید</string>
+    <string name="patch_permission_title">اجازه</string>
+    <string name="patch_permission_text">لطفاً اجازه Write External Storage را بدهید تا اجازه ذخیره apk های وصله شده در فهرست دانلود را بدهد</string>
+    <string name="patch_mode">حالت وصله</string>
+    <string name="patch_local">محلی</string>
+    <string name="patch_local_desc">یک برنامه بدون ماژول های تعبیه شده را وصله کنید.\nبرنامه وصله‌شده به مدیر در حال اجرا در پس‌زمینه نیاز دارد، و محدوده Xposed را می‌توان به صورت پویا و بدون وصله مجدد تغییر داد.\nبرنامه های وصله شده محلی فقط می توانند در دستگاه محلی اجرا شوند.</string>
+    <string name="patch_portable">قابل حمل</string>
+    <string name="patch_portable_desc">یک برنامه را با ماژول های تعبیه شده وصله کنید.\nبرنامه وصله شده می تواند بدون مدیر اجرا شود، اما نمی توان آن را به صورت پویا مدیریت کرد.\nبرنامه‌های وصله‌شده قابل حمل را می‌توان در دستگاه‌هایی استفاده کرد که LSPatch Manager را نصب نکرده‌اند.</string>
+    <string name="patch_embed_modules">جاسازی ماژول ها</string>
+    <string name="patch_debuggable">قابل اشکال زدایی</string>
+    <string name="patch_sign">امضاء کردن</string>
+    <string name="patch_sigbypass">دور زدن امضا</string>
+    <string name="patch_sigbypasslv0">lv0: خاموش</string>
+    <string name="patch_sigbypasslv1">lv1: دور زدن PM</string>
+    <string name="patch_sigbypasslv2">lv2: دور زدن PM + openat (libc)</string>
+    <string name="patch_override_version_code">لغو کد نسخه</string>
+    <string name="patch_override_version_code_desc">کد نسخه برنامه وصله‌شده را به 1\nتغییر دهید</string>
+    <string name="patch_start">Patch را شروع کنید</string>
+    <string name="patch_return">برگشت</string>
+    <string name="patch_install">نصب</string>
+    <string name="patch_copy_error">خطای کپی</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Apps را انتخاب کنید</string>
+</resources>
