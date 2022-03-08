@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Додати</string>
+    <string name="page_repo">Репо</string>
+    <string name="page_logs">Журнали</string>
+    <string name="page_settings">Налаштування</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Доступна послуга Shizuku</string>
+    <string name="home_shizuku_unavailable">Служба Shizuku не підключена</string>
+    <string name="home_shizuku_warning">Деякі функції недоступні</string>
+    <string name="home_api_version">Версія API</string>
+    <string name="home_lspatch_version">Версія LSPatch</string>
+    <string name="home_framework_version">Версія Framework</string>
+    <string name="home_system_version">Версія системи</string>
+    <string name="home_device">Пристрій</string>
+    <string name="home_system_abi">Система ABI</string>
+    <string name="home_info_copied">Скопійовано в буфер обміну</string>
+    <string name="home_support">Підтримка</string>
+    <string name="home_description">LSPatch — це безкоштовний некорневий фреймворк Xposed, заснований на ядрі LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Перегляньте вихідний код на %1$s<br/>Приєднуйтесь до нашого %2$s каналу]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Керувати</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Новий патч</string>
+    <string name="patch_permission_title">Дозвіл</string>
+    <string name="patch_permission_text">Будь ласка, надайте дозвіл на запис зовнішнього сховища, щоб дозволити зберігати виправлені файли APK у каталозі завантажень</string>
+    <string name="patch_mode">Режим виправлення</string>
+    <string name="patch_local">Місцеві</string>
+    <string name="patch_local_desc">Виправте програму без вбудованих модулів.\nДодатку з виправленням потрібно, щоб менеджер працював у фоновому режимі, а область Xposed можна динамічно змінювати без повторного встановлення виправлення.\nЛокальні виправлені програми можуть працювати лише на локальному пристрої.</string>
+    <string name="patch_portable">Портативний</string>
+    <string name="patch_portable_desc">Виправте програму з вбудованими модулями.\nВиправлена програма може працювати без менеджера, але не може керуватись динамічно.\nПортативні виправлені програми можна використовувати на пристроях, на яких не встановлено LSPatch Manager.</string>
+    <string name="patch_embed_modules">Вставляти модулі</string>
+    <string name="patch_debuggable">Налагоджується</string>
+    <string name="patch_sign">Підписати</string>
+    <string name="patch_sigbypass">Обхід підпису</string>
+    <string name="patch_sigbypasslv0">lv0: Вимкнено</string>
+    <string name="patch_sigbypasslv1">lv1: Обійти PM</string>
+    <string name="patch_sigbypasslv2">lv2: обійти PM + openat (libc)</string>
+    <string name="patch_override_version_code">Замінити код версії</string>
+    <string name="patch_override_version_code_desc">Замінити код версії виправленої програми на 1\nЦе дозволяє встановити попередню версію</string>
+    <string name="patch_start">Запустити патч</string>
+    <string name="patch_return">Повернення</string>
+    <string name="patch_install">Встановити</string>
+    <string name="patch_copy_error">Помилка копіювання</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Виберіть Програми</string>
+</resources>
