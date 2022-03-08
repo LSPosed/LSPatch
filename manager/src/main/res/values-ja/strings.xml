@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">追加</string>
+    <string name="page_repo">レポ</string>
+    <string name="page_logs">ログ</string>
+    <string name="page_settings">設定</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">しずくサービスあり</string>
+    <string name="home_shizuku_unavailable">しずくサービスが接続されていません</string>
+    <string name="home_shizuku_warning">一部の機能は利用できません</string>
+    <string name="home_api_version">APIバージョン</string>
+    <string name="home_lspatch_version">LSPatchバージョン</string>
+    <string name="home_framework_version">フレームワークバージョン</string>
+    <string name="home_system_version">システムバージョン</string>
+    <string name="home_device">端末</string>
+    <string name="home_system_abi">システムABI</string>
+    <string name="home_info_copied">クリップボードにコピー</string>
+    <string name="home_support">サポート</string>
+    <string name="home_description">LSPatchは、LSPosedコアに基づく無料の非ルートXposedフレームワークです。</string>
+    <string name="home_view_source_code"><![CDATA[<br/>%1$sソースコードを表示する %2$s チャンネルに参加する]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">管理</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">新しいパッチ</string>
+    <string name="patch_permission_title">許可</string>
+    <string name="patch_permission_text">パッチを適用したapkをダウンロードディレクトリに保存できるように、外部ストレージへの書き込み権限を付与してください</string>
+    <string name="patch_mode">パッチモード</string>
+    <string name="patch_local">地元</string>
+    <string name="patch_local_desc">モジュールが埋め込まれていないアプリにパッチを適用します。\nパッチが適用されたアプリには、マネージャーがバックグラウンドで実行されている必要があり、Xposedスコープは再パッチなしで動的に変更できます。\nローカルのパッチが適用されたアプリは、ローカルデバイスでのみ実行できます。</string>
+    <string name="patch_portable">ポータブル</string>
+    <string name="patch_portable_desc">モジュールが埋め込まれたアプリにパッチを適用します。\nパッチを適用したアプリはマネージャーなしで実行できますが、動的に管理することはできません。\nポータブルパッチ適用アプリは、LSPatchManagerがインストールされていないデバイスで使用できます。</string>
+    <string name="patch_embed_modules">モジュールを埋め込む</string>
+    <string name="patch_debuggable">デバッグ可能</string>
+    <string name="patch_sign">サイン</string>
+    <string name="patch_sigbypass">署名バイパス</string>
+    <string name="patch_sigbypasslv0">lv0：オフ</string>
+    <string name="patch_sigbypasslv1">lv1：PMをバイパスする</string>
+    <string name="patch_sigbypasslv2">lv2：PMをバイパス+ openat（libc）</string>
+    <string name="patch_override_version_code">バージョンコードを上書きする</string>
+    <string name="patch_override_version_code_desc">パッチを適用したアプリのバージョンコードを10にオーバーライドします\nこれにより、ダウングレードインストールが可能になります</string>
+    <string name="patch_start">パッチを開始する</string>
+    <string name="patch_return">戻る</string>
+    <string name="patch_install">インストール</string>
+    <string name="patch_copy_error">コピーエラー</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">アプリを選択</string>
+</resources>
