@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Lisätä</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Lokit</string>
+    <string name="page_settings">asetukset</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Shizuku palvelu saatavilla</string>
+    <string name="home_shizuku_unavailable">Shizuku-palvelua ei ole yhdistetty</string>
+    <string name="home_shizuku_warning">Jotkut toiminnot eivät ole käytettävissä</string>
+    <string name="home_api_version">API-versio</string>
+    <string name="home_lspatch_version">LSPatch-versio</string>
+    <string name="home_framework_version">Framework-versio</string>
+    <string name="home_system_version">Järjestelmän versio</string>
+    <string name="home_device">Laite</string>
+    <string name="home_system_abi">Järjestelmä ABI</string>
+    <string name="home_info_copied">Kopioitu leikepöydälle</string>
+    <string name="home_support">Tuki</string>
+    <string name="home_description">LSPatch on ilmainen ei-root Xposed -kehys, joka perustuu LSPosed-ytimeen.</string>
+    <string name="home_view_source_code"><![CDATA[Katso lähdekoodi osoitteessa %1$s<br/>Liity %2$s kanavaamme]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Hallitse</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Uusi Patch</string>
+    <string name="patch_permission_title">Lupa</string>
+    <string name="patch_permission_text">Anna ulkoisen tallennustilan kirjoitusoikeus salliaksesi korjattujen apk-tiedostojen tallentamisen lataushakemistoon</string>
+    <string name="patch_mode">Patch-tila</string>
+    <string name="patch_local">Paikallinen</string>
+    <string name="patch_local_desc">Korjaa sovellus ilman upotettuja moduuleja.\nKorjattu sovellus tarvitsee taustalla toimivan hallinnan, ja Xposed-aluetta voidaan muuttaa dynaamisesti ilman korjausta.\nPaikalliset korjatut sovellukset voivat toimia vain paikallisessa laitteessa.</string>
+    <string name="patch_portable">Kannettava</string>
+    <string name="patch_portable_desc">Korjaa sovellus, jossa on upotettuja moduuleja.\nKorjattu sovellus voi toimia ilman hallintaa, mutta sitä ei voida hallita dynaamisesti.\nKannettavia korjattuja sovelluksia voidaan käyttää laitteissa, joihin ei ole asennettu LSPatch Manageria.</string>
+    <string name="patch_embed_modules">Upota moduulit</string>
+    <string name="patch_debuggable">Virheenkorjaus</string>
+    <string name="patch_sign">Merkki</string>
+    <string name="patch_sigbypass">Allekirjoituksen ohitus</string>
+    <string name="patch_sigbypasslv0">lv0: Pois</string>
+    <string name="patch_sigbypasslv1">lv1: Ohita PM</string>
+    <string name="patch_sigbypasslv2">lv2: Ohita PM + openat (libc)</string>
+    <string name="patch_override_version_code">Ohita versiokoodi</string>
+    <string name="patch_override_version_code_desc">Korvaa korjatun sovelluksen versiokoodiksi 1\nTämä sallii asennuksen alempaan versioon</string>
+    <string name="patch_start">Aloita korjaustiedosto</string>
+    <string name="patch_return">Palata</string>
+    <string name="patch_install">Asentaa</string>
+    <string name="patch_copy_error">Kopiointivirhe</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Valitse Sovellukset</string>
+</resources>
