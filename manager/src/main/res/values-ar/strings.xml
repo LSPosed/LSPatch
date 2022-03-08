@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">يضيف</string>
+    <string name="page_repo">الريبو</string>
+    <string name="page_logs">السجلات</string>
+    <string name="page_settings">إعدادات</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">تتوفر خدمة شيزوكو</string>
+    <string name="home_shizuku_unavailable">خدمة Shizuku غير متصلة</string>
+    <string name="home_shizuku_warning">بعض الوظائف غير متوفرة</string>
+    <string name="home_api_version">إصدار API</string>
+    <string name="home_lspatch_version">نسخة LSPatch</string>
+    <string name="home_framework_version">نسخة الإطار</string>
+    <string name="home_system_version">إصدار النظام</string>
+    <string name="home_device">جهاز</string>
+    <string name="home_system_abi">نظام ABI</string>
+    <string name="home_info_copied">نسخ إلى الحافظة</string>
+    <string name="home_support">الدعم</string>
+    <string name="home_description">LSPatch هو إطار عمل Xposed مجاني بدون جذر يعتمد على LSPosed core.</string>
+    <string name="home_view_source_code"><![CDATA[اعرض كود المصدر على %1$s<br/>انضم إلى قناتنا %2$s]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">يدير</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">باتش جديد</string>
+    <string name="patch_permission_title">الإذن</string>
+    <string name="patch_permission_text">يرجى منح إذن \"كتابة التخزين الخارجي\" للسماح بحفظ التطبيقات المصححة لتنزيل الدليل</string>
+    <string name="patch_mode">وضع التصحيح</string>
+    <string name="patch_local">محلي</string>
+    <string name="patch_local_desc">تصحيح تطبيق بدون وحدات مدمجة.\nيحتاج التطبيق المصحح إلى تشغيل المدير في الخلفية ، ويمكن تغيير نطاق Xposed ديناميكيًا دون إعادة التصحيح.\nلا يمكن تشغيل التطبيقات المحلية المصححة إلا على الجهاز المحلي.</string>
+    <string name="patch_portable">محمول</string>
+    <string name="patch_portable_desc">تصحيح تطبيق بوحدات مدمجة.\nيمكن تشغيل التطبيق المصحح بدون المدير ، لكن لا يمكن إدارته ديناميكيًا.\nيمكن استخدام التطبيقات المصححة المحمولة على الأجهزة التي لم يتم تثبيت LSPatch Manager عليها.</string>
+    <string name="patch_embed_modules">وحدات التضمين</string>
+    <string name="patch_debuggable">قابل للتصحيح</string>
+    <string name="patch_sign">إشارة</string>
+    <string name="patch_sigbypass">تجاوز التوقيع</string>
+    <string name="patch_sigbypasslv0">lv0: إيقاف</string>
+    <string name="patch_sigbypasslv1">lv1: تجاوز PM</string>
+    <string name="patch_sigbypasslv2">lv2: تجاوز PM + openat (libc)</string>
+    <string name="patch_override_version_code">تجاوز رمز الإصدار</string>
+    <string name="patch_override_version_code_desc">تجاوز رمز إصدار التطبيق المصحح إلى 1\nوهذا يسمح بتثبيت إصدار أقدم</string>
+    <string name="patch_start">بدء التصحيح</string>
+    <string name="patch_return">إرجاع</string>
+    <string name="patch_install">تثبيت</string>
+    <string name="patch_copy_error">خطأ في النسخ</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">حدد التطبيقات</string>
+</resources>
