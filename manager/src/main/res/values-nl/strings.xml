@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Toevoegen</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Logboeken</string>
+    <string name="page_settings">Instellingen</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Shizuku-service beschikbaar</string>
+    <string name="home_shizuku_unavailable">Shizuku-service niet verbonden</string>
+    <string name="home_shizuku_warning">Sommige functies niet beschikbaar</string>
+    <string name="home_api_version">API-versie</string>
+    <string name="home_lspatch_version">LSPatch-versie</string>
+    <string name="home_framework_version">Framework-versie</string>
+    <string name="home_system_version">Systeemversie</string>
+    <string name="home_device">Apparaat</string>
+    <string name="home_system_abi">Systeem ABI</string>
+    <string name="home_info_copied">Gekopieerd naar het klembord</string>
+    <string name="home_support">Steun</string>
+    <string name="home_description">LSPatch is een gratis niet-root Xposed-framework op basis van LSPosed-kern.</string>
+    <string name="home_view_source_code"><![CDATA[Bekijk de broncode op %1$s<br/>Word lid van ons %2$s -kanaal]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Beheren</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Nieuwe patch</string>
+    <string name="patch_permission_title">Toestemming</string>
+    <string name="patch_permission_text">Geef toestemming voor externe opslag schrijven om het opslaan van gepatchte apks in de downloadmap toe te staan</string>
+    <string name="patch_mode">Patch-modus</string>
+    <string name="patch_local">lokaal</string>
+    <string name="patch_local_desc">Patch een app zonder ingebouwde modules.\nDe gepatchte app heeft de manager nodig die op de achtergrond draait, en het Xposed-bereik kan dynamisch worden gewijzigd zonder opnieuw te patchen.\nLokale gepatchte apps kunnen alleen op het lokale apparaat worden uitgevoerd.</string>
+    <string name="patch_portable">draagbaar</string>
+    <string name="patch_portable_desc">Patch een app met ingebouwde modules.\nDe gepatchte app kan draaien zonder de manager, maar kan niet dynamisch worden beheerd.\nDraagbare gepatchte apps kunnen worden gebruikt op apparaten waarop LSPatch Manager niet is geïnstalleerd.</string>
+    <string name="patch_embed_modules">Modules insluiten</string>
+    <string name="patch_debuggable">Foutopsporing</string>
+    <string name="patch_sign">Teken</string>
+    <string name="patch_sigbypass">Handtekening bypass</string>
+    <string name="patch_sigbypasslv0">lv0: Uit</string>
+    <string name="patch_sigbypasslv1">lv1: PM overslaan</string>
+    <string name="patch_sigbypasslv2">lv2: Bypass PM + openat (libc)</string>
+    <string name="patch_override_version_code">Versiecode overschrijven</string>
+    <string name="patch_override_version_code_desc">Overschrijf de versiecode van de gepatchte app naar 1\nDit maakt een downgrade-installatie mogelijk</string>
+    <string name="patch_start">Patch starten</string>
+    <string name="patch_return">Opbrengst</string>
+    <string name="patch_install">Installeren</string>
+    <string name="patch_copy_error">Kopieerfout</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Selecteer Apps</string>
+</resources>
