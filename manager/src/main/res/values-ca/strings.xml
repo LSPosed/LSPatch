@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Afegeix</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Registres</string>
+    <string name="page_settings">Configuració</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Servei Shizuku disponible</string>
+    <string name="home_shizuku_unavailable">El servei Shizuku no està connectat</string>
+    <string name="home_shizuku_warning">Algunes funcions no estan disponibles</string>
+    <string name="home_api_version">Versió de l\'API</string>
+    <string name="home_lspatch_version">Versió LSPatch</string>
+    <string name="home_framework_version">Versió del marc</string>
+    <string name="home_system_version">Versió del sistema</string>
+    <string name="home_device">Dispositiu</string>
+    <string name="home_system_abi">Sistema ABI</string>
+    <string name="home_info_copied">S\'ha copiat al porta-retalls</string>
+    <string name="home_support">Suport</string>
+    <string name="home_description">LSPatch és un marc Xposed gratuït no root basat en el nucli LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Veure el codi font a %1$s<br/>Uneix-te al nostre canal %2$s]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Gestionar</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Nou Pegat</string>
+    <string name="patch_permission_title">Permís</string>
+    <string name="patch_permission_text">Si us plau, concediu permís d\'Escriptura d\'emmagatzematge extern per permetre desar apks pegats al directori de descàrregues</string>
+    <string name="patch_mode">Mode de pegat</string>
+    <string name="patch_local">Local</string>
+    <string name="patch_local_desc">Apliqueu una aplicació sense mòduls incrustats.\nL\'aplicació pegada necessita que el gestor s\'executi en segon pla, i l\'àmbit Xposed es pot canviar de forma dinàmica sense tornar a aplicar el pedaç.\nLes aplicacions localitzades només es poden executar al dispositiu local.</string>
+    <string name="patch_portable">Portàtil</string>
+    <string name="patch_portable_desc">Apliqueu una aplicació amb mòduls incrustats.\nL\'aplicació pegada es pot executar sense el gestor, però no es pot gestionar de manera dinàmica.\nLes aplicacions portàtils amb pedaços es poden utilitzar en dispositius que no tinguin LSPatch Manager instal·lat.</string>
+    <string name="patch_embed_modules">Incrustar mòduls</string>
+    <string name="patch_debuggable">Depurable</string>
+    <string name="patch_sign">Signe</string>
+    <string name="patch_sigbypass">Bypass de signatura</string>
+    <string name="patch_sigbypasslv0">lv0: apagat</string>
+    <string name="patch_sigbypasslv1">lv1: anul·lar PM</string>
+    <string name="patch_sigbypasslv2">lv2: ometre PM + openat (libc)</string>
+    <string name="patch_override_version_code">Anul·la el codi de versió</string>
+    <string name="patch_override_version_code_desc">Substituïu el codi de versió de l\'aplicació aplicada a 1\nAixò permet la instal·lació de baixada</string>
+    <string name="patch_start">Inicia el pegat</string>
+    <string name="patch_return">Tornar</string>
+    <string name="patch_install">Instal·lar</string>
+    <string name="patch_copy_error">Error de còpia</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Seleccioneu Aplicacions</string>
+</resources>

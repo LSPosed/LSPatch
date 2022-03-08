@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Legge til</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Tømmerstokker</string>
+    <string name="page_settings">Innstillinger</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Shizuku-tjeneste tilgjengelig</string>
+    <string name="home_shizuku_unavailable">Shizuku-tjenesten er ikke tilkoblet</string>
+    <string name="home_shizuku_warning">Noen funksjoner er utilgjengelige</string>
+    <string name="home_api_version">API-versjon</string>
+    <string name="home_lspatch_version">LSPatch-versjon</string>
+    <string name="home_framework_version">Rammeversjon</string>
+    <string name="home_system_version">Systemversjon</string>
+    <string name="home_device">Enhet</string>
+    <string name="home_system_abi">System ABI</string>
+    <string name="home_info_copied">Kopiert til utklippstavlen</string>
+    <string name="home_support">Brukerstøtte</string>
+    <string name="home_description">LSPatch er et gratis ikke-root Xposed-rammeverk basert på LSPosed-kjerne.</string>
+    <string name="home_view_source_code"><![CDATA[Se kildekoden på %1$s<br/>Bli med i vår %2$s -kanal]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Få til</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Ny oppdatering</string>
+    <string name="patch_permission_title">Tillatelse</string>
+    <string name="patch_permission_text">Gi tillatelse til å skrive ekstern lagring for å tillate lagring av patchede apks til nedlastingskatalogen</string>
+    <string name="patch_mode">Patch-modus</string>
+    <string name="patch_local">Lokalt</string>
+    <string name="patch_local_desc">Patch en app uten innebygde moduler.\nDen lappede appen trenger at manageren kjører i bakgrunnen, og Xposed-omfanget kan endres dynamisk uten re-patch.\nLokale lappede apper kan bare kjøres på den lokale enheten.</string>
+    <string name="patch_portable">Bærbar</string>
+    <string name="patch_portable_desc">Patch en app med innebygde moduler.\nDen lappede appen kan kjøres uten administratoren, men kan ikke administreres dynamisk.\nPortable patchede apper kan brukes på enheter som ikke har LSPatch Manager installert.</string>
+    <string name="patch_embed_modules">Bygg inn moduler</string>
+    <string name="patch_debuggable">Kan feilsøkes</string>
+    <string name="patch_sign">Skilt</string>
+    <string name="patch_sigbypass">Signaturomkjøring</string>
+    <string name="patch_sigbypasslv0">lv0: Av</string>
+    <string name="patch_sigbypasslv1">lv1: Omgå PM</string>
+    <string name="patch_sigbypasslv2">lv2: Bypass PM + openat (libc)</string>
+    <string name="patch_override_version_code">Overstyr versjonskoden</string>
+    <string name="patch_override_version_code_desc">Overstyr den lappede appens versjonskode til 1\nDette tillater nedgraderingsinstallasjon</string>
+    <string name="patch_start">Start patch</string>
+    <string name="patch_return">Komme tilbake</string>
+    <string name="patch_install">Installere</string>
+    <string name="patch_copy_error">Kopifeil</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Velg Apper</string>
+</resources>

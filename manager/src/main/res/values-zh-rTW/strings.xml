@@ -1,38 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">LSPatch</string>
-    <string name="add">新增</string>
-
-    <string name="page_repo">倉庫</string>
-    <string name="page_settings">設定</string>
-
+    <string name="add">添加</string>
+    <string name="page_repo">回購</string>
+    <string name="page_logs">日誌</string>
+    <string name="page_settings">設置</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">提供雫服務</string>
+    <string name="home_shizuku_unavailable">Shizuku服務未連接</string>
+    <string name="home_shizuku_warning">部分功能不可用</string>
+    <string name="home_api_version">API 版本</string>
+    <string name="home_lspatch_version">LSPatch 版本</string>
+    <string name="home_framework_version">框架版本</string>
+    <string name="home_system_version">系統版本</string>
+    <string name="home_device">設備</string>
+    <string name="home_system_abi">系統 ABI</string>
+    <string name="home_info_copied">已復製到剪貼板</string>
+    <string name="home_support">支持</string>
+    <string name="home_description">LSPatch 是一個基於 LSPosed 核心的免費非根 Xposed 框架。</string>
+    <string name="home_view_source_code"><![CDATA[查看源代碼 %1$s<br/>加入我們的 %2$s 頻道]]></string>
     <!-- Manage Page -->
     <string name="page_manage">管理</string>
-
     <!-- New Patch Page -->
-    <string name="page_new_patch">新打包</string>
-    <string name="patch_permission_title">權限</string>
-    <string name="patch_permission_text">請授予寫入外部儲存權限，以允許儲存打包的應用程式到下載（Download）資料夾</string>
-    <string name="patch_mode">打包模式</string>
-    <string name="patch_local">本機</string>
-    <string name="patch_local_desc">打包沒有內建模組的應用程式。\n打包後的程式需要此管理器背景執行，Xposed 作用域可以動態更改而無需重新打包。\n本機打包的應用程式，只能在本機執行。</string>
-    <string name="patch_portable">可攜式</string>
-    <string name="patch_portable_desc">打包內建模組的應用程式。\n打包後的程式，可以在沒有管理器的情況下執行，但無法動態管理啟用的模組。\n可攜式打包的應用程式，可以在沒有安裝 LSPatch Manager 的裝置上使用。</string>
-    <string name="patch_embed_modules">內建模組</string>
-    <string name="patch_debuggable">程式可偵錯</string>
-    <string name="patch_v1">V1 簽名</string>
-    <string name="patch_v2">V2 簽名</string>
-    <string name="patch_v3">V3 簽名</string>
-    <string name="patch_sigbypasslv">繞過簽名驗證的等級</string>
-    <string name="patch_sigbypasslv_0">lv0: 關閉</string>
-    <string name="patch_sigbypasslv_1">lv1: Bypass PM</string>
-    <string name="patch_sigbypasslv_2">lv2: Bypass PM + openat (libc)</string>
-    <string name="patch_override_version_code">覆蓋版本編號</string>
-    <string name="patch_override_version_code_desc">將打包應用程式的版本編號改成 1\n以便降級安裝</string>
-    <string name="patch_start">開始打包</string>
+    <string name="page_new_patch">新補丁</string>
+    <string name="patch_permission_title">允許</string>
+    <string name="patch_permission_text">請授予寫入外部存儲權限以允許將修補的 apk 保存到下載目錄</string>
+    <string name="patch_mode">補丁模式</string>
+    <string name="patch_local">當地的</string>
+    <string name="patch_local_desc">修補沒有嵌入模塊的應用程序。\n打補丁的應用需要後台運行管理器，Xposed範圍可以動態更改，無需重新打補丁。\n本地修補的應用程序只能在本地設備上運行。</string>
+    <string name="patch_portable">便攜的</string>
+    <string name="patch_portable_desc">修補嵌入了模塊的應用程序。\n修補後的應用可以在沒有管理器的情況下運行，但不能動態管理。\n便攜式修補應用程序可用於未安裝 LSPatch Manager 的設備。</string>
+    <string name="patch_embed_modules">嵌入模塊</string>
+    <string name="patch_debuggable">可調試</string>
+    <string name="patch_sign">標誌</string>
+    <string name="patch_sigbypass">簽名繞過</string>
+    <string name="patch_sigbypasslv0">lv0: 關閉</string>
+    <string name="patch_sigbypasslv1">lv1: 繞過 PM</string>
+    <string name="patch_sigbypasslv2">lv2: 繞過 PM + openat (libc)</string>
+    <string name="patch_override_version_code">覆蓋版本代碼</string>
+    <string name="patch_override_version_code_desc">將修補後的應用程序的版本代碼覆蓋為 1\n這允許降級安裝</string>
+    <string name="patch_start">啟動補丁</string>
     <string name="patch_return">返回</string>
     <string name="patch_install">安裝</string>
     <string name="patch_copy_error">複製錯誤</string>
-
     <!-- Select Apps Page -->
-    <string name="page_select_apps">選擇應用程式</string>
+    <string name="page_select_apps">選擇應用程序</string>
 </resources>

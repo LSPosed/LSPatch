@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Hozzáadás</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Naplók</string>
+    <string name="page_settings">Beállítások</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Shizuku szerviz elérhető</string>
+    <string name="home_shizuku_unavailable">A Shizuku szolgáltatás nincs csatlakoztatva</string>
+    <string name="home_shizuku_warning">Néhány funkció nem elérhető</string>
+    <string name="home_api_version">API verzió</string>
+    <string name="home_lspatch_version">LSPatch verzió</string>
+    <string name="home_framework_version">Keretrendszer verziója</string>
+    <string name="home_system_version">Rendszer verzió</string>
+    <string name="home_device">Eszköz</string>
+    <string name="home_system_abi">Rendszer ABI</string>
+    <string name="home_info_copied">Vágólapra másolva</string>
+    <string name="home_support">Támogatás</string>
+    <string name="home_description">Az LSPatch egy ingyenes, nem root Xposed keretrendszer, amely LSPosed magon alapul.</string>
+    <string name="home_view_source_code"><![CDATA[Forráskód megtekintése itt: %1$s<br/>Csatlakozzon %2$s csatornánkhoz]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Kezelése</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Új javítás</string>
+    <string name="patch_permission_title">Engedély</string>
+    <string name="patch_permission_text">Adjon külső tárhely írási engedélyt a javított apk-k letöltési könyvtárba való mentéséhez</string>
+    <string name="patch_mode">Patch mód</string>
+    <string name="patch_local">Helyi</string>
+    <string name="patch_local_desc">Javítson be egy alkalmazást beágyazott modulok nélkül.\nA javított alkalmazásnak szüksége van a háttérben futó kezelőre, és az Xposed hatóköre dinamikusan módosítható újrajavítás nélkül.\nA helyi javított alkalmazások csak a helyi eszközön futhatnak.</string>
+    <string name="patch_portable">Hordozható</string>
+    <string name="patch_portable_desc">Javítson egy alkalmazást beágyazott modulokkal.\nA javított alkalmazás futhat a kezelő nélkül, de nem kezelhető dinamikusan.\nA hordozható javított alkalmazások olyan eszközökön használhatók, amelyeken nincs telepítve az LSPatch Manager.</string>
+    <string name="patch_embed_modules">Modulok beágyazása</string>
+    <string name="patch_debuggable">Hibakeresés</string>
+    <string name="patch_sign">Jel</string>
+    <string name="patch_sigbypass">Aláírás megkerülése</string>
+    <string name="patch_sigbypasslv0">lv0: Ki</string>
+    <string name="patch_sigbypasslv1">lv1: Bypass PM</string>
+    <string name="patch_sigbypasslv2">lv2: PM megkerülése + openat (libc)</string>
+    <string name="patch_override_version_code">Verziókód felülírása</string>
+    <string name="patch_override_version_code_desc">A javított alkalmazás verziókódjának felülírása 1\n-ra Ez lehetővé teszi a visszafelé történő telepítést</string>
+    <string name="patch_start">Indítsa el a Patch-et</string>
+    <string name="patch_return">Visszatérés</string>
+    <string name="patch_install">Telepítés</string>
+    <string name="patch_copy_error">Másolási hiba</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Válassza az Alkalmazások lehetőséget</string>
+</resources>

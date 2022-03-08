@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Ajouter</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Journaux</string>
+    <string name="page_settings">Réglages</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Service Shizuku disponible</string>
+    <string name="home_shizuku_unavailable">Service Shizuku non connecté</string>
+    <string name="home_shizuku_warning">Certaines fonctions indisponibles</string>
+    <string name="home_api_version">Version de l\'API</string>
+    <string name="home_lspatch_version">Version LSPatch</string>
+    <string name="home_framework_version">Version du cadre</string>
+    <string name="home_system_version">Version du système</string>
+    <string name="home_device">Appareil</string>
+    <string name="home_system_abi">ABI système</string>
+    <string name="home_info_copied">Copié dans le presse-papier</string>
+    <string name="home_support">Support</string>
+    <string name="home_description">LSPatch est un framework Xposed gratuit non root basé sur le noyau LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Voir le code source à %1$s<br/>Rejoignez notre %2$s canal]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Faire en sorte</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Nouveau correctif</string>
+    <string name="patch_permission_title">Autorisation</string>
+    <string name="patch_permission_text">Veuillez accorder l\'autorisation d\'écriture sur le stockage externe pour autoriser l\'enregistrement des apks corrigés dans le répertoire de téléchargement</string>
+    <string name="patch_mode">Mode correctif</string>
+    <string name="patch_local">Local</string>
+    <string name="patch_local_desc">Patcher une application sans modules intégrés.\nL\'application corrigée nécessite que le gestionnaire s\'exécute en arrière-plan et la portée Xposed peut être modifiée dynamiquement sans re-correction.\nLes applications locales corrigées ne peuvent s\'exécuter que sur l\'appareil local.</string>
+    <string name="patch_portable">Portable</string>
+    <string name="patch_portable_desc">Patcher une application avec des modules intégrés.\nL\'application corrigée peut s\'exécuter sans le gestionnaire, mais ne peut pas être gérée de manière dynamique.\nLes applications patchées portables peuvent être utilisées sur des appareils sur lesquels LSPatch Manager n\'est pas installé.</string>
+    <string name="patch_embed_modules">Intégrer des modules</string>
+    <string name="patch_debuggable">Débogable</string>
+    <string name="patch_sign">Signer</string>
+    <string name="patch_sigbypass">Contournement des signatures</string>
+    <string name="patch_sigbypasslv0">lv0 : Désactivé</string>
+    <string name="patch_sigbypasslv1">lv1 : Contourner PM</string>
+    <string name="patch_sigbypasslv2">lv2 : Contourner PM + openat (libc)</string>
+    <string name="patch_override_version_code">Remplacer le code de version</string>
+    <string name="patch_override_version_code_desc">Remplacer le code de version de l\'application corrigée par 1\nCela permet l\'installation de la rétrogradation</string>
+    <string name="patch_start">Démarrer le correctif</string>
+    <string name="patch_return">Retourner</string>
+    <string name="patch_install">Installer</string>
+    <string name="patch_copy_error">Erreur de copie</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Sélectionnez les applications</string>
+</resources>

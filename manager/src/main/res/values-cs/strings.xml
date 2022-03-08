@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Přidat</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Protokoly</string>
+    <string name="page_settings">Nastavení</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Služba Shizuku je k dispozici</string>
+    <string name="home_shizuku_unavailable">Služba Shizuku není připojena</string>
+    <string name="home_shizuku_warning">Některé funkce nejsou k dispozici</string>
+    <string name="home_api_version">Verze API</string>
+    <string name="home_lspatch_version">Verze LSPatch</string>
+    <string name="home_framework_version">Verze rámce</string>
+    <string name="home_system_version">Verze systému</string>
+    <string name="home_device">přístroj</string>
+    <string name="home_system_abi">Systém ABI</string>
+    <string name="home_info_copied">Zkopírováno do schránky</string>
+    <string name="home_support">Podpěra, podpora</string>
+    <string name="home_description">LSPatch je bezplatný non-root Xposed framework založený na jádru LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Zobrazit zdrojový kód na %1$s<br/>Připojte se k našemu %2$s kanálu]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Spravovat</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Nový patch</string>
+    <string name="patch_permission_title">Povolení</string>
+    <string name="patch_permission_text">Udělte prosím oprávnění Zápis do externího úložiště, aby bylo možné ukládat opravené soubory APK do adresáře pro stahování</string>
+    <string name="patch_mode">Režim opravy</string>
+    <string name="patch_local">Místní</string>
+    <string name="patch_local_desc">Opravte aplikaci bez vestavěných modulů.\nOpravená aplikace vyžaduje, aby správce běžel na pozadí a rozsah Xposed lze dynamicky měnit bez opětovné opravy.\nMístní opravené aplikace lze spustit pouze na místním zařízení.</string>
+    <string name="patch_portable">Přenosný</string>
+    <string name="patch_portable_desc">Opravte aplikaci s vestavěnými moduly.\nOpravená aplikace může běžet bez správce, ale nelze ji spravovat dynamicky.\nPřenosné opravené aplikace lze používat na zařízeních, která nemají nainstalovaný LSPatch Manager.</string>
+    <string name="patch_embed_modules">Vložit moduly</string>
+    <string name="patch_debuggable">Laditelné</string>
+    <string name="patch_sign">Podepsat</string>
+    <string name="patch_sigbypass">Přemostění podpisu</string>
+    <string name="patch_sigbypasslv0">lv0: Vypnuto</string>
+    <string name="patch_sigbypasslv1">lv1: Obejít PM</string>
+    <string name="patch_sigbypasslv2">lv2: Bypass PM + openat (libc)</string>
+    <string name="patch_override_version_code">Přepsat kód verze</string>
+    <string name="patch_override_version_code_desc">Přepsat kód verze opravené aplikace na 1\nTo umožňuje instalaci na nižší verzi</string>
+    <string name="patch_start">Spusťte opravu</string>
+    <string name="patch_return">Vrátit se</string>
+    <string name="patch_install">Nainstalujte</string>
+    <string name="patch_copy_error">Chyba kopírování</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Vyberte Aplikace</string>
+</resources>

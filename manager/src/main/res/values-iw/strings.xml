@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">לְהוֹסִיף</string>
+    <string name="page_repo">ריפו</string>
+    <string name="page_logs">יומנים</string>
+    <string name="page_settings">הגדרות</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">שירות שיזוקו זמין</string>
+    <string name="home_shizuku_unavailable">שירות Shizuku לא מחובר</string>
+    <string name="home_shizuku_warning">חלק מהפונקציות אינן זמינות</string>
+    <string name="home_api_version">גרסת API</string>
+    <string name="home_lspatch_version">גרסת LSPatch</string>
+    <string name="home_framework_version">גרסת מסגרת</string>
+    <string name="home_system_version">גרסת מערכת</string>
+    <string name="home_device">התקן</string>
+    <string name="home_system_abi">מערכת ABI</string>
+    <string name="home_info_copied">הועתק ללוח</string>
+    <string name="home_support">תמיכה</string>
+    <string name="home_description">LSPatch היא מסגרת חינמית ללא שורש Xposed המבוססת על ליבת LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[צפה בקוד המקור ב %1$s<br/>הצטרף לערוץ %2$s שלנו]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">לנהל</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">תיקון חדש</string>
+    <string name="patch_permission_title">רְשׁוּת</string>
+    <string name="patch_permission_text">אנא הענק הרשאת כתיבה לאחסון חיצוני כדי לאפשר שמירת apks מתוקנים בספריית ההורדה</string>
+    <string name="patch_mode">מצב תיקון</string>
+    <string name="patch_local">מְקוֹמִי</string>
+    <string name="patch_local_desc">תקן אפליקציה ללא מודולים מוטבעים.\nהאפליקציה המתוקנת צריכה שהמנהל יפעל ברקע, וניתן לשנות את היקף Xposed באופן דינמי ללא תיקון מחדש.\nאפליקציות מקומיות מתוקנות יכולות לפעול רק במכשיר המקומי.</string>
+    <string name="patch_portable">נייד</string>
+    <string name="patch_portable_desc">תקן אפליקציה עם מודולים משובצים.\nהאפליקציה המתוקנת יכולה לפעול ללא המנהל, אך לא ניתן לנהל אותה באופן דינמי. ניתן להשתמש באפליקציות ניידות מתוקנות במכשירים שלא מותקן בהם\nManager.</string>
+    <string name="patch_embed_modules">הטמע מודולים</string>
+    <string name="patch_debuggable">ניתן לניפוי באגים</string>
+    <string name="patch_sign">סִימָן</string>
+    <string name="patch_sigbypass">עוקף חתימה</string>
+    <string name="patch_sigbypasslv0">lv0: כבוי</string>
+    <string name="patch_sigbypasslv1">lv1: עוקף את PM</string>
+    <string name="patch_sigbypasslv2">lv2: עוקף PM + openat (libc)</string>
+    <string name="patch_override_version_code">עוקף את קוד הגרסה</string>
+    <string name="patch_override_version_code_desc">עוקף את קוד הגרסה של האפליקציה המתוקנת ל-1\nזה מאפשר התקנה לאחור</string>
+    <string name="patch_start">התחל תיקון</string>
+    <string name="patch_return">לַחֲזוֹר</string>
+    <string name="patch_install">להתקין</string>
+    <string name="patch_copy_error">שגיאת העתקה</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">בחר אפליקציות</string>
+</resources>

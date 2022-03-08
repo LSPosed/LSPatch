@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Dodać</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Dzienniki</string>
+    <string name="page_settings">Ustawienia</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Dostępna usługa Shizuku</string>
+    <string name="home_shizuku_unavailable">Usługa Shizuku nie jest podłączona</string>
+    <string name="home_shizuku_warning">Niektóre funkcje niedostępne</string>
+    <string name="home_api_version">Wersja API</string>
+    <string name="home_lspatch_version">Wersja LSpatch</string>
+    <string name="home_framework_version">Wersja Framework</string>
+    <string name="home_system_version">Wersja systemu</string>
+    <string name="home_device">Urządzenie</string>
+    <string name="home_system_abi">System ABI</string>
+    <string name="home_info_copied">Skopiowane do schowka</string>
+    <string name="home_support">Wsparcie</string>
+    <string name="home_description">LSPatch to darmowa platforma Xposed bez rootowania oparta na rdzeniu LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Zobacz kod źródłowy na %1$s<br/>Dołącz do naszego %2$s kanału]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Zarządzać</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Nowa łatka</string>
+    <string name="patch_permission_title">Pozwolenie</string>
+    <string name="patch_permission_text">Proszę przyznać uprawnienie do zapisu w pamięci zewnętrznej, aby umożliwić zapisywanie zaktualizowanych apków w katalogu pobierania</string>
+    <string name="patch_mode">Tryb poprawki</string>
+    <string name="patch_local">Lokalny</string>
+    <string name="patch_local_desc">Popraw aplikację bez wbudowanych modułów.\nPoprawiona aplikacja wymaga działania menedżera w tle, a zakres Xposed można zmieniać dynamicznie bez konieczności ponownego instalowania poprawek.\nLokalnie poprawione aplikacje mogą działać tylko na urządzeniu lokalnym.</string>
+    <string name="patch_portable">Przenośny</string>
+    <string name="patch_portable_desc">Popraw aplikację z osadzonymi modułami.\nPoprawiona aplikacja może działać bez menedżera, ale nie można nią zarządzać dynamicznie.\nPrzenośne aplikacje łatane mogą być używane na urządzeniach, na których nie zainstalowano programu LSPatch Manager.</string>
+    <string name="patch_embed_modules">Osadź moduły</string>
+    <string name="patch_debuggable">Możliwość debugowania</string>
+    <string name="patch_sign">Podpisać</string>
+    <string name="patch_sigbypass">Ominięcie podpisu</string>
+    <string name="patch_sigbypasslv0">poziom 0: wyłączony</string>
+    <string name="patch_sigbypasslv1">lv1: Pomiń PM</string>
+    <string name="patch_sigbypasslv2">lv2: Pomiń PM + openat (libc)</string>
+    <string name="patch_override_version_code">Zastąp kod wersji</string>
+    <string name="patch_override_version_code_desc">Zastąp kod wersji poprawionej aplikacji na 1\nPozwala to na obniżoną wersję instalacji</string>
+    <string name="patch_start">Rozpocznij łatkę</string>
+    <string name="patch_return">Powrót</string>
+    <string name="patch_install">zainstalować</string>
+    <string name="patch_copy_error">Błąd kopiowania</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Wybierz aplikacje</string>
+</resources>
