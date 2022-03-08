@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Agregar</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Registros</string>
+    <string name="page_settings">Ajustes</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Servicio Shizuku disponible</string>
+    <string name="home_shizuku_unavailable">Servicio Shizuku no conectado</string>
+    <string name="home_shizuku_warning">Algunas funciones no disponibles</string>
+    <string name="home_api_version">Versión API</string>
+    <string name="home_lspatch_version">Versión de LSPatch</string>
+    <string name="home_framework_version">Versión del marco</string>
+    <string name="home_system_version">Versión del sistema</string>
+    <string name="home_device">Dispositivo</string>
+    <string name="home_system_abi">Sistema ABI</string>
+    <string name="home_info_copied">Copiado al portapapeles</string>
+    <string name="home_support">Apoyo</string>
+    <string name="home_description">LSPatch es un marco Xposed no root gratuito basado en el núcleo LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Ver código fuente en %1$s<br/>Únete a nuestro canal %2$s]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Administrar</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Nuevo parche</string>
+    <string name="patch_permission_title">Permiso</string>
+    <string name="patch_permission_text">Otorgue permiso de escritura en almacenamiento externo para permitir guardar aplicaciones parcheadas en el directorio de descargas.</string>
+    <string name="patch_mode">Modo de parche</string>
+    <string name="patch_local">Local</string>
+    <string name="patch_local_desc">Parche una aplicación sin módulos incrustados.\nLa aplicación parcheada necesita que el administrador se ejecute en segundo plano, y el alcance de Xposed se puede cambiar dinámicamente sin volver a parchear.\nLas aplicaciones parcheadas locales solo pueden ejecutarse en el dispositivo local.</string>
+    <string name="patch_portable">Portátil</string>
+    <string name="patch_portable_desc">Parche una aplicación con módulos incrustados.\nLa aplicación parcheada se puede ejecutar sin el administrador, pero no se puede administrar dinámicamente.\nLas aplicaciones parcheadas portátiles se pueden usar en dispositivos que no tienen instalado LSPatch Manager.</string>
+    <string name="patch_embed_modules">Módulos incrustados</string>
+    <string name="patch_debuggable">depurable</string>
+    <string name="patch_sign">Firmar</string>
+    <string name="patch_sigbypass">Omisión de firma</string>
+    <string name="patch_sigbypasslv0">lv0: Desactivado</string>
+    <string name="patch_sigbypasslv1">lv1: Pasar PM</string>
+    <string name="patch_sigbypasslv2">lv2: Omitir PM + abrir en (libc)</string>
+    <string name="patch_override_version_code">Anular código de versión</string>
+    <string name="patch_override_version_code_desc">Anule el código de versión de la aplicación parcheada a 1\nEsto permite la instalación de una versión anterior</string>
+    <string name="patch_start">Parche de inicio</string>
+    <string name="patch_return">Regreso</string>
+    <string name="patch_install">Instalar en pc</string>
+    <string name="patch_copy_error">error de copia</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Seleccionar aplicaciones</string>
+</resources>
