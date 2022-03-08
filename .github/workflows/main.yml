@@ -2,7 +2,7 @@ name: Android CI
 
 on:
   push:
-    branches: [ lsp ]
+    branches: [ master ]
   pull_request:
 
 jobs:
