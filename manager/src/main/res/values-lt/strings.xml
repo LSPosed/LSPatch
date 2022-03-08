@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Papildyti</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Rąstai</string>
+    <string name="page_settings">Nustatymai</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Galimas Shizuku servisas</string>
+    <string name="home_shizuku_unavailable">„Shizuku“ paslauga neprijungta</string>
+    <string name="home_shizuku_warning">Kai kurios funkcijos nepasiekiamos</string>
+    <string name="home_api_version">API versija</string>
+    <string name="home_lspatch_version">LSPatch versija</string>
+    <string name="home_framework_version">Framework versija</string>
+    <string name="home_system_version">Sistemos versija</string>
+    <string name="home_device">Įrenginys</string>
+    <string name="home_system_abi">Sistema ABI</string>
+    <string name="home_info_copied">Nukopijuota į mainų sritį</string>
+    <string name="home_support">Palaikymas</string>
+    <string name="home_description">LSPatch yra nemokama ne šakninė Xposed sistema, pagrįsta LSPosed branduoliu.</string>
+    <string name="home_view_source_code"><![CDATA[Peržiūrėkite šaltinio kodą %1$s<br/>Prisijunkite prie mūsų %2$s kanalo]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Tvarkyti</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Naujas pleistras</string>
+    <string name="patch_permission_title">Leidimas</string>
+    <string name="patch_permission_text">Suteikite leidimą rašyti išorinę saugyklą, kad galėtumėte išsaugoti pataisytas APK atsisiuntimo kataloge</string>
+    <string name="patch_mode">Patch režimas</string>
+    <string name="patch_local">Vietinis</string>
+    <string name="patch_local_desc">Pataisykite programą be įterptų modulių.\nPataisytai programai reikia, kad tvarkyklė veiktų fone, o Xposed taikymo sritį galima dinamiškai keisti be pakartotinio pataisymo.\nVietinės pataisytos programos gali veikti tik vietiniame įrenginyje.</string>
+    <string name="patch_portable">Nešiojami</string>
+    <string name="patch_portable_desc">Pataisykite programą su įterptais moduliais.\nPataisyta programa gali veikti be tvarkyklės, bet negali būti valdoma dinamiškai.\nNešiojamos pataisytos programos gali būti naudojamos įrenginiuose, kuriuose neįdiegta LSPatch Manager.</string>
+    <string name="patch_embed_modules">Įterpti modulius</string>
+    <string name="patch_debuggable">Derinamas</string>
+    <string name="patch_sign">Pasirašyti</string>
+    <string name="patch_sigbypass">Parašo apėjimas</string>
+    <string name="patch_sigbypasslv0">lv0: Išjungta</string>
+    <string name="patch_sigbypasslv1">lv1: apeiti PM</string>
+    <string name="patch_sigbypasslv2">lv2: apeiti PM + openat (libc)</string>
+    <string name="patch_override_version_code">Nepaisyti versijos kodo</string>
+    <string name="patch_override_version_code_desc">Nepaisyti pataisytos programos versijos kodo į 1\nTai leidžia įdiegti senesnę versiją</string>
+    <string name="patch_start">Pradėti pataisą</string>
+    <string name="patch_return">Grįžti</string>
+    <string name="patch_install">Diegti</string>
+    <string name="patch_copy_error">Kopijavimo klaida</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Pasirinkite Programos</string>
+</resources>
