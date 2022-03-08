@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Προσθήκη</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">κούτσουρα</string>
+    <string name="page_settings">Ρυθμίσεις</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Διατίθεται υπηρεσία Shizuku</string>
+    <string name="home_shizuku_unavailable">Η υπηρεσία Shizuku δεν είναι συνδεδεμένη</string>
+    <string name="home_shizuku_warning">Ορισμένες λειτουργίες δεν είναι διαθέσιμες</string>
+    <string name="home_api_version">Έκδοση API</string>
+    <string name="home_lspatch_version">Έκδοση LSPatch</string>
+    <string name="home_framework_version">Έκδοση πλαισίου</string>
+    <string name="home_system_version">Έκδοση συστήματος</string>
+    <string name="home_device">Συσκευή</string>
+    <string name="home_system_abi">Σύστημα ABI</string>
+    <string name="home_info_copied">Αντιγράφηκε στο πρόχειρο</string>
+    <string name="home_support">Υποστήριξη</string>
+    <string name="home_description">Το LSPatch είναι ένα δωρεάν πλαίσιο Xposed χωρίς ρίζα που βασίζεται στον πυρήνα LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Δείτε τον πηγαίο κώδικα στο %1$s<br/>Εγγραφείτε στο %2$s κανάλι μας]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Διαχειρίζονται</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Νέο Patch</string>
+    <string name="patch_permission_title">Αδεια</string>
+    <string name="patch_permission_text">Παρακαλούμε εκχωρήστε άδεια εγγραφής εξωτερικού χώρου αποθήκευσης για να επιτρέπεται η αποθήκευση επιδιορθωμένων apks στον κατάλογο Λήψης</string>
+    <string name="patch_mode">Λειτουργία ενημέρωσης κώδικα</string>
+    <string name="patch_local">Τοπικός</string>
+    <string name="patch_local_desc">Επιδιορθώστε μια εφαρμογή χωρίς ενσωματωμένες λειτουργικές μονάδες.\nΗ επιδιορθωμένη εφαρμογή χρειάζεται ο διαχειριστής να εκτελείται στο παρασκήνιο και το εύρος Xposed μπορεί να αλλάξει δυναμικά χωρίς εκ νέου ενημέρωση κώδικα.\nΟι τοπικές επιδιορθωμένες εφαρμογές μπορούν να εκτελούνται μόνο στην τοπική συσκευή.</string>
+    <string name="patch_portable">Φορητός</string>
+    <string name="patch_portable_desc">Επιδιορθώστε μια εφαρμογή με ενσωματωμένες λειτουργικές μονάδες.\nΗ επιδιορθωμένη εφαρμογή μπορεί να εκτελεστεί χωρίς τον διαχειριστή, αλλά δεν είναι δυνατή η δυναμική διαχείριση της.\nΟι φορητές επιδιορθωμένες εφαρμογές μπορούν να χρησιμοποιηθούν σε συσκευές που δεν έχουν εγκατεστημένο το LSPatch Manager.</string>
+    <string name="patch_embed_modules">Ενσωμάτωση λειτουργικών μονάδων</string>
+    <string name="patch_debuggable">Δυνατότητα εντοπισμού σφαλμάτων</string>
+    <string name="patch_sign">Σημάδι</string>
+    <string name="patch_sigbypass">Παράκαμψη υπογραφής</string>
+    <string name="patch_sigbypasslv0">lv0: Ανενεργό</string>
+    <string name="patch_sigbypasslv1">lv1: Παράκαμψη PM</string>
+    <string name="patch_sigbypasslv2">lv2: Παράκαμψη PM + openat (libc)</string>
+    <string name="patch_override_version_code">Παράκαμψη κωδικού έκδοσης</string>
+    <string name="patch_override_version_code_desc">Αντικαταστήστε τον κωδικό έκδοσης της ενημερωμένης εφαρμογής σε 1\nΑυτό επιτρέπει την εγκατάσταση υποβάθμισης</string>
+    <string name="patch_start">Ξεκινήστε το Patch</string>
+    <string name="patch_return">ΕΠΙΣΤΡΟΦΗ</string>
+    <string name="patch_install">Εγκαθιστώ</string>
+    <string name="patch_copy_error">Σφάλμα αντιγραφής</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Επιλέξτε Εφαρμογές</string>
+</resources>
