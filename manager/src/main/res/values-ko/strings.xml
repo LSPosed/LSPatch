@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">추가하다</string>
+    <string name="page_repo">레포</string>
+    <string name="page_logs">로그</string>
+    <string name="page_settings">설정</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">시즈쿠 서비스 가능</string>
+    <string name="home_shizuku_unavailable">시즈쿠 서비스가 연결되지 않았습니다</string>
+    <string name="home_shizuku_warning">일부 기능을 사용할 수 없음</string>
+    <string name="home_api_version">API 버전</string>
+    <string name="home_lspatch_version">LSPatch 버전</string>
+    <string name="home_framework_version">프레임워크 버전</string>
+    <string name="home_system_version">시스템 버전</string>
+    <string name="home_device">장치</string>
+    <string name="home_system_abi">시스템 ABI</string>
+    <string name="home_info_copied">클립보드에 복사됨</string>
+    <string name="home_support">지원하다</string>
+    <string name="home_description">LSPatch는 LSPosed 코어를 기반으로 하는 무료 비루트 Xposed 프레임워크입니다.</string>
+    <string name="home_view_source_code"><![CDATA[%1$s<br/>에서 소스 코드 보기 %2$s 채널 가입]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">관리하다</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">새로운 패치</string>
+    <string name="patch_permission_title">허가</string>
+    <string name="patch_permission_text">패치된 APK를 다운로드 디렉토리에 저장할 수 있도록 외부 저장소 쓰기 권한을 부여하세요.</string>
+    <string name="patch_mode">패치 모드</string>
+    <string name="patch_local">현지의</string>
+    <string name="patch_local_desc">모듈이 포함되지 않은 앱을 패치합니다.\n패치된 앱은 백그라운드에서 실행되는 관리자가 필요하며 Xposed 범위는 다시 패치하지 않고도 동적으로 변경할 수 있습니다.\n로컬 패치 앱은 로컬 장치에서만 실행할 수 있습니다.</string>
+    <string name="patch_portable">가지고 다닐 수 있는</string>
+    <string name="patch_portable_desc">모듈이 포함된 앱을 패치합니다.\n패치된 앱은 관리자 없이 실행할 수 있지만 동적으로 관리할 수는 없습니다.\n휴대용 패치 앱은 LSPatch Manager가 설치되지 않은 장치에서 사용할 수 있습니다.</string>
+    <string name="patch_embed_modules">모듈 포함</string>
+    <string name="patch_debuggable">디버깅 가능</string>
+    <string name="patch_sign">징후</string>
+    <string name="patch_sigbypass">서명 우회</string>
+    <string name="patch_sigbypasslv0">lv0: 꺼짐</string>
+    <string name="patch_sigbypasslv1">lv1: PM 우회</string>
+    <string name="patch_sigbypasslv2">lv2: PM + openat(libc) 우회</string>
+    <string name="patch_override_version_code">버전 코드 재정의</string>
+    <string name="patch_override_version_code_desc">패치된 앱의 버전 코드를 1\n으로 재정의하여 설치를 다운그레이드할 수 있습니다.</string>
+    <string name="patch_start">패치 시작</string>
+    <string name="patch_return">반품</string>
+    <string name="patch_install">설치하다</string>
+    <string name="patch_copy_error">복사 오류</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">앱 선택</string>
+</resources>
