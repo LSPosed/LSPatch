@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Thêm vào</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Nhật ký</string>
+    <string name="page_settings">Cài đặt</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Có dịch vụ Shizuku</string>
+    <string name="home_shizuku_unavailable">Dịch vụ Shizuku không được kết nối</string>
+    <string name="home_shizuku_warning">Một số chức năng không khả dụng</string>
+    <string name="home_api_version">Phiên bản API</string>
+    <string name="home_lspatch_version">Phiên bản LSPatch</string>
+    <string name="home_framework_version">Phiên bản khung</string>
+    <string name="home_system_version">Phiên bản hệ thống</string>
+    <string name="home_device">Thiết bị</string>
+    <string name="home_system_abi">Hệ thống ABI</string>
+    <string name="home_info_copied">Sao chép vào clipboard</string>
+    <string name="home_support">Hỗ trợ</string>
+    <string name="home_description">LSPatch là một khung công tác Xposed không gốc miễn phí dựa trên lõi LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Xem mã nguồn tại %1$s<br/>Tham gia kênh %2$s của chúng tôi]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Quản lý</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Bản vá mới</string>
+    <string name="patch_permission_title">Sự cho phép</string>
+    <string name="patch_permission_text">Vui lòng cấp quyền Ghi bộ nhớ ngoài để cho phép lưu các ứng dụng đã vá vào thư mục Tải xuống</string>
+    <string name="patch_mode">Chế độ vá lỗi</string>
+    <string name="patch_local">Địa phương</string>
+    <string name="patch_local_desc">Vá một ứng dụng không nhúng mô-đun.\nỨng dụng đã vá cần trình quản lý chạy trong nền và phạm vi Xposed có thể được thay đổi động mà không cần vá lại.\nCác ứng dụng được vá cục bộ chỉ có thể chạy trên thiết bị cục bộ.</string>
+    <string name="patch_portable">Cầm tay</string>
+    <string name="patch_portable_desc">Vá một ứng dụng có nhúng các mô-đun.\nỨng dụng đã vá có thể chạy mà không cần trình quản lý, nhưng không thể được quản lý động.\nCác ứng dụng bản vá di động có thể được sử dụng trên các thiết bị chưa cài đặt Trình quản lý bản vá lỗi.</string>
+    <string name="patch_embed_modules">Nhúng mô-đun</string>
+    <string name="patch_debuggable">Có thể gỡ lỗi</string>
+    <string name="patch_sign">Dấu hiệu</string>
+    <string name="patch_sigbypass">Bỏ qua chữ ký</string>
+    <string name="patch_sigbypasslv0">lv0: Tắt</string>
+    <string name="patch_sigbypasslv1">lv1: Bỏ qua PM</string>
+    <string name="patch_sigbypasslv2">lv2: Bỏ qua PM + openat (libc)</string>
+    <string name="patch_override_version_code">Ghi đè mã phiên bản</string>
+    <string name="patch_override_version_code_desc">Ghi đè mã phiên bản của ứng dụng đã vá thành 1\nĐiều này cho phép hạ cấp cài đặt</string>
+    <string name="patch_start">Bắt đầu bản vá</string>
+    <string name="patch_return">Trở về</string>
+    <string name="patch_install">Cài đặt</string>
+    <string name="patch_copy_error">Sao chép lỗi</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Chọn ứng dụng</string>
+</resources>
