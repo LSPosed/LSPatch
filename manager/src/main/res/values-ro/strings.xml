@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Adăuga</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Bușteni</string>
+    <string name="page_settings">Setări</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Serviciu Shizuku disponibil</string>
+    <string name="home_shizuku_unavailable">Serviciul Shizuku nu este conectat</string>
+    <string name="home_shizuku_warning">Unele funcții nu sunt disponibile</string>
+    <string name="home_api_version">Versiunea API</string>
+    <string name="home_lspatch_version">Versiunea LSPatch</string>
+    <string name="home_framework_version">Versiunea cadru</string>
+    <string name="home_system_version">Versiunea de sistem</string>
+    <string name="home_device">Dispozitiv</string>
+    <string name="home_system_abi">Sistem ABI</string>
+    <string name="home_info_copied">Copiat în clipboard</string>
+    <string name="home_support">A sustine</string>
+    <string name="home_description">LSPatch este un cadru Xposed gratuit non-root, bazat pe nucleul LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Vizualizați codul sursă la %1$s<br/>Alăturați-vă canalului nostru %2$s]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Administra</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Patch nou</string>
+    <string name="patch_permission_title">Permisiune</string>
+    <string name="patch_permission_text">Vă rugăm să acordați permisiunea de scriere pentru stocare externă pentru a permite salvarea apk-urilor corectate în directorul de descărcare</string>
+    <string name="patch_mode">Modul Patch</string>
+    <string name="patch_local">Local</string>
+    <string name="patch_local_desc">Corectează o aplicație fără module încorporate.\nAplicația corecţionată necesită ca managerul să ruleze în fundal, iar domeniul de aplicare Xposed poate fi modificat dinamic fără re-patch.\nAplicațiile locale corectate pot rula numai pe dispozitivul local.</string>
+    <string name="patch_portable">Portabil</string>
+    <string name="patch_portable_desc">Corectați o aplicație cu module încorporate.\nAplicația corectată poate rula fără manager, dar nu poate fi gestionată dinamic.\nAplicațiile portabile cu corecții pot fi utilizate pe dispozitivele care nu au LSPatch Manager instalat.</string>
+    <string name="patch_embed_modules">Încorporați module</string>
+    <string name="patch_debuggable">Depanabil</string>
+    <string name="patch_sign">Semn</string>
+    <string name="patch_sigbypass">Ocolire semnătură</string>
+    <string name="patch_sigbypasslv0">lv0: oprit</string>
+    <string name="patch_sigbypasslv1">lv1: Ocoli PM</string>
+    <string name="patch_sigbypasslv2">lv2: Bypass PM + openat (libc)</string>
+    <string name="patch_override_version_code">Ignorați codul versiunii</string>
+    <string name="patch_override_version_code_desc">Ignorați codul versiunii aplicației corecţionate la 1\nAcest lucru permite instalarea downgrade</string>
+    <string name="patch_start">Începeți Patch-ul</string>
+    <string name="patch_return">Întoarcere</string>
+    <string name="patch_install">Instalare</string>
+    <string name="patch_copy_error">Eroare de copiere</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Selectați Aplicații</string>
+</resources>
