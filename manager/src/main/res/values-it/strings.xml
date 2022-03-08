@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LPatch</string>
+    <string name="add">Aggiungere</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Registri</string>
+    <string name="page_settings">Impostazioni</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Servizio Shizuku disponibile</string>
+    <string name="home_shizuku_unavailable">Servizio Shizuku non connesso</string>
+    <string name="home_shizuku_warning">Alcune funzioni non disponibili</string>
+    <string name="home_api_version">Versione API</string>
+    <string name="home_lspatch_version">Versione LSPatch</string>
+    <string name="home_framework_version">Versione quadro</string>
+    <string name="home_system_version">Versione di sistema</string>
+    <string name="home_device">Dispositivo</string>
+    <string name="home_system_abi">Sistema ABI</string>
+    <string name="home_info_copied">Copiato negli appunti</string>
+    <string name="home_support">Supporto</string>
+    <string name="home_description">LSPatch è un framework Xposed gratuito non root basato sul core LPOSed.</string>
+    <string name="home_view_source_code"><![CDATA[Visualizza il codice sorgente su %1$s<br/>Unisciti al nostro canale %2$s]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Gestire</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Nuova toppa</string>
+    <string name="patch_permission_title">Autorizzazione</string>
+    <string name="patch_permission_text">Concedi l\'autorizzazione per la scrittura di archiviazione esterna per consentire il salvataggio di apk corretti nella directory di download</string>
+    <string name="patch_mode">Modalità patch</string>
+    <string name="patch_local">Locale</string>
+    <string name="patch_local_desc">Patch un\'app senza moduli incorporati.\nL\'app con patch richiede che il gestore sia in esecuzione in background e l\'ambito Xposed può essere modificato in modo dinamico senza applicare nuovamente la patch.\nLe app locali con patch possono essere eseguite solo sul dispositivo locale.</string>
+    <string name="patch_portable">Portatile</string>
+    <string name="patch_portable_desc">Patch un\'app con moduli incorporati.\nL\'app con patch può essere eseguita senza il gestore, ma non può essere gestita in modo dinamico.\nLe app portatili con patch possono essere utilizzate su dispositivi su cui non è installato LSpatch Manager.</string>
+    <string name="patch_embed_modules">Incorpora i moduli</string>
+    <string name="patch_debuggable">Debugging</string>
+    <string name="patch_sign">Cartello</string>
+    <string name="patch_sigbypass">Esclusione della firma</string>
+    <string name="patch_sigbypasslv0">lv0: disattivato</string>
+    <string name="patch_sigbypasslv1">lv1: bypassa PM</string>
+    <string name="patch_sigbypasslv2">lv2: bypass PM + openat (libc)</string>
+    <string name="patch_override_version_code">Sostituisci il codice della versione</string>
+    <string name="patch_override_version_code_desc">Sovrascrivi il codice della versione dell\'app con patch su 1\nCiò consente l\'installazione del downgrade</string>
+    <string name="patch_start">Avvia patch</string>
+    <string name="patch_return">Ritorno</string>
+    <string name="patch_install">Installare</string>
+    <string name="patch_copy_error">Errore di copia</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Seleziona App</string>
+</resources>
