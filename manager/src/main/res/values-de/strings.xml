@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LSPatch</string>
+    <string name="add">Addieren</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Protokolle</string>
+    <string name="page_settings">Einstellungen</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Shizuku-Service verfügbar</string>
+    <string name="home_shizuku_unavailable">Shizuku-Dienst nicht verbunden</string>
+    <string name="home_shizuku_warning">Einige Funktionen nicht verfügbar</string>
+    <string name="home_api_version">API-Version</string>
+    <string name="home_lspatch_version">LSPatch-Version</string>
+    <string name="home_framework_version">Framework-Version</string>
+    <string name="home_system_version">Systemversion</string>
+    <string name="home_device">Gerät</string>
+    <string name="home_system_abi">System-ABI</string>
+    <string name="home_info_copied">In die Zwischenablage kopiert</string>
+    <string name="home_support">Unterstützung</string>
+    <string name="home_description">LSPatch ist ein kostenloses Xposed-Framework ohne Rootberechtigung, das auf dem LSPosed-Core basiert.</string>
+    <string name="home_view_source_code"><![CDATA[Quellcode anzeigen unter %1$s<br/>Treten Sie unserem %2$s -Kanal bei]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Verwalten</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Neuer Patch</string>
+    <string name="patch_permission_title">Erlaubnis</string>
+    <string name="patch_permission_text">Bitte erteilen Sie die Berechtigung „Externen Speicher schreiben“, um gepatchte APKs im Download-Verzeichnis speichern zu können</string>
+    <string name="patch_mode">Patch-Modus</string>
+    <string name="patch_local">Lokal</string>
+    <string name="patch_local_desc">Patchen Sie eine App ohne eingebettete Module.\nFür die gepatchte App muss der Manager im Hintergrund ausgeführt werden, und der Xposed-Bereich kann ohne erneutes Patchen dynamisch geändert werden.\nLokal gepatchte Apps können nur auf dem lokalen Gerät ausgeführt werden.</string>
+    <string name="patch_portable">tragbar</string>
+    <string name="patch_portable_desc">Patchen einer App mit eingebetteten Modulen.\nDie gepatchte App kann ohne den Manager ausgeführt, aber nicht dynamisch verwaltet werden.\nPortable gepatchte Apps können auf Geräten verwendet werden, auf denen LSPatch Manager nicht installiert ist.</string>
+    <string name="patch_embed_modules">Module einbetten</string>
+    <string name="patch_debuggable">Debuggbar</string>
+    <string name="patch_sign">Schild</string>
+    <string name="patch_sigbypass">Signaturumgehung</string>
+    <string name="patch_sigbypasslv0">lv0: Aus</string>
+    <string name="patch_sigbypasslv1">lv1: PM umgehen</string>
+    <string name="patch_sigbypasslv2">lv2: PM umgehen + openat (libc)</string>
+    <string name="patch_override_version_code">Versionscode überschreiben</string>
+    <string name="patch_override_version_code_desc">Setzen Sie den Versionscode der gepatchten App auf 1\naußer Kraft. Dies ermöglicht eine Downgrade-Installation</string>
+    <string name="patch_start">Patch starten</string>
+    <string name="patch_return">Zurückkehren</string>
+    <string name="patch_install">Installieren</string>
+    <string name="patch_copy_error">Kopierfehler</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Apps auswählen</string>
+</resources>
