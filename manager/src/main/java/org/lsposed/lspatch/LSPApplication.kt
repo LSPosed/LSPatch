@@ -12,11 +12,19 @@ const val TAG = "LSPatch Manager"
 class LSPApplication : Application() {
 
     companion object {
-        var shizukuGranted by mutableStateOf(Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED)
+        var shizukuAlive = false
+        var shizukuGranted by mutableStateOf(false)
     }
 
     override fun onCreate() {
         super.onCreate()
-
+        Shizuku.addBinderReceivedListener {
+            shizukuAlive = true
+            shizukuGranted = Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
+        }
+        Shizuku.addBinderDeadListener {
+            shizukuAlive = false
+            shizukuGranted = false
+        }
     }
 }
