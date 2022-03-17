@@ -240,8 +240,8 @@ public class LSPatch {
             // copy so and dex files into the unzipped apk
             // do not put liblspd.so into apk!lib because x86 native bridge causes crash
             for (String arch : APK_LIB_PATH_ARRAY) {
-                String entryName = "assets/lspatch/lspd/" + arch + "/liblspd.so";
-                try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + (arch.equals("arm") ? "armeabi-v7a" : (arch.equals("arm64") ? "arm64-v8a" : arch)) + "/liblspd.so")) {
+                String entryName = "assets/lspatch/so/" + arch + "/liblspatch.so";
+                try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + (arch.equals("arm") ? "armeabi-v7a" : (arch.equals("arm64") ? "arm64-v8a" : arch)) + "/liblspatch.so")) {
                     dstZFile.add(entryName, is, false); // no compress for so
                 } catch (Throwable e) {
                     // More exception info

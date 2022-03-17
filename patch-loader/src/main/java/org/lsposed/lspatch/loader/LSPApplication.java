@@ -29,7 +29,7 @@ import org.lsposed.lspatch.manager.ModuleLoader;
 import org.lsposed.lspatch.share.Constants;
 import org.lsposed.lspatch.share.PatchConfig;
 import org.lsposed.lspd.config.ApplicationServiceClient;
-import org.lsposed.lspd.core.Main;
+import org.lsposed.lspd.core.Startup;
 import org.lsposed.lspd.models.Module;
 import org.lsposed.lspd.nativebridge.SigBypass;
 
@@ -53,7 +53,6 @@ import java.util.zip.ZipFile;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.XposedInit;
 import hidden.HiddenApiBridge;
 
 /**
@@ -104,10 +103,9 @@ public class LSPApplication extends ApplicationServiceClient {
         try {
             disableProfile(context);
             loadModules(context);
-            Main.forkPostCommon(false, context.getDataDir().toString(), ActivityThread.currentProcessName());
-            doHook(context);
+            Startup.initXposed(false);
             Log.i(TAG, "Start loading modules");
-            XposedInit.loadModules();
+            Startup.bootstrapXposed(ActivityThread.currentProcessName());
             // WARN: Since it uses `XResource`, the following class should not be initialized
             // before forkPostCommon is invoke. Otherwise, you will get failure of XResources
             LSPLoader.initModules(appLoadedApk);
@@ -116,9 +114,11 @@ public class LSPApplication extends ApplicationServiceClient {
             switchClassLoader("mBaseClassLoader");
             switchClassLoader("mDefaultClassLoader");
             switchClassLoader("mClassLoader");
+            doSigBypass(context);
         } catch (Throwable e) {
             Log.e(TAG, "Do hook", e);
         }
+        Log.i(TAG, "LSPatch bootstrap completed");
     }
 
     private static Context createLoadedApkWithContext() {
@@ -294,7 +294,7 @@ public class LSPApplication extends ApplicationServiceClient {
         return field.getInt(null);
     }
 
-    private static void byPassSignature(Context context) throws ClassNotFoundException, IllegalAccessException, NoSuchFieldException {
+    private static void bypassSignature(Context context) throws ClassNotFoundException, IllegalAccessException, NoSuchFieldException {
         final int TRANSACTION_getPackageInfo = getTranscationId("android.content.pm.IPackageManager$Stub", "TRANSACTION_getPackageInfo");
         XposedHelpers.findAndHookMethod("android.os.BinderProxy", null, "transact", int.class, Parcel.class, Parcel.class, int.class, new XC_MethodHook() {
             @Override
@@ -359,10 +359,10 @@ public class LSPApplication extends ApplicationServiceClient {
         });
     }
 
-    private static void doHook(Context context) throws IllegalAccessException, ClassNotFoundException, IOException, NoSuchFieldException {
+    private static void doSigBypass(Context context) throws IllegalAccessException, ClassNotFoundException, IOException, NoSuchFieldException {
         if (config.sigBypassLevel >= Constants.SIGBYPASS_LV_PM) {
             XLog.d(TAG, "Original signature: " + config.originalSignature.substring(0, 16) + "...");
-            byPassSignature(context);
+            bypassSignature(context);
         }
         if (config.sigBypassLevel >= Constants.SIGBYPASS_LV_PM_OPENAT) {
             String cacheApkPath;

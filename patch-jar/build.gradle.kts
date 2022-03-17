@@ -35,13 +35,13 @@ val jar = tasks.jar.get()
 
 tasks.register("buildDebug") {
     jar.dependsOn(":appstub:copyDebug")
-    jar.dependsOn(":app:copyRiruDebug")
+    jar.dependsOn(":patch-loader:copyDebug")
     dependsOn(tasks.build)
 }
 
 tasks.register("buildRelease") {
     jar.dependsOn(":appstub:copyRelease")
-    jar.dependsOn(":app:copyRiruRelease")
+    jar.dependsOn(":patch-loader:copyRelease")
     dependsOn(tasks.build)
 }
 

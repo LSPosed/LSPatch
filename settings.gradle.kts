@@ -1,27 +1,50 @@
-rootProject.name = "LSPatch"
-
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-include(":daemon-service")
-include(":hiddenapi-bridge")
-include(":hiddenapi-stubs")
-include(":interface")
-include(":lspcore")
-include(":manager-service")
+pluginManagement {
+    val agpVersion: String by settings
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+    plugins {
+        id("com.android.library") version agpVersion
+        id("com.android.application") version agpVersion
+    }
+}
 
-project(":daemon-service").projectDir = file("core/daemon-service")
-project(":hiddenapi-bridge").projectDir = file("core/hiddenapi-bridge")
-project(":hiddenapi-stubs").projectDir = file("core/hiddenapi-stubs")
-project(":interface").projectDir = file("core/service/interface")
-project(":lspcore").projectDir = file("core/core")
-project(":manager-service").projectDir = file("core/manager-service")
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
 
-include(":apkzlib")
-include(":app")
-include(":appstub")
-include(":axmlprinter")
-include(":imanager")
-include(":manager")
-include(":patch")
-include(":patch-jar")
-include(":share")
+rootProject.name = "LSPatch"
+include(
+    ":apkzlib",
+    ":appstub",
+    ":axmlprinter",
+    ":core",
+    ":hiddenapi:bridge",
+    ":hiddenapi:stubs",
+    ":imanager",
+    ":manager",
+    ":patch",
+    ":patch-jar",
+    ":patch-loader",
+    ":services:daemon-service",
+    ":services:manager-service",
+    ":services:xposed-service:interface",
+    ":share"
+)
+
+project(":core").projectDir = file("core/core")
+project(":hiddenapi:bridge").projectDir = file("core/hiddenapi/bridge")
+project(":hiddenapi:stubs").projectDir = file("core/hiddenapi/stubs")
+project(":services:daemon-service").projectDir = file("core/services/daemon-service")
+project(":services:manager-service").projectDir = file("core/services/manager-service")
+project(":services:xposed-service:interface").projectDir = file("core/services/xposed-service/interface")
+
+buildCache { local { removeUnusedEntriesAfterDays = 1 } }

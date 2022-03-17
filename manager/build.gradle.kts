@@ -1,18 +1,7 @@
-import com.android.build.gradle.BaseExtension
-
-val androidCompileSdkVersion: Int by rootProject.extra
-val androidMinSdkVersion: Int by rootProject.extra
-val androidTargetSdkVersion: Int by rootProject.extra
-
 val defaultManagerPackageName: String by rootProject.extra
 val apiCode: Int by rootProject.extra
-val verCode: Int by rootProject.extra
-val verName: String by rootProject.extra
 val coreVerCode: Int by rootProject.extra
 val coreVerName: String by rootProject.extra
-
-val androidSourceCompatibility: JavaVersion by rootProject.extra
-val androidTargetCompatibility: JavaVersion by rootProject.extra
 
 plugins {
     id("com.android.application")
@@ -21,14 +10,8 @@ plugins {
 }
 
 android {
-    compileSdk = androidCompileSdkVersion
-
     defaultConfig {
         applicationId = defaultManagerPackageName
-        minSdk = androidMinSdkVersion
-        targetSdk = androidTargetSdkVersion
-        versionCode = verCode
-        versionName = verName
 
         buildConfigField("int", "API_CODE", """$apiCode""")
         buildConfigField("int", "CORE_VERSION_CODE", """$coreVerCode""")
@@ -39,13 +22,7 @@ android {
         release {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = projects.app.dependencyProject.extensions.getByName<BaseExtension>("android").buildTypes["release"].signingConfig
         }
-    }
-
-    compileOptions {
-        sourceCompatibility = androidSourceCompatibility
-        targetCompatibility = androidTargetCompatibility
     }
 
     kotlinOptions {
@@ -70,7 +47,7 @@ afterEvaluate {
 
         task<Copy>("copy${variantCapped}Assets") {
             dependsOn(":appstub:copy$variantCapped")
-            dependsOn(":app:copyRiru$variantCapped")
+            dependsOn(":patch-loader:copy$variantCapped")
             tasks["merge${variantCapped}Assets"].dependsOn(this)
 
             into("$buildDir/intermediates/assets/$variantLowered/merge${variantCapped}Assets")
@@ -92,11 +69,11 @@ dependencies {
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.activity:activity-compose:1.5.0-alpha03")
     implementation("androidx.compose.material:material-icons-extended:1.1.1")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha06")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha07")
     implementation("androidx.compose.runtime:runtime-livedata:1.1.1")
     implementation("androidx.compose.ui:ui:1.1.1")
     implementation("androidx.compose.ui:ui-tooling:1.1.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-alpha03")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-alpha04")
     implementation("androidx.navigation:navigation-compose:2.5.0-alpha03")
     implementation("androidx.preference:preference:1.2.0")
     implementation("com.google.accompanist:accompanist-drawablepainter:0.24.2-alpha")

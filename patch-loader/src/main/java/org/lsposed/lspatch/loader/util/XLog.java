@@ -1,7 +1,6 @@
 package org.lsposed.lspatch.loader.util;
 
-
-import org.lsposed.lspd.BuildConfig;
+import org.lsposed.lspatch.loader.BuildConfig;
 
 public class XLog {
 

@@ -1,23 +1,10 @@
-val androidMinSdkVersion: Int by rootProject.extra
-val androidTargetSdkVersion: Int by rootProject.extra
-val androidCompileSdkVersion: Int by rootProject.extra
-val androidBuildToolsVersion: String by rootProject.extra
-
-val androidSourceCompatibility: JavaVersion by rootProject.extra
-val androidTargetCompatibility: JavaVersion by rootProject.extra
-
 plugins {
     id("com.android.application")
 }
 
 android {
-    compileSdk = androidCompileSdkVersion
-    buildToolsVersion = androidBuildToolsVersion
 
     defaultConfig {
-        minSdk = androidMinSdkVersion
-        targetSdk = androidTargetSdkVersion
-
         multiDexEnabled = false
     }
 
@@ -26,11 +13,6 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
-    }
-
-    compileOptions {
-        sourceCompatibility = androidSourceCompatibility
-        targetCompatibility = androidTargetCompatibility
     }
 }
 
@@ -55,7 +37,7 @@ androidComponents.onVariants { variant ->
 }
 
 dependencies {
-    compileOnly(projects.hiddenapiStubs)
+    compileOnly(projects.hiddenapi.stubs)
 
     implementation("de.upb.cs.swt:axml:2.1.2")
 }
