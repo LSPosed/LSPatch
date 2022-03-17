@@ -28,7 +28,9 @@ jobs:
         distribution: 'adopt'
 
     - name: Build Debug
-      run: ./gradlew buildDebug
+      run: |
+        echo 'org.gradle.jvmargs=-Xmx2048m' >> gradle.properties
+        ./gradlew buildDebug
     - name: Upload Debug artifact
       uses: actions/upload-artifact@v2
       with:
@@ -38,7 +40,9 @@ jobs:
           out/manager-debug.apk
 
     - name: Build Release
-      run: ./gradlew buildRelease
+      run: |
+        echo 'org.gradle.jvmargs=-Xmx2048m' >> gradle.properties
+        ./gradlew buildRelease
     - name: Upload Release artifact
       uses: actions/upload-artifact@v2
       with:
