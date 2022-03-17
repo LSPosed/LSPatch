@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Add</string>
 
     <string name="page_repo">Repo</string>
@@ -26,7 +25,7 @@
 
     <!-- New Patch Page -->
     <string name="page_new_patch">New Patch</string>
-    <string name="patch_permission_title">Permission</string>
+    <string name="patch_permission_title">Permission Application</string>
     <string name="patch_permission_text">Please grant Write External Storage permission to allow saving patched apks to Download directory</string>
     <string name="patch_mode">Patch Mode</string>
     <string name="patch_local">Local</string>
@@ -41,7 +40,7 @@
     <string name="patch_sigbypasslv1">lv1: Bypass PM</string>
     <string name="patch_sigbypasslv2">lv2: Bypass PM + openat (libc)</string>
     <string name="patch_override_version_code">Override version code</string>
-    <string name="patch_override_version_code_desc">Override the patched app\'s version code to 1\nThis allows downgrade installation</string>
+    <string name="patch_override_version_code_desc">Override the patched app\'s version code to 1\nThis allows downgrade installation in the future, and generally this will not affect the version code actually perceived by the application</string>
     <string name="patch_start">Start Patch</string>
     <string name="patch_return">Return</string>
     <string name="patch_install">Install</string>
