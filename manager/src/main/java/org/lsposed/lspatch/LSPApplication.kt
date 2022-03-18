@@ -12,19 +12,18 @@ const val TAG = "LSPatch Manager"
 class LSPApplication : Application() {
 
     companion object {
-        var shizukuAlive = false
+        var shizukuBinderAvalable = false
         var shizukuGranted by mutableStateOf(false)
-    }
 
-    override fun onCreate() {
-        super.onCreate()
-        Shizuku.addBinderReceivedListener {
-            shizukuAlive = true
-            shizukuGranted = Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
-        }
-        Shizuku.addBinderDeadListener {
-            shizukuAlive = false
-            shizukuGranted = false
+        init {
+            Shizuku.addBinderReceivedListenerSticky {
+                shizukuBinderAvalable = true
+                shizukuGranted = Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
+            }
+            Shizuku.addBinderDeadListener {
+                shizukuBinderAvalable = false
+                shizukuGranted = false
+            }
         }
     }
 }

@@ -8,13 +8,7 @@ android {
     }
 
     buildTypes {
-        debug {
-            isDebuggable = true
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
         release {
-            isDebuggable = false
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
@@ -24,10 +18,6 @@ android {
         cmake {
             path("src/main/jni/CMakeLists.txt")
         }
-    }
-
-    lint {
-        abortOnError = false
     }
 }
 

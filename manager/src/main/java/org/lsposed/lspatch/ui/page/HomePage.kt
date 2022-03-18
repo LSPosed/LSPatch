@@ -87,7 +87,7 @@ private fun ShizukuCard() {
 
     ElevatedCard(
         modifier = Modifier.clickable {
-            if (LSPApplication.shizukuAlive && !LSPApplication.shizukuGranted) {
+            if (LSPApplication.shizukuBinderAvalable && !LSPApplication.shizukuGranted) {
                 Shizuku.requestPermission(114514)
             }
         },
