@@ -19,7 +19,6 @@ import com.wind.meditor.property.AttributeItem;
 import com.wind.meditor.property.ModificationProperty;
 import com.wind.meditor.utils.NodeValue;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.lsposed.lspatch.share.PatchConfig;
 import org.lsposed.patch.util.ApkSignatureHelper;
@@ -34,7 +33,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.security.KeyStore;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;

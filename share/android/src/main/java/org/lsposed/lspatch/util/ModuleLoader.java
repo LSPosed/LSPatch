@@ -1,4 +1,4 @@
-package org.lsposed.lspatch.manager;
+package org.lsposed.lspatch.util;
 
 import android.os.SharedMemory;
 import android.system.ErrnoException;

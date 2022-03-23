@@ -12,12 +12,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.Signature;
 import android.content.res.CompatibilityInfo;
 import android.os.Build;
-import android.os.Bundle;
-import android.os.Environment;
 import android.os.IBinder;
 import android.os.Parcel;
-import android.os.ParcelFileDescriptor;
-import android.os.RemoteException;
 import android.system.Os;
 import android.util.Log;
 
@@ -25,13 +21,13 @@ import com.google.gson.Gson;
 
 import org.lsposed.lspatch.loader.util.FileUtils;
 import org.lsposed.lspatch.loader.util.XLog;
-import org.lsposed.lspatch.manager.ModuleLoader;
+import org.lsposed.lspatch.service.LocalApplicationService;
+import org.lsposed.lspatch.service.RemoteApplicationService;
 import org.lsposed.lspatch.share.Constants;
 import org.lsposed.lspatch.share.PatchConfig;
-import org.lsposed.lspd.config.ApplicationServiceClient;
 import org.lsposed.lspd.core.Startup;
-import org.lsposed.lspd.models.Module;
 import org.lsposed.lspd.nativebridge.SigBypass;
+import org.lsposed.lspd.service.ILSPApplicationService;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -46,7 +42,6 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.zip.ZipFile;
@@ -59,7 +54,10 @@ import hidden.HiddenApiBridge;
  * Created by Windysha
  */
 @SuppressWarnings("unused")
-public class LSPApplication extends ApplicationServiceClient {
+public class LSPApplication {
+
+    public static final int FIRST_APP_ZYGOTE_ISOLATED_UID = 90000;
+    public static final int PER_USER_RANGE = 100000;
     private static final String TAG = "LSPatch";
 
     private static ActivityThread activityThread;
@@ -67,16 +65,8 @@ public class LSPApplication extends ApplicationServiceClient {
     private static LoadedApk appLoadedApk;
 
     private static PatchConfig config;
-    private static ManagerResolver managerResolver = null;
 
-    final static public int FIRST_APP_ZYGOTE_ISOLATED_UID = 90000;
-    final static public int PER_USER_RANGE = 100000;
-
-    static private LSPApplication instance = null;
-
-    static private final List<Module> modules = new ArrayList<>();
-
-    static public boolean isIsolated() {
+    public static boolean isIsolated() {
         return (android.os.Process.myUid() % PER_USER_RANGE) >= FIRST_APP_ZYGOTE_ISOLATED_UID;
     }
 
@@ -92,20 +82,19 @@ public class LSPApplication extends ApplicationServiceClient {
             return;
         }
 
-        if (config.useManager) try {
-            managerResolver = new ManagerResolver(context);
-        } catch (RemoteException e) {
-            Log.e(TAG, "Failed to instantiate manager resolver", e);
+        Log.d(TAG, "Initialize service client");
+        ILSPApplicationService service;
+        if (config.useManager) {
+            service = new RemoteApplicationService(context);
+        } else {
+            service = new LocalApplicationService(context);
         }
 
-        instance = new LSPApplication();
-        serviceClient = instance;
         try {
             disableProfile(context);
-            loadModules(context);
-            Startup.initXposed(false);
+            Startup.initXposed(false, ActivityThread.currentProcessName(), service);
             Log.i(TAG, "Start loading modules");
-            Startup.bootstrapXposed(ActivityThread.currentProcessName());
+            Startup.bootstrapXposed();
             // WARN: Since it uses `XResource`, the following class should not be initialized
             // before forkPostCommon is invoke. Otherwise, you will get failure of XResources
             LSPLoader.initModules(appLoadedApk);
@@ -246,48 +235,6 @@ public class LSPApplication extends ApplicationServiceClient {
 
     }
 
-    public static void loadModules(Context context) {
-        if (config.useManager) {
-            try {
-                modules.addAll(managerResolver.getModules());
-                modules.forEach(m -> Log.i(TAG, "load module from manager: " + m.packageName));
-            } catch (NullPointerException | RemoteException e) {
-                Log.e(TAG, "Failed to get modules from manager", e);
-            }
-        } else {
-            try {
-                for (var name : context.getAssets().list("lspatch/modules")) {
-                    String packageName = name.substring(0, name.length() - 4);
-                    String modulePath = context.getCacheDir() + "/lspatch/" + packageName + "/";
-                    String cacheApkPath;
-                    try (ZipFile sourceFile = new ZipFile(context.getPackageResourcePath())) {
-                        cacheApkPath = modulePath + sourceFile.getEntry("assets/lspatch/modules/" + name).getCrc();
-                    }
-
-                    if (!Files.exists(Paths.get(cacheApkPath))) {
-                        Log.i(TAG, "Extract module apk: " + packageName);
-                        FileUtils.deleteFolderIfExists(Paths.get(modulePath));
-                        Files.createDirectories(Paths.get(modulePath));
-                        try (var is = context.getAssets().open("lspatch/modules/" + name)) {
-                            Files.copy(is, Paths.get(cacheApkPath));
-                        }
-                    }
-
-                    var module = new Module();
-                    module.apkPath = cacheApkPath;
-                    module.packageName = packageName;
-                    module.file = ModuleLoader.loadModule(cacheApkPath);
-                    modules.add(module);
-                }
-            } catch (Throwable ignored) {
-            }
-        }
-    }
-
-    public LSPApplication() {
-        super();
-    }
-
     private static int getTranscationId(String clsName, String trasncationName) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
         Field field = Class.forName(clsName).getDeclaredField(trasncationName);
         field.setAccessible(true);
@@ -376,40 +323,5 @@ public class LSPApplication extends ApplicationServiceClient {
     private static void switchClassLoader(String fieldName) {
         var obj = XposedHelpers.getObjectField(appLoadedApk, fieldName);
         XposedHelpers.setObjectField(stubLoadedApk, fieldName, obj);
-    }
-
-    @Override
-    public IBinder requestModuleBinder(String name) {
-        return null;
-    }
-
-    @Override
-    public List getModulesList(String processName) {
-        return getModulesList();
-    }
-
-    @Override
-    public List<Module> getModulesList() {
-        return modules;
-    }
-
-    @Override
-    public String getPrefsPath(String packageName) {
-        return new File(Environment.getDataDirectory(), "data/" + packageName + "/shared_prefs/").getAbsolutePath();
-    }
-
-    @Override
-    public Bundle requestRemotePreference(String packageName, int userId, IBinder callback) {
-        return null;
-    }
-
-    @Override
-    public ParcelFileDescriptor requestInjectedManagerBinder(List<IBinder> binder) throws RemoteException {
-        return null;
-    }
-
-    @Override
-    public IBinder asBinder() {
-        return null;
     }
 }

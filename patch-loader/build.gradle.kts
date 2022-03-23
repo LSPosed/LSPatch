@@ -57,8 +57,8 @@ dependencies {
     implementation(projects.core)
     implementation(projects.hiddenapi.bridge)
     implementation(projects.services.daemonService)
-    implementation(projects.imanager)
-    implementation(projects.share)
+    implementation(projects.share.android)
+    implementation(projects.share.java)
 
     implementation("com.google.code.gson:gson:2.9.0")
 }

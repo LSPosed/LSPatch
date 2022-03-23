@@ -9,10 +9,10 @@ import android.os.Binder
 import android.os.Bundle
 import android.util.Log
 import org.lsposed.lspatch.TAG
+import org.lsposed.lspatch.util.ModuleLoader
 import org.lsposed.lspd.models.Module
 
 class ModuleProvider : ContentProvider() {
-
     companion object {
         lateinit var allModules: List<Module>
     }
@@ -28,7 +28,7 @@ class ModuleProvider : ContentProvider() {
             "getBinder" -> {
                 loadAllModules()
                 return Bundle().apply {
-                    putBinder("binder", ManagerServiceImpl())
+                    putBinder("binder", ManagerService.asBinder())
                 }
             }
             else -> throw IllegalArgumentException("Invalid method name")

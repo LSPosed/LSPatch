@@ -29,7 +29,6 @@ include(
     ":core",
     ":hiddenapi:bridge",
     ":hiddenapi:stubs",
-    ":imanager",
     ":manager",
     ":patch",
     ":patch-jar",
@@ -37,7 +36,8 @@ include(
     ":services:daemon-service",
     ":services:manager-service",
     ":services:xposed-service:interface",
-    ":share"
+    ":share:android",
+    ":share:java"
 )
 
 project(":core").projectDir = file("core/core")

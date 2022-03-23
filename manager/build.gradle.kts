@@ -63,8 +63,9 @@ afterEvaluate {
 }
 
 dependencies {
-    implementation(projects.imanager)
     implementation(projects.patch)
+    implementation(projects.services.daemonService)
+    implementation(projects.share.android)
 
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.activity:activity-compose:1.5.0-alpha03")

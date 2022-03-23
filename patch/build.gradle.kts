@@ -14,7 +14,7 @@ dependencies {
     implementation(fileTree("dir" to "libs", "include" to listOf("*.jar")))
     implementation(projects.apkzlib)
     implementation(projects.axmlprinter)
-    implementation(projects.share)
+    implementation(projects.share.java)
 
     implementation("commons-io:commons-io:2.11.0")
     implementation("com.beust:jcommander:1.82")
