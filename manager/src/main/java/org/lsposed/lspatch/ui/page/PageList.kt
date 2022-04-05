@@ -41,7 +41,7 @@ enum class PageList(
     Settings(
         iconSelected = Icons.Filled.Settings,
         iconNotSelected = Icons.Outlined.Settings,
-        body = {}
+        body = { SettingsPage() }
     ),
     NewPatch(
         body = { NewPatchPage(this) }

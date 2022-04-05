@@ -12,6 +12,7 @@
         android:maxSdkVersion="28" />
 
     <application
+        android:name=".LSPApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -38,9 +39,9 @@
         <provider
             android:name="rikka.shizuku.ShizukuProvider"
             android:authorities="org.lsposed.lspatch.shizuku"
-            android:multiprocess="false"
             android:enabled="true"
             android:exported="true"
+            android:multiprocess="false"
             android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
     </application>
 

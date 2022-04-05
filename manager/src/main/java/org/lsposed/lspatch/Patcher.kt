@@ -7,6 +7,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.lsposed.lspatch.config.MyKeyStore
 import org.lsposed.patch.LSPatch
 import org.lsposed.patch.util.Logger
 import java.io.File
@@ -29,7 +30,7 @@ object Patcher {
         lateinit var outputPath: String
 
         fun toStringArray(): Array<String> {
-            return arrayListOf<String>().run {
+            return buildList {
                 addAll(apkPaths)
                 add("-o"); add(outputPath)
                 if (debuggable) add("-d")
@@ -43,9 +44,10 @@ object Patcher {
                 if (embeddedModules.isNotEmpty()) {
                     add("-m"); addAll(embeddedModules)
                 }
-
-                toTypedArray()
-            }
+                if (!MyKeyStore.useDefault) {
+                    addAll(arrayOf("-k", MyKeyStore.file.path, MyKeyStore.password, MyKeyStore.alias,MyKeyStore.aliasPassword))
+                }
+            }.toTypedArray()
         }
     }
 
