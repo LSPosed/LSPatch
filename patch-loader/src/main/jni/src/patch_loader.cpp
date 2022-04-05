@@ -101,7 +101,7 @@ namespace lspd {
                     return GetArt()->getSymbAddress<void*>(symbol);
                 },
         };
-        InstallInlineHooks(initInfo);
+        InstallInlineHooks(env, initInfo);
 
         auto stub = JNI_FindClass(env, "org/lsposed/lspatch/appstub/LSPAppComponentFactoryStub");
         auto dex_field = JNI_GetStaticFieldID(env, stub, "dex", "[B");
