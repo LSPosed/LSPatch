@@ -86,6 +86,7 @@ public abstract class SigningOptions {
     public abstract RunnablesExecutor getExecutor();
 
   /** SDK dependencies of the APK */
+  @SuppressWarnings("mutable")
   @Nullable
   public abstract byte[] getSdkDependencyData();
 

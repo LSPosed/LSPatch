@@ -285,7 +285,7 @@ public class LSPatch {
                 throw new PatchError("Error when saving config");
             }
 
-            Set<String> apkArchs = new HashSet<>();
+            Set<String> apkArches = new HashSet<>();
 
             logger.d("Search target apk library arch...");
 
@@ -293,11 +293,11 @@ public class LSPatch {
                 var name = storedEntry.getCentralDirectoryHeader().getName();
                 if (name.startsWith("lib/") && name.length() >= 5) {
                     var arch = name.substring(4, name.indexOf('/', 5));
-                    apkArchs.add(arch);
+                    apkArches.add(arch);
                 }
             }
-            if (apkArchs.isEmpty()) apkArchs.addAll(ARCHES);
-            apkArchs.removeIf((arch) -> {
+            if (apkArches.isEmpty()) apkArches.addAll(ARCHES);
+            apkArches.removeIf((arch) -> {
                 if (!ARCHES.contains(arch) && !arch.equals("armeabi")) {
                     logger.e("Warning: unsupported arch " + arch + ". Skipping...");
                     return true;

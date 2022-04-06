@@ -10,8 +10,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = true
+            proguardFiles("proguard-rules.pro")
         }
     }
 }
@@ -22,7 +22,10 @@ androidComponents.onVariants { variant ->
 
     task<Copy>("copyDex$variantCapped") {
         dependsOn("assemble$variantCapped")
-        from("$buildDir/intermediates/dex/$variantLowered/mergeDex$variantCapped/classes.dex")
+        val dexOutPath = if (variant.buildType == "release")
+            "$buildDir/intermediates/dex/$variantLowered/minify${variantCapped}WithR8" else
+            "$buildDir/intermediates/dex/$variantLowered/mergeDex$variantCapped"
+        from(dexOutPath)
         rename("classes.dex", "loader.dex")
         into("${rootProject.projectDir}/out/assets/dex")
     }
@@ -38,6 +41,4 @@ androidComponents.onVariants { variant ->
 
 dependencies {
     compileOnly(projects.hiddenapi.stubs)
-
-    implementation("de.upb.cs.swt:axml:2.1.2")
 }
