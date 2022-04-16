@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Menambahkan</string>
     <string name="page_repo">repo</string>
     <string name="page_logs">log</string>
-    <string name="page_settings">Pengaturan</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Layanan Shizuku tersedia</string>
     <string name="home_shizuku_unavailable">Layanan Shizuku tidak terhubung</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">Mengelola</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Patch Baru</string>
-    <string name="patch_permission_title">Izin</string>
+    <string name="patch_permission_title">Permohonan Izin</string>
     <string name="patch_permission_text">Tolong beri izin Write External Storage untuk mengizinkan penyimpanan apk yang ditambal ke direktori Unduh</string>
     <string name="patch_mode">Modus Patch</string>
     <string name="patch_local">Lokal</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: Lewati PM</string>
     <string name="patch_sigbypasslv2">lv2: Lewati PM + buka (libc)</string>
     <string name="patch_override_version_code">Ganti kode versi</string>
-    <string name="patch_override_version_code_desc">Ganti kode versi aplikasi yang ditambal ke 1\nIni memungkinkan penginstalan downgrade</string>
+    <string name="patch_override_version_code_desc">Ganti kode versi aplikasi yang ditambal ke 1\nIni memungkinkan penginstalan downgrade di masa mendatang, dan umumnya ini tidak akan memengaruhi kode versi yang sebenarnya dirasakan oleh aplikasi</string>
     <string name="patch_start">Mulai Patch</string>
     <string name="patch_return">Kembali</string>
     <string name="patch_install">Install</string>
     <string name="patch_copy_error">Kesalahan penyalinan</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Pilih Aplikasi</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Pengaturan</string>
+    <string name="settings_keystore">Toko kunci tanda tangan</string>
+    <string name="settings_keystore_default">Built-in</string>
+    <string name="settings_keystore_custom">Kebiasaan</string>
+    <string name="settings_keystore_dialog_title">Toko kunci khusus</string>
+    <string name="settings_keystore_file">File penyimpanan kunci</string>
+    <string name="settings_keystore_password">Kata sandi</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Kata sandi alias</string>
+    <string name="settings_keystore_desc">Setel penyimpanan kunci (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Jenis keystore yang salah</string>
+    <string name="settings_keystore_wrong_password">Kata sandi keystore salah</string>
+    <string name="settings_keystore_wrong_alias">Nama alias salah</string>
+    <string name="settings_keystore_wrong_alias_password">Kata sandi alias salah</string>
 </resources>
