@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Přidat</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Protokoly</string>
-    <string name="page_settings">Nastavení</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Služba Shizuku je k dispozici</string>
     <string name="home_shizuku_unavailable">Služba Shizuku není připojena</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">Spravovat</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nový patch</string>
-    <string name="patch_permission_title">Povolení</string>
+    <string name="patch_permission_title">Žádost o povolení</string>
     <string name="patch_permission_text">Udělte prosím oprávnění Zápis do externího úložiště, aby bylo možné ukládat opravené soubory APK do adresáře pro stahování</string>
     <string name="patch_mode">Režim opravy</string>
     <string name="patch_local">Místní</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: Obejít PM</string>
     <string name="patch_sigbypasslv2">lv2: Bypass PM + openat (libc)</string>
     <string name="patch_override_version_code">Přepsat kód verze</string>
-    <string name="patch_override_version_code_desc">Přepsat kód verze opravené aplikace na 1\nTo umožňuje instalaci na nižší verzi</string>
+    <string name="patch_override_version_code_desc">Přepsat kód verze opravené aplikace na 1\nTo umožní v budoucnu downgradovat (snížit verzi) a obecně to neovlivní kód verze, který aplikace skutečně vnímá</string>
     <string name="patch_start">Spusťte opravu</string>
     <string name="patch_return">Vrátit se</string>
     <string name="patch_install">Nainstalujte</string>
     <string name="patch_copy_error">Chyba kopírování</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Vyberte Aplikace</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Nastavení</string>
+    <string name="settings_keystore">Úložiště klíčů s podpisem</string>
+    <string name="settings_keystore_default">Vestavěný</string>
+    <string name="settings_keystore_custom">Vlastní</string>
+    <string name="settings_keystore_dialog_title">Vlastní úložiště klíčů</string>
+    <string name="settings_keystore_file">Soubor úložiště klíčů</string>
+    <string name="settings_keystore_password">Heslo</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Alias heslo</string>
+    <string name="settings_keystore_desc">Nastavení úložiště klíčů (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Nesprávný typ úložiště klíčů</string>
+    <string name="settings_keystore_wrong_password">Špatné heslo úložiště klíčů</string>
+    <string name="settings_keystore_wrong_alias">Špatný název aliasu</string>
+    <string name="settings_keystore_wrong_alias_password">Špatné heslo aliasu</string>
 </resources>
