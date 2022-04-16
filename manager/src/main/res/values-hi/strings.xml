@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add">जोड़ें</string>
+    <string name="page_repo">रेपो</string>
+    <string name="page_logs">लॉग्स</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">शिज़ुकु सेवा उपलब्ध</string>
+    <string name="home_shizuku_unavailable">शिज़ुकु सेवा कनेक्ट नहीं है</string>
+    <string name="home_shizuku_warning">कुछ फ़ंक्शन अनुपलब्ध</string>
+    <string name="home_api_version">एपीआई संस्करण</string>
+    <string name="home_lspatch_version">एलएसपैच संस्करण</string>
+    <string name="home_framework_version">फ्रेमवर्क संस्करण</string>
+    <string name="home_system_version">सिस्टम संस्करण</string>
+    <string name="home_device">उपकरण</string>
+    <string name="home_system_abi">सिस्टम एबीआई</string>
+    <string name="home_info_copied">क्लिपबोर्ड पर नकल</string>
+    <string name="home_support">सहायता</string>
+    <string name="home_description">LSPatch LSPosed कोर पर आधारित एक निःशुल्क गैर-रूट Xposed ढांचा है।</string>
+    <string name="home_view_source_code"><![CDATA[%1$s<br/>पर सोर्स कोड देखें हमारे %2$s चैनल से जुड़ें]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">प्रबंधित करना</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">नया पैच</string>
+    <string name="patch_permission_title">अनुमति आवेदन</string>
+    <string name="patch_permission_text">कृपया पैच किए गए एपीके को डाउनलोड निर्देशिका में सहेजने की अनुमति देने के लिए बाहरी संग्रहण लिखने की अनुमति दें</string>
+    <string name="patch_mode">पैच मोड</string>
+    <string name="patch_local">स्थानीय</string>
+    <string name="patch_local_desc">एम्बेडेड मॉड्यूल के बिना एक ऐप पैच करें।\nपैच किए गए ऐप को बैकग्राउंड में चलने वाले मैनेजर की आवश्यकता होती है, और Xposed स्कोप को बिना री-पैच के गतिशील रूप से बदला जा सकता है।\nस्थानीय पैच किए गए ऐप्स केवल स्थानीय डिवाइस पर चल सकते हैं।</string>
+    <string name="patch_portable">पोर्टेबल</string>
+    <string name="patch_portable_desc">एम्बेडेड मॉड्यूल के साथ एक ऐप पैच करें।\nपैच किया गया ऐप प्रबंधक के बिना चल सकता है, लेकिन गतिशील रूप से प्रबंधित नहीं किया जा सकता है।\nपोर्टेबल पैच किए गए ऐप्स का उपयोग उन उपकरणों पर किया जा सकता है जिनमें एलएसपैच प्रबंधक स्थापित नहीं है।</string>
+    <string name="patch_embed_modules">मॉड्यूल एम्बेड करें</string>
+    <string name="patch_debuggable">डीबग करने योग्य</string>
+    <string name="patch_sign">संकेत</string>
+    <string name="patch_sigbypass">सिग्नेचर बायपास</string>
+    <string name="patch_sigbypasslv0">lv0: बंद</string>
+    <string name="patch_sigbypasslv1">lv1: बाईपास पीएम</string>
+    <string name="patch_sigbypasslv2">lv2: बाईपास PM + openat (libc)</string>
+    <string name="patch_override_version_code">संस्करण कोड ओवरराइड करें</string>
+    <string name="patch_override_version_code_desc">पैच किए गए ऐप के संस्करण कोड को 1\nपर ओवरराइड करें यह भविष्य में डाउनग्रेड इंस्टॉलेशन की अनुमति देता है, और आम तौर पर यह एप्लिकेशन द्वारा वास्तव में देखे जाने वाले संस्करण कोड को प्रभावित नहीं करेगा।</string>
+    <string name="patch_start">पैच शुरू करें</string>
+    <string name="patch_return">वापस करना</string>
+    <string name="patch_install">स्थापित करना</string>
+    <string name="patch_copy_error">कॉपी एरर</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">ऐप्स चुनें</string>
+    <!-- Settings Page -->
+    <string name="page_settings">समायोजन</string>
+    <string name="settings_keystore">सिग्नेचर कीस्टोर</string>
+    <string name="settings_keystore_default">में निर्मित</string>
+    <string name="settings_keystore_custom">रिवाज़</string>
+    <string name="settings_keystore_dialog_title">कस्टम कीस्टोर</string>
+    <string name="settings_keystore_file">कीस्टोर फ़ाइल</string>
+    <string name="settings_keystore_password">पासवर्ड</string>
+    <string name="settings_keystore_alias">उपनाम</string>
+    <string name="settings_keystore_alias_password">उपनाम पासवर्ड</string>
+    <string name="settings_keystore_desc">कीस्टोर सेट करें (बीकेएस)</string>
+    <string name="settings_keystore_wrong_keystore">गलत प्रकार का कीस्टोर</string>
+    <string name="settings_keystore_wrong_password">गलत कीस्टोर पासवर्ड</string>
+    <string name="settings_keystore_wrong_alias">गलत उपनाम</string>
+    <string name="settings_keystore_wrong_alias_password">गलत उपनाम पासवर्ड</string>
+</resources>
