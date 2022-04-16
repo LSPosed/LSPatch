@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Ekle</string>
     <string name="page_repo">depo</string>
     <string name="page_logs">Kütükler</string>
-    <string name="page_settings">Ayarlar</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Shizuku servisi mevcut</string>
     <string name="home_shizuku_unavailable">Shizuku hizmeti bağlı değil</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">Üstesinden gelmek</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Yeni Yama</string>
-    <string name="patch_permission_title">İzin</string>
+    <string name="patch_permission_title">İzin Başvurusu</string>
     <string name="patch_permission_text">Yamalı apk\'lerin İndirme dizinine kaydedilmesine izin vermek için lütfen Harici Depolama Yazma izni verin</string>
     <string name="patch_mode">Yama Modu</string>
     <string name="patch_local">Yerel</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: PM\'yi atla</string>
     <string name="patch_sigbypasslv2">lv2: PM + openat\'ı atla (libc)</string>
     <string name="patch_override_version_code">Sürüm kodunu geçersiz kıl</string>
-    <string name="patch_override_version_code_desc">Yamalı uygulamanın sürüm kodunu 1\nolarak geçersiz kıl Bu, sürüm düşürme kurulumuna izin verir</string>
+    <string name="patch_override_version_code_desc">Yama uygulanmış uygulamanın sürüm kodunu 1\nolarak geçersiz kıl Bu, gelecekte sürüm düşürme kurulumuna izin verir ve genellikle bu, uygulama tarafından gerçekte algılanan sürüm kodunu etkilemez</string>
     <string name="patch_start">Yama Başlat</string>
     <string name="patch_return">Dönüş</string>
     <string name="patch_install">Düzenlemek</string>
     <string name="patch_copy_error">Kopyalama hatası</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Uygulamaları Seçin</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Ayarlar</string>
+    <string name="settings_keystore">imza anahtar deposu</string>
+    <string name="settings_keystore_default">yerleşik</string>
+    <string name="settings_keystore_custom">Gelenek</string>
+    <string name="settings_keystore_dialog_title">Özel anahtar deposu</string>
+    <string name="settings_keystore_file">anahtar deposu dosyası</string>
+    <string name="settings_keystore_password">Parola</string>
+    <string name="settings_keystore_alias">takma ad</string>
+    <string name="settings_keystore_alias_password">takma ad şifresi</string>
+    <string name="settings_keystore_desc">Anahtar deposunu ayarla (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Yanlış türde anahtar deposu</string>
+    <string name="settings_keystore_wrong_password">Yanlış anahtar deposu şifresi</string>
+    <string name="settings_keystore_wrong_alias">Yanlış takma ad</string>
+    <string name="settings_keystore_wrong_alias_password">Yanlış takma ad şifresi</string>
 </resources>
