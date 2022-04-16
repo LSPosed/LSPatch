@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LPatch</string>
     <string name="add">Adicionar</string>
     <string name="page_repo">Repositório</string>
     <string name="page_logs">Histórico</string>
-    <string name="page_settings">Configurações</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Serviço de Shizuku disponível</string>
     <string name="home_shizuku_unavailable">Serviço Shizuku não conectado</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">Gerenciar</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Novo Patch</string>
-    <string name="patch_permission_title">Permissão</string>
+    <string name="patch_permission_title">Pedido de Permissão</string>
     <string name="patch_permission_text">Por favor, conceda permissão de gravação de armazenamento externo para permitir salvar apks corrigidos no diretório de download</string>
     <string name="patch_mode">Modo Patch</string>
     <string name="patch_local">Local</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: Ignorar PM</string>
     <string name="patch_sigbypasslv2">lv2: Ignorar PM + openat (libc)</string>
     <string name="patch_override_version_code">Substituir o código da versão</string>
-    <string name="patch_override_version_code_desc">Substitua o código de versão do aplicativo corrigido para 1\nIsso permite a instalação do downgrade</string>
+    <string name="patch_override_version_code_desc">Substitua o código de versão do aplicativo corrigido para 1\nIsso permite a instalação de downgrade no futuro, e geralmente isso não afetará o código de versão realmente percebido pela aplicação</string>
     <string name="patch_start">Iniciar patch</string>
     <string name="patch_return">Retornar</string>
     <string name="patch_install">Instalar</string>
     <string name="patch_copy_error">Erro de cópia</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Selecionar aplicativos</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Configurações</string>
+    <string name="settings_keystore">Chaveiro de Assinatura</string>
+    <string name="settings_keystore_default">Incorporado em</string>
+    <string name="settings_keystore_custom">Personalizado</string>
+    <string name="settings_keystore_dialog_title">Chaveiro personalizado</string>
+    <string name="settings_keystore_file">Arquivo da Keystore</string>
+    <string name="settings_keystore_password">Senha</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Palavra-passe</string>
+    <string name="settings_keystore_desc">Set keystore (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Tipo errado de chaveiro</string>
+    <string name="settings_keystore_wrong_password">Palavra-chave de loja errada</string>
+    <string name="settings_keystore_wrong_alias">Nome falso</string>
+    <string name="settings_keystore_wrong_alias_password">Palavra-passe de outrora incorrecta</string>
 </resources>
