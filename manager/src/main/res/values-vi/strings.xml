@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Thêm vào</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Nhật ký</string>
-    <string name="page_settings">Cài đặt</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Có dịch vụ Shizuku</string>
     <string name="home_shizuku_unavailable">Dịch vụ Shizuku không được kết nối</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">Quản lý</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Bản vá mới</string>
-    <string name="patch_permission_title">Sự cho phép</string>
+    <string name="patch_permission_title">Đơn xin phép</string>
     <string name="patch_permission_text">Vui lòng cấp quyền Ghi bộ nhớ ngoài để cho phép lưu các ứng dụng đã vá vào thư mục Tải xuống</string>
     <string name="patch_mode">Chế độ vá lỗi</string>
     <string name="patch_local">Địa phương</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: Bỏ qua PM</string>
     <string name="patch_sigbypasslv2">lv2: Bỏ qua PM + openat (libc)</string>
     <string name="patch_override_version_code">Ghi đè mã phiên bản</string>
-    <string name="patch_override_version_code_desc">Ghi đè mã phiên bản của ứng dụng đã vá thành 1\nĐiều này cho phép hạ cấp cài đặt</string>
+    <string name="patch_override_version_code_desc">Ghi đè mã phiên bản của ứng dụng đã vá thành 1\nĐiều này cho phép hạ cấp cài đặt trong tương lai và nói chung điều này sẽ không ảnh hưởng đến mã phiên bản mà ứng dụng thực sự nhận thấy</string>
     <string name="patch_start">Bắt đầu bản vá</string>
     <string name="patch_return">Trở về</string>
     <string name="patch_install">Cài đặt</string>
     <string name="patch_copy_error">Sao chép lỗi</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Chọn ứng dụng</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Cài đặt</string>
+    <string name="settings_keystore">Kho khóa chữ ký</string>
+    <string name="settings_keystore_default">Được xây dựng trong</string>
+    <string name="settings_keystore_custom">Tập quán</string>
+    <string name="settings_keystore_dialog_title">Kho khóa tùy chỉnh</string>
+    <string name="settings_keystore_file">Tệp kho khóa</string>
+    <string name="settings_keystore_password">Mật khẩu</string>
+    <string name="settings_keystore_alias">Bí danh</string>
+    <string name="settings_keystore_alias_password">Mật khẩu bí danh</string>
+    <string name="settings_keystore_desc">Đặt kho khóa (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Kho khóa sai loại</string>
+    <string name="settings_keystore_wrong_password">Mật khẩu kho khóa sai</string>
+    <string name="settings_keystore_wrong_alias">Tên bí danh sai</string>
+    <string name="settings_keystore_wrong_alias_password">Mật khẩu bí danh sai</string>
 </resources>
