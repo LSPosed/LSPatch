@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Toevoegen</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Logboeken</string>
-    <string name="page_settings">Instellingen</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Shizuku-service beschikbaar</string>
     <string name="home_shizuku_unavailable">Shizuku-service niet verbonden</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">Beheren</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nieuwe patch</string>
-    <string name="patch_permission_title">Toestemming</string>
+    <string name="patch_permission_title">Toestemmingsaanvraag</string>
     <string name="patch_permission_text">Geef toestemming voor externe opslag schrijven om het opslaan van gepatchte apks in de downloadmap toe te staan</string>
     <string name="patch_mode">Patch-modus</string>
     <string name="patch_local">lokaal</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: PM overslaan</string>
     <string name="patch_sigbypasslv2">lv2: Bypass PM + openat (libc)</string>
     <string name="patch_override_version_code">Versiecode overschrijven</string>
-    <string name="patch_override_version_code_desc">Overschrijf de versiecode van de gepatchte app naar 1\nDit maakt een downgrade-installatie mogelijk</string>
+    <string name="patch_override_version_code_desc">Overschrijf de versiecode van de gepatchte app naar 1\nDit maakt downgrade installatie in de toekomst mogelijk, en over het algemeen zal dit geen invloed hebben op de versiecode die daadwerkelijk wordt waargenomen door de applicatie</string>
     <string name="patch_start">Patch starten</string>
     <string name="patch_return">Opbrengst</string>
     <string name="patch_install">Installeren</string>
     <string name="patch_copy_error">Kopieerfout</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Selecteer Apps</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Instellingen</string>
+    <string name="settings_keystore">Handtekening sleutelbewaarplaats</string>
+    <string name="settings_keystore_default">Ingebouwd</string>
+    <string name="settings_keystore_custom">Custom</string>
+    <string name="settings_keystore_dialog_title">Aangepaste sleutelbewaarplaats</string>
+    <string name="settings_keystore_file">Keystore bestand</string>
+    <string name="settings_keystore_password">Wachtwoord</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Alias wachtwoord</string>
+    <string name="settings_keystore_desc">Sleutelbewaarplaats instellen (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Verkeerde type sleutelbewaarplaats</string>
+    <string name="settings_keystore_wrong_password">Verkeerd wachtwoord voor sleutelbewaarplaats</string>
+    <string name="settings_keystore_wrong_alias">Verkeerde aliasnaam</string>
+    <string name="settings_keystore_wrong_alias_password">Verkeerd alias wachtwoord</string>
 </resources>
