@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add">যোগ করুন</string>
+    <string name="page_repo">রেপো</string>
+    <string name="page_logs">লগ</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">শিজুকু পরিষেবা উপলব্ধ</string>
+    <string name="home_shizuku_unavailable">Shizuku পরিষেবা সংযুক্ত নয়৷</string>
+    <string name="home_shizuku_warning">কিছু ফাংশন অনুপলব্ধ</string>
+    <string name="home_api_version">API সংস্করণ</string>
+    <string name="home_lspatch_version">এলএসপ্যাচ সংস্করণ</string>
+    <string name="home_framework_version">ফ্রেমওয়ার্ক সংস্করণ</string>
+    <string name="home_system_version">সিস্টেম সংস্করণ</string>
+    <string name="home_device">যন্ত্র</string>
+    <string name="home_system_abi">সিস্টেম ABI</string>
+    <string name="home_info_copied">ক্লিপবোর্ডে কপি করা হয়েছে</string>
+    <string name="home_support">সমর্থন</string>
+    <string name="home_description">LSPatch হল LSPosed কোরের উপর ভিত্তি করে একটি বিনামূল্যের নন-রুট Xposed ফ্রেমওয়ার্ক।</string>
+    <string name="home_view_source_code"><![CDATA[%1$s<br/>এ সোর্স কোড দেখুন আমাদের %2$s চ্যানেলে যোগ দিন]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">পরিচালনা করুন</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">নতুন প্যাচ</string>
+    <string name="patch_permission_title">অনুমতির আবেদন</string>
+    <string name="patch_permission_text">ডাউনলোড ডিরেক্টরিতে প্যাচ করা apks সংরক্ষণ করার অনুমতি দিতে দয়া করে বাহ্যিক সঞ্চয়স্থান লেখার অনুমতি দিন</string>
+    <string name="patch_mode">প্যাচ মোড</string>
+    <string name="patch_local">স্থানীয়</string>
+    <string name="patch_local_desc">এম্বেড করা মডিউল ছাড়াই একটি অ্যাপ প্যাচ করুন।\nপ্যাচ করা অ্যাপটির ব্যাকগ্রাউন্ডে চলমান ম্যানেজার প্রয়োজন, এবং এক্সপোজড স্কোপ রি-প্যাচ ছাড়াই গতিশীলভাবে পরিবর্তন করা যেতে পারে।\nস্থানীয় প্যাচ করা অ্যাপ শুধুমাত্র স্থানীয় ডিভাইসে চলতে পারে।</string>
+    <string name="patch_portable">সুবহ</string>
+    <string name="patch_portable_desc">এম্বেড করা মডিউল সহ একটি অ্যাপ প্যাচ করুন।\nপ্যাচ করা অ্যাপটি ম্যানেজার ছাড়া চলতে পারে, কিন্তু গতিশীলভাবে পরিচালনা করা যায় না।\nপোর্টেবল প্যাচড অ্যাপ এমন ডিভাইসগুলিতে ব্যবহার করা যেতে পারে যেগুলিতে LSPatch ম্যানেজার ইনস্টল নেই৷</string>
+    <string name="patch_embed_modules">মডিউল এম্বেড করুন</string>
+    <string name="patch_debuggable">ডিবাগযোগ্য</string>
+    <string name="patch_sign">চিহ্ন</string>
+    <string name="patch_sigbypass">স্বাক্ষর বাইপাস</string>
+    <string name="patch_sigbypasslv0">lv0: বন্ধ</string>
+    <string name="patch_sigbypasslv1">lv1: PM বাইপাস করুন</string>
+    <string name="patch_sigbypasslv2">lv2: বাইপাস PM + openat (libc)</string>
+    <string name="patch_override_version_code">সংস্করণ কোড ওভাররাইড করুন</string>
+    <string name="patch_override_version_code_desc">প্যাচ করা অ্যাপের সংস্করণ কোডটিকে 1\nএ ওভাররাইড করুন এটি ভবিষ্যতে ইনস্টলেশন ডাউনগ্রেড করার অনুমতি দেয় এবং সাধারণত এটি অ্যাপ্লিকেশন দ্বারা অনুভূত সংস্করণ কোডকে প্রভাবিত করবে না</string>
+    <string name="patch_start">প্যাচ শুরু করুন</string>
+    <string name="patch_return">প্রত্যাবর্তন</string>
+    <string name="patch_install">ইনস্টল করুন</string>
+    <string name="patch_copy_error">কপি ত্রুটি</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">অ্যাপস নির্বাচন করুন</string>
+    <!-- Settings Page -->
+    <string name="page_settings">সেটিংস</string>
+    <string name="settings_keystore">স্বাক্ষর কীস্টোর</string>
+    <string name="settings_keystore_default">অন্তর্নির্মিত</string>
+    <string name="settings_keystore_custom">কাস্টম</string>
+    <string name="settings_keystore_dialog_title">কাস্টম কীস্টোর</string>
+    <string name="settings_keystore_file">কীস্টোর ফাইল</string>
+    <string name="settings_keystore_password">পাসওয়ার্ড</string>
+    <string name="settings_keystore_alias">উপনাম</string>
+    <string name="settings_keystore_alias_password">উপনাম পাসওয়ার্ড</string>
+    <string name="settings_keystore_desc">সেট কীস্টোর (বিকেএস)</string>
+    <string name="settings_keystore_wrong_keystore">কীস্টোরের ভুল ধরন</string>
+    <string name="settings_keystore_wrong_password">ভুল কীস্টোর পাসওয়ার্ড</string>
+    <string name="settings_keystore_wrong_alias">ভুল উপনাম নাম</string>
+    <string name="settings_keystore_wrong_alias_password">ভুল ওরফে পাসওয়ার্ড</string>
+</resources>
