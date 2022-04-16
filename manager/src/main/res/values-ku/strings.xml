@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add">Lêzêdekirin</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">Logs</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">Karûbarê Shizuku heye</string>
+    <string name="home_shizuku_unavailable">Karûbarê Shizuku ne girêdayî ye</string>
+    <string name="home_shizuku_warning">Hin fonksiyon ne berdest in</string>
+    <string name="home_api_version">Guhertoya API</string>
+    <string name="home_lspatch_version">Guhertoya LSPatch</string>
+    <string name="home_framework_version">Guhertoya Çarçoveyê</string>
+    <string name="home_system_version">Versiyon ji System</string>
+    <string name="home_device">Sazî</string>
+    <string name="home_system_abi">Pergala ABI</string>
+    <string name="home_info_copied">Li clipboardê hate kopî kirin</string>
+    <string name="home_support">Alîkarî</string>
+    <string name="home_description">LSPatch çarçoveyek Xposed-a ne-root-a belaş e ku li ser bingeha LSPosed-ê ye.</string>
+    <string name="home_view_source_code"><![CDATA[Koda çavkaniyê li %1$s<br/>bibînin Tevlî %2$s kanala me bibin]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Rêvebirin</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Patch Nû</string>
+    <string name="patch_permission_title">Serlêdana Destûra</string>
+    <string name="patch_permission_text">Ji kerema xwe destûra Write External Storage bide da ku destûr bide tomarkirina apkên patched li pelrêça Daxistinê</string>
+    <string name="patch_mode">Mode Patch</string>
+    <string name="patch_local">Herêmî</string>
+    <string name="patch_local_desc">Serlêdanek bêyî modulên pêvekirî paqij bikin.\nPêdiviya serîlêdana paçkirî bi rêveberê ku di paşerojê de dixebite hewce dike, û qada Xposed dikare bi dînamîk bêyî nûvekirin were guheztin.\nSerlêdanên paçkirî yên herêmî tenê dikarin li ser cîhaza herêmî bixebitin.</string>
+    <string name="patch_portable">Cîtêgûherr</string>
+    <string name="patch_portable_desc">Serlêdanek bi modulên pêvekirî veqetînin.\nSerlêdana paçkirî dikare bêyî rêveberê bixebite, lê bi dînamîk nayê rêvebirin.\nSerlêdanên paçkirî yên portable dikarin li ser cîhazên ku Rêvebirê LSPatch-ê sazkirî ne têne bikar anîn.</string>
+    <string name="patch_embed_modules">Modulên tevde bikin</string>
+    <string name="patch_debuggable">Debuggable</string>
+    <string name="patch_sign">Nîşan</string>
+    <string name="patch_sigbypass">Îmzeya bipass</string>
+    <string name="patch_sigbypasslv0">lv0: Off</string>
+    <string name="patch_sigbypasslv1">lv1: PM derbas bike</string>
+    <string name="patch_sigbypasslv2">lv2: PM + vekirî (libc) derbas bike</string>
+    <string name="patch_override_version_code">Koda guhertoyê bişopîne</string>
+    <string name="patch_override_version_code_desc">Koda guhertoya sepana pejirandî biguhezîne 1\nEv rê dide sazkirina dakêşanê di pêşerojê de, û bi gelemperî ev ê bandorê li koda guhertoya ku bi rastî ji hêla serîlêdanê ve tê fêm kirin neke.</string>
+    <string name="patch_start">Patchê dest pê bikin</string>
+    <string name="patch_return">Vegerr</string>
+    <string name="patch_install">Lêkirin</string>
+    <string name="patch_copy_error">Çewtiya kopîkirinê</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Serlêdan hilbijêrin</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Settings</string>
+    <string name="settings_keystore">keystore îmza</string>
+    <string name="settings_keystore_default">Avakirin</string>
+    <string name="settings_keystore_custom">Hûnbunî</string>
+    <string name="settings_keystore_dialog_title">keystore Custom</string>
+    <string name="settings_keystore_file">Pelê keystore</string>
+    <string name="settings_keystore_password">Şîfre</string>
+    <string name="settings_keystore_alias">Navê dizî</string>
+    <string name="settings_keystore_alias_password">Nasnav şîfreya</string>
+    <string name="settings_keystore_desc">Set keystore (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Cûreyek çewt a keystore</string>
+    <string name="settings_keystore_wrong_password">Şîfreya keystore çewt</string>
+    <string name="settings_keystore_wrong_alias">Navê nasnavê xelet</string>
+    <string name="settings_keystore_wrong_alias_password">Şîfreya nasnavê çewt</string>
+</resources>
