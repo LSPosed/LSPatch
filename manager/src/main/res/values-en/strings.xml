@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Add</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Logs</string>
-    <string name="page_settings">Settings</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Shizuku service available</string>
     <string name="home_shizuku_unavailable">Shizuku service not connected</string>
@@ -23,26 +21,41 @@
     <string name="page_manage">Manage</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">New Patch</string>
-    <string name="patch_permission_title">Permission</string>
+    <string name="patch_permission_title">Permission Application</string>
     <string name="patch_permission_text">Please grant Write External Storage permission to allow saving patched apks to Download directory</string>
     <string name="patch_mode">Patch Mode</string>
     <string name="patch_local">Local</string>
     <string name="patch_local_desc">Patch an app without modules embedded.\nThe patched app need the manager running in background, and Xposed scope can be changed dynamically without re-patch.\nLocal patched apps can only run on the local device.</string>
     <string name="patch_portable">Portable</string>
     <string name="patch_portable_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nPortable patched apps can be used on devices that do not have LSPatch Manager installed.</string>
-    <string name="patch_embed_modules">Embed modules</string>
-    <string name="patch_debuggable">Debuggable</string>
-    <string name="patch_sign">Sign</string>
-    <string name="patch_sigbypass">Signature bypass</string>
-    <string name="patch_sigbypasslv0">lv0: Off</string>
+    <string name="patch_embed_modules">Sloop modules in</string>
+    <string name="patch_debuggable">قابل للتصحيح</string>
+    <string name="patch_sign">Cartello</string>
+    <string name="patch_sigbypass">Signatur bypass</string>
+    <string name="patch_sigbypasslv0">lv0: Uit</string>
     <string name="patch_sigbypasslv1">lv1: Bypass PM</string>
     <string name="patch_sigbypasslv2">lv2: Bypass PM + openat (libc)</string>
     <string name="patch_override_version_code">Override version code</string>
-    <string name="patch_override_version_code_desc">Override the patched app\'s version code to 1\nThis allows downgrade installation</string>
-    <string name="patch_start">Start Patch</string>
+    <string name="patch_override_version_code_desc">Override the patched app\'s version code to 1\nThis allows downgrade installation in the future, and generally this will not affect the version code actually perceived by the application</string>
+    <string name="patch_start">Begin Patch</string>
     <string name="patch_return">Return</string>
-    <string name="patch_install">Install</string>
+    <string name="patch_install">Installeer</string>
     <string name="patch_copy_error">Copy error</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Select Apps</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Settings</string>
+    <string name="settings_keystore">Signature keystore</string>
+    <string name="settings_keystore_default">Built-in</string>
+    <string name="settings_keystore_custom">Custom</string>
+    <string name="settings_keystore_dialog_title">Custom keystore</string>
+    <string name="settings_keystore_file">Keystore file</string>
+    <string name="settings_keystore_password">Password</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Alias password</string>
+    <string name="settings_keystore_desc">Set keystore (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Wrong type of keystore</string>
+    <string name="settings_keystore_wrong_password">Wrong keystore password</string>
+    <string name="settings_keystore_wrong_alias">Wrong alias name</string>
+    <string name="settings_keystore_wrong_alias_password">Wrong alias password</string>
 </resources>
