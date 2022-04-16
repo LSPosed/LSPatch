@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">اضافه کردن</string>
     <string name="page_repo">مخزن</string>
     <string name="page_logs">سیاهههای مربوط</string>
-    <string name="page_settings">تنظیمات</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">سرویس شیزوکو در دسترس است</string>
     <string name="home_shizuku_unavailable">سرویس Shizuku متصل نیست</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">مدیریت کنید</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">پچ جدید</string>
-    <string name="patch_permission_title">اجازه</string>
+    <string name="patch_permission_title">درخواست مجوز</string>
     <string name="patch_permission_text">لطفاً اجازه Write External Storage را بدهید تا اجازه ذخیره apk های وصله شده در فهرست دانلود را بدهد</string>
     <string name="patch_mode">حالت وصله</string>
     <string name="patch_local">محلی</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: دور زدن PM</string>
     <string name="patch_sigbypasslv2">lv2: دور زدن PM + openat (libc)</string>
     <string name="patch_override_version_code">لغو کد نسخه</string>
-    <string name="patch_override_version_code_desc">کد نسخه برنامه وصله‌شده را به 1\nتغییر دهید</string>
+    <string name="patch_override_version_code_desc">کد نسخه برنامه وصله‌شده را به 1\nتغییر دهید، این امکان نصب کاهش رتبه را در آینده فراهم می‌کند، و معمولاً این روی کد نسخه که واقعاً توسط برنامه درک می‌شود تأثیری نخواهد داشت.</string>
     <string name="patch_start">Patch را شروع کنید</string>
     <string name="patch_return">برگشت</string>
     <string name="patch_install">نصب</string>
     <string name="patch_copy_error">خطای کپی</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Apps را انتخاب کنید</string>
+    <!-- Settings Page -->
+    <string name="page_settings">تنظیمات</string>
+    <string name="settings_keystore">فروشگاه کلید امضا</string>
+    <string name="settings_keystore_default">ساخته شده در</string>
+    <string name="settings_keystore_custom">سفارشی</string>
+    <string name="settings_keystore_dialog_title">فروشگاه کلید سفارشی</string>
+    <string name="settings_keystore_file">فایل فروشگاه کلید</string>
+    <string name="settings_keystore_password">کلمه عبور</string>
+    <string name="settings_keystore_alias">نام مستعار</string>
+    <string name="settings_keystore_alias_password">رمز عبور مستعار</string>
+    <string name="settings_keystore_desc">تنظیم فروشگاه کلید (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">نوع اشتباه ذخیره کلید</string>
+    <string name="settings_keystore_wrong_password">پسورد فروشگاه کلید اشتباه است</string>
+    <string name="settings_keystore_wrong_alias">نام مستعار اشتباه</string>
+    <string name="settings_keystore_wrong_alias_password">رمز عبور نام مستعار اشتباه است</string>
 </resources>

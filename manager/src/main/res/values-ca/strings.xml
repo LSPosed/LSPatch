@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Afegeix</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Registres</string>
-    <string name="page_settings">Configuració</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Servei Shizuku disponible</string>
     <string name="home_shizuku_unavailable">El servei Shizuku no està connectat</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">Gestionar</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nou Pegat</string>
-    <string name="patch_permission_title">Permís</string>
+    <string name="patch_permission_title">Sol·licitud de permís</string>
     <string name="patch_permission_text">Si us plau, concediu permís d\'Escriptura d\'emmagatzematge extern per permetre desar apks pegats al directori de descàrregues</string>
     <string name="patch_mode">Mode de pegat</string>
     <string name="patch_local">Local</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: anul·lar PM</string>
     <string name="patch_sigbypasslv2">lv2: ometre PM + openat (libc)</string>
     <string name="patch_override_version_code">Anul·la el codi de versió</string>
-    <string name="patch_override_version_code_desc">Substituïu el codi de versió de l\'aplicació aplicada a 1\nAixò permet la instal·lació de baixada</string>
+    <string name="patch_override_version_code_desc">Substituïu el codi de versió de l\'aplicació aplicada a 1\nAixò permetrà la instal·lació de baixada en el futur i, en general, això no afectarà el codi de versió realment percebut per l\'aplicació.</string>
     <string name="patch_start">Inicia el pegat</string>
     <string name="patch_return">Tornar</string>
     <string name="patch_install">Instal·lar</string>
     <string name="patch_copy_error">Error de còpia</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Seleccioneu Aplicacions</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Configuració</string>
+    <string name="settings_keystore">Botiga de claus de signatures</string>
+    <string name="settings_keystore_default">Integrat</string>
+    <string name="settings_keystore_custom">Personalitzat</string>
+    <string name="settings_keystore_dialog_title">Magatzem de claus personalitzat</string>
+    <string name="settings_keystore_file">Fitxer de magatzem de claus</string>
+    <string name="settings_keystore_password">Contrasenya</string>
+    <string name="settings_keystore_alias">Àlies</string>
+    <string name="settings_keystore_alias_password">Contrasenya d\'àlies</string>
+    <string name="settings_keystore_desc">Estableix el magatzem de claus (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Tipus de magatzem de claus incorrecte</string>
+    <string name="settings_keystore_wrong_password">La contrasenya del magatzem de claus és incorrecta</string>
+    <string name="settings_keystore_wrong_alias">Nom d\'àlies incorrecte</string>
+    <string name="settings_keystore_wrong_alias_password">Contrasenya d\'àlies incorrecta</string>
 </resources>

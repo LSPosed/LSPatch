@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Dodać</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Dzienniki</string>
-    <string name="page_settings">Ustawienia</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Dostępna usługa Shizuku</string>
     <string name="home_shizuku_unavailable">Usługa Shizuku nie jest podłączona</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">Zarządzać</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nowa łatka</string>
-    <string name="patch_permission_title">Pozwolenie</string>
+    <string name="patch_permission_title">Wniosek o zezwolenie</string>
     <string name="patch_permission_text">Proszę przyznać uprawnienie do zapisu w pamięci zewnętrznej, aby umożliwić zapisywanie zaktualizowanych apków w katalogu pobierania</string>
     <string name="patch_mode">Tryb poprawki</string>
     <string name="patch_local">Lokalny</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: Pomiń PM</string>
     <string name="patch_sigbypasslv2">lv2: Pomiń PM + openat (libc)</string>
     <string name="patch_override_version_code">Zastąp kod wersji</string>
-    <string name="patch_override_version_code_desc">Zastąp kod wersji poprawionej aplikacji na 1\nPozwala to na obniżoną wersję instalacji</string>
+    <string name="patch_override_version_code_desc">Zastąp kod wersji załatanej aplikacji na 1\nUmożliwi to instalację w przyszłości, a generalnie nie będzie miało wpływu na kod wersji faktycznie odbierany przez aplikację</string>
     <string name="patch_start">Rozpocznij łatkę</string>
     <string name="patch_return">Powrót</string>
     <string name="patch_install">zainstalować</string>
     <string name="patch_copy_error">Błąd kopiowania</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Wybierz aplikacje</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Ustawienia</string>
+    <string name="settings_keystore">Podpisz bazę kluczy</string>
+    <string name="settings_keystore_default">Wbudowana strona</string>
+    <string name="settings_keystore_custom">Własna strona</string>
+    <string name="settings_keystore_dialog_title">Własny magazyn kluczy</string>
+    <string name="settings_keystore_file">Plik Keystore</string>
+    <string name="settings_keystore_password">Hasło</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Alias password</string>
+    <string name="settings_keystore_desc">Ustawienie magazynu kluczy (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Nieprawidłowy typ magazynu kluczy</string>
+    <string name="settings_keystore_wrong_password">Nieprawidłowe hasło do magazynu kluczy</string>
+    <string name="settings_keystore_wrong_alias">Nieprawidłowa nazwa aliasu</string>
+    <string name="settings_keystore_wrong_alias_password">Nieprawidłowe hasło aliasu</string>
 </resources>

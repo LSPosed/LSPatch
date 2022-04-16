@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Додати</string>
     <string name="page_repo">Репо</string>
     <string name="page_logs">Журнали</string>
-    <string name="page_settings">Налаштування</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Доступна послуга Shizuku</string>
     <string name="home_shizuku_unavailable">Служба Shizuku не підключена</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">Керувати</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Новий патч</string>
-    <string name="patch_permission_title">Дозвіл</string>
+    <string name="patch_permission_title">Заявка на отримання дозволу</string>
     <string name="patch_permission_text">Будь ласка, надайте дозвіл на запис зовнішнього сховища, щоб дозволити зберігати виправлені файли APK у каталозі завантажень</string>
     <string name="patch_mode">Режим виправлення</string>
     <string name="patch_local">Місцеві</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: Обійти PM</string>
     <string name="patch_sigbypasslv2">lv2: обійти PM + openat (libc)</string>
     <string name="patch_override_version_code">Замінити код версії</string>
-    <string name="patch_override_version_code_desc">Замінити код версії виправленої програми на 1\nЦе дозволяє встановити попередню версію</string>
+    <string name="patch_override_version_code_desc">Замінити код версії виправленого додатка на 1\nЦе дозволить встановити попередню версію в майбутньому, і, як правило, це не вплине на код версії, який фактично сприймається програмою</string>
     <string name="patch_start">Запустити патч</string>
     <string name="patch_return">Повернення</string>
     <string name="patch_install">Встановити</string>
     <string name="patch_copy_error">Помилка копіювання</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Виберіть Програми</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Налаштування</string>
+    <string name="settings_keystore">Сховище ключів підпису</string>
+    <string name="settings_keystore_default">Вбудований</string>
+    <string name="settings_keystore_custom">На замовлення</string>
+    <string name="settings_keystore_dialog_title">Спеціальне сховище ключів</string>
+    <string name="settings_keystore_file">Файл сховища ключів</string>
+    <string name="settings_keystore_password">Пароль</string>
+    <string name="settings_keystore_alias">Псевдонім</string>
+    <string name="settings_keystore_alias_password">Псевдонім пароль</string>
+    <string name="settings_keystore_desc">Встановити сховище ключів (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Неправильний тип сховища ключів</string>
+    <string name="settings_keystore_wrong_password">Неправильний пароль сховища ключів</string>
+    <string name="settings_keystore_wrong_alias">Неправильний псевдонім</string>
+    <string name="settings_keystore_wrong_alias_password">Неправильний пароль псевдоніма</string>
 </resources>

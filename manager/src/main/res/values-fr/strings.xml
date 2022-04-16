@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Ajouter</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Journaux</string>
-    <string name="page_settings">Réglages</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Service Shizuku disponible</string>
     <string name="home_shizuku_unavailable">Service Shizuku non connecté</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">Faire en sorte</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nouveau correctif</string>
-    <string name="patch_permission_title">Autorisation</string>
+    <string name="patch_permission_title">Demande d\'autorisation</string>
     <string name="patch_permission_text">Veuillez accorder l\'autorisation d\'écriture sur le stockage externe pour autoriser l\'enregistrement des apks corrigés dans le répertoire de téléchargement</string>
     <string name="patch_mode">Mode correctif</string>
     <string name="patch_local">Local</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1 : Contourner PM</string>
     <string name="patch_sigbypasslv2">lv2 : Contourner PM + openat (libc)</string>
     <string name="patch_override_version_code">Remplacer le code de version</string>
-    <string name="patch_override_version_code_desc">Remplacer le code de version de l\'application corrigée par 1\nCela permet l\'installation de la rétrogradation</string>
+    <string name="patch_override_version_code_desc">Remplacer le code de version de l\'application corrigée par 1\nCela permet de rétrograder l\'installation à l\'avenir, et généralement cela n\'affectera pas le code de version réellement perçu par l\'application.</string>
     <string name="patch_start">Démarrer le correctif</string>
     <string name="patch_return">Retourner</string>
     <string name="patch_install">Installer</string>
     <string name="patch_copy_error">Erreur de copie</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Sélectionnez les applications</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Réglages</string>
+    <string name="settings_keystore">Signature keystore</string>
+    <string name="settings_keystore_default">Intégré dans</string>
+    <string name="settings_keystore_custom">Personnalisé</string>
+    <string name="settings_keystore_dialog_title">Keystore personnalisé</string>
+    <string name="settings_keystore_file">Fichier Keystore</string>
+    <string name="settings_keystore_password">Mot de passe</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Mot de passe alias</string>
+    <string name="settings_keystore_desc">Définir le keystore (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Mauvais type de keystore</string>
+    <string name="settings_keystore_wrong_password">Mot de passe erroné pour le keystore</string>
+    <string name="settings_keystore_wrong_alias">Nom d\'alias erroné</string>
+    <string name="settings_keystore_wrong_alias_password">Mot de passe d\'alias erroné</string>
 </resources>

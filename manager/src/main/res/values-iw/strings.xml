@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">לְהוֹסִיף</string>
     <string name="page_repo">ריפו</string>
     <string name="page_logs">יומנים</string>
-    <string name="page_settings">הגדרות</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">שירות שיזוקו זמין</string>
     <string name="home_shizuku_unavailable">שירות Shizuku לא מחובר</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">לנהל</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">תיקון חדש</string>
-    <string name="patch_permission_title">רְשׁוּת</string>
+    <string name="patch_permission_title">בקשה להרשאה</string>
     <string name="patch_permission_text">אנא הענק הרשאת כתיבה לאחסון חיצוני כדי לאפשר שמירת apks מתוקנים בספריית ההורדה</string>
     <string name="patch_mode">מצב תיקון</string>
     <string name="patch_local">מְקוֹמִי</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: עוקף את PM</string>
     <string name="patch_sigbypasslv2">lv2: עוקף PM + openat (libc)</string>
     <string name="patch_override_version_code">עוקף את קוד הגרסה</string>
-    <string name="patch_override_version_code_desc">עוקף את קוד הגרסה של האפליקציה המתוקנת ל-1\nזה מאפשר התקנה לאחור</string>
+    <string name="patch_override_version_code_desc">עוקף את קוד הגרסה של האפליקציה המתוקנת ל-1\nזה מאפשר שדרוג לאחור של התקנה בעתיד, ובדרך כלל זה לא ישפיע על קוד הגרסה הנתפס בפועל על ידי האפליקציה</string>
     <string name="patch_start">התחל תיקון</string>
     <string name="patch_return">לַחֲזוֹר</string>
     <string name="patch_install">להתקין</string>
     <string name="patch_copy_error">שגיאת העתקה</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">בחר אפליקציות</string>
+    <!-- Settings Page -->
+    <string name="page_settings">הגדרות</string>
+    <string name="settings_keystore">מאגר מפתחות חתימה</string>
+    <string name="settings_keystore_default">מובנה</string>
+    <string name="settings_keystore_custom">המותאם אישית</string>
+    <string name="settings_keystore_dialog_title">מאגר מפתחות מותאם אישית</string>
+    <string name="settings_keystore_file">קובץ מאגר מפתחות</string>
+    <string name="settings_keystore_password">סיסמה</string>
+    <string name="settings_keystore_alias">כינוי</string>
+    <string name="settings_keystore_alias_password">סיסמת כינוי</string>
+    <string name="settings_keystore_desc">הגדר מאגר מפתחות (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">סוג שגוי של מאגר מפתחות</string>
+    <string name="settings_keystore_wrong_password">סיסמת מאגר מפתחות שגויה</string>
+    <string name="settings_keystore_wrong_alias">שם כינוי שגוי</string>
+    <string name="settings_keystore_wrong_alias_password">סיסמת כינוי שגויה</string>
 </resources>

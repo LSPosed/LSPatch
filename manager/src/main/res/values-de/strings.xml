@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Addieren</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Protokolle</string>
-    <string name="page_settings">Einstellungen</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Shizuku-Service verfügbar</string>
     <string name="home_shizuku_unavailable">Shizuku-Dienst nicht verbunden</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">Verwalten</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Neuer Patch</string>
-    <string name="patch_permission_title">Erlaubnis</string>
+    <string name="patch_permission_title">Antrag auf Erlaubnis</string>
     <string name="patch_permission_text">Bitte erteilen Sie die Berechtigung „Externen Speicher schreiben“, um gepatchte APKs im Download-Verzeichnis speichern zu können</string>
     <string name="patch_mode">Patch-Modus</string>
     <string name="patch_local">Lokal</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: PM umgehen</string>
     <string name="patch_sigbypasslv2">lv2: PM umgehen + openat (libc)</string>
     <string name="patch_override_version_code">Versionscode überschreiben</string>
-    <string name="patch_override_version_code_desc">Setzen Sie den Versionscode der gepatchten App auf 1\naußer Kraft. Dies ermöglicht eine Downgrade-Installation</string>
+    <string name="patch_override_version_code_desc">Überschreiben Sie den Versionscode der gepatchten Anwendung auf 1\nDies ermöglicht eine Downgrade-Installation in der Zukunft und hat im Allgemeinen keinen Einfluss auf den Versionscode, der von der Anwendung tatsächlich wahrgenommen wird</string>
     <string name="patch_start">Patch starten</string>
     <string name="patch_return">Zurückkehren</string>
     <string name="patch_install">Installieren</string>
     <string name="patch_copy_error">Kopierfehler</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Apps auswählen</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Einstellungen</string>
+    <string name="settings_keystore">Signatur-Schlüsselspeicher</string>
+    <string name="settings_keystore_default">Eingebaut</string>
+    <string name="settings_keystore_custom">Benutzerdefiniert</string>
+    <string name="settings_keystore_dialog_title">Benutzerdefinierter Schlüsselspeicher</string>
+    <string name="settings_keystore_file">Keystore-Datei</string>
+    <string name="settings_keystore_password">Passwort</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Alias-Passwort</string>
+    <string name="settings_keystore_desc">Schlüsselspeicher festlegen (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Falscher Typ des Schlüsselspeichers</string>
+    <string name="settings_keystore_wrong_password">Falsches Keystore-Passwort</string>
+    <string name="settings_keystore_wrong_alias">Falscher Alias-Name</string>
+    <string name="settings_keystore_wrong_alias_password">Falsches Alias-Passwort</string>
 </resources>

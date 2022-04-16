@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Lägg till</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Loggar</string>
-    <string name="page_settings">inställningar</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Shizuku-tjänst tillgänglig</string>
     <string name="home_shizuku_unavailable">Shizuku-tjänsten är inte ansluten</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">Hantera</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Ny patch</string>
-    <string name="patch_permission_title">Lov</string>
+    <string name="patch_permission_title">Ansökan om tillstånd</string>
     <string name="patch_permission_text">Vänligen ge Write External Storage-tillstånd för att tillåta att korrigerade APK-filer sparas i nedladdningskatalogen</string>
     <string name="patch_mode">Patch-läge</string>
     <string name="patch_local">Lokal</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: Förbi PM</string>
     <string name="patch_sigbypasslv2">lv2: Bypass PM + openat (libc)</string>
     <string name="patch_override_version_code">Åsidosätt versionskoden</string>
-    <string name="patch_override_version_code_desc">Åsidosätt den korrigerade appens versionskod till 1\nDetta tillåter nedgraderingsinstallation</string>
+    <string name="patch_override_version_code_desc">Övergå den patchade appens versionskod till 1\nDetta gör det möjligt att nedgradera installationen i framtiden, och i allmänhet kommer detta inte att påverka den versionskod som faktiskt uppfattas av applikationen.</string>
     <string name="patch_start">Starta Patch</string>
     <string name="patch_return">Lämna tillbaka</string>
     <string name="patch_install">Installera</string>
     <string name="patch_copy_error">Kopieringsfel</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Välj Appar</string>
+    <!-- Settings Page -->
+    <string name="page_settings">inställningar</string>
+    <string name="settings_keystore">Signatur nyckelarkiv</string>
+    <string name="settings_keystore_default">Inbyggd</string>
+    <string name="settings_keystore_custom">Anpassad</string>
+    <string name="settings_keystore_dialog_title">Anpassad nyckelbank</string>
+    <string name="settings_keystore_file">Nyckelförvaringsfil</string>
+    <string name="settings_keystore_password">Lösenord</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Alias-lösenord</string>
+    <string name="settings_keystore_desc">Ställ in keystore (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Fel typ av nyckelbank</string>
+    <string name="settings_keystore_wrong_password">Fel lösenord till nyckelbanken</string>
+    <string name="settings_keystore_wrong_alias">Fel aliasnamn</string>
+    <string name="settings_keystore_wrong_alias_password">Fel lösenord för alias</string>
 </resources>

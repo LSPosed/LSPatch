@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">追加</string>
     <string name="page_repo">レポ</string>
     <string name="page_logs">ログ</string>
-    <string name="page_settings">設定</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">しずくサービスあり</string>
     <string name="home_shizuku_unavailable">しずくサービスが接続されていません</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">管理</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">新しいパッチ</string>
-    <string name="patch_permission_title">許可</string>
+    <string name="patch_permission_title">許可申請</string>
     <string name="patch_permission_text">パッチを適用したapkをダウンロードディレクトリに保存できるように、外部ストレージへの書き込み権限を付与してください</string>
     <string name="patch_mode">パッチモード</string>
     <string name="patch_local">地元</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1：PMをバイパスする</string>
     <string name="patch_sigbypasslv2">lv2：PMをバイパス+ openat（libc）</string>
     <string name="patch_override_version_code">バージョンコードを上書きする</string>
-    <string name="patch_override_version_code_desc">パッチを適用したアプリのバージョンコードを10にオーバーライドします\nこれにより、ダウングレードインストールが可能になります</string>
+    <string name="patch_override_version_code_desc">パッチを適用したアプリのバージョンコードを 1 に上書きする\nこれにより、将来的にダウングレードのインストールが可能になり、通常、アプリケーションが実際に認識するバージョンコードには影響を与えません。</string>
     <string name="patch_start">パッチを開始する</string>
     <string name="patch_return">戻る</string>
     <string name="patch_install">インストール</string>
     <string name="patch_copy_error">コピーエラー</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">アプリを選択</string>
+    <!-- Settings Page -->
+    <string name="page_settings">設定</string>
+    <string name="settings_keystore">署名のキーストア</string>
+    <string name="settings_keystore_default">内蔵型</string>
+    <string name="settings_keystore_custom">カスタム</string>
+    <string name="settings_keystore_dialog_title">カスタムキーストア</string>
+    <string name="settings_keystore_file">キーストア・ファイル</string>
+    <string name="settings_keystore_password">パスワード</string>
+    <string name="settings_keystore_alias">通称</string>
+    <string name="settings_keystore_alias_password">エイリアス パスワード</string>
+    <string name="settings_keystore_desc">キーストア（BKS）の設定</string>
+    <string name="settings_keystore_wrong_keystore">キーストアの種類が違う</string>
+    <string name="settings_keystore_wrong_password">鍵屋のパスワードが違う</string>
+    <string name="settings_keystore_wrong_alias">エイリアス名が間違っている</string>
+    <string name="settings_keystore_wrong_alias_password">エイリアスのパスワードが違う</string>
 </resources>

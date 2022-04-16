@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">추가하다</string>
     <string name="page_repo">레포</string>
     <string name="page_logs">로그</string>
-    <string name="page_settings">설정</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">시즈쿠 서비스 가능</string>
     <string name="home_shizuku_unavailable">시즈쿠 서비스가 연결되지 않았습니다</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">관리하다</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">새로운 패치</string>
-    <string name="patch_permission_title">허가</string>
+    <string name="patch_permission_title">허가 신청</string>
     <string name="patch_permission_text">패치된 APK를 다운로드 디렉토리에 저장할 수 있도록 외부 저장소 쓰기 권한을 부여하세요.</string>
     <string name="patch_mode">패치 모드</string>
     <string name="patch_local">현지의</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: PM 우회</string>
     <string name="patch_sigbypasslv2">lv2: PM + openat(libc) 우회</string>
     <string name="patch_override_version_code">버전 코드 재정의</string>
-    <string name="patch_override_version_code_desc">패치된 앱의 버전 코드를 1\n으로 재정의하여 설치를 다운그레이드할 수 있습니다.</string>
+    <string name="patch_override_version_code_desc">패치된 앱의 버전 코드를 1\n으로 재정의합니다. 이렇게 하면 향후 설치를 다운그레이드할 수 있으며 일반적으로 애플리케이션에서 실제로 인식하는 버전 코드에는 영향을 미치지 않습니다.</string>
     <string name="patch_start">패치 시작</string>
     <string name="patch_return">반품</string>
     <string name="patch_install">설치하다</string>
     <string name="patch_copy_error">복사 오류</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">앱 선택</string>
+    <!-- Settings Page -->
+    <string name="page_settings">설정</string>
+    <string name="settings_keystore">서명 키 저장소</string>
+    <string name="settings_keystore_default">내장</string>
+    <string name="settings_keystore_custom">관습</string>
+    <string name="settings_keystore_dialog_title">사용자 정의 키 저장소</string>
+    <string name="settings_keystore_file">키 저장소 파일</string>
+    <string name="settings_keystore_password">비밀번호</string>
+    <string name="settings_keystore_alias">별명</string>
+    <string name="settings_keystore_alias_password">별칭 비밀번호</string>
+    <string name="settings_keystore_desc">키 저장소 설정(BKS)</string>
+    <string name="settings_keystore_wrong_keystore">잘못된 유형의 키 저장소</string>
+    <string name="settings_keystore_wrong_password">잘못된 키 저장소 비밀번호</string>
+    <string name="settings_keystore_wrong_alias">잘못된 별칭 이름</string>
+    <string name="settings_keystore_wrong_alias_password">잘못된 별칭 암호</string>
 </resources>

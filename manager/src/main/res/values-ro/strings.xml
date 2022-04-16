@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Adăuga</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Bușteni</string>
-    <string name="page_settings">Setări</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Serviciu Shizuku disponibil</string>
     <string name="home_shizuku_unavailable">Serviciul Shizuku nu este conectat</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">Administra</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Patch nou</string>
-    <string name="patch_permission_title">Permisiune</string>
+    <string name="patch_permission_title">Cerere de permisiune</string>
     <string name="patch_permission_text">Vă rugăm să acordați permisiunea de scriere pentru stocare externă pentru a permite salvarea apk-urilor corectate în directorul de descărcare</string>
     <string name="patch_mode">Modul Patch</string>
     <string name="patch_local">Local</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: Ocoli PM</string>
     <string name="patch_sigbypasslv2">lv2: Bypass PM + openat (libc)</string>
     <string name="patch_override_version_code">Ignorați codul versiunii</string>
-    <string name="patch_override_version_code_desc">Ignorați codul versiunii aplicației corecţionate la 1\nAcest lucru permite instalarea downgrade</string>
+    <string name="patch_override_version_code_desc">Suprascrieți codul de versiune al aplicației corectate la 1\nAcest lucru permite o instalare retrogradată în viitor și, în general, acest lucru nu va afecta codul de versiune perceput efectiv de aplicație.</string>
     <string name="patch_start">Începeți Patch-ul</string>
     <string name="patch_return">Întoarcere</string>
     <string name="patch_install">Instalare</string>
     <string name="patch_copy_error">Eroare de copiere</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Selectați Aplicații</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Setări</string>
+    <string name="settings_keystore">Keystore de semnături</string>
+    <string name="settings_keystore_default">Built-in</string>
+    <string name="settings_keystore_custom">Personalizat</string>
+    <string name="settings_keystore_dialog_title">Keystore personalizat</string>
+    <string name="settings_keystore_file">Fișier Keystore</string>
+    <string name="settings_keystore_password">Parola</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Alias parola</string>
+    <string name="settings_keystore_desc">Setați keystore (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Tip greșit de depozit de chei</string>
+    <string name="settings_keystore_wrong_password">Parolă greșită pentru keystore</string>
+    <string name="settings_keystore_wrong_alias">Nume alias greșit</string>
+    <string name="settings_keystore_wrong_alias_password">Parolă alias greșită</string>
 </resources>

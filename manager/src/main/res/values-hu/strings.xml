@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Hozzáadás</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Naplók</string>
-    <string name="page_settings">Beállítások</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Shizuku szerviz elérhető</string>
     <string name="home_shizuku_unavailable">A Shizuku szolgáltatás nincs csatlakoztatva</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">Kezelése</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Új javítás</string>
-    <string name="patch_permission_title">Engedély</string>
+    <string name="patch_permission_title">Engedélykérelem</string>
     <string name="patch_permission_text">Adjon külső tárhely írási engedélyt a javított apk-k letöltési könyvtárba való mentéséhez</string>
     <string name="patch_mode">Patch mód</string>
     <string name="patch_local">Helyi</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: Bypass PM</string>
     <string name="patch_sigbypasslv2">lv2: PM megkerülése + openat (libc)</string>
     <string name="patch_override_version_code">Verziókód felülírása</string>
-    <string name="patch_override_version_code_desc">A javított alkalmazás verziókódjának felülírása 1\n-ra Ez lehetővé teszi a visszafelé történő telepítést</string>
+    <string name="patch_override_version_code_desc">A javított alkalmazás verziószámának felülírása 1-re\nEz lehetővé teszi a jövőbeni downgrade telepítést, és általában ez nem befolyásolja az alkalmazás által ténylegesen érzékelt verziószámot.</string>
     <string name="patch_start">Indítsa el a Patch-et</string>
     <string name="patch_return">Visszatérés</string>
     <string name="patch_install">Telepítés</string>
     <string name="patch_copy_error">Másolási hiba</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Válassza az Alkalmazások lehetőséget</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Beállítások</string>
+    <string name="settings_keystore">Aláírás kulcstároló</string>
+    <string name="settings_keystore_default">Beépített</string>
+    <string name="settings_keystore_custom">Custom</string>
+    <string name="settings_keystore_dialog_title">Egyéni kulcstár</string>
+    <string name="settings_keystore_file">Kulcstároló fájl</string>
+    <string name="settings_keystore_password">Jelszó</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Alias jelszó</string>
+    <string name="settings_keystore_desc">Kulcstároló beállítása (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Rossz típusú kulcstároló</string>
+    <string name="settings_keystore_wrong_password">Rossz kulcstároló jelszó</string>
+    <string name="settings_keystore_wrong_alias">Rossz alias név</string>
+    <string name="settings_keystore_wrong_alias_password">Rossz alias jelszó</string>
 </resources>

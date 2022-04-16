@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ایل ایس پیچ</string>
     <string name="add">شامل کریں۔</string>
     <string name="page_repo">ریپو</string>
     <string name="page_logs">نوشتہ جات</string>
-    <string name="page_settings">ترتیبات</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">شیزوکو سروس دستیاب ہے۔</string>
     <string name="home_shizuku_unavailable">شیزوکو سروس منسلک نہیں ہے۔</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">انتظام کریں۔</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">نیا پیچ</string>
-    <string name="patch_permission_title">اجازت</string>
+    <string name="patch_permission_title">اجازت کی درخواست</string>
     <string name="patch_permission_text">براہ کرم ایکسٹرنل سٹوریج لکھنے کی اجازت دیں تاکہ پیچ شدہ apks کو ڈائرکٹری ڈاؤن لوڈ میں محفوظ کیا جا سکے۔</string>
     <string name="patch_mode">پیچ موڈ</string>
     <string name="patch_local">مقامی</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: PM کو بائی پاس کریں۔</string>
     <string name="patch_sigbypasslv2">lv2: بائی پاس PM + openat (libc)</string>
     <string name="patch_override_version_code">ورژن کوڈ کو اوور رائڈ کریں۔</string>
-    <string name="patch_override_version_code_desc">پیچ شدہ ایپ کے ورژن کوڈ کو 1\nپر اوور رائیڈ کریں یہ تنصیب کو ڈاؤن گریڈ کرنے کی اجازت دیتا ہے۔</string>
+    <string name="patch_override_version_code_desc">پیچ شدہ ایپ کے ورژن کوڈ کو 1\nپر اوور رائیڈ کریں یہ مستقبل میں انسٹالیشن کو ڈاؤن گریڈ کرنے کی اجازت دیتا ہے، اور عام طور پر اس سے ایپلیکیشن کے ذریعہ سمجھے گئے ورژن کوڈ پر کوئی اثر نہیں پڑے گا۔</string>
     <string name="patch_start">پیچ شروع کریں۔</string>
     <string name="patch_return">واپسی</string>
     <string name="patch_install">انسٹال کریں۔</string>
     <string name="patch_copy_error">کاپی کی غلطی</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">ایپس کو منتخب کریں۔</string>
+    <!-- Settings Page -->
+    <string name="page_settings">ترتیبات</string>
+    <string name="settings_keystore">دستخطی کی اسٹور</string>
+    <string name="settings_keystore_default">بلٹ ان</string>
+    <string name="settings_keystore_custom">اپنی مرضی کے مطابق</string>
+    <string name="settings_keystore_dialog_title">حسب ضرورت کی اسٹور</string>
+    <string name="settings_keystore_file">کلیدی اسٹور فائل</string>
+    <string name="settings_keystore_password">پاس ورڈ</string>
+    <string name="settings_keystore_alias">عرف</string>
+    <string name="settings_keystore_alias_password">عرفی پاس ورڈ</string>
+    <string name="settings_keystore_desc">سیٹ کی اسٹور (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">کی اسٹور کی غلط قسم</string>
+    <string name="settings_keystore_wrong_password">کی اسٹور کا غلط پاس ورڈ</string>
+    <string name="settings_keystore_wrong_alias">غلط عرفی نام</string>
+    <string name="settings_keystore_wrong_alias_password">غلط عرفی پاس ورڈ</string>
 </resources>
