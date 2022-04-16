@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add">Add</string>
+    <string name="page_repo">Repo</string>
+    <string name="page_logs">บันทึก</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_available">มีบริการชิซูกุ</string>
+    <string name="home_shizuku_unavailable">ไม่ได้เชื่อมต่อบริการ Shizuku</string>
+    <string name="home_shizuku_warning">ฟังก์ชั่นบางอย่างใช้งานไม่ได้</string>
+    <string name="home_api_version">เวอร์ชัน API</string>
+    <string name="home_lspatch_version">เวอร์ชัน LSPatch</string>
+    <string name="home_framework_version">เวอร์ชันกรอบงาน</string>
+    <string name="home_system_version">เวอร์ชันของระบบ</string>
+    <string name="home_device">อุปกรณ์</string>
+    <string name="home_system_abi">ระบบ ABI</string>
+    <string name="home_info_copied">คัดลอกไปยังคลิปบอร์ดแล้ว</string>
+    <string name="home_support">สนับสนุน</string>
+    <string name="home_description">LSPatch เป็นเฟรมเวิร์ก Xposed ที่ไม่ใช่รูทฟรีโดยอิงตามคอร์ LSPosed</string>
+    <string name="home_view_source_code"><![CDATA[ดูซอร์สโค้ดได้ที่ %1$s<br/>เข้าร่วม %2$s ช่องของเรา]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">จัดการ</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">แพทช์ใหม่</string>
+    <string name="patch_permission_title">แบบขออนุญาติ</string>
+    <string name="patch_permission_text">โปรดให้สิทธิ์การเขียนที่จัดเก็บข้อมูลภายนอกเพื่ออนุญาตให้บันทึก apk ที่แพตช์เพื่อดาวน์โหลดไดเร็กทอรี</string>
+    <string name="patch_mode">โหมดแพทช์</string>
+    <string name="patch_local">ท้องถิ่น</string>
+    <string name="patch_local_desc">แก้ไขแอปโดยไม่ต้องฝังโมดูล\nแอปแพตช์ต้องการให้ผู้จัดการทำงานในเบื้องหลัง และขอบเขต Xposed สามารถเปลี่ยนแปลงไดนามิกโดยไม่ต้องแพตช์ใหม่\nแอพที่แพตช์ในเครื่องสามารถทำงานบนอุปกรณ์ท้องถิ่นเท่านั้น</string>
+    <string name="patch_portable">แบบพกพา</string>
+    <string name="patch_portable_desc">แก้ไขแอปด้วยโมดูลที่ฝังอยู่\nแอปแพตช์สามารถทำงานโดยไม่มีตัวจัดการ แต่ไม่สามารถจัดการแบบไดนามิกได้\nแอปแพตช์แบบพกพาสามารถใช้กับอุปกรณ์ที่ไม่ได้ติดตั้ง LSPatch Manager</string>
+    <string name="patch_embed_modules">โมดูลฝังตัว</string>
+    <string name="patch_debuggable">แก้จุดบกพร่องได้</string>
+    <string name="patch_sign">เข้าสู่ระบบ</string>
+    <string name="patch_sigbypass">บายพาสลายเซ็น</string>
+    <string name="patch_sigbypasslv0">lv0: ปิด</string>
+    <string name="patch_sigbypasslv1">lv1: บายพาส PM</string>
+    <string name="patch_sigbypasslv2">lv2: บายพาส PM + openat (libc)</string>
+    <string name="patch_override_version_code">แทนที่รหัสเวอร์ชัน</string>
+    <string name="patch_override_version_code_desc">แทนที่รหัสเวอร์ชันของแอปที่แพตช์เป็น\nซึ่งช่วยให้สามารถติดตั้งดาวน์เกรดได้ในอนาคต และโดยทั่วไปแล้วสิ่งนี้จะไม่ส่งผลต่อโค้ดเวอร์ชันที่แอปพลิเคชันรับรู้จริงๆ</string>
+    <string name="patch_start">เริ่มโปรแกรมแก้ไข</string>
+    <string name="patch_return">กลับ</string>
+    <string name="patch_install">ติดตั้ง</string>
+    <string name="patch_copy_error">ข้อผิดพลาดในการคัดลอก</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">เลือกแอพ</string>
+    <!-- Settings Page -->
+    <string name="page_settings">การตั้งค่า</string>
+    <string name="settings_keystore">ที่เก็บคีย์ลายเซ็น</string>
+    <string name="settings_keystore_default">ในตัว</string>
+    <string name="settings_keystore_custom">กำหนดเอง</string>
+    <string name="settings_keystore_dialog_title">ที่เก็บคีย์แบบกำหนดเอง</string>
+    <string name="settings_keystore_file">ไฟล์คีย์สโตร์</string>
+    <string name="settings_keystore_password">รหัสผ่าน</string>
+    <string name="settings_keystore_alias">นามแฝง</string>
+    <string name="settings_keystore_alias_password">รหัสผ่านนามแฝง</string>
+    <string name="settings_keystore_desc">ตั้งค่าที่เก็บคีย์ (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">ประเภทของที่เก็บคีย์ผิด</string>
+    <string name="settings_keystore_wrong_password">รหัสผ่านที่เก็บคีย์ไม่ถูกต้อง</string>
+    <string name="settings_keystore_wrong_alias">ชื่อนามแฝงไม่ถูกต้อง</string>
+    <string name="settings_keystore_wrong_alias_password">รหัสผ่านนามแฝงไม่ถูกต้อง</string>
+</resources>
