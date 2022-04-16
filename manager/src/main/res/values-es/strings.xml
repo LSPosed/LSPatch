@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LSPatch</string>
     <string name="add">Agregar</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Registros</string>
-    <string name="page_settings">Ajustes</string>
     <!-- Home Page -->
     <string name="home_shizuku_available">Servicio Shizuku disponible</string>
     <string name="home_shizuku_unavailable">Servicio Shizuku no conectado</string>
@@ -23,7 +21,7 @@
     <string name="page_manage">Administrar</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nuevo parche</string>
-    <string name="patch_permission_title">Permiso</string>
+    <string name="patch_permission_title">Solicitud de permiso</string>
     <string name="patch_permission_text">Otorgue permiso de escritura en almacenamiento externo para permitir guardar aplicaciones parcheadas en el directorio de descargas.</string>
     <string name="patch_mode">Modo de parche</string>
     <string name="patch_local">Local</string>
@@ -38,11 +36,26 @@
     <string name="patch_sigbypasslv1">lv1: Pasar PM</string>
     <string name="patch_sigbypasslv2">lv2: Omitir PM + abrir en (libc)</string>
     <string name="patch_override_version_code">Anular código de versión</string>
-    <string name="patch_override_version_code_desc">Anule el código de versión de la aplicación parcheada a 1\nEsto permite la instalación de una versión anterior</string>
+    <string name="patch_override_version_code_desc">Anular el código de versión de la app parcheada a 1\nEsto permite la instalación de downgrade en el futuro, y generalmente esto no afectará al código de versión realmente percibido por la aplicación</string>
     <string name="patch_start">Parche de inicio</string>
     <string name="patch_return">Regreso</string>
     <string name="patch_install">Instalar en pc</string>
     <string name="patch_copy_error">error de copia</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Seleccionar aplicaciones</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Ajustes</string>
+    <string name="settings_keystore">Almacén de claves de firma</string>
+    <string name="settings_keystore_default">Construido en</string>
+    <string name="settings_keystore_custom">Personalizado</string>
+    <string name="settings_keystore_dialog_title">Almacén de claves personalizado</string>
+    <string name="settings_keystore_file">Archivo Keystore</string>
+    <string name="settings_keystore_password">Contraseña</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Contraseña del alias</string>
+    <string name="settings_keystore_desc">Establecer el almacén de claves (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Tipo de almacén de claves incorrecto</string>
+    <string name="settings_keystore_wrong_password">Contraseña incorrecta del almacén de claves</string>
+    <string name="settings_keystore_wrong_alias">Nombre de alias incorrecto</string>
+    <string name="settings_keystore_wrong_alias_password">Contraseña de alias incorrecta</string>
 </resources>
