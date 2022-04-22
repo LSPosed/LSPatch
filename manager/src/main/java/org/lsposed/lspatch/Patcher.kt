@@ -1,10 +1,8 @@
 package org.lsposed.lspatch
 
-import android.content.ContentValues
 import android.content.Context
-import android.os.Build
-import android.os.Environment
-import android.provider.MediaStore
+import androidx.core.net.toUri
+import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.lsposed.lspatch.config.MyKeyStore
@@ -45,7 +43,7 @@ object Patcher {
                     add("-m"); addAll(embeddedModules)
                 }
                 if (!MyKeyStore.useDefault) {
-                    addAll(arrayOf("-k", MyKeyStore.file.path, MyKeyStore.password, MyKeyStore.alias,MyKeyStore.aliasPassword))
+                    addAll(arrayOf("-k", MyKeyStore.file.path, MyKeyStore.password, MyKeyStore.alias, MyKeyStore.aliasPassword))
                 }
             }.toTypedArray()
         }
@@ -53,38 +51,29 @@ object Patcher {
 
     suspend fun patch(context: Context, logger: Logger, options: Options) {
         withContext(Dispatchers.IO) {
-            val download = "${Environment.DIRECTORY_DOWNLOADS}/LSPatch"
-            val externalStorageDir = Environment.getExternalStoragePublicDirectory(download)
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) externalStorageDir.mkdirs()
             options.outputPath = Files.createTempDirectory("patch").absolutePathString()
-
             LSPatch(logger, *options.toStringArray()).doCommandLine()
 
+            val uri = LSPApplication.prefs.getString(Constants.PREFS_STORAGE_DIRECTORY, null)?.toUri()
+                ?: throw IllegalStateException("Uri is null")
+            val root = DocumentFile.fromTreeUri(context, uri)
+                ?: throw IllegalStateException("DocumentFile is null")
+            root.listFiles().forEach { it.delete() }
             File(options.outputPath)
                 .walk()
                 .filter { it.isFile }
                 .forEach {
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                    val file = root.createFile("application/vnd.android.package-archive", it.name)
+                        ?: throw IllegalStateException("Failed to create output file")
+                    val os = context.contentResolver.openOutputStream(file.uri)
+                        ?: throw IllegalStateException("Failed to open output stream")
+                    os.use { output ->
                         it.inputStream().use { input ->
-                            externalStorageDir.resolve(it.name).outputStream().use { output ->
-                                input.copyTo(output)
-                            }
-                        }
-                    } else {
-                        val contentDetails = ContentValues().apply {
-                            put(MediaStore.Downloads.DISPLAY_NAME, it.name)
-                            put(MediaStore.Downloads.RELATIVE_PATH, download)
-                        }
-                        val uri = context.contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentDetails)
-                            ?: throw IllegalStateException("Failed to save files to Download")
-                        it.inputStream().use { input ->
-                            context.contentResolver.openOutputStream(uri)!!.use { output ->
-                                input.copyTo(output)
-                            }
+                            input.copyTo(output)
                         }
                     }
                 }
-            logger.i("Patched files are saved to $download")
+            logger.i("Patched files are saved to ${root.uri.lastPathSegment}")
         }
     }
 }

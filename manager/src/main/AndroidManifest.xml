@@ -7,10 +7,6 @@
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
 
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
-
     <application
         android:name=".LSPApplication"
         android:allowBackup="true"
@@ -34,7 +30,8 @@
             android:name=".manager.ModuleProvider"
             android:authorities="org.lsposed.lspatch.provider"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            tools:ignore="ExportedContentProvider" />
 
         <provider
             android:name="rikka.shizuku.ShizukuProvider"
