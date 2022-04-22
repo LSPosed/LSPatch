@@ -14,7 +14,7 @@ import kotlin.io.path.absolutePathString
 
 object Patcher {
     class Options(
-        private val apkPaths: Array<String>,
+        private val apkPaths: List<String>,
         private val debuggable: Boolean,
         private val sigbypassLevel: Int,
         private val v1: Boolean,
@@ -23,12 +23,13 @@ object Patcher {
         private val useManager: Boolean,
         private val overrideVersionCode: Boolean,
         private val verbose: Boolean,
-        private val embeddedModules: List<String>
+        private val embeddedModules: List<String>?
     ) {
         lateinit var outputPath: String
 
         fun toStringArray(): Array<String> {
             return buildList {
+                add("-f")
                 addAll(apkPaths)
                 add("-o"); add(outputPath)
                 if (debuggable) add("-d")
@@ -39,8 +40,8 @@ object Patcher {
                 if (useManager) add("--manager")
                 if (overrideVersionCode) add("-r")
                 if (verbose) add("-v")
-                if (embeddedModules.isNotEmpty()) {
-                    add("-m"); addAll(embeddedModules)
+                embeddedModules?.forEach {
+                    add("-m"); add(it)
                 }
                 if (!MyKeyStore.useDefault) {
                     addAll(arrayOf("-k", MyKeyStore.file.path, MyKeyStore.password, MyKeyStore.alias, MyKeyStore.aliasPassword))

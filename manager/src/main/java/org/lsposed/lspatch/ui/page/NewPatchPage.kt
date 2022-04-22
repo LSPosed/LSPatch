@@ -158,14 +158,14 @@ private fun PatchOptionsBody(
     if (patchState == PatchState.SUBMITTING) LaunchedEffect(patchApp) {
         if (viewModel.useManager) embeddedModules.value?.clear()
         val options = Patcher.Options(
-            apkPaths = arrayOf(patchApp.app.sourceDir), // TODO: Split Apk
+            apkPaths = listOf(patchApp.app.sourceDir) + (patchApp.app.splitSourceDirs ?: emptyArray()),
             debuggable = viewModel.debuggable,
             sigbypassLevel = viewModel.sigBypassLevel,
             v1 = viewModel.sign[0], v2 = viewModel.sign[1], v3 = viewModel.sign[2],
             useManager = viewModel.useManager,
             overrideVersionCode = viewModel.overrideVersionCode,
             verbose = true,
-            embeddedModules = embeddedModules.value?.map { it.app.sourceDir } ?: emptyList() // TODO: Split Apk
+            embeddedModules = embeddedModules.value?.flatMap { listOf(it.app.sourceDir) + (it.app.splitSourceDirs ?: emptyArray()) }
         )
         onSubmit(options)
     }
