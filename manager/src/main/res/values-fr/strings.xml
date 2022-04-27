@@ -21,8 +21,9 @@
     <string name="page_manage">Faire en sorte</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nouveau correctif</string>
-    <string name="patch_permission_title">Demande d\'autorisation</string>
-    <string name="patch_permission_text">Veuillez accorder l\'autorisation d\'écriture sur le stockage externe pour autoriser l\'enregistrement des apks corrigés dans le répertoire de téléchargement</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Mode correctif</string>
     <string name="patch_local">Local</string>
     <string name="patch_local_desc">Patcher une application sans modules intégrés.\nL\'application corrigée nécessite que le gestionnaire s\'exécute en arrière-plan et la portée Xposed peut être modifiée dynamiquement sans re-correction.\nLes applications locales corrigées ne peuvent s\'exécuter que sur l\'appareil local.</string>
