@@ -21,8 +21,9 @@
     <string name="page_manage">Administrar</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nuevo parche</string>
-    <string name="patch_permission_title">Solicitud de permiso</string>
-    <string name="patch_permission_text">Otorgue permiso de escritura en almacenamiento externo para permitir guardar aplicaciones parcheadas en el directorio de descargas.</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Modo de parche</string>
     <string name="patch_local">Local</string>
     <string name="patch_local_desc">Parche una aplicación sin módulos incrustados.\nLa aplicación parcheada necesita que el administrador se ejecute en segundo plano, y el alcance de Xposed se puede cambiar dinámicamente sin volver a parchear.\nLas aplicaciones parcheadas locales solo pueden ejecutarse en el dispositivo local.</string>
