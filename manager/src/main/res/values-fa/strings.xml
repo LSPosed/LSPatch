@@ -21,8 +21,9 @@
     <string name="page_manage">مدیریت کنید</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">پچ جدید</string>
-    <string name="patch_permission_title">درخواست مجوز</string>
-    <string name="patch_permission_text">لطفاً اجازه Write External Storage را بدهید تا اجازه ذخیره apk های وصله شده در فهرست دانلود را بدهد</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">حالت وصله</string>
     <string name="patch_local">محلی</string>
     <string name="patch_local_desc">یک برنامه بدون ماژول های تعبیه شده را وصله کنید.\nبرنامه وصله‌شده به مدیر در حال اجرا در پس‌زمینه نیاز دارد، و محدوده Xposed را می‌توان به صورت پویا و بدون وصله مجدد تغییر داد.\nبرنامه های وصله شده محلی فقط می توانند در دستگاه محلی اجرا شوند.</string>
