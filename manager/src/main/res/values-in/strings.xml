@@ -21,8 +21,9 @@
     <string name="page_manage">Mengelola</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Patch Baru</string>
-    <string name="patch_permission_title">Permohonan Izin</string>
-    <string name="patch_permission_text">Tolong beri izin Write External Storage untuk mengizinkan penyimpanan apk yang ditambal ke direktori Unduh</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Modus Patch</string>
     <string name="patch_local">Lokal</string>
     <string name="patch_local_desc">Menambal aplikasi tanpa modul yang disematkan.\nAplikasi yang ditambal membutuhkan pengelola yang berjalan di latar belakang, dan cakupan Xposed dapat diubah secara dinamis tanpa tambalan ulang.\nAplikasi yang ditambal lokal hanya dapat berjalan di perangkat lokal.</string>
