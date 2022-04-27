@@ -21,8 +21,9 @@
     <string name="page_manage">إدارة</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">باتش جديد</string>
-    <string name="patch_permission_title">طلب الإذن</string>
-    <string name="patch_permission_text">يرجى منح إذن \"الكتابة في التخزين الخارجي\" للسماح بحفظ التطبيقات المصححة في مسار التحميل</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">وضع التصحيح</string>
     <string name="patch_local">محلي</string>
     <string name="patch_local_desc">تصحيح تطبيق بدون وحدات مدمجة.\nيحتاج التطبيق المصحح إلى تشغيل المدير في الخلفية ، ويمكن تغيير نطاق Xposed ديناميكيًا دون إعادة التصحيح.\nلا يمكن تشغيل التطبيقات المحلية المصححة إلا على الجهاز المحلي.</string>

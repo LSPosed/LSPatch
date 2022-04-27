@@ -21,8 +21,9 @@
     <string name="page_manage">Styre</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Ny patch</string>
-    <string name="patch_permission_title">Ansøgning om tilladelse</string>
-    <string name="patch_permission_text">Giv venligst Write External Storage tilladelse til at tillade lagring af patchede apks til Download-biblioteket</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Patch-tilstand</string>
     <string name="patch_local">Lokal</string>
     <string name="patch_local_desc">Patch en app uden indlejrede moduler.\nDen patchede app skal have manageren til at køre i baggrunden, og Xposed-omfanget kan ændres dynamisk uden gen-patch.\nLokale patchede apps kan kun køre på den lokale enhed.</string>

@@ -21,8 +21,9 @@
     <string name="page_manage">Hantera</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Ny patch</string>
-    <string name="patch_permission_title">Ansökan om tillstånd</string>
-    <string name="patch_permission_text">Vänligen ge Write External Storage-tillstånd för att tillåta att korrigerade APK-filer sparas i nedladdningskatalogen</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Patch-läge</string>
     <string name="patch_local">Lokal</string>
     <string name="patch_local_desc">Patcha en app utan inbäddade moduler.\nDen korrigerade appen behöver hanteraren som körs i bakgrunden, och Xposed-omfånget kan ändras dynamiskt utan ompatch.\nLokala patchade appar kan bara köras på den lokala enheten.</string>

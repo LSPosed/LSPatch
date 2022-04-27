@@ -21,8 +21,9 @@
     <string name="page_manage">Quản lý</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Bản vá mới</string>
-    <string name="patch_permission_title">Đơn xin phép</string>
-    <string name="patch_permission_text">Vui lòng cấp quyền Ghi bộ nhớ ngoài để cho phép lưu các ứng dụng đã vá vào thư mục Tải xuống</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Chế độ vá lỗi</string>
     <string name="patch_local">Địa phương</string>
     <string name="patch_local_desc">Vá một ứng dụng không nhúng mô-đun.\nỨng dụng đã vá cần trình quản lý chạy trong nền và phạm vi Xposed có thể được thay đổi động mà không cần vá lại.\nCác ứng dụng được vá cục bộ chỉ có thể chạy trên thiết bị cục bộ.</string>

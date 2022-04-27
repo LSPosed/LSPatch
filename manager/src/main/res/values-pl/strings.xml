@@ -21,8 +21,9 @@
     <string name="page_manage">Zarządzać</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nowa łatka</string>
-    <string name="patch_permission_title">Wniosek o zezwolenie</string>
-    <string name="patch_permission_text">Proszę przyznać uprawnienie do zapisu w pamięci zewnętrznej, aby umożliwić zapisywanie zaktualizowanych apków w katalogu pobierania</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Tryb poprawki</string>
     <string name="patch_local">Lokalny</string>
     <string name="patch_local_desc">Popraw aplikację bez wbudowanych modułów.\nPoprawiona aplikacja wymaga działania menedżera w tle, a zakres Xposed można zmieniać dynamicznie bez konieczności ponownego instalowania poprawek.\nLokalnie poprawione aplikacje mogą działać tylko na urządzeniu lokalnym.</string>

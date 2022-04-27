@@ -21,8 +21,9 @@
     <string name="page_manage">Tvarkyti</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Naujas pleistras</string>
-    <string name="patch_permission_title">Leidimo paraiška</string>
-    <string name="patch_permission_text">Suteikite leidimą rašyti išorinę saugyklą, kad galėtumėte išsaugoti pataisytas APK atsisiuntimo kataloge</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Patch režimas</string>
     <string name="patch_local">Vietinis</string>
     <string name="patch_local_desc">Pataisykite programą be įterptų modulių.\nPataisytai programai reikia, kad tvarkyklė veiktų fone, o Xposed taikymo sritį galima dinamiškai keisti be pakartotinio pataisymo.\nVietinės pataisytos programos gali veikti tik vietiniame įrenginyje.</string>

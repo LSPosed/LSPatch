@@ -21,8 +21,9 @@
     <string name="page_manage">Διαχειρίζονται</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Νέο Patch</string>
-    <string name="patch_permission_title">Αίτηση άδειας</string>
-    <string name="patch_permission_text">Παρακαλούμε εκχωρήστε άδεια εγγραφής εξωτερικού χώρου αποθήκευσης για να επιτρέπεται η αποθήκευση επιδιορθωμένων apks στον κατάλογο Λήψης</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Λειτουργία ενημέρωσης κώδικα</string>
     <string name="patch_local">Τοπικός</string>
     <string name="patch_local_desc">Επιδιορθώστε μια εφαρμογή χωρίς ενσωματωμένες λειτουργικές μονάδες.\nΗ επιδιορθωμένη εφαρμογή χρειάζεται ο διαχειριστής να εκτελείται στο παρασκήνιο και το εύρος Xposed μπορεί να αλλάξει δυναμικά χωρίς εκ νέου ενημέρωση κώδικα.\nΟι τοπικές επιδιορθωμένες εφαρμογές μπορούν να εκτελούνται μόνο στην τοπική συσκευή.</string>

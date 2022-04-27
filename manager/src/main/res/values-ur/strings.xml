@@ -21,8 +21,9 @@
     <string name="page_manage">انتظام کریں۔</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">نیا پیچ</string>
-    <string name="patch_permission_title">اجازت کی درخواست</string>
-    <string name="patch_permission_text">براہ کرم ایکسٹرنل سٹوریج لکھنے کی اجازت دیں تاکہ پیچ شدہ apks کو ڈائرکٹری ڈاؤن لوڈ میں محفوظ کیا جا سکے۔</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">پیچ موڈ</string>
     <string name="patch_local">مقامی</string>
     <string name="patch_local_desc">ایمبیڈڈ ماڈیولز کے بغیر ایپ کو پیچ کریں۔\nپیچ شدہ ایپ کو پس منظر میں چلنے والے مینیجر کی ضرورت ہے، اور Xposed اسکوپ کو دوبارہ پیچ کے بغیر متحرک طور پر تبدیل کیا جا سکتا ہے۔\nمقامی پیچ والی ایپس صرف مقامی ڈیوائس پر چل سکتی ہیں۔</string>

@@ -21,8 +21,9 @@
     <string name="page_manage">Gestionar</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nou Pegat</string>
-    <string name="patch_permission_title">Sol·licitud de permís</string>
-    <string name="patch_permission_text">Si us plau, concediu permís d\'Escriptura d\'emmagatzematge extern per permetre desar apks pegats al directori de descàrregues</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Mode de pegat</string>
     <string name="patch_local">Local</string>
     <string name="patch_local_desc">Apliqueu una aplicació sense mòduls incrustats.\nL\'aplicació pegada necessita que el gestor s\'executi en segon pla, i l\'àmbit Xposed es pot canviar de forma dinàmica sense tornar a aplicar el pedaç.\nLes aplicacions localitzades només es poden executar al dispositiu local.</string>

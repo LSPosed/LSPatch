@@ -21,8 +21,9 @@
     <string name="page_manage">Spravovat</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nový patch</string>
-    <string name="patch_permission_title">Žádost o povolení</string>
-    <string name="patch_permission_text">Udělte prosím oprávnění Zápis do externího úložiště, aby bylo možné ukládat opravené soubory APK do adresáře pro stahování</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Režim opravy</string>
     <string name="patch_local">Místní</string>
     <string name="patch_local_desc">Opravte aplikaci bez vestavěných modulů.\nOpravená aplikace vyžaduje, aby správce běžel na pozadí a rozsah Xposed lze dynamicky měnit bez opětovné opravy.\nMístní opravené aplikace lze spustit pouze na místním zařízení.</string>

@@ -21,8 +21,9 @@
     <string name="page_manage">পরিচালনা করুন</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">নতুন প্যাচ</string>
-    <string name="patch_permission_title">অনুমতির আবেদন</string>
-    <string name="patch_permission_text">ডাউনলোড ডিরেক্টরিতে প্যাচ করা apks সংরক্ষণ করার অনুমতি দিতে দয়া করে বাহ্যিক সঞ্চয়স্থান লেখার অনুমতি দিন</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">প্যাচ মোড</string>
     <string name="patch_local">স্থানীয়</string>
     <string name="patch_local_desc">এম্বেড করা মডিউল ছাড়াই একটি অ্যাপ প্যাচ করুন।\nপ্যাচ করা অ্যাপটির ব্যাকগ্রাউন্ডে চলমান ম্যানেজার প্রয়োজন, এবং এক্সপোজড স্কোপ রি-প্যাচ ছাড়াই গতিশীলভাবে পরিবর্তন করা যেতে পারে।\nস্থানীয় প্যাচ করা অ্যাপ শুধুমাত্র স্থানীয় ডিভাইসে চলতে পারে।</string>
