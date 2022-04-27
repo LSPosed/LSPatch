@@ -21,8 +21,9 @@
     <string name="page_manage">प्रबंधित करना</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">नया पैच</string>
-    <string name="patch_permission_title">अनुमति आवेदन</string>
-    <string name="patch_permission_text">कृपया पैच किए गए एपीके को डाउनलोड निर्देशिका में सहेजने की अनुमति देने के लिए बाहरी संग्रहण लिखने की अनुमति दें</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">पैच मोड</string>
     <string name="patch_local">स्थानीय</string>
     <string name="patch_local_desc">एम्बेडेड मॉड्यूल के बिना एक ऐप पैच करें।\nपैच किए गए ऐप को बैकग्राउंड में चलने वाले मैनेजर की आवश्यकता होती है, और Xposed स्कोप को बिना री-पैच के गतिशील रूप से बदला जा सकता है।\nस्थानीय पैच किए गए ऐप्स केवल स्थानीय डिवाइस पर चल सकते हैं।</string>
