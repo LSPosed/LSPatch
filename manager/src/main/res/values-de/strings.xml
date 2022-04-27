@@ -21,8 +21,9 @@
     <string name="page_manage">Verwalten</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Neuer Patch</string>
-    <string name="patch_permission_title">Antrag auf Erlaubnis</string>
-    <string name="patch_permission_text">Bitte erteilen Sie die Berechtigung „Externen Speicher schreiben“, um gepatchte APKs im Download-Verzeichnis speichern zu können</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Patch-Modus</string>
     <string name="patch_local">Lokal</string>
     <string name="patch_local_desc">Patchen Sie eine App ohne eingebettete Module.\nFür die gepatchte App muss der Manager im Hintergrund ausgeführt werden, und der Xposed-Bereich kann ohne erneutes Patchen dynamisch geändert werden.\nLokal gepatchte Apps können nur auf dem lokalen Gerät ausgeführt werden.</string>
