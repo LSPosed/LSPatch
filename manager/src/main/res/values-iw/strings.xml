@@ -21,8 +21,9 @@
     <string name="page_manage">לנהל</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">תיקון חדש</string>
-    <string name="patch_permission_title">בקשה להרשאה</string>
-    <string name="patch_permission_text">אנא הענק הרשאת כתיבה לאחסון חיצוני כדי לאפשר שמירת apks מתוקנים בספריית ההורדה</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">מצב תיקון</string>
     <string name="patch_local">מְקוֹמִי</string>
     <string name="patch_local_desc">תקן אפליקציה ללא מודולים מוטבעים.\nהאפליקציה המתוקנת צריכה שהמנהל יפעל ברקע, וניתן לשנות את היקף Xposed באופן דינמי ללא תיקון מחדש.\nאפליקציות מקומיות מתוקנות יכולות לפעול רק במכשיר המקומי.</string>
