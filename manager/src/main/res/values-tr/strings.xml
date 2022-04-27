@@ -21,8 +21,9 @@
     <string name="page_manage">Üstesinden gelmek</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Yeni Yama</string>
-    <string name="patch_permission_title">İzin Başvurusu</string>
-    <string name="patch_permission_text">Yamalı apk\'lerin İndirme dizinine kaydedilmesine izin vermek için lütfen Harici Depolama Yazma izni verin</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Yama Modu</string>
     <string name="patch_local">Yerel</string>
     <string name="patch_local_desc">Gömülü modüller olmadan bir uygulamayı yamalayın.\nYama uygulanmış uygulamanın arka planda çalışan yöneticiye ihtiyacı vardır ve Xposed kapsamı, yeniden yama yapılmadan dinamik olarak değiştirilebilir.\nYerel yamalı uygulamalar yalnızca yerel cihazda çalışabilir.</string>
