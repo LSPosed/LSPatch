@@ -21,8 +21,9 @@
     <string name="page_manage">Bestuur</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nuwe Patch</string>
-    <string name="patch_permission_title">Toestemmingsaansoek</string>
-    <string name="patch_permission_text">Gee asseblief skryf-eksterne berging-toestemming om die stoor van gelapte APK\'s na die aflaaigids toe te laat</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Patch Mode</string>
     <string name="patch_local">Plaaslik</string>
     <string name="patch_local_desc">Plak \'n toepassing sonder modules ingebed.\nDie gelapte toepassing moet die bestuurder in die agtergrond laat loop, en Xposed-omvang kan dinamies verander word sonder om te herpleister.\nPlaaslike gelapte toepassings kan slegs op die plaaslike toestel loop.</string>
