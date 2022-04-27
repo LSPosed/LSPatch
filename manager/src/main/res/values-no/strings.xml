@@ -21,8 +21,9 @@
     <string name="page_manage">Få til</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Ny oppdatering</string>
-    <string name="patch_permission_title">Søknad om tillatelse</string>
-    <string name="patch_permission_text">Gi tillatelse til å skrive ekstern lagring for å tillate lagring av patchede apks til nedlastingskatalogen</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Patch-modus</string>
     <string name="patch_local">Lokalt</string>
     <string name="patch_local_desc">Patch en app uten innebygde moduler.\nDen lappede appen trenger at manageren kjører i bakgrunnen, og Xposed-omfanget kan endres dynamisk uten re-patch.\nLokale lappede apper kan bare kjøres på den lokale enheten.</string>
