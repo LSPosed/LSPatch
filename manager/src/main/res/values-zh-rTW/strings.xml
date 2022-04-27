@@ -21,8 +21,9 @@
     <string name="page_manage">管理</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">打包新 App</string>
-    <string name="patch_permission_title">權限申請</string>
-    <string name="patch_permission_text">請授予寫入外部儲存權限，以允許儲存打包的應用程式到下載（Download）資料夾</string>
+    <string name="patch_select_dir_title">選擇儲存資料夾</string>
+    <string name="patch_select_dir_text">選擇一個資料夾儲存打包好的 apk</string>
+    <string name="patch_select_dir_error">設定儲存資料夾出錯</string>
     <string name="patch_mode">打包模式</string>
     <string name="patch_local">本機</string>
     <string name="patch_local_desc">打包沒有內建模組的應用程式。\n打包後的程式需要此管理器背景執行，Xposed 作用域可以動態更改而無需重新打包。\n本機打包的應用程式，只能在本機執行。</string>
@@ -45,17 +46,17 @@
     <string name="page_select_apps">選擇應用程式</string>
     <!-- Settings Page -->
     <string name="page_settings">設定</string>
-    <string name="settings_keystore">簽名密鑰庫</string>
-    <string name="settings_keystore_default">內置</string>
-    <string name="settings_keystore_custom">風俗</string>
-    <string name="settings_keystore_dialog_title">自定義密鑰庫</string>
-    <string name="settings_keystore_file">密鑰庫文件</string>
+    <string name="settings_keystore">簽名金鑰庫</string>
+    <string name="settings_keystore_default">內建</string>
+    <string name="settings_keystore_custom">自訂</string>
+    <string name="settings_keystore_dialog_title">自訂金鑰庫</string>
+    <string name="settings_keystore_file">金鑰庫檔案</string>
     <string name="settings_keystore_password">密碼</string>
     <string name="settings_keystore_alias">別名</string>
     <string name="settings_keystore_alias_password">別名密碼</string>
-    <string name="settings_keystore_desc">設置密鑰庫 (BKS)</string>
-    <string name="settings_keystore_wrong_keystore">錯誤的密鑰庫類型</string>
-    <string name="settings_keystore_wrong_password">錯誤的密鑰庫密碼</string>
+    <string name="settings_keystore_desc">設定金鑰庫 (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">金鑰庫類型錯誤</string>
+    <string name="settings_keystore_wrong_password">金鑰庫密碼錯誤</string>
     <string name="settings_keystore_wrong_alias">別名錯誤</string>
     <string name="settings_keystore_wrong_alias_password">別名密碼錯誤</string>
 </resources>
