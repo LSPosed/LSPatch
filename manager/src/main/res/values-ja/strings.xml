@@ -21,8 +21,9 @@
     <string name="page_manage">管理</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">新しいパッチ</string>
-    <string name="patch_permission_title">許可申請</string>
-    <string name="patch_permission_text">パッチを適用したapkをダウンロードディレクトリに保存できるように、外部ストレージへの書き込み権限を付与してください</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">パッチモード</string>
     <string name="patch_local">地元</string>
     <string name="patch_local_desc">モジュールが埋め込まれていないアプリにパッチを適用します。\nパッチが適用されたアプリには、マネージャーがバックグラウンドで実行されている必要があり、Xposedスコープは再パッチなしで動的に変更できます。\nローカルのパッチが適用されたアプリは、ローカルデバイスでのみ実行できます。</string>
