@@ -21,8 +21,9 @@
     <string name="page_manage">Управлять</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Новый патч</string>
-    <string name="patch_permission_title">Разрешения приложения</string>
-    <string name="patch_permission_text">Предоставьте разрешение на запись во внешнее хранилище, чтобы разрешить сохранение исправленных APK в каталоге загрузки.</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Режим патча</string>
     <string name="patch_local">Местный</string>
     <string name="patch_local_desc">Исправление приложения без встроенных модулей.\nИсправленному приложению требуется, чтобы менеджер работал в фоновом режиме, а область действия Xposed можно изменять динамически без повторного исправления.\nЛокальные исправленные приложения могут работать только на локальном устройстве.</string>
