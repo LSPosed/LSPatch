@@ -21,8 +21,9 @@
     <string name="page_manage">Керувати</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Новий патч</string>
-    <string name="patch_permission_title">Заявка на отримання дозволу</string>
-    <string name="patch_permission_text">Будь ласка, надайте дозвіл на запис зовнішнього сховища, щоб дозволити зберігати виправлені файли APK у каталозі завантажень</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Режим виправлення</string>
     <string name="patch_local">Місцеві</string>
     <string name="patch_local_desc">Виправте програму без вбудованих модулів.\nДодатку з виправленням потрібно, щоб менеджер працював у фоновому режимі, а область Xposed можна динамічно змінювати без повторного встановлення виправлення.\nЛокальні виправлені програми можуть працювати лише на локальному пристрої.</string>
