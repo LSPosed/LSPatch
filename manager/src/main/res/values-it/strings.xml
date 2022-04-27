@@ -21,8 +21,9 @@
     <string name="page_manage">Gestire</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nuova toppa</string>
-    <string name="patch_permission_title">Domanda di permesso</string>
-    <string name="patch_permission_text">Concedi l\'autorizzazione per la scrittura di archiviazione esterna per consentire il salvataggio di apk corretti nella directory di download</string>
+    <string name="patch_select_dir_title">Select storage directory</string>
+    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
+    <string name="patch_select_dir_error">Error when setting storage directory</string>
     <string name="patch_mode">Modalità patch</string>
     <string name="patch_local">Locale</string>
     <string name="patch_local_desc">Patch un\'app senza moduli incorporati.\nL\'app con patch richiede che il gestore sia in esecuzione in background e l\'ambito Xposed può essere modificato in modo dinamico senza applicare nuovamente la patch.\nLe app locali con patch possono essere eseguite solo sul dispositivo locale.</string>
