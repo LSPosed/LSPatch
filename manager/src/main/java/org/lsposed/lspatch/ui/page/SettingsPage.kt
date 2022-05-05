@@ -6,6 +6,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.lsposed.lspatch.R
@@ -150,7 +152,13 @@ private fun KeyStore() {
                     onClick = { dropDownExpanded = false; showDialog = false }
                 )
             },
-            title = { Text(stringResource(R.string.settings_keystore_dialog_title)) },
+            title = {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(R.string.settings_keystore_dialog_title),
+                    textAlign = TextAlign.Center
+                )
+            },
             text = {
                 Column {
                     val interactionSource = remember { MutableInteractionSource() }
@@ -163,7 +171,7 @@ private fun KeyStore() {
                     }
 
                     val wrongText = when {
-                        wrongAliasPassword -> stringResource(R.string.settings_keystore_wrong_keystore)
+                        wrongAliasPassword -> stringResource(R.string.settings_keystore_wrong_alias_password)
                         wrongAliasName -> stringResource(R.string.settings_keystore_wrong_alias)
                         wrongPassword -> stringResource(R.string.settings_keystore_wrong_password)
                         wrongKeystore -> stringResource(R.string.settings_keystore_wrong_keystore)

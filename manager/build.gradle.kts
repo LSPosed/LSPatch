@@ -5,6 +5,7 @@ val coreVerName: String by rootProject.extra
 
 plugins {
     id("com.android.application")
+    id("dev.rikka.tools.refine")
     id("kotlin-parcelize")
     kotlin("android")
 }
@@ -64,10 +65,13 @@ afterEvaluate {
 }
 
 dependencies {
+    implementation(projects.hiddenapi.bridge)
     implementation(projects.patch)
     implementation(projects.services.daemonService)
     implementation(projects.share.android)
 
+    compileOnly("dev.rikka.hidden:stub:2.3.1")
+    implementation("dev.rikka.hidden:compat:2.3.1")
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.activity:activity-compose:1.6.0-alpha01")
     implementation("androidx.compose.material:material-icons-extended:1.1.1")
@@ -84,4 +88,5 @@ dependencies {
     implementation("com.google.android.material:material:1.5.0")
     implementation("dev.rikka.shizuku:api:12.1.0")
     implementation("dev.rikka.shizuku:provider:12.1.0")
+    implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
 }

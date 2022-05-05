@@ -10,6 +10,7 @@ pluginManagement {
     plugins {
         id("com.android.library") version agpVersion
         id("com.android.application") version agpVersion
+        id("dev.rikka.tools.refine") version "3.1.1"
     }
 }
 

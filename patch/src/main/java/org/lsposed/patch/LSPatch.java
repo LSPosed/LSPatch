@@ -82,9 +82,6 @@ public class LSPatch {
     @Parameter(names = {"--v2"}, arity = 1, description = "Sign with v2 signature")
     private boolean v2 = true;
 
-    @Parameter(names = {"--v3"}, arity = 1, description = "Sign with v3 signature")
-    private boolean v3 = true;
-
     @Parameter(names = {"--manager"}, description = "Use manager (Cannot work with embedding modules)")
     private boolean useManager = false;
 

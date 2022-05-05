@@ -24,19 +24,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.lsposed.lspatch.BuildConfig
-import org.lsposed.lspatch.LSPApplication
 import org.lsposed.lspatch.R
 import org.lsposed.lspatch.ui.util.HtmlText
+import org.lsposed.lspatch.ui.util.LocalSnackbarHost
+import org.lsposed.lspatch.util.ShizukuApi
 import rikka.shizuku.Shizuku
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage() {
-    val snackbarHostState = remember { SnackbarHostState() }
-    Scaffold(
-        topBar = { TopBar() },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { innerPadding ->
+    Scaffold(topBar = { TopBar() }) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -45,7 +42,7 @@ fun HomePage() {
         ) {
             ShizukuCard()
             Spacer(Modifier.height(16.dp))
-            InfoCard(snackbarHostState)
+            InfoCard()
             Spacer(Modifier.height(16.dp))
             SupportCard()
         }
@@ -64,12 +61,12 @@ private fun TopBar() {
                 fontFamily = FontFamily.Monospace,
                 style = MaterialTheme.typography.titleMedium
             )
-        },
+        }
     )
 }
 
 private val listener: (Int, Int) -> Unit = { _, grantResult ->
-    LSPApplication.shizukuGranted = grantResult == PackageManager.PERMISSION_GRANTED
+    ShizukuApi.isPermissionGranted = grantResult == PackageManager.PERMISSION_GRANTED
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -87,12 +84,12 @@ private fun ShizukuCard() {
 
     ElevatedCard(
         modifier = Modifier.clickable {
-            if (LSPApplication.shizukuBinderAvalable && !LSPApplication.shizukuGranted) {
+            if (ShizukuApi.isBinderAvalable && !ShizukuApi.isPermissionGranted) {
                 Shizuku.requestPermission(114514)
             }
         },
         containerColor = run {
-            if (LSPApplication.shizukuGranted) MaterialTheme.colorScheme.secondaryContainer
+            if (ShizukuApi.isPermissionGranted) MaterialTheme.colorScheme.secondaryContainer
             else MaterialTheme.colorScheme.errorContainer
         }
     ) {
@@ -102,11 +99,11 @@ private fun ShizukuCard() {
                 .padding(24.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (LSPApplication.shizukuGranted) {
-                Icon(Icons.Outlined.CheckCircle, stringResource(R.string.home_shizuku_available))
+            if (ShizukuApi.isPermissionGranted) {
+                Icon(Icons.Outlined.CheckCircle, stringResource(R.string.shizuku_available))
                 Column(Modifier.padding(start = 20.dp)) {
                     Text(
-                        text = stringResource(R.string.home_shizuku_available),
+                        text = stringResource(R.string.shizuku_available),
                         fontFamily = FontFamily.Serif,
                         style = MaterialTheme.typography.titleMedium
                     )
@@ -117,10 +114,10 @@ private fun ShizukuCard() {
                     )
                 }
             } else {
-                Icon(Icons.Outlined.Warning, stringResource(R.string.home_shizuku_unavailable))
+                Icon(Icons.Outlined.Warning, stringResource(R.string.shizuku_unavailable))
                 Column(Modifier.padding(start = 20.dp)) {
                     Text(
-                        text = stringResource(R.string.home_shizuku_unavailable),
+                        text = stringResource(R.string.shizuku_unavailable),
                         fontFamily = FontFamily.Serif,
                         style = MaterialTheme.typography.titleMedium
                     )
@@ -151,8 +148,9 @@ private val device = buildString {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun InfoCard(snackbarHostState: SnackbarHostState) {
+private fun InfoCard() {
     val context = LocalContext.current
+    val snackbarHost = LocalSnackbarHost.current
     val scope = rememberCoroutineScope()
     ElevatedCard {
         Column(
@@ -190,7 +188,7 @@ private fun InfoCard(snackbarHostState: SnackbarHostState) {
                 onClick = {
                     val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     cm.setPrimaryClip(ClipData.newPlainText("LSPatch", contents.toString()))
-                    scope.launch { snackbarHostState.showSnackbar(copiedMessage) }
+                    scope.launch { snackbarHost.showSnackbar(copiedMessage) }
                 },
                 content = { Text(stringResource(android.R.string.copy)) }
             )

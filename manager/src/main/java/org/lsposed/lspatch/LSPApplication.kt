@@ -3,39 +3,27 @@ package org.lsposed.lspatch
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import rikka.shizuku.Shizuku
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import org.lsposed.hiddenapibypass.HiddenApiBypass
+import org.lsposed.lspatch.util.ShizukuApi
 
 const val TAG = "LSPatch Manager"
 
+lateinit var lspApp: LSPApplication
+
 class LSPApplication : Application() {
 
-    companion object {
-        var shizukuBinderAvalable = false
-        var shizukuGranted by mutableStateOf(false)
+    lateinit var prefs: SharedPreferences
 
-        lateinit var appContext: Context
-        lateinit var prefs: SharedPreferences
-
-        init {
-            Shizuku.addBinderReceivedListenerSticky {
-                shizukuBinderAvalable = true
-                shizukuGranted = Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
-            }
-            Shizuku.addBinderDeadListener {
-                shizukuBinderAvalable = false
-                shizukuGranted = false
-            }
-        }
-    }
+    val globalScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreate() {
         super.onCreate()
-        appContext = applicationContext
-        appContext.filesDir.mkdir()
-        prefs = appContext.getSharedPreferences("settings", Context.MODE_PRIVATE)
+        HiddenApiBypass.addHiddenApiExemptions("");
+        lspApp = this
+        lspApp.filesDir.mkdir()
+        prefs = lspApp.getSharedPreferences("settings", Context.MODE_PRIVATE)
+        ShizukuApi.init()
     }
 }

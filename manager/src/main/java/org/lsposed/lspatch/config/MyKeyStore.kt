@@ -6,24 +6,26 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.lsposed.lspatch.LSPApplication.Companion.appContext
-import org.lsposed.lspatch.LSPApplication.Companion.prefs
+import org.lsposed.lspatch.Constants.PREFS_KEYSTORE_ALIAS
+import org.lsposed.lspatch.Constants.PREFS_KEYSTORE_ALIAS_PASSWORD
+import org.lsposed.lspatch.Constants.PREFS_KEYSTORE_PASSWORD
+import org.lsposed.lspatch.lspApp
 import java.io.File
 
 object MyKeyStore {
 
-    val file = File("${appContext.filesDir}/keystore.bks")
+    val file = File("${lspApp.filesDir}/keystore.bks")
 
-    val tmpFile = File("${appContext.filesDir}/keystore.bks.tmp")
+    val tmpFile = File("${lspApp.filesDir}/keystore.bks.tmp")
 
     val password: String
-        get() = prefs.getString("keystore_password", "123456")!!
+        get() = lspApp.prefs.getString("keystore_password", "123456")!!
 
     val alias: String
-        get() = prefs.getString("keystore_alias", "key0")!!
+        get() = lspApp.prefs.getString("keystore_alias", "key0")!!
 
     val aliasPassword: String
-        get() = prefs.getString("keystore_alias_password", "123456")!!
+        get() = lspApp.prefs.getString("keystore_alias_password", "123456")!!
 
     private var mUseDefault by mutableStateOf(!file.exists())
     val useDefault by derivedStateOf { mUseDefault }
@@ -31,10 +33,10 @@ object MyKeyStore {
     suspend fun reset() {
         withContext(Dispatchers.IO) {
             file.delete()
-            prefs.edit()
-                .putString("keystore_password", "123456")
-                .putString("keystore_alias", "key0")
-                .putString("keystore_alias_password", "123456")
+            lspApp.prefs.edit()
+                .putString(PREFS_KEYSTORE_PASSWORD, "123456")
+                .putString(PREFS_KEYSTORE_ALIAS, "key0")
+                .putString(PREFS_KEYSTORE_ALIAS_PASSWORD, "123456")
                 .apply()
             mUseDefault = true
         }
@@ -43,10 +45,10 @@ object MyKeyStore {
     suspend fun setCustom(password: String, alias: String, aliasPassword: String) {
         withContext(Dispatchers.IO) {
             tmpFile.renameTo(file)
-            prefs.edit()
-                .putString("keystore_password", password)
-                .putString("keystore_alias", alias)
-                .putString("keystore_alias_password", aliasPassword)
+            lspApp.prefs.edit()
+                .putString(PREFS_KEYSTORE_PASSWORD, password)
+                .putString(PREFS_KEYSTORE_ALIAS, alias)
+                .putString(PREFS_KEYSTORE_ALIAS_PASSWORD, aliasPassword)
                 .apply()
             mUseDefault = false
         }

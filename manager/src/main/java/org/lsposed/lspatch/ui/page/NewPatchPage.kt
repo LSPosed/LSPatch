@@ -3,6 +3,7 @@ package org.lsposed.lspatch.ui.page
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.pm.PackageInstaller
 import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
@@ -25,81 +26,71 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
+import kotlinx.coroutines.launch
 import org.lsposed.lspatch.Patcher
 import org.lsposed.lspatch.R
 import org.lsposed.lspatch.TAG
+import org.lsposed.lspatch.lspApp
 import org.lsposed.lspatch.ui.component.SelectionColumn
 import org.lsposed.lspatch.ui.component.ShimmerAnimation
 import org.lsposed.lspatch.ui.component.settings.SettingsCheckBox
 import org.lsposed.lspatch.ui.component.settings.SettingsItem
-import org.lsposed.lspatch.ui.util.LocalNavController
-import org.lsposed.lspatch.ui.util.isScrolledToEnd
-import org.lsposed.lspatch.ui.util.lastItemIndex
-import org.lsposed.lspatch.ui.util.observeState
+import org.lsposed.lspatch.ui.util.*
 import org.lsposed.lspatch.ui.viewmodel.AppInfo
 import org.lsposed.lspatch.ui.viewmodel.NewPatchViewModel
+import org.lsposed.lspatch.ui.viewmodel.NewPatchViewModel.PatchState
+import org.lsposed.lspatch.util.LSPPackageInstaller
+import org.lsposed.lspatch.util.ShizukuApi
 import org.lsposed.patch.util.Logger
-import java.io.File
-
-private enum class PatchState {
-    SELECTING, CONFIGURING, SUBMITTING, PATCHING, FINISHED, ERROR
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewPatchPage(entry: NavBackStackEntry) {
+    val viewModel = viewModel<NewPatchViewModel>()
     val navController = LocalNavController.current
-    val patchApp by entry.observeState<AppInfo>("appInfo")
+    val lifecycleOwner = LocalLifecycleOwner.current
     val isCancelled by entry.observeState<Boolean>("isCancelled")
-    var patchState by rememberSaveable { mutableStateOf(PatchState.SELECTING) }
-    var patchOptions by rememberSaveable { mutableStateOf<Patcher.Options?>(null) }
-    if (patchState == PatchState.SELECTING) {
-        when {
-            isCancelled == true -> {
-                LaunchedEffect(entry) { navController.popBackStack() }
-                return
-            }
-            patchApp != null -> patchState = PatchState.CONFIGURING
-        }
+    entry.savedStateHandle.getLiveData<AppInfo>("appInfo").observe(lifecycleOwner) {
+        viewModel.patchApp = it
     }
 
-    Log.d(TAG, "NewPatchPage: $patchState")
-    if (patchState == PatchState.SELECTING) {
-        LaunchedEffect(entry) {
-            navController.navigate(PageList.SelectApps.name + "/false")
+    Log.d(TAG, "NewPatchPage: ${viewModel.patchState}")
+    if (viewModel.patchState == PatchState.SELECTING) {
+        when {
+            isCancelled == true -> {
+                LaunchedEffect(viewModel) { navController.popBackStack() }
+                return
+            }
+            viewModel.patchApp != null -> {
+                LaunchedEffect(viewModel) { viewModel.configurePatch() }
+            }
+            else -> {
+                LaunchedEffect(viewModel) { navController.navigate(PageList.SelectApps.name + "/false") }
+            }
         }
     } else {
         Scaffold(
-            topBar = { TopBar(patchApp!!) },
+            topBar = { TopBar(viewModel.patchApp!!) },
             floatingActionButton = {
-                if (patchState == PatchState.CONFIGURING) {
-                    ConfiguringFab { patchState = PatchState.SUBMITTING }
+                if (viewModel.patchState == PatchState.CONFIGURING) {
+                    ConfiguringFab()
                 }
             }
         ) { innerPadding ->
-            if (patchState == PatchState.CONFIGURING || patchState == PatchState.SUBMITTING) {
-                PatchOptionsBody(
-                    modifier = Modifier.padding(innerPadding),
-                    patchState = patchState,
-                    patchApp = patchApp!!,
-                    onSubmit = {
-                        patchOptions = it
-                        patchState = PatchState.PATCHING
-                    }
-                )
+            if (viewModel.patchState == PatchState.CONFIGURING) {
+                entry.savedStateHandle.getLiveData<SnapshotStateList<AppInfo>>("selected", SnapshotStateList()).observe(lifecycleOwner) {
+                    viewModel.embeddedModules = it
+                }
+                PatchOptionsBody(Modifier.padding(innerPadding))
             } else {
-                DoPatchBody(
-                    modifier = Modifier.padding(innerPadding),
-                    patchState = patchState,
-                    patchOptions = patchOptions!!,
-                    onFinish = { patchState = PatchState.FINISHED },
-                    onFail = { patchState = PatchState.ERROR }
-                )
+                DoPatchBody(Modifier.padding(innerPadding))
             }
         }
     }
@@ -126,11 +117,12 @@ private fun TopBar(patchApp: AppInfo) {
 }
 
 @Composable
-private fun ConfiguringFab(onClick: () -> Unit) {
+private fun ConfiguringFab() {
+    val viewModel = viewModel<NewPatchViewModel>()
     ExtendedFloatingActionButton(
         text = { Text(stringResource(R.string.patch_start)) },
         icon = { Icon(Icons.Outlined.AutoFixHigh, null) },
-        onClick = onClick
+        onClick = { viewModel.submitPatch() }
     )
 }
 
@@ -144,31 +136,9 @@ private fun sigBypassLvStr(level: Int) = when (level) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun PatchOptionsBody(
-    modifier: Modifier,
-    patchState: PatchState,
-    patchApp: AppInfo,
-    onSubmit: (Patcher.Options) -> Unit
-) {
-    val navController = LocalNavController.current
+private fun PatchOptionsBody(modifier: Modifier) {
     val viewModel = viewModel<NewPatchViewModel>()
-    val embeddedModules = navController.currentBackStackEntry!!
-        .savedStateHandle.getLiveData<SnapshotStateList<AppInfo>>("selected", SnapshotStateList())
-
-    if (patchState == PatchState.SUBMITTING) LaunchedEffect(patchApp) {
-        if (viewModel.useManager) embeddedModules.value?.clear()
-        val options = Patcher.Options(
-            apkPaths = listOf(patchApp.app.sourceDir) + (patchApp.app.splitSourceDirs ?: emptyArray()),
-            debuggable = viewModel.debuggable,
-            sigbypassLevel = viewModel.sigBypassLevel,
-            v1 = viewModel.sign[0], v2 = viewModel.sign[1], v3 = viewModel.sign[2],
-            useManager = viewModel.useManager,
-            overrideVersionCode = viewModel.overrideVersionCode,
-            verbose = true,
-            embeddedModules = embeddedModules.value?.flatMap { listOf(it.app.sourceDir) + (it.app.splitSourceDirs ?: emptyArray()) }
-        )
-        onSubmit(options)
-    }
+    val navController = LocalNavController.current
 
     Column(modifier.verticalScroll(rememberScrollState())) {
         Text(
@@ -194,10 +164,9 @@ private fun PatchOptionsBody(
                 desc = stringResource(R.string.patch_portable_desc),
                 extraContent = {
                     TextButton(
-                        onClick = { navController.navigate(PageList.SelectApps.name + "/true") }
-                    ) {
-                        Text(text = stringResource(R.string.patch_embed_modules), style = MaterialTheme.typography.bodyLarge)
-                    }
+                        onClick = { navController.navigate(PageList.SelectApps.name + "/true") },
+                        content = { Text(text = stringResource(R.string.patch_embed_modules), style = MaterialTheme.typography.bodyLarge) }
+                    )
                 }
             )
         }
@@ -265,54 +234,51 @@ private fun PatchOptionsBody(
     }
 }
 
-@Composable
-private fun DoPatchBody(
-    modifier: Modifier,
-    patchState: PatchState,
-    patchOptions: Patcher.Options,
-    onFinish: () -> Unit,
-    onFail: () -> Unit
-) {
-    val context = LocalContext.current
-    val navController = LocalNavController.current
-    val logs = remember { mutableStateListOf<Pair<Int, String>>() }
-    val logger = remember {
-        object : Logger() {
-            override fun d(msg: String) {
-                if (verbose) {
-                    Log.d(TAG, msg)
-                    logs += Log.DEBUG to msg
-                }
-            }
-
-            override fun i(msg: String) {
-                Log.i(TAG, msg)
-                logs += Log.INFO to msg
-            }
-
-            override fun e(msg: String) {
-                Log.e(TAG, msg)
-                logs += Log.ERROR to msg
-            }
+private class PatchLogger(private val logs: MutableList<Pair<Int, String>>) : Logger() {
+    override fun d(msg: String) {
+        if (verbose) {
+            Log.d(TAG, msg)
+            logs += Log.DEBUG to msg
         }
     }
 
-    LaunchedEffect(patchOptions) {
+    override fun i(msg: String) {
+        Log.i(TAG, msg)
+        logs += Log.INFO to msg
+    }
+
+    override fun e(msg: String) {
+        Log.e(TAG, msg)
+        logs += Log.ERROR to msg
+    }
+}
+
+@Composable
+private fun DoPatchBody(modifier: Modifier) {
+    val viewModel = viewModel<NewPatchViewModel>()
+    val context = LocalContext.current
+    val snackbarHost = LocalSnackbarHost.current
+    val navController = LocalNavController.current
+    val scope = rememberCoroutineScope()
+    val logs = remember { mutableStateListOf<Pair<Int, String>>() }
+    val logger = remember { PatchLogger(logs) }
+
+    LaunchedEffect(viewModel) {
         try {
-            Patcher.patch(context, logger, patchOptions)
-            onFinish()
+            Patcher.patch(context, logger, viewModel.patchOptions)
+            viewModel.finishPatch()
         } catch (t: Throwable) {
             logger.e(t.message.orEmpty())
             logger.e(t.stackTraceToString())
-            onFail()
+            viewModel.failPatch()
         } finally {
-            File(patchOptions.outputPath).deleteRecursively()
+            viewModel.patchOptions.outputDir.deleteRecursively()
         }
     }
 
     BoxWithConstraints(modifier.padding(24.dp)) {
         val shellBoxMaxHeight =
-            if (patchState == PatchState.PATCHING) maxHeight
+            if (viewModel.patchState == PatchState.PATCHING) maxHeight
             else maxHeight - ButtonDefaults.MinHeight - 12.dp
         Column(
             Modifier
@@ -320,7 +286,7 @@ private fun DoPatchBody(
                 .wrapContentHeight()
                 .animateContentSize(spring(stiffness = Spring.StiffnessLow))
         ) {
-            ShimmerAnimation(enabled = patchState == PatchState.PATCHING) {
+            ShimmerAnimation(enabled = viewModel.patchState == PatchState.PATCHING) {
                 CompositionLocalProvider(
                     LocalTextStyle provides MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace)
                 ) {
@@ -351,38 +317,130 @@ private fun DoPatchBody(
                 }
             }
 
-            if (patchState == PatchState.FINISHED) {
-                Row(Modifier.padding(top = 12.dp)) {
-                    Button(
-                        onClick = { navController.popBackStack() },
-                        modifier = Modifier.weight(1f),
-                        content = { Text(stringResource(R.string.patch_return)) }
-                    )
-                    Spacer(Modifier.weight(0.2f))
-                    Button(
-                        onClick = { /* TODO: Install */ },
-                        modifier = Modifier.weight(1f),
-                        content = { Text(stringResource(R.string.patch_install)) }
-                    )
+            when (viewModel.patchState) {
+                PatchState.FINISHED -> {
+                    val shizukuUnavailable = stringResource(R.string.shizuku_unavailable)
+                    val installSuccessfully = stringResource(R.string.patch_install_successfully)
+                    val installFailed = stringResource(R.string.patch_install_failed)
+                    var installing by rememberSaveable { mutableStateOf(false) }
+                    if (installing) InstallDialog(viewModel.patchApp!!) { status, message ->
+                        installing = false
+                        scope.launch {
+                            if (status == PackageInstaller.STATUS_SUCCESS) {
+                                lspApp.globalScope.launch { snackbarHost.showSnackbar(installSuccessfully) }
+                                navController.popBackStack()
+                            } else {
+                                snackbarHost.showSnackbar(installFailed)
+                            }
+                        }
+                    }
+                    Row(Modifier.padding(top = 12.dp)) {
+                        Button(
+                            modifier = Modifier.weight(1f),
+                            onClick = { navController.popBackStack() },
+                            content = { Text(stringResource(R.string.patch_return)) }
+                        )
+                        Spacer(Modifier.weight(0.2f))
+                        Button(
+                            modifier = Modifier.weight(1f),
+                            onClick = {
+                                if (!ShizukuApi.isPermissionGranted) {
+                                    scope.launch {
+                                        snackbarHost.showSnackbar(shizukuUnavailable)
+                                    }
+                                }
+                                installing = true
+                            },
+                            content = { Text(stringResource(R.string.patch_install)) }
+                        )
+                    }
                 }
-            } else if (patchState == PatchState.ERROR) {
-                Row(Modifier.padding(top = 12.dp)) {
-                    Button(
-                        onClick = { navController.popBackStack() },
-                        modifier = Modifier.weight(1f),
-                        content = { Text(stringResource(R.string.patch_return)) }
-                    )
-                    Spacer(Modifier.weight(0.2f))
-                    Button(
-                        onClick = {
-                            val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                            cm.setPrimaryClip(ClipData.newPlainText("LSPatch", logs.joinToString { it.second + "\n" }))
-                        },
-                        modifier = Modifier.weight(1f),
-                        content = { Text(stringResource(R.string.patch_copy_error)) }
-                    )
+                PatchState.ERROR -> {
+                    Row(Modifier.padding(top = 12.dp)) {
+                        Button(
+                            modifier = Modifier.weight(1f),
+                            onClick = { navController.popBackStack() },
+                            content = { Text(stringResource(R.string.patch_return)) }
+                        )
+                        Spacer(Modifier.weight(0.2f))
+                        Button(
+                            modifier = Modifier.weight(1f),
+                            onClick = {
+                                val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                cm.setPrimaryClip(ClipData.newPlainText("LSPatch", logs.joinToString { it.second + "\n" }))
+                            },
+                            content = { Text(stringResource(R.string.patch_copy_error)) }
+                        )
+                    }
                 }
+                else -> Unit
             }
         }
+    }
+}
+
+@Composable
+private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
+    val scope = rememberCoroutineScope()
+
+    var uninstallFirst by remember { mutableStateOf(ShizukuApi.isPackageInstalled(patchApp.app.packageName)) }
+    var installing by remember { mutableStateOf(false) }
+    val doInstall = suspend {
+        Log.i(TAG, "Installing app ${patchApp.app.packageName}")
+        installing = true
+        val (status, message) = LSPPackageInstaller.install()
+        installing = false
+        Log.i(TAG, "Installation end: $status, $message")
+        onFinish(status, message)
+    }
+
+    if (uninstallFirst) {
+        AlertDialog(
+            onDismissRequest = { onFinish(-2, "User cancelled") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        scope.launch {
+                            Log.i(TAG, "Uninstalling app ${patchApp.app.packageName}")
+                            val (status, message) = LSPPackageInstaller.uninstall(patchApp.app.packageName)
+                            Log.i(TAG, "Uninstallation end: $status, $message")
+                            if (status != PackageInstaller.STATUS_SUCCESS) onFinish(status, message)
+                            uninstallFirst = false
+                            doInstall()
+                        }
+                    },
+                    content = { Text(stringResource(android.R.string.ok)) }
+                )
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { onFinish(-2, "User cancelled") },
+                    content = { Text(stringResource(android.R.string.cancel)) }
+                )
+            },
+            title = {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(R.string.patch_uninstall),
+                    textAlign = TextAlign.Center
+                )
+            },
+            text = { Text(stringResource(R.string.patch_uninstall_text)) }
+        )
+    }
+
+    if (installing) {
+        AlertDialog(
+            onDismissRequest = {},
+            confirmButton = {},
+            title = {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(R.string.patch_installing),
+                    fontFamily = FontFamily.Serif,
+                    textAlign = TextAlign.Center
+                )
+            }
+        )
     }
 }

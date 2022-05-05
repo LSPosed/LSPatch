@@ -17,6 +17,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import org.lsposed.lspatch.ui.page.PageList
 import org.lsposed.lspatch.ui.theme.LSPTheme
 import org.lsposed.lspatch.ui.util.LocalNavController
+import org.lsposed.lspatch.ui.util.LocalSnackbarHost
 import org.lsposed.lspatch.ui.util.currentRoute
 
 class MainActivity : ComponentActivity() {
@@ -27,11 +28,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberAnimatedNavController()
             val currentRoute = navController.currentRoute
-            val currentPage = if (currentRoute == null) null else PageList.valueOf(currentRoute.substringBefore('/'))
             var mainPage by rememberSaveable { mutableStateOf(PageList.Home) }
 
             LSPTheme {
-                CompositionLocalProvider(LocalNavController provides navController) {
+                val snackbarHostState = remember { SnackbarHostState() }
+                CompositionLocalProvider(
+                    LocalNavController provides navController,
+                    LocalSnackbarHost provides snackbarHostState
+                ) {
                     Scaffold(
                         bottomBar = {
                             MainNavigationBar(mainPage) {
@@ -42,7 +46,8 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             }
-                        }
+                        },
+                        snackbarHost = { SnackbarHost(snackbarHostState) }
                     ) { innerPadding ->
                         MainNavHost(navController, Modifier.padding(innerPadding))
                     }
