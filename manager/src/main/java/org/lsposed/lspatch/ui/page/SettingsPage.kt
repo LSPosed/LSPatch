@@ -182,6 +182,7 @@ private fun KeyStore() {
                         onValueChange = { path = it },
                         readOnly = true,
                         label = { Text(stringResource(R.string.settings_keystore_file)) },
+                        placeholder = { Text(stringResource(R.string.settings_keystore_file)) },
                         singleLine = true,
                         isError = wrongKeystore,
                         interactionSource = interactionSource
