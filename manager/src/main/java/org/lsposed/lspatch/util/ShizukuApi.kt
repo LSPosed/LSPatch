@@ -2,6 +2,7 @@ package org.lsposed.lspatch.util
 
 import android.content.IntentSender
 import android.content.pm.*
+import android.os.Build
 import android.os.IBinder
 import android.os.IInterface
 import androidx.compose.runtime.getValue
@@ -25,8 +26,20 @@ object ShizukuApi {
     }
 
     private val packageInstaller: PackageInstaller by lazy {
-        PackageInstaller::class.java.getConstructor(IPackageInstaller::class.java, String::class.java, Int::class.javaPrimitiveType)
-            .newInstance(iPackageInstaller, "com.android.shell", 0)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PackageInstaller::class.java.getConstructor(
+                IPackageInstaller::class.java,
+                String::class.java,
+                String::class.java,
+                Int::class.javaPrimitiveType
+            ).newInstance(iPackageInstaller, "com.android.shell", null, 0)
+        } else {
+            PackageInstaller::class.java.getConstructor(
+                IPackageInstaller::class.java,
+                String::class.java,
+                Int::class.javaPrimitiveType
+            ).newInstance(iPackageInstaller, "com.android.shell", 0)
+        }
     }
 
     var isBinderAvalable = false

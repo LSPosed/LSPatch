@@ -348,8 +348,9 @@ private fun DoPatchBody(modifier: Modifier) {
                                     scope.launch {
                                         snackbarHost.showSnackbar(shizukuUnavailable)
                                     }
+                                } else {
+                                    installing = true
                                 }
-                                installing = true
                             },
                             content = { Text(stringResource(R.string.patch_install)) }
                         )
@@ -384,12 +385,12 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
     val scope = rememberCoroutineScope()
 
     var uninstallFirst by remember { mutableStateOf(ShizukuApi.isPackageInstalled(patchApp.app.packageName)) }
-    var installing by remember { mutableStateOf(false) }
+    var installing by remember { mutableStateOf(0) }
     val doInstall = suspend {
         Log.i(TAG, "Installing app ${patchApp.app.packageName}")
-        installing = true
+        installing = 1
         val (status, message) = LSPPackageInstaller.install()
-        installing = false
+        installing = 0
         Log.i(TAG, "Installation end: $status, $message")
         onFinish(status, message)
     }
@@ -402,11 +403,16 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
                     onClick = {
                         scope.launch {
                             Log.i(TAG, "Uninstalling app ${patchApp.app.packageName}")
-                            val (status, message) = LSPPackageInstaller.uninstall(patchApp.app.packageName)
-                            Log.i(TAG, "Uninstallation end: $status, $message")
-                            if (status != PackageInstaller.STATUS_SUCCESS) onFinish(status, message)
                             uninstallFirst = false
-                            doInstall()
+                            installing = 2
+                            val (status, message) = LSPPackageInstaller.uninstall(patchApp.app.packageName)
+                            installing = 0
+                            Log.i(TAG, "Uninstallation end: $status, $message")
+                            if (status == PackageInstaller.STATUS_SUCCESS) {
+                                doInstall()
+                            } else {
+                                onFinish(status, message)
+                            }
                         }
                     },
                     content = { Text(stringResource(android.R.string.ok)) }
@@ -429,14 +435,14 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
         )
     }
 
-    if (installing) {
+    if (installing != 0) {
         AlertDialog(
             onDismissRequest = {},
             confirmButton = {},
             title = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.patch_installing),
+                    text = stringResource(if (installing == 1) R.string.patch_installing else R.string.patch_uninstalling),
                     fontFamily = FontFamily.Serif,
                     textAlign = TextAlign.Center
                 )

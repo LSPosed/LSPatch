@@ -47,6 +47,7 @@
     <string name="patch_installing">Installing</string>
     <string name="patch_uninstall">Uninstall</string>
     <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
+    <string name="patch_uninstalling">Uninstalling</string>
     <string name="patch_install_successfully">Install successfully</string>
     <string name="patch_install_failed">Install failed</string>
     <string name="patch_copy_error">Copy error</string>

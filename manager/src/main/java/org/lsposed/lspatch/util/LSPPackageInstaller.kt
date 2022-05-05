@@ -89,7 +89,7 @@ object LSPPackageInstaller {
                 } ?: throw IOException("Intent is null")
             }.onFailure {
                 status = PackageInstaller.STATUS_FAILURE
-                message = it.message + "\n" + it.stackTraceToString()
+                message = "Exception happened\n$it"
             }
         }
         return Pair(status, message)
