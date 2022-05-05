@@ -58,6 +58,7 @@ afterEvaluate {
             dependsOn(tasks["assemble$variantCapped"])
             from(variant.outputs.map { it.outputFile })
             into("${rootProject.projectDir}/out")
+            rename(".*.apk", "manager.apk")
         }
     }
 }
