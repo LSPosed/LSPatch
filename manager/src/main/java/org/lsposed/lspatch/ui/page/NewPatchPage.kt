@@ -193,7 +193,7 @@ private fun PatchOptionsBody(modifier: Modifier) {
                 desc = viewModel.sign.mapIndexedNotNull { index, on -> if (on) "V" + (index + 1) else null }.joinToString(" + ").ifEmpty { "None" }
             )
             DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                repeat(3) { index ->
+                repeat(2) { index ->
                     DropdownMenuItem(
                         text = {
                             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -322,15 +322,20 @@ private fun DoPatchBody(modifier: Modifier) {
                     val shizukuUnavailable = stringResource(R.string.shizuku_unavailable)
                     val installSuccessfully = stringResource(R.string.patch_install_successfully)
                     val installFailed = stringResource(R.string.patch_install_failed)
+                    val copyError = stringResource(R.string.patch_copy_error)
                     var installing by rememberSaveable { mutableStateOf(false) }
                     if (installing) InstallDialog(viewModel.patchApp!!) { status, message ->
-                        installing = false
                         scope.launch {
+                            installing = false
                             if (status == PackageInstaller.STATUS_SUCCESS) {
                                 lspApp.globalScope.launch { snackbarHost.showSnackbar(installSuccessfully) }
                                 navController.popBackStack()
                             } else {
-                                snackbarHost.showSnackbar(installFailed)
+                                val result = snackbarHost.showSnackbar(installFailed, copyError)
+                                if (result == SnackbarResult.ActionPerformed) {
+                                    val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                    cm.setPrimaryClip(ClipData.newPlainText("LSPatch", message))
+                                }
                             }
                         }
                     }
@@ -383,7 +388,6 @@ private fun DoPatchBody(modifier: Modifier) {
 @Composable
 private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
     val scope = rememberCoroutineScope()
-
     var uninstallFirst by remember { mutableStateOf(ShizukuApi.isPackageInstalled(patchApp.app.packageName)) }
     var installing by remember { mutableStateOf(0) }
     val doInstall = suspend {
