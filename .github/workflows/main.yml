@@ -37,7 +37,7 @@ jobs:
         name: lspatch-debug
         path: |
           out/lspatch.jar
-          out/manager-debug.apk
+          out/manager.apk
 
     - name: Build Release
       run: |
@@ -49,4 +49,4 @@ jobs:
         name: lspatch-release
         path: |
           out/lspatch.jar
-          out/manager-release.apk
+          out/manager.apk
