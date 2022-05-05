@@ -21,7 +21,7 @@ enum class PageList(
     Repo(
         iconSelected = Icons.Filled.GetApp,
         iconNotSelected = Icons.Outlined.GetApp,
-        body = {}
+        body = { RepoPage() }
     ),
     Manage(
         iconSelected = Icons.Filled.Dashboard,
@@ -36,7 +36,7 @@ enum class PageList(
     Logs(
         iconSelected = Icons.Filled.Assignment,
         iconNotSelected = Icons.Outlined.Assignment,
-        body = {}
+        body = { LogsPage() }
     ),
     Settings(
         iconSelected = Icons.Filled.Settings,

@@ -5,7 +5,9 @@ import android.content.Intent
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
@@ -31,7 +33,13 @@ fun ManagePage() {
         topBar = { TopBar() },
         floatingActionButton = { Fab() }
     ) { innerPadding ->
-
+        Text(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize(),
+            text = "This page is not yet implemented",
+            textAlign = TextAlign.Center
+        )
     }
 }
 
