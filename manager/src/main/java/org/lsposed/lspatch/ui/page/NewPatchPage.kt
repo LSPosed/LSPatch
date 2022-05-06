@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageInstaller
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -36,7 +37,6 @@ import androidx.navigation.NavBackStackEntry
 import kotlinx.coroutines.launch
 import org.lsposed.lspatch.Patcher
 import org.lsposed.lspatch.R
-import org.lsposed.lspatch.TAG
 import org.lsposed.lspatch.lspApp
 import org.lsposed.lspatch.ui.component.SelectionColumn
 import org.lsposed.lspatch.ui.component.ShimmerAnimation
@@ -50,6 +50,8 @@ import org.lsposed.lspatch.util.LSPPackageInstaller
 import org.lsposed.lspatch.util.ShizukuApi
 import org.lsposed.patch.util.Logger
 
+private const val TAG = "NewPatchPage"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewPatchPage(entry: NavBackStackEntry) {
@@ -57,27 +59,29 @@ fun NewPatchPage(entry: NavBackStackEntry) {
     val navController = LocalNavController.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val isCancelled by entry.observeState<Boolean>("isCancelled")
-    entry.savedStateHandle.getLiveData<AppInfo>("appInfo").observe(lifecycleOwner) {
-        viewModel.patchApp = it
+    LaunchedEffect(Unit) {
+        entry.savedStateHandle.getLiveData<AppInfo>("appInfo").observe(lifecycleOwner) {
+            viewModel.configurePatch(it)
+        }
     }
 
-    Log.d(TAG, "NewPatchPage: ${viewModel.patchState}")
+    Log.d(TAG, "PatchState: ${viewModel.patchState}")
     if (viewModel.patchState == PatchState.SELECTING) {
-        when {
-            isCancelled == true -> {
-                LaunchedEffect(viewModel) { navController.popBackStack() }
-                return
-            }
-            viewModel.patchApp != null -> {
-                LaunchedEffect(viewModel) { viewModel.configurePatch() }
-            }
-            else -> {
-                LaunchedEffect(viewModel) { navController.navigate(PageList.SelectApps.name + "/false") }
-            }
+        LaunchedEffect(Unit) {
+            if (isCancelled == true) navController.popBackStack()
+            else navController.navigate(PageList.SelectApps.name + "/false")
         }
     } else {
         Scaffold(
-            topBar = { TopBar(viewModel.patchApp!!) },
+            topBar = {
+                when (viewModel.patchState) {
+                    PatchState.CONFIGURING -> ConfiguringTopBar { navController.popBackStack() }
+                    PatchState.PATCHING,
+                    PatchState.FINISHED,
+                    PatchState.ERROR -> CenterAlignedTopAppBar(title = { Text(viewModel.patchApp.app.packageName) })
+                    else -> Unit
+                }
+            },
             floatingActionButton = {
                 if (viewModel.patchState == PatchState.CONFIGURING) {
                     ConfiguringFab()
@@ -85,8 +89,10 @@ fun NewPatchPage(entry: NavBackStackEntry) {
             }
         ) { innerPadding ->
             if (viewModel.patchState == PatchState.CONFIGURING) {
-                entry.savedStateHandle.getLiveData<SnapshotStateList<AppInfo>>("selected", SnapshotStateList()).observe(lifecycleOwner) {
-                    viewModel.embeddedModules = it
+                LaunchedEffect(Unit) {
+                    entry.savedStateHandle.getLiveData<SnapshotStateList<AppInfo>>("selected", SnapshotStateList()).observe(lifecycleOwner) {
+                        viewModel.embeddedModules = it
+                    }
                 }
                 PatchOptionsBody(Modifier.padding(innerPadding))
             } else {
@@ -97,21 +103,14 @@ fun NewPatchPage(entry: NavBackStackEntry) {
 }
 
 @Composable
-private fun TopBar(patchApp: AppInfo) {
+private fun ConfiguringTopBar(onBackClick: () -> Unit) {
     SmallTopAppBar(
-        title = {
-            Column {
-                Text(
-                    text = patchApp.label,
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(horizontal = 24.dp)
-                )
-                Text(
-                    text = patchApp.app.packageName,
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(horizontal = 24.dp)
-                )
-            }
+        title = { Text(stringResource(R.string.page_new_patch)) },
+        navigationIcon = {
+            IconButton(
+                onClick = onBackClick,
+                content = { Icon(Icons.Outlined.ArrowBack, null) }
+            )
         }
     )
 }
@@ -141,6 +140,16 @@ private fun PatchOptionsBody(modifier: Modifier) {
     val navController = LocalNavController.current
 
     Column(modifier.verticalScroll(rememberScrollState())) {
+        Text(
+            text = viewModel.patchApp.label,
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(horizontal = 24.dp)
+        )
+        Text(
+            text = viewModel.patchApp.app.packageName,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(horizontal = 24.dp)
+        )
         Text(
             text = stringResource(R.string.patch_mode),
             style = MaterialTheme.typography.titleLarge,
@@ -263,7 +272,7 @@ private fun DoPatchBody(modifier: Modifier) {
     val logs = remember { mutableStateListOf<Pair<Int, String>>() }
     val logger = remember { PatchLogger(logs) }
 
-    LaunchedEffect(viewModel) {
+    LaunchedEffect(Unit) {
         try {
             Patcher.patch(context, logger, viewModel.patchOptions)
             viewModel.finishPatch()
@@ -276,7 +285,7 @@ private fun DoPatchBody(modifier: Modifier) {
         }
     }
 
-    BoxWithConstraints(modifier.padding(24.dp)) {
+    BoxWithConstraints(modifier.padding(start = 24.dp, end = 24.dp, bottom = 24.dp)) {
         val shellBoxMaxHeight =
             if (viewModel.patchState == PatchState.PATCHING) maxHeight
             else maxHeight - ButtonDefaults.MinHeight - 12.dp
@@ -318,13 +327,14 @@ private fun DoPatchBody(modifier: Modifier) {
             }
 
             when (viewModel.patchState) {
+                PatchState.PATCHING -> BackHandler {}
                 PatchState.FINISHED -> {
                     val shizukuUnavailable = stringResource(R.string.shizuku_unavailable)
                     val installSuccessfully = stringResource(R.string.patch_install_successfully)
                     val installFailed = stringResource(R.string.patch_install_failed)
                     val copyError = stringResource(R.string.patch_copy_error)
                     var installing by rememberSaveable { mutableStateOf(false) }
-                    if (installing) InstallDialog(viewModel.patchApp!!) { status, message ->
+                    if (installing) InstallDialog(viewModel.patchApp) { status, message ->
                         scope.launch {
                             installing = false
                             if (status == PackageInstaller.STATUS_SUCCESS) {

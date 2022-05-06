@@ -72,11 +72,10 @@ private val listener: (Int, Int) -> Unit = { _, grantResult ->
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ShizukuCard() {
-    val key = remember { true }
-    LaunchedEffect(key) {
+    LaunchedEffect(Unit) {
         Shizuku.addRequestPermissionResultListener(listener)
     }
-    DisposableEffect(key) {
+    DisposableEffect(Unit) {
         onDispose {
             Shizuku.removeRequestPermissionResultListener(listener)
         }

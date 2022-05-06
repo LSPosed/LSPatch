@@ -41,7 +41,7 @@ fun SearchAppBar(
     val focusRequester = remember { FocusRequester() }
     var onSearch by remember { mutableStateOf(false) }
 
-    LaunchedEffect(onSearch) {
+    LaunchedEffect(Unit) {
         if (onSearch) focusRequester.requestFocus()
     }
 

@@ -16,7 +16,6 @@ class NewPatchViewModel : ViewModel() {
 
     var patchState by mutableStateOf(PatchState.SELECTING)
         private set
-    var patchApp by mutableStateOf<AppInfo?>(null)
 
     var useManager by mutableStateOf(true)
     var debuggable by mutableStateOf(false)
@@ -24,17 +23,20 @@ class NewPatchViewModel : ViewModel() {
     var sign = mutableStateListOf(false, true)
     var sigBypassLevel by mutableStateOf(2)
 
+    lateinit var patchApp: AppInfo
+        private set
     lateinit var embeddedModules: SnapshotStateList<AppInfo>
     lateinit var patchOptions: Patcher.Options
 
-    fun configurePatch() {
+    fun configurePatch(app: AppInfo) {
+        patchApp = app
         patchState = PatchState.CONFIGURING
     }
 
     fun submitPatch() {
         if (useManager) embeddedModules.clear()
         patchOptions = Patcher.Options(
-            apkPaths = listOf(patchApp!!.app.sourceDir) + (patchApp!!.app.splitSourceDirs ?: emptyArray()),
+            apkPaths = listOf(patchApp.app.sourceDir) + (patchApp.app.splitSourceDirs ?: emptyArray()),
             debuggable = debuggable,
             sigbypassLevel = sigBypassLevel,
             v1 = sign[0], v2 = sign[1],
