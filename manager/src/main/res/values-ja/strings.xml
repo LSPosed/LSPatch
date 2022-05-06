@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">追加</string>
+    <string name="shizuku_available">Shizuku service available</string>
+    <string name="shizuku_unavailable">Shizuku service not connected</string>
     <string name="page_repo">レポ</string>
     <string name="page_logs">ログ</string>
     <!-- Home Page -->
-    <string name="home_shizuku_available">しずくサービスあり</string>
-    <string name="home_shizuku_unavailable">しずくサービスが接続されていません</string>
     <string name="home_shizuku_warning">一部の機能は利用できません</string>
     <string name="home_api_version">APIバージョン</string>
     <string name="home_lspatch_version">LSPatchバージョン</string>
@@ -41,6 +41,12 @@
     <string name="patch_start">パッチを開始する</string>
     <string name="patch_return">戻る</string>
     <string name="patch_install">インストール</string>
+    <string name="patch_installing">Installing</string>
+    <string name="patch_uninstall">Uninstall</string>
+    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
+    <string name="patch_uninstalling">Uninstalling</string>
+    <string name="patch_install_successfully">Install successfully</string>
+    <string name="patch_install_failed">Install failed</string>
     <string name="patch_copy_error">コピーエラー</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">アプリを選択</string>

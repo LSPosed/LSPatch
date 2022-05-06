@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Papildyti</string>
+    <string name="shizuku_available">Shizuku service available</string>
+    <string name="shizuku_unavailable">Shizuku service not connected</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Rąstai</string>
     <!-- Home Page -->
-    <string name="home_shizuku_available">Galimas Shizuku servisas</string>
-    <string name="home_shizuku_unavailable">„Shizuku“ paslauga neprijungta</string>
     <string name="home_shizuku_warning">Kai kurios funkcijos nepasiekiamos</string>
     <string name="home_api_version">API versija</string>
     <string name="home_lspatch_version">LSPatch versija</string>
@@ -41,6 +41,12 @@
     <string name="patch_start">Pradėti pataisą</string>
     <string name="patch_return">Grįžti</string>
     <string name="patch_install">Diegti</string>
+    <string name="patch_installing">Installing</string>
+    <string name="patch_uninstall">Uninstall</string>
+    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
+    <string name="patch_uninstalling">Uninstalling</string>
+    <string name="patch_install_successfully">Install successfully</string>
+    <string name="patch_install_failed">Install failed</string>
     <string name="patch_copy_error">Kopijavimo klaida</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Pasirinkite Programos</string>

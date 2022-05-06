@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">לְהוֹסִיף</string>
+    <string name="shizuku_available">Shizuku service available</string>
+    <string name="shizuku_unavailable">Shizuku service not connected</string>
     <string name="page_repo">ריפו</string>
     <string name="page_logs">יומנים</string>
     <!-- Home Page -->
-    <string name="home_shizuku_available">שירות שיזוקו זמין</string>
-    <string name="home_shizuku_unavailable">שירות Shizuku לא מחובר</string>
     <string name="home_shizuku_warning">חלק מהפונקציות אינן זמינות</string>
     <string name="home_api_version">גרסת API</string>
     <string name="home_lspatch_version">גרסת LSPatch</string>
@@ -41,6 +41,12 @@
     <string name="patch_start">התחל תיקון</string>
     <string name="patch_return">לַחֲזוֹר</string>
     <string name="patch_install">להתקין</string>
+    <string name="patch_installing">Installing</string>
+    <string name="patch_uninstall">Uninstall</string>
+    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
+    <string name="patch_uninstalling">Uninstalling</string>
+    <string name="patch_install_successfully">Install successfully</string>
+    <string name="patch_install_failed">Install failed</string>
     <string name="patch_copy_error">שגיאת העתקה</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">בחר אפליקציות</string>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">추가하다</string>
+    <string name="shizuku_available">Shizuku service available</string>
+    <string name="shizuku_unavailable">Shizuku service not connected</string>
     <string name="page_repo">레포</string>
     <string name="page_logs">로그</string>
     <!-- Home Page -->
-    <string name="home_shizuku_available">시즈쿠 서비스 가능</string>
-    <string name="home_shizuku_unavailable">시즈쿠 서비스가 연결되지 않았습니다</string>
     <string name="home_shizuku_warning">일부 기능을 사용할 수 없음</string>
     <string name="home_api_version">API 버전</string>
     <string name="home_lspatch_version">LSPatch 버전</string>
@@ -41,6 +41,12 @@
     <string name="patch_start">패치 시작</string>
     <string name="patch_return">반품</string>
     <string name="patch_install">설치하다</string>
+    <string name="patch_installing">Installing</string>
+    <string name="patch_uninstall">Uninstall</string>
+    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
+    <string name="patch_uninstalling">Uninstalling</string>
+    <string name="patch_install_successfully">Install successfully</string>
+    <string name="patch_install_failed">Install failed</string>
     <string name="patch_copy_error">복사 오류</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">앱 선택</string>
