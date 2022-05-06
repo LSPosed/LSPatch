@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Afegeix</string>
+    <string name="shizuku_available">Shizuku service available</string>
+    <string name="shizuku_unavailable">Shizuku service not connected</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Registres</string>
     <!-- Home Page -->
-    <string name="home_shizuku_available">Servei Shizuku disponible</string>
-    <string name="home_shizuku_unavailable">El servei Shizuku no està connectat</string>
     <string name="home_shizuku_warning">Algunes funcions no estan disponibles</string>
     <string name="home_api_version">Versió de l\'API</string>
     <string name="home_lspatch_version">Versió LSPatch</string>
@@ -41,6 +41,12 @@
     <string name="patch_start">Inicia el pegat</string>
     <string name="patch_return">Tornar</string>
     <string name="patch_install">Instal·lar</string>
+    <string name="patch_installing">Installing</string>
+    <string name="patch_uninstall">Uninstall</string>
+    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
+    <string name="patch_uninstalling">Uninstalling</string>
+    <string name="patch_install_successfully">Install successfully</string>
+    <string name="patch_install_failed">Install failed</string>
     <string name="patch_copy_error">Error de còpia</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Seleccioneu Aplicacions</string>
