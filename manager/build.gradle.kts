@@ -73,7 +73,7 @@ dependencies {
     compileOnly("dev.rikka.hidden:stub:2.3.1")
     implementation("dev.rikka.hidden:compat:2.3.1")
     implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.activity:activity-compose:1.6.0-alpha01")
+    implementation("androidx.activity:activity-compose:1.6.0-alpha03")
     implementation("androidx.compose.material:material-icons-extended:1.1.1")
     implementation("androidx.compose.material3:material3:1.0.0-alpha08")
     implementation("androidx.compose.runtime:runtime-livedata:1.1.1")
