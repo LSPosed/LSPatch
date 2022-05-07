@@ -63,6 +63,10 @@ listOf("Debug", "Release").forEach { variant ->
     }
 }
 
+tasks.register("buildAll") {
+    dependsOn("buildDebug", "buildRelease")
+}
+
 fun Project.configureBaseExtension() {
     extensions.findByType(BaseExtension::class)?.run {
         compileSdkVersion(androidCompileSdkVersion)

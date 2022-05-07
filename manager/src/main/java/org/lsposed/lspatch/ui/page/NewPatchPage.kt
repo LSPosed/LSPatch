@@ -340,7 +340,7 @@ private fun DoPatchBody(modifier: Modifier) {
                             if (status == PackageInstaller.STATUS_SUCCESS) {
                                 lspApp.globalScope.launch { snackbarHost.showSnackbar(installSuccessfully) }
                                 navController.popBackStack()
-                            } else {
+                            } else if (status != LSPPackageInstaller.STATUS_USER_CANCELLED) {
                                 val result = snackbarHost.showSnackbar(installFailed, copyError)
                                 if (result == SnackbarResult.ActionPerformed) {
                                     val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -411,7 +411,7 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
 
     if (uninstallFirst) {
         AlertDialog(
-            onDismissRequest = { onFinish(-2, "User cancelled") },
+            onDismissRequest = { onFinish(LSPPackageInstaller.STATUS_USER_CANCELLED, "User cancelled") },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -434,7 +434,7 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
             },
             dismissButton = {
                 TextButton(
-                    onClick = { onFinish(-2, "User cancelled") },
+                    onClick = { onFinish(LSPPackageInstaller.STATUS_USER_CANCELLED, "User cancelled") },
                     content = { Text(stringResource(android.R.string.cancel)) }
                 )
             },

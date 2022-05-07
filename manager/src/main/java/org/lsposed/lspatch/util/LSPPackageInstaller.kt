@@ -16,6 +16,8 @@ import kotlin.coroutines.suspendCoroutine
 
 object LSPPackageInstaller {
 
+    const val STATUS_USER_CANCELLED = -2
+
     suspend fun install(): Pair<Int, String?> {
         var status = PackageInstaller.STATUS_FAILURE
         var message: String? = null

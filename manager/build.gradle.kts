@@ -1,5 +1,7 @@
 val defaultManagerPackageName: String by rootProject.extra
 val apiCode: Int by rootProject.extra
+val verCode: Int by rootProject.extra
+val verName: String by rootProject.extra
 val coreVerCode: Int by rootProject.extra
 val coreVerName: String by rootProject.extra
 
@@ -58,8 +60,8 @@ afterEvaluate {
         task<Copy>("build$variantCapped") {
             dependsOn(tasks["assemble$variantCapped"])
             from(variant.outputs.map { it.outputFile })
-            into("${rootProject.projectDir}/out")
-            rename(".*.apk", "manager.apk")
+            into("${rootProject.projectDir}/out/$variantLowered")
+            rename(".*.apk", "manager-v$verName-$verCode-$variantLowered.apk")
         }
     }
 }
