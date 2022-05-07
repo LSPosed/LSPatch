@@ -1,22 +1,56 @@
 package org.lsposed.lspatch.util
 
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInstaller
+import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
+import android.os.Parcelable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import hidden.HiddenApiBridge
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.parcelize.Parcelize
 import org.lsposed.lspatch.Constants.PREFS_STORAGE_DIRECTORY
 import org.lsposed.lspatch.lspApp
 import java.io.IOException
+import java.text.Collator
+import java.util.*
 import java.util.concurrent.CountDownLatch
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-object LSPPackageInstaller {
+object LSPPackageManager {
+
+    @Parcelize
+    class AppInfo(val app: ApplicationInfo, val label: String) : Parcelable
 
     const val STATUS_USER_CANCELLED = -2
+
+    var appList by mutableStateOf(listOf<AppInfo>())
+        private set
+
+    private val appIcon = mutableMapOf<String, Drawable>()
+
+    suspend fun fetchAppList() {
+        withContext(Dispatchers.IO) {
+            val pm = lspApp.packageManager
+            val collection = mutableListOf<AppInfo>()
+            pm.getInstalledApplications(PackageManager.GET_META_DATA).forEach {
+                val label = pm.getApplicationLabel(it)
+                collection.add(AppInfo(it, label.toString()))
+                appIcon[it.packageName] = pm.getApplicationIcon(it)
+            }
+            collection.sortWith(compareBy(Collator.getInstance(Locale.getDefault())) { it.label })
+            appList = collection
+        }
+    }
+
+    fun getIcon(appInfo: AppInfo) = appIcon[appInfo.app.packageName]!!
 
     suspend fun install(): Pair<Int, String?> {
         var status = PackageInstaller.STATUS_FAILURE

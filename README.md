@@ -33,8 +33,8 @@ You can contribute translation [here](https://lsposed.crowdin.com/lspatch).
 
 ## Credits
 
-- [LSPosed](https://github.com/LSPosed/LSPosed): core framework
-- [Xpatch](https://github.com/WindySha/Xpatch): fork source
+- [LSPosed](https://github.com/LSPosed/LSPosed): Core framework
+- [Xpatch](https://github.com/WindySha/Xpatch): Fork source
 - [Apkzlib](https://android.googlesource.com/platform/tools/apkzlib): Repacking tool
 
 ## License

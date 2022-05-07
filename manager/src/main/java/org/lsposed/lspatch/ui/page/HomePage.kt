@@ -13,7 +13,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,8 +26,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import org.lsposed.lspatch.BuildConfig
 import org.lsposed.lspatch.R
+import org.lsposed.lspatch.share.LSPConfig
 import org.lsposed.lspatch.ui.util.HtmlText
 import org.lsposed.lspatch.ui.util.LocalSnackbarHost
 import org.lsposed.lspatch.util.ShizukuApi
@@ -164,13 +167,13 @@ private fun InfoCard() {
                 Text(text = texts.second, style = MaterialTheme.typography.bodyMedium)
             }
 
-            infoCardContent(stringResource(R.string.home_api_version) to "${BuildConfig.API_CODE}")
+            infoCardContent(stringResource(R.string.home_api_version) to "${LSPConfig.instance.API_CODE}")
 
             Spacer(Modifier.height(24.dp))
-            infoCardContent(stringResource(R.string.home_lspatch_version) to BuildConfig.VERSION_NAME + " (${BuildConfig.VERSION_CODE})")
+            infoCardContent(stringResource(R.string.home_lspatch_version) to LSPConfig.instance.VERSION_NAME + " (${LSPConfig.instance.VERSION_CODE})")
 
             Spacer(Modifier.height(24.dp))
-            infoCardContent(stringResource(R.string.home_framework_version) to BuildConfig.CORE_VERSION_NAME + " (${BuildConfig.CORE_VERSION_CODE})")
+            infoCardContent(stringResource(R.string.home_framework_version) to LSPConfig.instance.CORE_VERSION_NAME + " (${LSPConfig.instance.CORE_VERSION_CODE})")
 
             Spacer(Modifier.height(24.dp))
             infoCardContent(stringResource(R.string.home_system_version) to apiVersion)

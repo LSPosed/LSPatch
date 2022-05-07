@@ -21,6 +21,8 @@
 
     <!-- Manage Page -->
     <string name="page_manage">Manage</string>
+    <string name="manage_loading">Loading</string>
+    <string name="manage_no_apps">No patched apps yet</string>
 
     <!-- New Patch Page -->
     <string name="page_new_patch">New Patch</string>

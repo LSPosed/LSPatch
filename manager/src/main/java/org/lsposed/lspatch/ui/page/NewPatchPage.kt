@@ -43,10 +43,10 @@ import org.lsposed.lspatch.ui.component.ShimmerAnimation
 import org.lsposed.lspatch.ui.component.settings.SettingsCheckBox
 import org.lsposed.lspatch.ui.component.settings.SettingsItem
 import org.lsposed.lspatch.ui.util.*
-import org.lsposed.lspatch.ui.viewmodel.AppInfo
 import org.lsposed.lspatch.ui.viewmodel.NewPatchViewModel
 import org.lsposed.lspatch.ui.viewmodel.NewPatchViewModel.PatchState
-import org.lsposed.lspatch.util.LSPPackageInstaller
+import org.lsposed.lspatch.util.LSPPackageManager
+import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 import org.lsposed.lspatch.util.ShizukuApi
 import org.lsposed.patch.util.Logger
 
@@ -336,11 +336,12 @@ private fun DoPatchBody(modifier: Modifier) {
                     var installing by rememberSaveable { mutableStateOf(false) }
                     if (installing) InstallDialog(viewModel.patchApp) { status, message ->
                         scope.launch {
+                            LSPPackageManager.fetchAppList()
                             installing = false
                             if (status == PackageInstaller.STATUS_SUCCESS) {
                                 lspApp.globalScope.launch { snackbarHost.showSnackbar(installSuccessfully) }
                                 navController.popBackStack()
-                            } else if (status != LSPPackageInstaller.STATUS_USER_CANCELLED) {
+                            } else if (status != LSPPackageManager.STATUS_USER_CANCELLED) {
                                 val result = snackbarHost.showSnackbar(installFailed, copyError)
                                 if (result == SnackbarResult.ActionPerformed) {
                                     val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -403,7 +404,7 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
     val doInstall = suspend {
         Log.i(TAG, "Installing app ${patchApp.app.packageName}")
         installing = 1
-        val (status, message) = LSPPackageInstaller.install()
+        val (status, message) = LSPPackageManager.install()
         installing = 0
         Log.i(TAG, "Installation end: $status, $message")
         onFinish(status, message)
@@ -411,7 +412,7 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
 
     if (uninstallFirst) {
         AlertDialog(
-            onDismissRequest = { onFinish(LSPPackageInstaller.STATUS_USER_CANCELLED, "User cancelled") },
+            onDismissRequest = { onFinish(LSPPackageManager.STATUS_USER_CANCELLED, "User cancelled") },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -419,7 +420,7 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
                             Log.i(TAG, "Uninstalling app ${patchApp.app.packageName}")
                             uninstallFirst = false
                             installing = 2
-                            val (status, message) = LSPPackageInstaller.uninstall(patchApp.app.packageName)
+                            val (status, message) = LSPPackageManager.uninstall(patchApp.app.packageName)
                             installing = 0
                             Log.i(TAG, "Uninstallation end: $status, $message")
                             if (status == PackageInstaller.STATUS_SUCCESS) {
@@ -434,7 +435,7 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
             },
             dismissButton = {
                 TextButton(
-                    onClick = { onFinish(LSPPackageInstaller.STATUS_USER_CANCELLED, "User cancelled") },
+                    onClick = { onFinish(LSPPackageManager.STATUS_USER_CANCELLED, "User cancelled") },
                     content = { Text(stringResource(android.R.string.cancel)) }
                 )
             },

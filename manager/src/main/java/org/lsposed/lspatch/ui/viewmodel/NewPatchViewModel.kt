@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import org.lsposed.lspatch.Patcher
+import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 
 class NewPatchViewModel : ViewModel() {
 
