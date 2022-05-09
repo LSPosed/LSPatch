@@ -78,7 +78,7 @@ jobs:
         ccache -o compiler_check='%compiler% -dumpmachine; %compiler% -dumpversion'
         ccache -zp
 
-  - name: Build with Gradle
+    - name: Build with Gradle
       run: |
         [ $(du -s ~/.gradle/wrapper | awk '{ print $1 }') -gt 250000 ] && rm -rf ~/.gradle/wrapper/* || true
         find ~/.gradle/caches -exec touch -d "2 days ago" {} + || true
@@ -104,34 +104,34 @@ jobs:
         name: lspatch-release
         path: out/release/*
 
-      - name: Upload mappings
-        uses: actions/upload-artifact@v2
-        with:
-          name: mappings
-          path: |
-            patch-loader/build/outputs/mapping
-            manager/build/outputs/mapping
+    - name: Upload mappings
+      uses: actions/upload-artifact@v2
+      with:
+        name: mappings
+        path: |
+          patch-loader/build/outputs/mapping
+          manager/build/outputs/mapping
 
-      - name: Upload symbols
-        uses: actions/upload-artifact@v2
-        with:
-          name: symbols
-          path: |
-            patch-loader/build/symbols
+    - name: Upload symbols
+      uses: actions/upload-artifact@v2
+      with:
+        name: symbols
+        path: |
+          patch-loader/build/symbols
 
-      - name: Post to channel
-        if: ${{ github.event_name != 'pull_request' && success() && github.ref == 'refs/heads/master' }}
-        env:
-          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-          COMMIT_URL: ${{ github.event.head_commit.url }}
-        run: |
-          if [ ! -z "${{ secrets.BOT_TOKEN }}" ]; then
-            export jarRelease=$(find out/release -name "*.jar")
-            export managerRelease=$(find out/release -name "*.apk")
-            export jarDebug=$(find out/debug -name "*.jar")
-            export managerDebug=$(find out/debug -name "*.apk")
-            ESCAPED=`python3 -c 'import json,os,urllib.parse; msg = json.dumps(os.environ["COMMIT_MESSAGE"]); print(urllib.parse.quote(msg if len(msg) <= 1024 else json.dumps(os.environ["COMMIT_URL"])))'`
-            curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2FjarRelease%22%7D%2C%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2FmanagerRelease%22%7D%2C%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2FjarDebug%22%7D%2C%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2FmanagerDebug%22%2C%22caption%22:${ESCAPED}%7D%5D" -F jarRelease="@$jarRelease" -F managerRelease="@$managerRelease" -F jarDebug="@$jarDebug" -F managerDebug="@$managerDebug"
-          fi
+    - name: Post to channel
+      if: ${{ github.event_name != 'pull_request' && success() && github.ref == 'refs/heads/master' }}
+      env:
+        CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        COMMIT_URL: ${{ github.event.head_commit.url }}
+      run: |
+        if [ ! -z "${{ secrets.BOT_TOKEN }}" ]; then
+          export jarRelease=$(find out/release -name "*.jar")
+          export managerRelease=$(find out/release -name "*.apk")
+          export jarDebug=$(find out/debug -name "*.jar")
+          export managerDebug=$(find out/debug -name "*.apk")
+          ESCAPED=`python3 -c 'import json,os,urllib.parse; msg = json.dumps(os.environ["COMMIT_MESSAGE"]); print(urllib.parse.quote(msg if len(msg) <= 1024 else json.dumps(os.environ["COMMIT_URL"])))'`
+          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${CHANNEL_ID}&media=%5B%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2FjarRelease%22%7D%2C%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2FmanagerRelease%22%7D%2C%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2FjarDebug%22%7D%2C%7B%22type%22%3A%22document%22%2C%20%22media%22%3A%22attach%3A%2F%2FmanagerDebug%22%2C%22caption%22:${ESCAPED}%7D%5D" -F jarRelease="@$jarRelease" -F managerRelease="@$managerRelease" -F jarDebug="@$jarDebug" -F managerDebug="@$managerDebug"
+        fi
