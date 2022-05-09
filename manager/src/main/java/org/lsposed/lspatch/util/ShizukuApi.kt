@@ -63,8 +63,9 @@ object ShizukuApi {
         return constructor.newInstance(iSession)
     }
 
-    fun isPackageInstalled(packageName: String): Boolean {
-        return iPackageManager.getPackageInfo(packageName, 0, 0 /* TODO: userId */) != null
+    fun isPackageInstalledWithoutPatch(packageName: String): Boolean {
+        val app = iPackageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA, 0 /* TODO: userId */)
+        return (app != null) && (app.metaData?.containsKey("lspatch") != true)
     }
 
     fun uninstallPackage(packageName: String, intentSender: IntentSender) {

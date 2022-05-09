@@ -34,11 +34,9 @@ import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SelectAppsPage(entry: NavBackStackEntry) {
+fun SelectAppsPage(multiSelect: Boolean) {
     val viewModel = viewModel<SelectAppsViewModel>()
     val navController = LocalNavController.current
-    val multiSelect = entry.arguments?.get("multiSelect") as? Boolean
-        ?: throw IllegalArgumentException("multiSelect is null")
 
     var searchPackage by remember { mutableStateOf("") }
     val filter: (AppInfo) -> Boolean = {

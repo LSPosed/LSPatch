@@ -48,18 +48,17 @@ fun AppItem(
                 modifier = Modifier.size(32.dp),
                 tint = Color.Unspecified
             )
-            Column(Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(1.dp)
+            ) {
                 Text(label)
-                Spacer(Modifier.height(1.dp))
                 Text(
                     text = packageName,
                     fontFamily = FontFamily.Monospace,
                     style = MaterialTheme.typography.bodySmall
                 )
-                additionalContent?.apply {
-                    Spacer(Modifier.height(1.dp))
-                    invoke()
-                }
+                additionalContent?.invoke()
             }
             if (checked != null) {
                 Checkbox(

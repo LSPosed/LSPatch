@@ -41,12 +41,11 @@ fun HomePage() {
             modifier = Modifier
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             ShizukuCard()
-            Spacer(Modifier.height(16.dp))
             InfoCard()
-            Spacer(Modifier.height(16.dp))
             SupportCard()
         }
     }

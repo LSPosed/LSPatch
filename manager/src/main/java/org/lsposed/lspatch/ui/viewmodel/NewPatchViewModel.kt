@@ -28,6 +28,7 @@ class NewPatchViewModel : ViewModel() {
         private set
     lateinit var embeddedModules: SnapshotStateList<AppInfo>
     lateinit var patchOptions: Patcher.Options
+        private set
 
     fun configurePatch(app: AppInfo) {
         patchApp = app

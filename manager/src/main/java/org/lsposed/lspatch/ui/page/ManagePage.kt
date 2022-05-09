@@ -8,10 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -28,6 +25,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -74,6 +72,7 @@ private fun Fab() {
     val navController = LocalNavController.current
     val scope = rememberCoroutineScope()
     var shouldSelectDirectory by remember { mutableStateOf(false) }
+    var showNewPatchDialog by remember { mutableStateOf(false) }
 
     val errorText = stringResource(R.string.patch_select_dir_error)
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -84,7 +83,7 @@ private fun Fab() {
             context.contentResolver.takePersistableUriPermission(uri, takeFlags)
             lspApp.prefs.edit().putString(PREFS_STORAGE_DIRECTORY, uri.toString()).apply()
             Log.i(TAG, "Storage directory: ${uri.path}")
-            navController.navigate(PageList.NewPatch.name)
+            showNewPatchDialog = true
         } catch (e: Exception) {
             Log.e(TAG, "Error when requesting saving directory", e)
             scope.launch { snackbarHost.showSnackbar(errorText) }
@@ -120,6 +119,58 @@ private fun Fab() {
         )
     }
 
+    if (showNewPatchDialog) {
+        AlertDialog(
+            onDismissRequest = { showNewPatchDialog = false },
+            confirmButton = {},
+            dismissButton = {
+                TextButton(
+                    content = { Text(stringResource(android.R.string.cancel)) },
+                    onClick = { showNewPatchDialog = false }
+                )
+            },
+            title = {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(R.string.page_new_patch),
+                    textAlign = TextAlign.Center
+                )
+            },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                    TextButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.secondary),
+                        onClick = {
+                            navController.navigate(PageList.NewPatch.name + "?from=storage")
+                            showNewPatchDialog = false
+                        }
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            text = stringResource(R.string.patch_from_storage),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
+                    TextButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.secondary),
+                        onClick = {
+                            navController.navigate(PageList.NewPatch.name + "?from=applist")
+                            showNewPatchDialog = false
+                        }
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            text = stringResource(R.string.patch_from_applist),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
+                }
+            }
+        )
+    }
+
     FloatingActionButton(
         content = { Icon(Icons.Filled.Add, stringResource(R.string.add)) },
         onClick = {
@@ -132,7 +183,7 @@ private fun Fab() {
                     context.contentResolver.takePersistableUriPermission(uri, takeFlags)
                     if (DocumentFile.fromTreeUri(context, uri)?.exists() == false) throw IOException("Storage directory was deleted")
                 }.onSuccess {
-                    navController.navigate(PageList.NewPatch.name)
+                    showNewPatchDialog = true
                 }.onFailure {
                     Log.w(TAG, "Failed to take persistable permission for saved uri", it)
                     lspApp.prefs.edit().putString(PREFS_STORAGE_DIRECTORY, null).apply()
