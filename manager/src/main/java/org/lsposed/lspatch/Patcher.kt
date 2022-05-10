@@ -57,7 +57,7 @@ object Patcher {
                 if (it.name?.endsWith(PATCH_FILE_SUFFIX) == true) it.delete()
             }
             lspApp.tmpApkDir.walk()
-                .filter { it.isFile }
+                .filter { it.name.endsWith(PATCH_FILE_SUFFIX) }
                 .forEach { apk ->
                     val file = root.createFile("application/vnd.android.package-archive", apk.name)
                         ?: throw IOException("Failed to create output file")
