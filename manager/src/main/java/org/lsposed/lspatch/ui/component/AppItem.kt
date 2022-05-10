@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
@@ -23,10 +24,10 @@ fun AppItem(
     icon: Drawable,
     label: String,
     packageName: String,
-    additionalInfo: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
     onLongClick: (() -> Unit)? = null,
-    checked: Boolean? = null
+    checked: Boolean? = null,
+    additionalContent: (@Composable () -> Unit)? = null,
 ) {
     Column(
         modifier = modifier
@@ -47,10 +48,17 @@ fun AppItem(
                 modifier = Modifier.size(32.dp),
                 tint = Color.Unspecified
             )
-            Column(Modifier.weight(1f)) {
-                Text(text = label, style = MaterialTheme.typography.bodyMedium)
-                Text(text = packageName, style = MaterialTheme.typography.bodySmall)
-                additionalInfo?.invoke()
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(1.dp)
+            ) {
+                Text(label)
+                Text(
+                    text = packageName,
+                    fontFamily = FontFamily.Monospace,
+                    style = MaterialTheme.typography.bodySmall
+                )
+                additionalContent?.invoke()
             }
             if (checked != null) {
                 Checkbox(

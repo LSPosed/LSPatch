@@ -66,7 +66,9 @@ private fun MainNavHost(navController: NavHostController, modifier: Modifier) {
     ) {
         PageList.values().forEach { page ->
             val sb = StringBuilder(page.name)
-            page.arguments.forEach { sb.append("/{${it.name}}") }
+            if (page.arguments.isNotEmpty()) {
+                sb.append(page.arguments.joinToString(",", "?") { "${it.name}={${it.name}}" })
+            }
             composable(route = sb.toString(), arguments = page.arguments, content = page.body)
         }
     }

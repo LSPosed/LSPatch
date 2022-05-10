@@ -41,8 +41,13 @@ fun SearchAppBar(
     val focusRequester = remember { FocusRequester() }
     var onSearch by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        if (onSearch) focusRequester.requestFocus()
+    if (onSearch) {
+        LaunchedEffect(Unit) { focusRequester.requestFocus() }
+    }
+    DisposableEffect(Unit) {
+        onDispose {
+            keyboardController?.hide()
+        }
     }
 
     SmallTopAppBar(
@@ -75,8 +80,9 @@ fun SearchAppBar(
                         trailingIcon = {
                             IconButton(
                                 onClick = {
-                                    onClearClick()
                                     onSearch = false
+                                    keyboardController?.hide()
+                                    onClearClick()
                                 },
                                 content = { Icon(Icons.Filled.Close, null) }
                             )

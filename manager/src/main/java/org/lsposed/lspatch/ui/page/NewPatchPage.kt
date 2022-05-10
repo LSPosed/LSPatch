@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.pm.PackageInstaller
 import android.util.Log
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -35,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.lsposed.lspatch.Patcher
 import org.lsposed.lspatch.R
 import org.lsposed.lspatch.lspApp
@@ -43,23 +46,26 @@ import org.lsposed.lspatch.ui.component.ShimmerAnimation
 import org.lsposed.lspatch.ui.component.settings.SettingsCheckBox
 import org.lsposed.lspatch.ui.component.settings.SettingsItem
 import org.lsposed.lspatch.ui.util.*
-import org.lsposed.lspatch.ui.viewmodel.AppInfo
 import org.lsposed.lspatch.ui.viewmodel.NewPatchViewModel
 import org.lsposed.lspatch.ui.viewmodel.NewPatchViewModel.PatchState
-import org.lsposed.lspatch.util.LSPPackageInstaller
+import org.lsposed.lspatch.util.LSPPackageManager
+import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 import org.lsposed.lspatch.util.ShizukuApi
 import org.lsposed.patch.util.Logger
+import java.io.File
 
 private const val TAG = "NewPatchPage"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewPatchPage(entry: NavBackStackEntry) {
+fun NewPatchPage(from: String, entry: NavBackStackEntry) {
     val viewModel = viewModel<NewPatchViewModel>()
+    val snackbarHost = LocalSnackbarHost.current
     val navController = LocalNavController.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val isCancelled by entry.observeState<Boolean>("isCancelled")
     LaunchedEffect(Unit) {
+        lspApp.tmpApkDir.listFiles()?.forEach(File::delete)
         entry.savedStateHandle.getLiveData<AppInfo>("appInfo").observe(lifecycleOwner) {
             viewModel.configurePatch(it)
         }
@@ -67,9 +73,28 @@ fun NewPatchPage(entry: NavBackStackEntry) {
 
     Log.d(TAG, "PatchState: ${viewModel.patchState}")
     if (viewModel.patchState == PatchState.SELECTING) {
+        val storageLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { apks ->
+            if (apks.isEmpty()) {
+                navController.popBackStack()
+                return@rememberLauncherForActivityResult
+            }
+            runBlocking {
+                LSPPackageManager.getAppInfoFromApks(apks)
+                    .onSuccess {
+                        viewModel.configurePatch(it)
+                    }
+                    .onFailure {
+                        lspApp.globalScope.launch { snackbarHost.showSnackbar(it.message ?: "Unknown error") }
+                        navController.popBackStack()
+                    }
+            }
+        }
         LaunchedEffect(Unit) {
             if (isCancelled == true) navController.popBackStack()
-            else navController.navigate(PageList.SelectApps.name + "/false")
+            else when (from) {
+                "storage" -> storageLauncher.launch(arrayOf("application/vnd.android.package-archive"))
+                "applist" -> navController.navigate(PageList.SelectApps.name + "?multiSelect=false")
+            }
         }
     } else {
         Scaffold(
@@ -173,7 +198,7 @@ private fun PatchOptionsBody(modifier: Modifier) {
                 desc = stringResource(R.string.patch_portable_desc),
                 extraContent = {
                     TextButton(
-                        onClick = { navController.navigate(PageList.SelectApps.name + "/true") },
+                        onClick = { navController.navigate(PageList.SelectApps.name + "?multiSelect=true") },
                         content = { Text(text = stringResource(R.string.patch_embed_modules), style = MaterialTheme.typography.bodyLarge) }
                     )
                 }
@@ -265,7 +290,6 @@ private class PatchLogger(private val logs: MutableList<Pair<Int, String>>) : Lo
 @Composable
 private fun DoPatchBody(modifier: Modifier) {
     val viewModel = viewModel<NewPatchViewModel>()
-    val context = LocalContext.current
     val snackbarHost = LocalSnackbarHost.current
     val navController = LocalNavController.current
     val scope = rememberCoroutineScope()
@@ -274,14 +298,14 @@ private fun DoPatchBody(modifier: Modifier) {
 
     LaunchedEffect(Unit) {
         try {
-            Patcher.patch(context, logger, viewModel.patchOptions)
+            Patcher.patch(logger, viewModel.patchOptions)
             viewModel.finishPatch()
         } catch (t: Throwable) {
             logger.e(t.message.orEmpty())
             logger.e(t.stackTraceToString())
             viewModel.failPatch()
         } finally {
-            viewModel.patchOptions.outputDir.deleteRecursively()
+            lspApp.tmpApkDir.listFiles()?.forEach(File::delete)
         }
     }
 
@@ -336,14 +360,15 @@ private fun DoPatchBody(modifier: Modifier) {
                     var installing by rememberSaveable { mutableStateOf(false) }
                     if (installing) InstallDialog(viewModel.patchApp) { status, message ->
                         scope.launch {
+                            LSPPackageManager.fetchAppList()
                             installing = false
                             if (status == PackageInstaller.STATUS_SUCCESS) {
                                 lspApp.globalScope.launch { snackbarHost.showSnackbar(installSuccessfully) }
                                 navController.popBackStack()
-                            } else {
+                            } else if (status != LSPPackageManager.STATUS_USER_CANCELLED) {
                                 val result = snackbarHost.showSnackbar(installFailed, copyError)
                                 if (result == SnackbarResult.ActionPerformed) {
-                                    val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                    val cm = lspApp.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                                     cm.setPrimaryClip(ClipData.newPlainText("LSPatch", message))
                                 }
                             }
@@ -382,7 +407,7 @@ private fun DoPatchBody(modifier: Modifier) {
                         Button(
                             modifier = Modifier.weight(1f),
                             onClick = {
-                                val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                val cm = lspApp.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                                 cm.setPrimaryClip(ClipData.newPlainText("LSPatch", logs.joinToString { it.second + "\n" }))
                             },
                             content = { Text(stringResource(R.string.patch_copy_error)) }
@@ -398,20 +423,26 @@ private fun DoPatchBody(modifier: Modifier) {
 @Composable
 private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
     val scope = rememberCoroutineScope()
-    var uninstallFirst by remember { mutableStateOf(ShizukuApi.isPackageInstalled(patchApp.app.packageName)) }
+    var uninstallFirst by remember { mutableStateOf(ShizukuApi.isPackageInstalledWithoutPatch(patchApp.app.packageName)) }
     var installing by remember { mutableStateOf(0) }
     val doInstall = suspend {
         Log.i(TAG, "Installing app ${patchApp.app.packageName}")
         installing = 1
-        val (status, message) = LSPPackageInstaller.install()
+        val (status, message) = LSPPackageManager.install()
         installing = 0
         Log.i(TAG, "Installation end: $status, $message")
         onFinish(status, message)
     }
 
+    LaunchedEffect(Unit) {
+        if (!uninstallFirst) {
+            doInstall()
+        }
+    }
+
     if (uninstallFirst) {
         AlertDialog(
-            onDismissRequest = { onFinish(-2, "User cancelled") },
+            onDismissRequest = { onFinish(LSPPackageManager.STATUS_USER_CANCELLED, "User cancelled") },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -419,7 +450,7 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
                             Log.i(TAG, "Uninstalling app ${patchApp.app.packageName}")
                             uninstallFirst = false
                             installing = 2
-                            val (status, message) = LSPPackageInstaller.uninstall(patchApp.app.packageName)
+                            val (status, message) = LSPPackageManager.uninstall(patchApp.app.packageName)
                             installing = 0
                             Log.i(TAG, "Uninstallation end: $status, $message")
                             if (status == PackageInstaller.STATUS_SUCCESS) {
@@ -434,7 +465,7 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
             },
             dismissButton = {
                 TextButton(
-                    onClick = { onFinish(-2, "User cancelled") },
+                    onClick = { onFinish(LSPPackageManager.STATUS_USER_CANCELLED, "User cancelled") },
                     content = { Text(stringResource(android.R.string.cancel)) }
                 )
             },

@@ -1,5 +1,7 @@
 val defaultManagerPackageName: String by rootProject.extra
 val apiCode: Int by rootProject.extra
+val verCode: Int by rootProject.extra
+val verName: String by rootProject.extra
 val coreVerCode: Int by rootProject.extra
 val coreVerName: String by rootProject.extra
 
@@ -13,10 +15,6 @@ plugins {
 android {
     defaultConfig {
         applicationId = defaultManagerPackageName
-
-        buildConfigField("int", "API_CODE", """$apiCode""")
-        buildConfigField("int", "CORE_VERSION_CODE", """$coreVerCode""")
-        buildConfigField("String", "CORE_VERSION_NAME", """"$coreVerName"""")
     }
 
     buildTypes {
@@ -58,8 +56,8 @@ afterEvaluate {
         task<Copy>("build$variantCapped") {
             dependsOn(tasks["assemble$variantCapped"])
             from(variant.outputs.map { it.outputFile })
-            into("${rootProject.projectDir}/out")
-            rename(".*.apk", "manager.apk")
+            into("${rootProject.projectDir}/out/$variantLowered")
+            rename(".*.apk", "manager-v$verName-$verCode-$variantLowered.apk")
         }
     }
 }
@@ -69,6 +67,7 @@ dependencies {
     implementation(projects.patch)
     implementation(projects.services.daemonService)
     implementation(projects.share.android)
+    implementation(projects.share.java)
 
     compileOnly("dev.rikka.hidden:stub:2.3.1")
     implementation("dev.rikka.hidden:compat:2.3.1")
@@ -86,6 +85,7 @@ dependencies {
     implementation("com.google.accompanist:accompanist-navigation-animation:0.24.5-alpha")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.24.5-alpha")
     implementation("com.google.android.material:material:1.5.0")
+    implementation("com.google.code.gson:gson:2.9.0")
     implementation("dev.rikka.shizuku:api:12.1.0")
     implementation("dev.rikka.shizuku:provider:12.1.0")
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")

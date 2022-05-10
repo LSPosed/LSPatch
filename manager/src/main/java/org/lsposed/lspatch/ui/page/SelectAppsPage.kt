@@ -28,16 +28,15 @@ import org.lsposed.lspatch.ui.component.SearchAppBar
 import org.lsposed.lspatch.ui.util.LocalNavController
 import org.lsposed.lspatch.ui.util.observeState
 import org.lsposed.lspatch.ui.util.setState
-import org.lsposed.lspatch.ui.viewmodel.AppInfo
 import org.lsposed.lspatch.ui.viewmodel.SelectAppsViewModel
+import org.lsposed.lspatch.util.LSPPackageManager
+import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SelectAppsPage(entry: NavBackStackEntry) {
+fun SelectAppsPage(multiSelect: Boolean) {
     val viewModel = viewModel<SelectAppsViewModel>()
     val navController = LocalNavController.current
-    val multiSelect = entry.arguments?.get("multiSelect") as? Boolean
-        ?: throw IllegalArgumentException("multiSelect is null")
 
     var searchPackage by remember { mutableStateOf("") }
     val filter: (AppInfo) -> Boolean = {
@@ -113,7 +112,7 @@ private fun SingleSelect() {
         ) {
             AppItem(
                 modifier = Modifier.animateItemPlacement(spring(stiffness = Spring.StiffnessLow)),
-                icon = viewModel.getIcon(it),
+                icon = LSPPackageManager.getIcon(it),
                 label = it.label,
                 packageName = it.app.packageName,
                 onClick = {
@@ -140,7 +139,7 @@ private fun MultiSelect() {
             val checked = selected!!.contains(it)
             AppItem(
                 modifier = Modifier.animateItemPlacement(spring(stiffness = Spring.StiffnessLow)),
-                icon = viewModel.getIcon(it),
+                icon = LSPPackageManager.getIcon(it),
                 label = it.label,
                 packageName = it.app.packageName,
                 onClick = {

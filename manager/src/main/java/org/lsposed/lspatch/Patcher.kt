@@ -1,17 +1,15 @@
 package org.lsposed.lspatch
 
-import android.content.Context
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.lsposed.lspatch.Constants.PATCH_FILE_SUFFIX
 import org.lsposed.lspatch.Constants.PREFS_STORAGE_DIRECTORY
 import org.lsposed.lspatch.config.MyKeyStore
 import org.lsposed.patch.LSPatch
 import org.lsposed.patch.util.Logger
-import java.io.File
 import java.io.IOException
-import java.nio.file.Files
 
 object Patcher {
 
@@ -26,12 +24,10 @@ object Patcher {
         private val verbose: Boolean,
         private val embeddedModules: List<String>?
     ) {
-        lateinit var outputDir: File
-
         fun toStringArray(): Array<String> {
             return buildList {
                 addAll(apkPaths)
-                add("-o"); add(outputDir.absolutePath)
+                add("-o"); add(lspApp.tmpApkDir.absolutePath)
                 if (debuggable) add("-d")
                 add("-l"); add(sigbypassLevel.toString())
                 add("--v1"); add(v1.toString())
@@ -49,26 +45,23 @@ object Patcher {
         }
     }
 
-    suspend fun patch(context: Context, logger: Logger, options: Options) {
+    suspend fun patch(logger: Logger, options: Options) {
         withContext(Dispatchers.IO) {
-            options.outputDir = Files.createTempDirectory("patch").toFile()
-            options.outputDir.listFiles()?.forEach(File::delete)
             LSPatch(logger, *options.toStringArray()).doCommandLine()
 
             val uri = lspApp.prefs.getString(PREFS_STORAGE_DIRECTORY, null)?.toUri()
                 ?: throw IOException("Uri is null")
-            val root = DocumentFile.fromTreeUri(context, uri)
+            val root = DocumentFile.fromTreeUri(lspApp, uri)
                 ?: throw IOException("DocumentFile is null")
             root.listFiles().forEach {
-                if (it.name?.endsWith("-lspatched.apk") == true) it.delete()
+                if (it.name?.endsWith(PATCH_FILE_SUFFIX) == true) it.delete()
             }
-            options.outputDir
-                .walk()
+            lspApp.tmpApkDir.walk()
                 .filter { it.isFile }
                 .forEach { apk ->
                     val file = root.createFile("application/vnd.android.package-archive", apk.name)
                         ?: throw IOException("Failed to create output file")
-                    val output = context.contentResolver.openOutputStream(file.uri)
+                    val output = lspApp.contentResolver.openOutputStream(file.uri)
                         ?: throw IOException("Failed to open output stream")
                     output.use {
                         apk.inputStream().use { input ->

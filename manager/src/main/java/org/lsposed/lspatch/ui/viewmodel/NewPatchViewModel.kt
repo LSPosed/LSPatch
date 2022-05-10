@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import org.lsposed.lspatch.Patcher
+import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 
 class NewPatchViewModel : ViewModel() {
 
@@ -27,6 +28,7 @@ class NewPatchViewModel : ViewModel() {
         private set
     lateinit var embeddedModules: SnapshotStateList<AppInfo>
     lateinit var patchOptions: Patcher.Options
+        private set
 
     fun configurePatch(app: AppInfo) {
         patchApp = app

@@ -44,13 +44,16 @@ enum class PageList(
         body = { SettingsPage() }
     ),
     NewPatch(
-        body = { NewPatchPage(this) }
+        arguments = listOf(
+            navArgument("from") { type = NavType.StringType }
+        ),
+        body = { NewPatchPage(arguments!!.getString("from")!!, this) }
     ),
     SelectApps(
         arguments = listOf(
             navArgument("multiSelect") { type = NavType.BoolType }
         ),
-        body = { SelectAppsPage(this) }
+        body = { SelectAppsPage(arguments!!.getBoolean("multiSelect")) }
     );
 
     val title: String

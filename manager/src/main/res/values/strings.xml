@@ -21,12 +21,16 @@
 
     <!-- Manage Page -->
     <string name="page_manage">Manage</string>
+    <string name="manage_loading">Loading</string>
+    <string name="manage_no_apps">No patched apps yet</string>
 
     <!-- New Patch Page -->
     <string name="page_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Select storage directory</string>
     <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
     <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_from_storage">Select apk(s) from storage</string>
+    <string name="patch_from_applist">Select an installed app</string>
     <string name="patch_mode">Patch Mode</string>
     <string name="patch_local">Local</string>
     <string name="patch_local_desc">Patch an app without modules embedded.\nThe patched app need the manager running in background, and Xposed scope can be changed dynamically without re-patch.\nLocal patched apps can only run on the local device.</string>

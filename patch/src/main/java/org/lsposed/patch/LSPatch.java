@@ -21,6 +21,7 @@ import com.wind.meditor.property.ModificationProperty;
 import com.wind.meditor.utils.NodeValue;
 
 import org.apache.commons.io.FilenameUtils;
+import org.lsposed.lspatch.share.LSPConfig;
 import org.lsposed.lspatch.share.PatchConfig;
 import org.lsposed.patch.util.ApkSignatureHelper;
 import org.lsposed.patch.util.JavaLogger;
@@ -38,8 +39,10 @@ import java.security.KeyStore;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -160,7 +163,11 @@ public class LSPatch {
             var outputDir = new File(outputPath);
             outputDir.mkdirs();
 
-            File outputFile = new File(outputDir, String.format("%s-lv%s-lspatched.apk", FilenameUtils.getBaseName(apkFileName), sigbypassLevel)).getAbsoluteFile();
+            File outputFile = new File(outputDir, String.format(
+                    Locale.getDefault(), "%s-%d-lspatched.apk",
+                    FilenameUtils.getBaseName(apkFileName),
+                    LSPConfig.instance.VERSION_CODE)
+            ).getAbsoluteFile();
 
             if (outputFile.exists() && !forceOverwrite)
                 throw new PatchError(outputPath + " exists. Use --force to overwrite");
@@ -237,7 +244,10 @@ public class LSPatch {
 
             logger.i("Patching apk...");
             // modify manifest
-            try (var is = new ByteArrayInputStream(modifyManifestFile(manifestEntry.open()))) {
+            var config = new PatchConfig(useManager, sigbypassLevel, null, appComponentFactory);
+            var configBytes = new Gson().toJson(config).getBytes(StandardCharsets.UTF_8);
+            var metadata = Base64.getEncoder().encodeToString(configBytes);
+            try (var is = new ByteArrayInputStream(modifyManifestFile(manifestEntry.open(), metadata))) {
                 dstZFile.add(ANDROID_MANIFEST_XML, is);
             } catch (Throwable e) {
                 throw new PatchError("Error when modifying manifest", e);
@@ -273,9 +283,8 @@ public class LSPatch {
             }
 
             // save lspatch config to asset..
-            var config = new PatchConfig(useManager, sigbypassLevel, originalSignature, appComponentFactory);
-            var configBytes = new Gson().toJson(config).getBytes(StandardCharsets.UTF_8);
-
+            config = new PatchConfig(useManager, sigbypassLevel, originalSignature, appComponentFactory);
+            configBytes = new Gson().toJson(config).getBytes(StandardCharsets.UTF_8);
             try (var is = new ByteArrayInputStream(configBytes)) {
                 dstZFile.add(CONFIG_ASSET_PATH, is);
             } catch (Throwable e) {
@@ -343,13 +352,14 @@ public class LSPatch {
         }
     }
 
-    private byte[] modifyManifestFile(InputStream is) throws IOException {
+    private byte[] modifyManifestFile(InputStream is, String metadata) throws IOException {
         ModificationProperty property = new ModificationProperty();
 
         if (overrideVersionCode)
             property.addManifestAttribute(new AttributeItem(NodeValue.Manifest.VERSION_CODE, 1));
         property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag));
         property.addApplicationAttribute(new AttributeItem("appComponentFactory", PROXY_APP_COMPONENT_FACTORY));
+        property.addMetaData(new ModificationProperty.MetaData("lspatch", metadata));
         // TODO: replace query_all with queries -> manager
         property.addUsesPermission("android.permission.QUERY_ALL_PACKAGES");
 
