@@ -23,6 +23,7 @@
 
 #include <jni.h>
 
+#include "config_impl.h"
 #include "patch_loader.h"
 
 JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
@@ -31,6 +32,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
         return JNI_ERR;
     }
     lspd::PatchLoader::Init();
+    lspd::ConfigImpl::Init();
     lspd::PatchLoader::GetInstance()->Load(env);
     return JNI_VERSION_1_6;
 }

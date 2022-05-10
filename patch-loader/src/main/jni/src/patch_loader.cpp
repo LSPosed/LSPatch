@@ -25,7 +25,6 @@
 #include "art/runtime/jit/profile_saver.h"
 #include "elf_util.h"
 #include "jni/bypass_sig.h"
-#include "native_hook.h"
 #include "native_util.h"
 #include "patch_loader.h"
 #include "symbol_cache.h"
@@ -100,8 +99,10 @@ namespace lspd {
                 .art_symbol_resolver = [](auto symbol) {
                     return GetArt()->getSymbAddress<void*>(symbol);
                 },
+                .art_symbol_prefix_resolver = [](auto symbol) {
+                    return GetArt()->getSymbPrefixFirstOffset(symbol);
+                },
         };
-        InstallInlineHooks(env, initInfo);
 
         auto stub = JNI_FindClass(env, "org/lsposed/lspatch/appstub/LSPAppComponentFactoryStub");
         auto dex_field = JNI_GetStaticFieldID(env, stub, "dex", "[B");
