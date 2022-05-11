@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,7 +19,7 @@ import org.lsposed.lspatch.ui.page.PageList
 import org.lsposed.lspatch.ui.theme.LSPTheme
 import org.lsposed.lspatch.ui.util.LocalNavController
 import org.lsposed.lspatch.ui.util.LocalSnackbarHost
-import org.lsposed.lspatch.ui.util.currentRoute
+import org.lsposed.lspatch.ui.util.navigateWithState
 
 class MainActivity : ComponentActivity() {
 
@@ -27,7 +28,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberAnimatedNavController()
-            val currentRoute = navController.currentRoute
             var mainPage by rememberSaveable { mutableStateOf(PageList.Home) }
 
             LSPTheme {
@@ -39,12 +39,9 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         bottomBar = {
                             MainNavigationBar(mainPage) {
+                                if (mainPage == it) return@MainNavigationBar
                                 mainPage = it
-                                navController.navigate(it.name) {
-                                    currentRoute?.let { route ->
-                                        popUpTo(route) { inclusive = true }
-                                    }
-                                }
+                                navController.navigateWithState(it.name)
                             }
                         },
                         snackbarHost = { SnackbarHost(snackbarHostState) }
@@ -64,12 +61,8 @@ private fun MainNavHost(navController: NavHostController, modifier: Modifier) {
         startDestination = PageList.Home.name,
         modifier = modifier
     ) {
-        PageList.values().forEach { page ->
-            val sb = StringBuilder(page.name)
-            if (page.arguments.isNotEmpty()) {
-                sb.append(page.arguments.joinToString(",", "?") { "${it.name}={${it.name}}" })
-            }
-            composable(route = sb.toString(), arguments = page.arguments, content = page.body)
+        for (page in PageList.values()) {
+            composable(route = page.route, arguments = page.arguments, content = page.body)
         }
     }
 }

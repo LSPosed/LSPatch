@@ -23,12 +23,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -38,7 +36,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.lsposed.lspatch.Patcher
 import org.lsposed.lspatch.R
 import org.lsposed.lspatch.lspApp
 import org.lsposed.lspatch.ui.component.SelectionColumn
@@ -51,7 +48,6 @@ import org.lsposed.lspatch.ui.viewmodel.NewPatchViewModel.PatchState
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 import org.lsposed.lspatch.util.ShizukuApi
-import org.lsposed.patch.util.Logger
 import java.io.File
 
 private const val TAG = "NewPatchPage"
@@ -64,12 +60,6 @@ fun NewPatchPage(from: String, entry: NavBackStackEntry) {
     val navController = LocalNavController.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val isCancelled by entry.observeState<Boolean>("isCancelled")
-    LaunchedEffect(Unit) {
-        lspApp.tmpApkDir.listFiles()?.forEach(File::delete)
-        entry.savedStateHandle.getLiveData<AppInfo>("appInfo").observe(lifecycleOwner) {
-            viewModel.configurePatch(it)
-        }
-    }
 
     Log.d(TAG, "PatchState: ${viewModel.patchState}")
     if (viewModel.patchState == PatchState.SELECTING) {
@@ -90,10 +80,16 @@ fun NewPatchPage(from: String, entry: NavBackStackEntry) {
             }
         }
         LaunchedEffect(Unit) {
+            lspApp.tmpApkDir.listFiles()?.forEach(File::delete)
             if (isCancelled == true) navController.popBackStack()
             else when (from) {
                 "storage" -> storageLauncher.launch(arrayOf("application/vnd.android.package-archive"))
-                "applist" -> navController.navigate(PageList.SelectApps.name + "?multiSelect=false")
+                "applist" -> {
+                    entry.savedStateHandle.getLiveData<AppInfo>("appInfo").observe(lifecycleOwner) {
+                        viewModel.configurePatch(it)
+                    }
+                    navController.navigate(PageList.SelectApps.name + "?multiSelect=false")
+                }
             }
         }
     } else {
@@ -268,44 +264,16 @@ private fun PatchOptionsBody(modifier: Modifier) {
     }
 }
 
-private class PatchLogger(private val logs: MutableList<Pair<Int, String>>) : Logger() {
-    override fun d(msg: String) {
-        if (verbose) {
-            Log.d(TAG, msg)
-            logs += Log.DEBUG to msg
-        }
-    }
-
-    override fun i(msg: String) {
-        Log.i(TAG, msg)
-        logs += Log.INFO to msg
-    }
-
-    override fun e(msg: String) {
-        Log.e(TAG, msg)
-        logs += Log.ERROR to msg
-    }
-}
-
 @Composable
 private fun DoPatchBody(modifier: Modifier) {
     val viewModel = viewModel<NewPatchViewModel>()
     val snackbarHost = LocalSnackbarHost.current
     val navController = LocalNavController.current
     val scope = rememberCoroutineScope()
-    val logs = remember { mutableStateListOf<Pair<Int, String>>() }
-    val logger = remember { PatchLogger(logs) }
 
     LaunchedEffect(Unit) {
-        try {
-            Patcher.patch(logger, viewModel.patchOptions)
-            viewModel.finishPatch()
-        } catch (t: Throwable) {
-            logger.e(t.message.orEmpty())
-            logger.e(t.stackTraceToString())
-            viewModel.failPatch()
-        } finally {
-            lspApp.tmpApkDir.listFiles()?.forEach(File::delete)
+        if (viewModel.logs.isEmpty()) {
+            viewModel.launchPatch()
         }
     }
 
@@ -333,7 +301,7 @@ private fun DoPatchBody(modifier: Modifier) {
                             .background(brush)
                             .padding(horizontal = 24.dp, vertical = 18.dp)
                     ) {
-                        items(logs) {
+                        items(viewModel.logs) {
                             when (it.first) {
                                 Log.DEBUG -> Text(text = it.second)
                                 Log.INFO -> Text(text = it.second)
@@ -357,7 +325,7 @@ private fun DoPatchBody(modifier: Modifier) {
                     val installSuccessfully = stringResource(R.string.patch_install_successfully)
                     val installFailed = stringResource(R.string.patch_install_failed)
                     val copyError = stringResource(R.string.patch_copy_error)
-                    var installing by rememberSaveable { mutableStateOf(false) }
+                    var installing by remember { mutableStateOf(false) }
                     if (installing) InstallDialog(viewModel.patchApp) { status, message ->
                         scope.launch {
                             LSPPackageManager.fetchAppList()
@@ -408,7 +376,7 @@ private fun DoPatchBody(modifier: Modifier) {
                             modifier = Modifier.weight(1f),
                             onClick = {
                                 val cm = lspApp.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                                cm.setPrimaryClip(ClipData.newPlainText("LSPatch", logs.joinToString { it.second + "\n" }))
+                                cm.setPrimaryClip(ClipData.newPlainText("LSPatch", viewModel.logs.joinToString { it.second + "\n" }))
                             },
                             content = { Text(stringResource(R.string.patch_copy_error)) }
                         )

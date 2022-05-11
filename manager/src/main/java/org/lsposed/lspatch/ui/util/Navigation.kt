@@ -5,27 +5,18 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
-
-val NavController.currentRoute: String?
-    @Composable get() = currentBackStackEntryAsState().value?.destination?.route
-
-val NavController.startRoute: String?
-    get() = graph.findStartDestination().route
 
 fun <T> NavBackStackEntry.setState(key: String, value: T?) {
     savedStateHandle.getLiveData<T>(key).value = value
 }
 
 @Composable
-fun <T> NavBackStackEntry.observeState(key: String, initial: T? = null) = savedStateHandle.getLiveData(key, initial).observeAsState()
+fun <T> NavBackStackEntry.observeState(key: String, initial: T? = null) =
+    savedStateHandle.getLiveData(key, initial).observeAsState()
 
-@Composable
-fun NavController.isAtStartRoute(): Boolean = currentRoute == startRoute
-
-fun NavController.navigateWithState(route: String?) {
-    navigate(route.toString()) {
-        popUpTo(startRoute.toString()) {
+fun NavController.navigateWithState(route: String) {
+    navigate(route) {
+        popUpTo(graph.findStartDestination().id) {
             saveState = true
         }
         launchSingleTop = true

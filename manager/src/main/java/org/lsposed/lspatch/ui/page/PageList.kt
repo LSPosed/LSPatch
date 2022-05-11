@@ -66,4 +66,11 @@ enum class PageList(
             NewPatch -> stringResource(R.string.page_new_patch)
             SelectApps -> stringResource(R.string.page_select_apps)
         }
+
+    val route = buildString {
+        append(name)
+        if (arguments.isNotEmpty()) {
+            append(arguments.joinToString(",", "?") { "${it.name}={${it.name}}" })
+        }
+    }
 }
