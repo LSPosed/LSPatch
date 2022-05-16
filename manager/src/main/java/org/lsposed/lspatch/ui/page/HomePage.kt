@@ -89,10 +89,10 @@ private fun ShizukuCard() {
                 Shizuku.requestPermission(114514)
             }
         },
-        containerColor = run {
+        colors = CardDefaults.elevatedCardColors(containerColor = run {
             if (ShizukuApi.isPermissionGranted) MaterialTheme.colorScheme.secondaryContainer
             else MaterialTheme.colorScheme.errorContainer
-        }
+        })
     ) {
         Row(
             modifier = Modifier

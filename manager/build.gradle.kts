@@ -37,7 +37,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0-alpha03"
+        kotlinCompilerExtensionVersion = "1.2.0-beta01"
     }
 
     sourceSets["main"].assets.srcDirs(rootProject.projectDir.resolve("out/assets"))
@@ -77,18 +77,18 @@ dependencies {
     implementation("dev.rikka.hidden:compat:2.3.1")
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.activity:activity-compose:1.6.0-alpha03")
-    implementation("androidx.compose.material:material-icons-extended:1.1.1")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha08")
-    implementation("androidx.compose.runtime:runtime-livedata:1.1.1")
-    implementation("androidx.compose.ui:ui:1.1.1")
-    implementation("androidx.compose.ui:ui-tooling:1.1.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-beta01")
-    implementation("androidx.navigation:navigation-compose:2.5.0-beta01")
+    implementation("androidx.compose.material:material-icons-extended:1.2.0-beta01")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha11")
+    implementation("androidx.compose.runtime:runtime-livedata:1.2.0-beta01")
+    implementation("androidx.compose.ui:ui:1.2.0-beta01")
+    implementation("androidx.compose.ui:ui-tooling:1.2.0-beta01")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-rc01")
+    implementation("androidx.navigation:navigation-compose:2.5.0-rc01")
     implementation("androidx.preference:preference:1.2.0")
-    implementation("com.google.accompanist:accompanist-drawablepainter:0.24.5-alpha")
-    implementation("com.google.accompanist:accompanist-navigation-animation:0.24.5-alpha")
-    implementation("com.google.accompanist:accompanist-swiperefresh:0.24.5-alpha")
-    implementation("com.google.android.material:material:1.5.0")
+    implementation("com.google.accompanist:accompanist-drawablepainter:0.24.8-beta")
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.24.8-beta")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.24.8-beta")
+    implementation("com.google.android.material:material:1.6.0")
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("dev.rikka.shizuku:api:12.1.0")
     implementation("dev.rikka.shizuku:provider:12.1.0")
