@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add">اضافه کردن</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="add">افزودن</string>
+    <string name="shizuku_available">سرویس شیزوکو در دسترس‌ است</string>
+    <string name="shizuku_unavailable">سرویس شیزوکو متصل نیست</string>
     <string name="page_repo">مخزن</string>
     <string name="page_logs">سیاهههای مربوط</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[مشاهده کد منبع در %1$s<br/>به کانال %2$s ما بپیوندید]]></string>
     <!-- Manage Page -->
     <string name="page_manage">مدیریت کنید</string>
+    <string name="manage_loading">در حال لود ...</string>
+    <string name="manage_no_apps">هنوز برنامه پچ شده ای موجود نیست</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">پچ جدید</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">پوشه ذخیره‌سازی را انتخاب کنید</string>
+    <string name="patch_select_dir_text">مکان نصبی برای ذخیره apk های پچ شده انتخاب کنید</string>
+    <string name="patch_select_dir_error">خطا هنگام تنظیم فهرست ذخیره سازی</string>
+    <string name="patch_from_storage">apk(ها) را از حافظه انتخاب کنید</string>
+    <string name="patch_from_applist">یک برنامه نصب شده را انتخاب کنید</string>
     <string name="patch_mode">حالت وصله</string>
     <string name="patch_local">محلی</string>
     <string name="patch_local_desc">یک برنامه بدون ماژول های تعبیه شده را وصله کنید.\nبرنامه وصله‌شده به مدیر در حال اجرا در پس‌زمینه نیاز دارد، و محدوده Xposed را می‌توان به صورت پویا و بدون وصله مجدد تغییر داد.\nبرنامه های وصله شده محلی فقط می توانند در دستگاه محلی اجرا شوند.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Patch را شروع کنید</string>
     <string name="patch_return">برگشت</string>
     <string name="patch_install">نصب</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">در حال نصب</string>
+    <string name="patch_uninstall">حذف نصب</string>
+    <string name="patch_uninstall_text">به دلیل امضاهای مختلف، باید قبل از نصب برنامه پچ شده، برنامه اصلی را حذف کنید.\nمطمئن شوید که از اطلاعات شخصی پشتیبان تهیه کرده اید.</string>
+    <string name="patch_uninstalling">در حال حذف نصب</string>
+    <string name="patch_install_successfully">نصب با موفقیت انجام شد</string>
+    <string name="patch_install_failed">نصب نشد</string>
     <string name="patch_copy_error">خطای کپی</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Apps را انتخاب کنید</string>
