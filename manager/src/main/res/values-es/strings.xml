@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Agregar</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">Servicio Shizuku disponible</string>
+    <string name="shizuku_unavailable">Servicio Shizuku no conectado</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Registros</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[Ver código fuente en %1$s<br/>Únete a nuestro canal %2$s]]></string>
     <!-- Manage Page -->
     <string name="page_manage">Administrar</string>
+    <string name="manage_loading">Cargando</string>
+    <string name="manage_no_apps">Aún no hay aplicaciones parcheadas</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nuevo parche</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">Seleccionar directorio de almacenamiento</string>
+    <string name="patch_select_dir_text">Seleccione un directorio para almacenar las aplicaciones parcheadas</string>
+    <string name="patch_select_dir_error">Error al configurar el directorio de almacenamiento</string>
+    <string name="patch_from_storage">Seleccionar apk(s) del almacenamiento</string>
+    <string name="patch_from_applist">Seleccione una aplicación instalada</string>
     <string name="patch_mode">Modo de parche</string>
     <string name="patch_local">Local</string>
     <string name="patch_local_desc">Parche una aplicación sin módulos incrustados.\nLa aplicación parcheada necesita que el administrador se ejecute en segundo plano, y el alcance de Xposed se puede cambiar dinámicamente sin volver a parchear.\nLas aplicaciones parcheadas locales solo pueden ejecutarse en el dispositivo local.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Parche de inicio</string>
     <string name="patch_return">Regreso</string>
     <string name="patch_install">Instalar en pc</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">Instalando</string>
+    <string name="patch_uninstall">Desinstalar</string>
+    <string name="patch_uninstall_text">Debido a las diferentes firmas, debe desinstalar la aplicación original antes de instalar la parcheada.\nAsegúrese de haber realizado una copia de seguridad de los datos personales.</string>
+    <string name="patch_uninstalling">Desinstalando</string>
+    <string name="patch_install_successfully">Instalar con éxito</string>
+    <string name="patch_install_failed">Instalación fallida</string>
     <string name="patch_copy_error">error de copia</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Seleccionar aplicaciones</string>
