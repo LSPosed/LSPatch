@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Thêm vào</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">Có dịch vụ Shizuku</string>
+    <string name="shizuku_unavailable">Dịch vụ Shizuku không được kết nối</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Nhật ký</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[Xem mã nguồn tại %1$s<br/>Tham gia kênh %2$s của chúng tôi]]></string>
     <!-- Manage Page -->
     <string name="page_manage">Quản lý</string>
+    <string name="manage_loading">Đang tải</string>
+    <string name="manage_no_apps">Chưa có ứng dụng được vá</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Bản vá mới</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">Chọn thư mục lưu trữ</string>
+    <string name="patch_select_dir_text">Chọn một thư mục để lưu trữ các bản vá lỗi</string>
+    <string name="patch_select_dir_error">Lỗi khi đặt thư mục lưu trữ</string>
+    <string name="patch_from_storage">Chọn (các) gói ứng dụng từ bộ nhớ</string>
+    <string name="patch_from_applist">Chọn một ứng dụng đã cài đặt</string>
     <string name="patch_mode">Chế độ vá lỗi</string>
     <string name="patch_local">Địa phương</string>
     <string name="patch_local_desc">Vá một ứng dụng không nhúng mô-đun.\nỨng dụng đã vá cần trình quản lý chạy trong nền và phạm vi Xposed có thể được thay đổi động mà không cần vá lại.\nCác ứng dụng được vá cục bộ chỉ có thể chạy trên thiết bị cục bộ.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Bắt đầu bản vá</string>
     <string name="patch_return">Trở về</string>
     <string name="patch_install">Cài đặt</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">Đang cài đặt</string>
+    <string name="patch_uninstall">Gỡ cài đặt</string>
+    <string name="patch_uninstall_text">Do các chữ ký khác nhau, bạn cần gỡ cài đặt ứng dụng gốc trước khi cài đặt bản vá.\nĐảm bảo rằng bạn đã sao lưu dữ liệu cá nhân.</string>
+    <string name="patch_uninstalling">Gỡ cài đặt</string>
+    <string name="patch_install_successfully">Cài đặt thành công</string>
+    <string name="patch_install_failed">Cài đặt không thành công</string>
     <string name="patch_copy_error">Sao chép lỗi</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Chọn ứng dụng</string>
