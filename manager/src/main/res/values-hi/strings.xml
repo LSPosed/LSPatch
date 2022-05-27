@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">जोड़ें</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">शिज़ुकु सेवा उपलब्ध</string>
+    <string name="shizuku_unavailable">शिज़ुकु सेवा कनेक्ट नहीं है</string>
     <string name="page_repo">रेपो</string>
     <string name="page_logs">लॉग्स</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[%1$s<br/>पर सोर्स कोड देखें हमारे %2$s चैनल से जुड़ें]]></string>
     <!-- Manage Page -->
     <string name="page_manage">प्रबंधित करना</string>
+    <string name="manage_loading">लोड हो रहा है</string>
+    <string name="manage_no_apps">अभी तक कोई पैच किया गया ऐप्स नहीं</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">नया पैच</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">भंडारण निर्देशिका का चयन करें</string>
+    <string name="patch_select_dir_text">पैच किए गए एपीके को स्टोर करने के लिए एक निर्देशिका का चयन करें</string>
+    <string name="patch_select_dir_error">संग्रहण निर्देशिका सेट करते समय त्रुटि</string>
+    <string name="patch_from_storage">स्टोरेज से एपीके चुनें</string>
+    <string name="patch_from_applist">एक इंस्टॉल किए गए ऐप का चयन करें</string>
     <string name="patch_mode">पैच मोड</string>
     <string name="patch_local">स्थानीय</string>
     <string name="patch_local_desc">एम्बेडेड मॉड्यूल के बिना एक ऐप पैच करें।\nपैच किए गए ऐप को बैकग्राउंड में चलने वाले मैनेजर की आवश्यकता होती है, और Xposed स्कोप को बिना री-पैच के गतिशील रूप से बदला जा सकता है।\nस्थानीय पैच किए गए ऐप्स केवल स्थानीय डिवाइस पर चल सकते हैं।</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">पैच शुरू करें</string>
     <string name="patch_return">वापस करना</string>
     <string name="patch_install">स्थापित करना</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">स्थापित कर रहा है</string>
+    <string name="patch_uninstall">स्थापना रद्द करें</string>
+    <string name="patch_uninstall_text">अलग-अलग हस्ताक्षरों के कारण, आपको पैच किए गए ऐप को इंस्टॉल करने से पहले मूल ऐप को अनइंस्टॉल करना होगा।\nसुनिश्चित करें कि आपने व्यक्तिगत डेटा का बैकअप लिया है।</string>
+    <string name="patch_uninstalling">की स्थापना रद्द</string>
+    <string name="patch_install_successfully">सफलतापूर्वक स्थापित करें</string>
+    <string name="patch_install_failed">स्थापित करना विफल</string>
     <string name="patch_copy_error">कॉपी एरर</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">ऐप्स चुनें</string>
