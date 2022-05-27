@@ -117,7 +117,7 @@ namespace lspd {
         // ElfImg(libart.so) is hold by kArtImg in symbol_cache.cpp
         // it maps an extra segment of libart.so in /proc/self/maps, which cause some app fail to detect the base address of libart.so.
         // force relese it !
-        GetArt(true)
+        GetArt(true);
 
         SetupEntryClass(env);
         FindAndCall(env, "onLoad", "()V");
