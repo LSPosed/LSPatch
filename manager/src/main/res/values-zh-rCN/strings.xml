@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[查看源代码 %1$s<br/>加入我们的 %2$s 频道]]></string>
     <!-- Manage Page -->
     <string name="page_manage">管理</string>
+    <string name="manage_loading">加载中</string>
+    <string name="manage_no_apps">尚无已修补的应用</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">新建修补</string>
     <string name="patch_select_dir_title">选择存储目录</string>
     <string name="patch_select_dir_text">选择一个目录来存储已修补的 apk</string>
     <string name="patch_select_dir_error">设置存储目录时出错</string>
+    <string name="patch_from_storage">从存储目录中选择（多个）apk</string>
+    <string name="patch_from_applist">选择已安装的应用程序</string>
     <string name="patch_mode">修补模式</string>
     <string name="patch_local">本地模式</string>
     <string name="patch_local_desc">修补 App 并无需内置模块。\n经修补的应用需要管理器保持后台运行才能正常启动，而 Xposed 作用域可以动态更改，无需重新修补安装。\n以本地模式修补的应用只能在本机上运行。</string>
