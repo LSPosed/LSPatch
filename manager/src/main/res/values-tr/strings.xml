@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Ekle</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">Shizuku servisi mevcut</string>
+    <string name="shizuku_unavailable">Shizuku hizmeti bağlı değil</string>
     <string name="page_repo">depo</string>
     <string name="page_logs">Kütükler</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[Kaynak kodunu %1$sgörüntüleyin<br/> %2$s kanalımıza katılın]]></string>
     <!-- Manage Page -->
     <string name="page_manage">Üstesinden gelmek</string>
+    <string name="manage_loading">Yükleniyor</string>
+    <string name="manage_no_apps">Henüz yama uygulanmış uygulama yok</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Yeni Yama</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">Depolama dizini seçin</string>
+    <string name="patch_select_dir_text">Yamalı apk\'leri saklamak için bir dizin seçin</string>
+    <string name="patch_select_dir_error">Depolama dizini ayarlanırken hata</string>
+    <string name="patch_from_storage">Depodan apk(ler) seçin</string>
+    <string name="patch_from_applist">Yüklü bir uygulama seçin</string>
     <string name="patch_mode">Yama Modu</string>
     <string name="patch_local">Yerel</string>
     <string name="patch_local_desc">Gömülü modüller olmadan bir uygulamayı yamalayın.\nYama uygulanmış uygulamanın arka planda çalışan yöneticiye ihtiyacı vardır ve Xposed kapsamı, yeniden yama yapılmadan dinamik olarak değiştirilebilir.\nYerel yamalı uygulamalar yalnızca yerel cihazda çalışabilir.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Yama Başlat</string>
     <string name="patch_return">Dönüş</string>
     <string name="patch_install">Düzenlemek</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">yükleme</string>
+    <string name="patch_uninstall">Kaldır</string>
+    <string name="patch_uninstall_text">Farklı imzalar nedeniyle, yamalı uygulamayı yüklemeden önce orijinal uygulamayı kaldırmanız gerekir.\nKişisel verilerinizi yedeklediğinizden emin olun.</string>
+    <string name="patch_uninstalling">Kaldırma</string>
+    <string name="patch_install_successfully">başarıyla yükle</string>
+    <string name="patch_install_failed">Yükleme başarısız</string>
     <string name="patch_copy_error">Kopyalama hatası</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Uygulamaları Seçin</string>
