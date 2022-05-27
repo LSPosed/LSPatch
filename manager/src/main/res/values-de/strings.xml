@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Addieren</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">Shizuku-Service verfügbar</string>
+    <string name="shizuku_unavailable">Shizuku-Dienst nicht verbunden</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Protokolle</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[Quellcode anzeigen unter %1$s<br/>Treten Sie unserem %2$s -Kanal bei]]></string>
     <!-- Manage Page -->
     <string name="page_manage">Verwalten</string>
+    <string name="manage_loading">Wird geladen</string>
+    <string name="manage_no_apps">Noch keine gepatchten Apps</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Neuer Patch</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">Speicherverzeichnis auswählen</string>
+    <string name="patch_select_dir_text">Wählen Sie ein Verzeichnis aus, um die gepatchten APKs zu speichern</string>
+    <string name="patch_select_dir_error">Fehler beim Festlegen des Speicherverzeichnisses</string>
+    <string name="patch_from_storage">Wählen Sie apk(s) aus dem Speicher aus</string>
+    <string name="patch_from_applist">Wählen Sie eine installierte App aus</string>
     <string name="patch_mode">Patch-Modus</string>
     <string name="patch_local">Lokal</string>
     <string name="patch_local_desc">Patchen Sie eine App ohne eingebettete Module.\nFür die gepatchte App muss der Manager im Hintergrund ausgeführt werden, und der Xposed-Bereich kann ohne erneutes Patchen dynamisch geändert werden.\nLokal gepatchte Apps können nur auf dem lokalen Gerät ausgeführt werden.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Patch starten</string>
     <string name="patch_return">Zurückkehren</string>
     <string name="patch_install">Installieren</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">Installieren</string>
+    <string name="patch_uninstall">Deinstallieren</string>
+    <string name="patch_uninstall_text">Aufgrund unterschiedlicher Signaturen müssen Sie die Original-App deinstallieren, bevor Sie die gepatchte App installieren.\nStellen Sie sicher, dass Sie Ihre persönlichen Daten gesichert haben.</string>
+    <string name="patch_uninstalling">Deinstallieren</string>
+    <string name="patch_install_successfully">Erfolgreich installieren</string>
+    <string name="patch_install_failed">Installation fehlgeschlagen</string>
     <string name="patch_copy_error">Kopierfehler</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Apps auswählen</string>
