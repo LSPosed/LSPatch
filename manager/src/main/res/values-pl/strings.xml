@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Dodać</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">Dostępna usługa Shizuku</string>
+    <string name="shizuku_unavailable">Usługa Shizuku nie jest podłączona</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Dzienniki</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[Zobacz kod źródłowy na %1$s<br/>Dołącz do naszego %2$s kanału]]></string>
     <!-- Manage Page -->
     <string name="page_manage">Zarządzać</string>
+    <string name="manage_loading">Ładowanie</string>
+    <string name="manage_no_apps">Brak zaktualizowanych aplikacji</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nowa łatka</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">Wybierz katalog przechowywania</string>
+    <string name="patch_select_dir_text">Wybierz katalog, w którym chcesz przechowywać poprawione apki</string>
+    <string name="patch_select_dir_error">Błąd podczas ustawiania katalogu przechowywania</string>
+    <string name="patch_from_storage">Wybierz apk(i) z pamięci</string>
+    <string name="patch_from_applist">Wybierz zainstalowaną aplikację</string>
     <string name="patch_mode">Tryb poprawki</string>
     <string name="patch_local">Lokalny</string>
     <string name="patch_local_desc">Popraw aplikację bez wbudowanych modułów.\nPoprawiona aplikacja wymaga działania menedżera w tle, a zakres Xposed można zmieniać dynamicznie bez konieczności ponownego instalowania poprawek.\nLokalnie poprawione aplikacje mogą działać tylko na urządzeniu lokalnym.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Rozpocznij łatkę</string>
     <string name="patch_return">Powrót</string>
     <string name="patch_install">zainstalować</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">Instalowanie</string>
+    <string name="patch_uninstall">Odinstaluj</string>
+    <string name="patch_uninstall_text">Ze względu na różne sygnatury musisz odinstalować oryginalną aplikację przed zainstalowaniem poprawionej.\nUpewnij się, że wykonałeś kopię zapasową danych osobowych.</string>
+    <string name="patch_uninstalling">Odinstalowywanie</string>
+    <string name="patch_install_successfully">Zainstaluj pomyślnie</string>
+    <string name="patch_install_failed">Instalacja nie powiodła się</string>
     <string name="patch_copy_error">Błąd kopiowania</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Wybierz aplikacje</string>
