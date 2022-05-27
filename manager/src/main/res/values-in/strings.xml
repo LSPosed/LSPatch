@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Menambahkan</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">Layanan Shizuku tersedia</string>
+    <string name="shizuku_unavailable">Layanan Shizuku tidak terhubung</string>
     <string name="page_repo">repo</string>
     <string name="page_logs">log</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[Lihat kode sumber di %1$s<br/>Bergabunglah dengan %2$s saluran kami]]></string>
     <!-- Manage Page -->
     <string name="page_manage">Mengelola</string>
+    <string name="manage_loading">Memuat</string>
+    <string name="manage_no_apps">Belum ada aplikasi yang ditambal</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Patch Baru</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">Pilih direktori penyimpanan</string>
+    <string name="patch_select_dir_text">Pilih direktori untuk menyimpan apk yang ditambal</string>
+    <string name="patch_select_dir_error">Kesalahan saat mengatur direktori penyimpanan</string>
+    <string name="patch_from_storage">Pilih apk dari penyimpanan</string>
+    <string name="patch_from_applist">Pilih aplikasi yang diinstal</string>
     <string name="patch_mode">Modus Patch</string>
     <string name="patch_local">Lokal</string>
     <string name="patch_local_desc">Menambal aplikasi tanpa modul yang disematkan.\nAplikasi yang ditambal membutuhkan pengelola yang berjalan di latar belakang, dan cakupan Xposed dapat diubah secara dinamis tanpa tambalan ulang.\nAplikasi yang ditambal lokal hanya dapat berjalan di perangkat lokal.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Mulai Patch</string>
     <string name="patch_return">Kembali</string>
     <string name="patch_install">Install</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">Menginstal</string>
+    <string name="patch_uninstall">Copot pemasangan</string>
+    <string name="patch_uninstall_text">Karena tanda tangan yang berbeda, Anda perlu mencopot pemasangan aplikasi asli sebelum memasang yang ditambal.\nPastikan Anda telah mencadangkan data pribadi.</string>
+    <string name="patch_uninstalling">Mencopot pemasangan</string>
+    <string name="patch_install_successfully">Instal berhasil</string>
+    <string name="patch_install_failed">Instal gagal</string>
     <string name="patch_copy_error">Kesalahan penyalinan</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Pilih Aplikasi</string>
