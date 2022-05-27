@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Add</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">ชิซึกุ มีบริการ</string>
+    <string name="shizuku_unavailable">ไม่ได้เชื่อมต่อบริการ Shizuku</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">บันทึก</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[ดูซอร์สโค้ดได้ที่ %1$s<br/>เข้าร่วม %2$s ช่องของเรา]]></string>
     <!-- Manage Page -->
     <string name="page_manage">จัดการ</string>
+    <string name="manage_loading">กำลังโหลด</string>
+    <string name="manage_no_apps">ยังไม่มีแอพแพตช์</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">แพทช์ใหม่</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">เลือกไดเร็กทอรีการจัดเก็บ</string>
+    <string name="patch_select_dir_text">เลือกไดเร็กทอรีเพื่อจัดเก็บ apks ที่แพตช์แล้ว</string>
+    <string name="patch_select_dir_error">เกิดข้อผิดพลาดเมื่อตั้งค่าไดเร็กทอรีการจัดเก็บ</string>
+    <string name="patch_from_storage">เลือก apk จากที่เก็บข้อมูล</string>
+    <string name="patch_from_applist">เลือกแอพที่ติดตั้ง</string>
     <string name="patch_mode">โหมดแพทช์</string>
     <string name="patch_local">ท้องถิ่น</string>
     <string name="patch_local_desc">แก้ไขแอปโดยไม่ต้องฝังโมดูล\nแอปแพตช์ต้องการให้ผู้จัดการทำงานในเบื้องหลัง และขอบเขต Xposed สามารถเปลี่ยนแปลงไดนามิกโดยไม่ต้องแพตช์ใหม่\nแอพที่แพตช์ในเครื่องสามารถทำงานบนอุปกรณ์ท้องถิ่นเท่านั้น</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">เริ่มโปรแกรมแก้ไข</string>
     <string name="patch_return">กลับ</string>
     <string name="patch_install">ติดตั้ง</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">กำลังติดตั้ง</string>
+    <string name="patch_uninstall">ถอนการติดตั้ง</string>
+    <string name="patch_uninstall_text">เนื่องจากลายเซ็นต่างกัน คุณต้องถอนการติดตั้งแอปเดิมก่อนที่จะติดตั้งแอปที่แพตช์\nตรวจสอบให้แน่ใจว่าคุณได้สำรองข้อมูลส่วนบุคคลแล้ว</string>
+    <string name="patch_uninstalling">กำลังถอนการติดตั้ง</string>
+    <string name="patch_install_successfully">ติดตั้งสำเร็จ</string>
+    <string name="patch_install_failed">ติดตั้งไม่สำเร็จ</string>
     <string name="patch_copy_error">ข้อผิดพลาดในการคัดลอก</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">เลือกแอพ</string>
