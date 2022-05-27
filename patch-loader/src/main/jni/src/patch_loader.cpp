@@ -71,11 +71,15 @@ namespace lspd {
         env->DeleteLocalRef(dex_buffer);
     }
 
-    void PatchLoader::InitHooks(JNIEnv* env, const lsplant::InitInfo& initInfo) {
+    void PatchLoader::InitArtHooker(JNIEnv* env, const InitInfo& initInfo) {
+        Context::InitArtHooker(env, initInfo);
         handler = initInfo;
-        Context::InitHooks(env, handler);
-        art::DisableInline(handler);
-        art::DisableBackgroundVerification(handler);
+        art::DisableInline(initInfo);
+        art::DisableBackgroundVerification(initInfo);
+    }
+
+    void PatchLoader::InitHooks(JNIEnv* env) {
+        Context::InitHooks(env);
         RegisterBypass(env);
     }
 
@@ -88,7 +92,7 @@ namespace lspd {
 
     void PatchLoader::Load(JNIEnv* env) {
         InitSymbolCache(nullptr);
-        lsplant::InitInfo initInfo{
+        lsplant::InitInfo initInfo {
                 .inline_hooker = [](auto t, auto r) {
                     void* bk = nullptr;
                     return HookFunction(t, r, &bk) == RS_SUCCESS ? bk : nullptr;
@@ -108,10 +112,11 @@ namespace lspd {
         auto dex_field = JNI_GetStaticFieldID(env, stub, "dex", "[B");
 
         auto array = (jbyteArray) env->GetStaticObjectField(stub, dex_field);
-        auto dex = PreloadedDex{env->GetByteArrayElements(array, nullptr), static_cast<size_t>(JNI_GetArrayLength(env, array))};
+        auto dex = PreloadedDex {env->GetByteArrayElements(array, nullptr), static_cast<size_t>(JNI_GetArrayLength(env, array))};
 
+        InitArtHooker(env, initInfo);
         LoadDex(env, std::move(dex));
-        InitHooks(env, initInfo);
+        InitHooks(env);
 
         GetArt(true);
 

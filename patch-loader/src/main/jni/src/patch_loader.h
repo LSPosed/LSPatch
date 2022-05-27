@@ -42,7 +42,9 @@ namespace lspd {
         void Load(JNIEnv* env);
 
     protected:
-        void InitHooks(JNIEnv* env, const lsplant::InitInfo& initInfo) override;
+        void InitArtHooker(JNIEnv* env, const lsplant::InitInfo& initInfo) override;
+
+        void InitHooks(JNIEnv* env) override;
 
         void LoadDex(JNIEnv* env, PreloadedDex&& dex) override;
 
