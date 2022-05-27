@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Voeg by</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">Shizuku diens beskikbaar</string>
+    <string name="shizuku_unavailable">Shizuku-diens nie gekoppel nie</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Logs</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[Bekyk bronkode by %1$s<br/>Sluit aan by ons %2$s -kanaal]]></string>
     <!-- Manage Page -->
     <string name="page_manage">Bestuur</string>
+    <string name="manage_loading">Laai tans</string>
+    <string name="manage_no_apps">Nog geen reggemaakte programme nie</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nuwe Patch</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">Kies bergingsgids</string>
+    <string name="patch_select_dir_text">Kies \'n gids om die gelapte APK te stoor</string>
+    <string name="patch_select_dir_error">Fout met die opstel van berginggids</string>
+    <string name="patch_from_storage">Kies APK(s) uit die stoor</string>
+    <string name="patch_from_applist">Kies \'n geïnstalleerde toepassing</string>
     <string name="patch_mode">Patch Mode</string>
     <string name="patch_local">Plaaslik</string>
     <string name="patch_local_desc">Plak \'n toepassing sonder modules ingebed.\nDie gelapte toepassing moet die bestuurder in die agtergrond laat loop, en Xposed-omvang kan dinamies verander word sonder om te herpleister.\nPlaaslike gelapte toepassings kan slegs op die plaaslike toestel loop.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Begin Patch</string>
     <string name="patch_return">Keer terug</string>
     <string name="patch_install">Installeer</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">Installeer tans</string>
+    <string name="patch_uninstall">Deïnstalleer</string>
+    <string name="patch_uninstall_text">As gevolg van verskillende handtekeninge, moet u die oorspronklike toepassing deïnstalleer voordat u die gelapte een installeer.\nMaak seker dat jy persoonlike data gerugsteun het.</string>
+    <string name="patch_uninstalling">Deïnstalleer tans</string>
+    <string name="patch_install_successfully">Installeer suksesvol</string>
+    <string name="patch_install_failed">Installering het misluk</string>
     <string name="patch_copy_error">Kopieerfout</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Kies Toepassings</string>
