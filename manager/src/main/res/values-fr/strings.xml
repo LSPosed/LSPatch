@@ -1,32 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Ajouter</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
-    <string name="page_repo">Repo</string>
+    <string name="shizuku_available">Service Shizuku disponible</string>
+    <string name="shizuku_unavailable">Service Shizuku non connecté</string>
+    <string name="page_repo">Dépôt</string>
     <string name="page_logs">Journaux</string>
     <!-- Home Page -->
-    <string name="home_shizuku_warning">Certaines fonctions indisponibles</string>
+    <string name="home_shizuku_warning">Certaines fonctions seront indisponibles</string>
     <string name="home_api_version">Version de l\'API</string>
-    <string name="home_lspatch_version">Version LSPatch</string>
-    <string name="home_framework_version">Version du cadre</string>
+    <string name="home_lspatch_version">Version de LSPatch</string>
+    <string name="home_framework_version">Version du framework</string>
     <string name="home_system_version">Version du système</string>
     <string name="home_device">Appareil</string>
-    <string name="home_system_abi">ABI système</string>
+    <string name="home_system_abi">Architecture du système</string>
     <string name="home_info_copied">Copié dans le presse-papier</string>
     <string name="home_support">Support</string>
-    <string name="home_description">LSPatch est un framework Xposed gratuit non root basé sur le noyau LSPosed.</string>
-    <string name="home_view_source_code"><![CDATA[Voir le code source à %1$s<br/>Rejoignez notre %2$s canal]]></string>
+    <string name="home_description">LSPatch est un framework Xposed gratuit non root basé sur le noyau de LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Voir le code source sur %1$s<br/>Rejoignez notre %2$s canal]]></string>
     <!-- Manage Page -->
-    <string name="page_manage">Faire en sorte</string>
+    <string name="page_manage">Gestion</string>
+    <string name="manage_loading">Chargement</string>
+    <string name="manage_no_apps">Aucune appli patchée pour le moment</string>
     <!-- New Patch Page -->
-    <string name="page_new_patch">Nouveau correctif</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
-    <string name="patch_mode">Mode correctif</string>
+    <string name="page_new_patch">Nouveau patch</string>
+    <string name="patch_select_dir_title">Sélectionner le répertoire de stockage</string>
+    <string name="patch_select_dir_text">Sélectionnez un répertoire pour stocker les apks modifiés</string>
+    <string name="patch_select_dir_error">Érreur lors de la définition du répertoire de stockage</string>
+    <string name="patch_from_storage">Selctionner un ou plusieurs apks depuis le stockage</string>
+    <string name="patch_from_applist">Sélectionner une appli installée</string>
+    <string name="patch_mode">Mode de patch</string>
     <string name="patch_local">Local</string>
-    <string name="patch_local_desc">Patcher une application sans modules intégrés.\nL\'application corrigée nécessite que le gestionnaire s\'exécute en arrière-plan et la portée Xposed peut être modifiée dynamiquement sans re-correction.\nLes applications locales corrigées ne peuvent s\'exécuter que sur l\'appareil local.</string>
+    <string name="patch_local_desc">Patcher une application sans modules intégrés.\nL\'application modifiée nécessite que le gestionnaire s\'exécute en arrière-plan et les modules Xposed activés peuvent être modifiés dynamiquement sans re-modification.\nLes applications locales patchées ne peuvent s\'exécuter que sur l\'appareil actuel.</string>
     <string name="patch_portable">Portable</string>
     <string name="patch_portable_desc">Patcher une application avec des modules intégrés.\nL\'application corrigée peut s\'exécuter sans le gestionnaire, mais ne peut pas être gérée de manière dynamique.\nLes applications patchées portables peuvent être utilisées sur des appareils sur lesquels LSPatch Manager n\'est pas installé.</string>
     <string name="patch_embed_modules">Intégrer des modules</string>
@@ -39,23 +43,23 @@
     <string name="patch_override_version_code">Remplacer le code de version</string>
     <string name="patch_override_version_code_desc">Remplacer le code de version de l\'application corrigée par 1\nCela permet de rétrograder l\'installation à l\'avenir, et généralement cela n\'affectera pas le code de version réellement perçu par l\'application.</string>
     <string name="patch_start">Démarrer le correctif</string>
-    <string name="patch_return">Retourner</string>
+    <string name="patch_return">Retour</string>
     <string name="patch_install">Installer</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">Installation</string>
+    <string name="patch_uninstall">Désinstaller</string>
+    <string name="patch_uninstall_text">En raison de signatures différentes, vous devez désinstaller l\'appli originale avant d\'installer celle modifiée.\nAssurez-vous d\'avoir sauvegardé vos données personnelles.</string>
+    <string name="patch_uninstalling">Désinstallation</string>
+    <string name="patch_install_successfully">Installation réussie</string>
+    <string name="patch_install_failed">Échec de l\'installation</string>
     <string name="patch_copy_error">Erreur de copie</string>
     <!-- Select Apps Page -->
-    <string name="page_select_apps">Sélectionnez les applications</string>
+    <string name="page_select_apps">Sélectionnez les applis</string>
     <!-- Settings Page -->
     <string name="page_settings">Réglages</string>
-    <string name="settings_keystore">Signature keystore</string>
-    <string name="settings_keystore_default">Intégré dans</string>
+    <string name="settings_keystore">Magasin de clés de signature</string>
+    <string name="settings_keystore_default">Intégré</string>
     <string name="settings_keystore_custom">Personnalisé</string>
-    <string name="settings_keystore_dialog_title">Keystore personnalisé</string>
+    <string name="settings_keystore_dialog_title">Magasin de clés personnalisé</string>
     <string name="settings_keystore_file">Fichier Keystore</string>
     <string name="settings_keystore_password">Mot de passe</string>
     <string name="settings_keystore_alias">Alias</string>
