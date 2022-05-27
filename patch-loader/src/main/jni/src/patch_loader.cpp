@@ -113,6 +113,8 @@ namespace lspd {
         LoadDex(env, std::move(dex));
         InitHooks(env, initInfo);
 
+        GetArt(true);
+
         SetupEntryClass(env);
         FindAndCall(env, "onLoad", "()V");
     }
