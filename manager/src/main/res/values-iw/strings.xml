@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">לְהוֹסִיף</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">שירות שיזוקו זמין</string>
+    <string name="shizuku_unavailable">שירות Shizuku לא מחובר</string>
     <string name="page_repo">ריפו</string>
     <string name="page_logs">יומנים</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[צפה בקוד המקור ב %1$s<br/>הצטרף לערוץ %2$s שלנו]]></string>
     <!-- Manage Page -->
     <string name="page_manage">לנהל</string>
+    <string name="manage_loading">טוען</string>
+    <string name="manage_no_apps">עדיין אין אפליקציות מתוקנות</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">תיקון חדש</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">בחר ספריית אחסון</string>
+    <string name="patch_select_dir_text">בחר ספרייה לאחסון ה-apks המתוקן</string>
+    <string name="patch_select_dir_error">שגיאה בעת הגדרת ספריית אחסון</string>
+    <string name="patch_from_storage">בחר apk(ים) מהאחסון</string>
+    <string name="patch_from_applist">בחר אפליקציה מותקנת</string>
     <string name="patch_mode">מצב תיקון</string>
     <string name="patch_local">מְקוֹמִי</string>
     <string name="patch_local_desc">תקן אפליקציה ללא מודולים מוטבעים.\nהאפליקציה המתוקנת צריכה שהמנהל יפעל ברקע, וניתן לשנות את היקף Xposed באופן דינמי ללא תיקון מחדש.\nאפליקציות מקומיות מתוקנות יכולות לפעול רק במכשיר המקומי.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">התחל תיקון</string>
     <string name="patch_return">לַחֲזוֹר</string>
     <string name="patch_install">להתקין</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">מתקין</string>
+    <string name="patch_uninstall">הסר את ההתקנה</string>
+    <string name="patch_uninstall_text">עקב חתימות שונות, עליך להסיר את ההתקנה של האפליקציה המקורית לפני התקנת האפליקציה המתוקנת.\nודא שגיבית את הנתונים האישיים.</string>
+    <string name="patch_uninstalling">מסיר התקנה</string>
+    <string name="patch_install_successfully">התקן בהצלחה</string>
+    <string name="patch_install_failed">ההתקנה נכשלה</string>
     <string name="patch_copy_error">שגיאת העתקה</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">בחר אפליקציות</string>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">追加</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">しずくサービスあり</string>
+    <string name="shizuku_unavailable">しずくサービスが接続されていません</string>
     <string name="page_repo">レポ</string>
     <string name="page_logs">ログ</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[<br/>%1$sソースコードを表示する %2$s チャンネルに参加する]]></string>
     <!-- Manage Page -->
     <string name="page_manage">管理</string>
+    <string name="manage_loading">読み込み中</string>
+    <string name="manage_no_apps">パッチが適用されたアプリはまだありません</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">新しいパッチ</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">ストレージディレクトリを選択します</string>
+    <string name="patch_select_dir_text">パッチを適用したapkを保存するディレクトリを選択します</string>
+    <string name="patch_select_dir_error">ストレージディレクトリの設定中にエラーが発生しました</string>
+    <string name="patch_from_storage">ストレージからapkを選択します</string>
+    <string name="patch_from_applist">インストールされているアプリを選択します</string>
     <string name="patch_mode">パッチモード</string>
     <string name="patch_local">地元</string>
     <string name="patch_local_desc">モジュールが埋め込まれていないアプリにパッチを適用します。\nパッチが適用されたアプリには、マネージャーがバックグラウンドで実行されている必要があり、Xposedスコープは再パッチなしで動的に変更できます。\nローカルのパッチが適用されたアプリは、ローカルデバイスでのみ実行できます。</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">パッチを開始する</string>
     <string name="patch_return">戻る</string>
     <string name="patch_install">インストール</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">インストール</string>
+    <string name="patch_uninstall">アンインストール</string>
+    <string name="patch_uninstall_text">署名が異なるため、パッチを適用したアプリをインストールする前に、元のアプリをアンインストールする必要があります。\n個人データをバックアップしたことを確認してください。</string>
+    <string name="patch_uninstalling">アンインストール</string>
+    <string name="patch_install_successfully">正常にインストール</string>
+    <string name="patch_install_failed">インストールに失敗しました</string>
     <string name="patch_copy_error">コピーエラー</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">アプリを選択</string>

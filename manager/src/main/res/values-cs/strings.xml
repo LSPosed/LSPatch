@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Přidat</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">K dispozici služba Shizuku</string>
+    <string name="shizuku_unavailable">Služba Shizuku není připojena</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Protokoly</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[Zobrazit zdrojový kód na %1$s<br/>Připojte se k našemu %2$s kanálu]]></string>
     <!-- Manage Page -->
     <string name="page_manage">Spravovat</string>
+    <string name="manage_loading">načítání</string>
+    <string name="manage_no_apps">Zatím žádné opravené aplikace</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nový patch</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">Vyberte adresář úložiště</string>
+    <string name="patch_select_dir_text">Vyberte adresář pro uložení opravených souborů APK</string>
+    <string name="patch_select_dir_error">Chyba při nastavování adresáře úložiště</string>
+    <string name="patch_from_storage">Vyberte apk z úložiště</string>
+    <string name="patch_from_applist">Vyberte nainstalovanou aplikaci</string>
     <string name="patch_mode">Režim opravy</string>
     <string name="patch_local">Místní</string>
     <string name="patch_local_desc">Opravte aplikaci bez vestavěných modulů.\nOpravená aplikace vyžaduje, aby správce běžel na pozadí a rozsah Xposed lze dynamicky měnit bez opětovné opravy.\nMístní opravené aplikace lze spustit pouze na místním zařízení.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Spusťte opravu</string>
     <string name="patch_return">Vrátit se</string>
     <string name="patch_install">Nainstalujte</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">Instalace</string>
+    <string name="patch_uninstall">Odinstalovat</string>
+    <string name="patch_uninstall_text">Kvůli různým podpisům musíte před instalací opravené odinstalovat původní aplikaci.\nUjistěte se, že máte zálohovaná osobní data.</string>
+    <string name="patch_uninstalling">Odinstalování</string>
+    <string name="patch_install_successfully">Nainstalujte úspěšně</string>
+    <string name="patch_install_failed">Instalace se nezdařila</string>
     <string name="patch_copy_error">Chyba kopírování</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Vyberte Aplikace</string>

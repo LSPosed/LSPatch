@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">যোগ করুন</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">শিজুকু পরিষেবা উপলব্ধ</string>
+    <string name="shizuku_unavailable">Shizuku পরিষেবা সংযুক্ত নেই৷</string>
     <string name="page_repo">রেপো</string>
     <string name="page_logs">লগ</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[%1$s<br/>এ সোর্স কোড দেখুন আমাদের %2$s চ্যানেলে যোগ দিন]]></string>
     <!-- Manage Page -->
     <string name="page_manage">পরিচালনা করুন</string>
+    <string name="manage_loading">লোড হচ্ছে</string>
+    <string name="manage_no_apps">এখনো কোনো প্যাচড অ্যাপস</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">নতুন প্যাচ</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">স্টোরেজ ডিরেক্টরি নির্বাচন করুন</string>
+    <string name="patch_select_dir_text">প্যাচ করা apks সংরক্ষণ করতে একটি ডিরেক্টরি নির্বাচন করুন</string>
+    <string name="patch_select_dir_error">স্টোরেজ ডিরেক্টরি সেট করার সময় ত্রুটি</string>
+    <string name="patch_from_storage">স্টোরেজ থেকে apk(গুলি) নির্বাচন করুন</string>
+    <string name="patch_from_applist">একটি ইনস্টল করা অ্যাপ্লিকেশন নির্বাচন করুন</string>
     <string name="patch_mode">প্যাচ মোড</string>
     <string name="patch_local">স্থানীয়</string>
     <string name="patch_local_desc">এম্বেড করা মডিউল ছাড়াই একটি অ্যাপ প্যাচ করুন।\nপ্যাচ করা অ্যাপটির ব্যাকগ্রাউন্ডে চলমান ম্যানেজার প্রয়োজন, এবং এক্সপোজড স্কোপ রি-প্যাচ ছাড়াই গতিশীলভাবে পরিবর্তন করা যেতে পারে।\nস্থানীয় প্যাচ করা অ্যাপ শুধুমাত্র স্থানীয় ডিভাইসে চলতে পারে।</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">প্যাচ শুরু করুন</string>
     <string name="patch_return">প্রত্যাবর্তন</string>
     <string name="patch_install">ইনস্টল করুন</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">ইনস্টল করা হচ্ছে</string>
+    <string name="patch_uninstall">আনইনস্টল করুন</string>
+    <string name="patch_uninstall_text">বিভিন্ন স্বাক্ষরের কারণে, প্যাচ করা একটি ইনস্টল করার আগে আপনাকে আসল অ্যাপটি আনইনস্টল করতে হবে।\nআপনি ব্যক্তিগত ডেটা ব্যাক আপ করেছেন তা নিশ্চিত করুন৷</string>
+    <string name="patch_uninstalling">আনইনস্টল হচ্ছে</string>
+    <string name="patch_install_successfully">সফলভাবে ইনস্টল করুন</string>
+    <string name="patch_install_failed">ইনস্টল ব্যর্থ হয়েছে</string>
     <string name="patch_copy_error">কপি ত্রুটি</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">অ্যাপস নির্বাচন করুন</string>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Hozzáadás</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">Shizuku szerviz elérhető</string>
+    <string name="shizuku_unavailable">A Shizuku szolgáltatás nincs csatlakoztatva</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Naplók</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[Forráskód megtekintése itt: %1$s<br/>Csatlakozzon %2$s csatornánkhoz]]></string>
     <!-- Manage Page -->
     <string name="page_manage">Kezelése</string>
+    <string name="manage_loading">Betöltés</string>
+    <string name="manage_no_apps">Még nincsenek javított alkalmazások</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Új javítás</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">Válassza ki a tárolási könyvtárat</string>
+    <string name="patch_select_dir_text">Válasszon ki egy könyvtárat a javított apk-k tárolására</string>
+    <string name="patch_select_dir_error">Hiba a tárolási könyvtár beállításakor</string>
+    <string name="patch_from_storage">Válassza ki az apk-t a tárhelyről</string>
+    <string name="patch_from_applist">Válasszon ki egy telepített alkalmazást</string>
     <string name="patch_mode">Patch mód</string>
     <string name="patch_local">Helyi</string>
     <string name="patch_local_desc">Javítson be egy alkalmazást beágyazott modulok nélkül.\nA javított alkalmazásnak szüksége van a háttérben futó kezelőre, és az Xposed hatóköre dinamikusan módosítható újrajavítás nélkül.\nA helyi javított alkalmazások csak a helyi eszközön futhatnak.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Indítsa el a Patch-et</string>
     <string name="patch_return">Visszatérés</string>
     <string name="patch_install">Telepítés</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">Telepítés</string>
+    <string name="patch_uninstall">Eltávolítás</string>
+    <string name="patch_uninstall_text">Az eltérő aláírások miatt a javított alkalmazás telepítése előtt el kell távolítania az eredeti alkalmazást.\nGyőződjön meg arról, hogy biztonsági másolatot készített a személyes adatokról.</string>
+    <string name="patch_uninstalling">Eltávolítás</string>
+    <string name="patch_install_successfully">Sikeres telepítés</string>
+    <string name="patch_install_failed">A telepítés sikertelen</string>
     <string name="patch_copy_error">Másolási hiba</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Válassza az Alkalmazások lehetőséget</string>

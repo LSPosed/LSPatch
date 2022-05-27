@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">إضافة</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">تتوفر خدمة شيزوكو</string>
+    <string name="shizuku_unavailable">خدمة Shizuku غير متصلة</string>
     <string name="page_repo">المسـتودع</string>
     <string name="page_logs">السـجلات</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[اعرض كود المصدر على %1$s<br/>انضم إلى قناتنا %2$s]]></string>
     <!-- Manage Page -->
     <string name="page_manage">إدارة</string>
+    <string name="manage_loading">جار التحميل</string>
+    <string name="manage_no_apps">لا توجد تطبيقات مصححة حتى الآن</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">باتش جديد</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">حدد دليل التخزين</string>
+    <string name="patch_select_dir_text">حدد دليلاً لتخزين ملفات التطبيقات المصححة</string>
+    <string name="patch_select_dir_error">خطأ عند تعيين دليل التخزين</string>
+    <string name="patch_from_storage">حدد apk (s) من التخزين</string>
+    <string name="patch_from_applist">حدد التطبيق المثبت</string>
     <string name="patch_mode">وضع التصحيح</string>
     <string name="patch_local">محلي</string>
     <string name="patch_local_desc">تصحيح تطبيق بدون وحدات مدمجة.\nيحتاج التطبيق المصحح إلى تشغيل المدير في الخلفية ، ويمكن تغيير نطاق Xposed ديناميكيًا دون إعادة التصحيح.\nلا يمكن تشغيل التطبيقات المحلية المصححة إلا على الجهاز المحلي.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">بدء التصحيح</string>
     <string name="patch_return">إرجاع</string>
     <string name="patch_install">تثبيت</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">التثبيت</string>
+    <string name="patch_uninstall">الغاء التثبيت</string>
+    <string name="patch_uninstall_text">نظرًا لاختلاف التوقيعات ، يلزمك إلغاء تثبيت التطبيق الأصلي قبل تثبيت التطبيق المصحح.\nتأكد من عمل نسخة احتياطية من البيانات الشخصية.</string>
+    <string name="patch_uninstalling">الإزالة</string>
+    <string name="patch_install_successfully">التثبيت بنجاح</string>
+    <string name="patch_install_failed">فشل تثبيت</string>
     <string name="patch_copy_error">خطأ في النسخ</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">تحديد تطبيقات</string>

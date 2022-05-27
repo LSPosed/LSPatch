@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Adăuga</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">Serviciu Shizuku disponibil</string>
+    <string name="shizuku_unavailable">Serviciul Shizuku nu este conectat</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Bușteni</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[Vizualizați codul sursă la %1$s<br/>Alăturați-vă canalului nostru %2$s]]></string>
     <!-- Manage Page -->
     <string name="page_manage">Administra</string>
+    <string name="manage_loading">Se încarcă</string>
+    <string name="manage_no_apps">Nicio aplicație corecţionată încă</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Patch nou</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">Selectați directorul de stocare</string>
+    <string name="patch_select_dir_text">Selectați un director pentru a stoca apk-urile corectate</string>
+    <string name="patch_select_dir_error">Eroare la setarea directorului de stocare</string>
+    <string name="patch_from_storage">Selectați apk-uri din stocare</string>
+    <string name="patch_from_applist">Selectați o aplicație instalată</string>
     <string name="patch_mode">Modul Patch</string>
     <string name="patch_local">Local</string>
     <string name="patch_local_desc">Corectează o aplicație fără module încorporate.\nAplicația corecţionată necesită ca managerul să ruleze în fundal, iar domeniul de aplicare Xposed poate fi modificat dinamic fără re-patch.\nAplicațiile locale corectate pot rula numai pe dispozitivul local.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Începeți Patch-ul</string>
     <string name="patch_return">Întoarcere</string>
     <string name="patch_install">Instalare</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">Instalare</string>
+    <string name="patch_uninstall">Dezinstalează</string>
+    <string name="patch_uninstall_text">Din cauza semnăturilor diferite, trebuie să dezinstalați aplicația originală înainte de a o instala pe cea corectată.\nAsigurați-vă că ați făcut o copie de rezervă a datelor personale.</string>
+    <string name="patch_uninstalling">Dezinstalare</string>
+    <string name="patch_install_successfully">Instalați cu succes</string>
+    <string name="patch_install_failed">Instalarea a eșuat</string>
     <string name="patch_copy_error">Eroare de copiere</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Selectați Aplicații</string>

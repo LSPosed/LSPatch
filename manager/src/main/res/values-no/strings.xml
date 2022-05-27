@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Legge til</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">Shizuku-tjeneste tilgjengelig</string>
+    <string name="shizuku_unavailable">Shizuku-tjenesten er ikke tilkoblet</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Tømmerstokker</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[Se kildekoden på %1$s<br/>Bli med i vår %2$s -kanal]]></string>
     <!-- Manage Page -->
     <string name="page_manage">Få til</string>
+    <string name="manage_loading">Laster</string>
+    <string name="manage_no_apps">Ingen lappede apper ennå</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Ny oppdatering</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">Velg lagringskatalog</string>
+    <string name="patch_select_dir_text">Velg en katalog for å lagre de lappede APK-ene</string>
+    <string name="patch_select_dir_error">Feil ved innstilling av lagringskatalog</string>
+    <string name="patch_from_storage">Velg apk(er) fra lagring</string>
+    <string name="patch_from_applist">Velg en installert app</string>
     <string name="patch_mode">Patch-modus</string>
     <string name="patch_local">Lokalt</string>
     <string name="patch_local_desc">Patch en app uten innebygde moduler.\nDen lappede appen trenger at manageren kjører i bakgrunnen, og Xposed-omfanget kan endres dynamisk uten re-patch.\nLokale lappede apper kan bare kjøres på den lokale enheten.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Start patch</string>
     <string name="patch_return">Komme tilbake</string>
     <string name="patch_install">Installere</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">Installerer</string>
+    <string name="patch_uninstall">Avinstaller</string>
+    <string name="patch_uninstall_text">På grunn av forskjellige signaturer, må du avinstallere den originale appen før du installerer den lappede.\nSørg for at du har sikkerhetskopiert personlige data.</string>
+    <string name="patch_uninstalling">Avinstallerer</string>
+    <string name="patch_install_successfully">Installer vellykket</string>
+    <string name="patch_install_failed">Installasjonen mislyktes</string>
     <string name="patch_copy_error">Kopifeil</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Velg Apper</string>

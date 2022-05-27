@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Додати</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">Доступна послуга Shizuku</string>
+    <string name="shizuku_unavailable">Служба Shizuku не підключена</string>
     <string name="page_repo">Репо</string>
     <string name="page_logs">Журнали</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[Перегляньте вихідний код на %1$s<br/>Приєднуйтесь до нашого %2$s каналу]]></string>
     <!-- Manage Page -->
     <string name="page_manage">Керувати</string>
+    <string name="manage_loading">Завантаження</string>
+    <string name="manage_no_apps">Ще немає виправлених програм</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Новий патч</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">Виберіть каталог зберігання</string>
+    <string name="patch_select_dir_text">Виберіть каталог для зберігання виправлених apks</string>
+    <string name="patch_select_dir_error">Помилка під час налаштування каталогу зберігання</string>
+    <string name="patch_from_storage">Виберіть apk(s) зі сховища</string>
+    <string name="patch_from_applist">Виберіть встановлену програму</string>
     <string name="patch_mode">Режим виправлення</string>
     <string name="patch_local">Місцеві</string>
     <string name="patch_local_desc">Виправте програму без вбудованих модулів.\nДодатку з виправленням потрібно, щоб менеджер працював у фоновому режимі, а область Xposed можна динамічно змінювати без повторного встановлення виправлення.\nЛокальні виправлені програми можуть працювати лише на локальному пристрої.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Запустити патч</string>
     <string name="patch_return">Повернення</string>
     <string name="patch_install">Встановити</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">Встановлення</string>
+    <string name="patch_uninstall">Видалити</string>
+    <string name="patch_uninstall_text">Через різні сигнатури вам потрібно видалити оригінальну програму, перш ніж встановлювати виправлену.\nПереконайтеся, що ви створили резервну копію особистих даних.</string>
+    <string name="patch_uninstalling">Видалення</string>
+    <string name="patch_install_successfully">Встановити успішно</string>
+    <string name="patch_install_failed">Помилка встановлення</string>
     <string name="patch_copy_error">Помилка копіювання</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Виберіть Програми</string>
