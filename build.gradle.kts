@@ -36,7 +36,7 @@ val coreCommitCount = run {
 val defaultManagerPackageName by extra("org.lsposed.lspatch")
 val apiCode by extra(93)
 val verCode by extra(commitCount)
-val verName by extra("0.3")
+val verName by extra("0.3.1")
 val coreVerCode by extra(coreCommitCount + 4200)
 val coreVerName by extra(
     file("$rootDir/core/build.gradle.kts").readLines()
