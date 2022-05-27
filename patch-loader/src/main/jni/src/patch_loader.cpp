@@ -113,6 +113,12 @@ namespace lspd {
         LoadDex(env, std::move(dex));
         InitHooks(env, initInfo);
 
+        // https://github.com/LSPosed/LSPosed/issues/1956
+        // ElfImg(libart.so) is hold by kArtImg in symbol_cache.cpp
+        // it maps an extra segment of libart.so in /proc/self/maps, which cause some app fail to detect the base address of libart.so.
+        // force relese it !
+        GetArt(true)
+
         SetupEntryClass(env);
         FindAndCall(env, "onLoad", "()V");
     }
