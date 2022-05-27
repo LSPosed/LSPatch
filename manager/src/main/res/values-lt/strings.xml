@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Papildyti</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">Galimas Shizuku servisas</string>
+    <string name="shizuku_unavailable">„Shizuku“ paslauga neprijungta</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Rąstai</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[Peržiūrėkite šaltinio kodą %1$s<br/>Prisijunkite prie mūsų %2$s kanalo]]></string>
     <!-- Manage Page -->
     <string name="page_manage">Tvarkyti</string>
+    <string name="manage_loading">Įkeliama</string>
+    <string name="manage_no_apps">Dar nėra pataisytų programų</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Naujas pleistras</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">Pasirinkite saugojimo katalogą</string>
+    <string name="patch_select_dir_text">Pasirinkite katalogą, kuriame bus saugomi pataisyti APK</string>
+    <string name="patch_select_dir_error">Klaida nustatant saugojimo katalogą</string>
+    <string name="patch_from_storage">Pasirinkite apk (-us) iš saugyklos</string>
+    <string name="patch_from_applist">Pasirinkite įdiegtą programą</string>
     <string name="patch_mode">Patch režimas</string>
     <string name="patch_local">Vietinis</string>
     <string name="patch_local_desc">Pataisykite programą be įterptų modulių.\nPataisytai programai reikia, kad tvarkyklė veiktų fone, o Xposed taikymo sritį galima dinamiškai keisti be pakartotinio pataisymo.\nVietinės pataisytos programos gali veikti tik vietiniame įrenginyje.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Pradėti pataisą</string>
     <string name="patch_return">Grįžti</string>
     <string name="patch_install">Diegti</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">Diegimas</string>
+    <string name="patch_uninstall">Pašalinkite</string>
+    <string name="patch_uninstall_text">Dėl skirtingų parašų prieš įdiegdami pataisytą programą turite pašalinti originalią programą.\nĮsitikinkite, kad turite atsargines asmens duomenų kopijas.</string>
+    <string name="patch_uninstalling">Pašalinama</string>
+    <string name="patch_install_successfully">Įdiegti sėkmingai</string>
+    <string name="patch_install_failed">Diegimas nepavyko</string>
     <string name="patch_copy_error">Kopijavimo klaida</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Pasirinkite Programos</string>
