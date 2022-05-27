@@ -73,6 +73,10 @@ fun Project.configureBaseExtension() {
         ndkVersion = androidCompileNdkVersion
         buildToolsVersion = androidBuildToolsVersion
 
+        externalNativeBuild.cmake {
+            version = "3.22.1+"
+        }
+
         defaultConfig {
             minSdk = androidMinSdkVersion
             targetSdk = androidTargetSdkVersion

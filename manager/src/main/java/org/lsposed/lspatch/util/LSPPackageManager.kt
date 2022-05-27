@@ -32,7 +32,7 @@ import kotlin.coroutines.suspendCoroutine
 
 object LSPPackageManager {
 
-    const val TAG = "LSPPackageManager"
+    private const val TAG = "LSPPackageManager"
 
     @Parcelize
     class AppInfo(val app: ApplicationInfo, val label: String) : Parcelable

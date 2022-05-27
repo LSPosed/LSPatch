@@ -100,7 +100,7 @@ namespace lspd {
                     return GetArt()->getSymbAddress<void*>(symbol);
                 },
                 .art_symbol_prefix_resolver = [](auto symbol) {
-                    return GetArt()->getSymbPrefixFirstOffset(symbol);
+                    return GetArt()->getSymbPrefixFirstAddress(symbol);
                 },
         };
 
