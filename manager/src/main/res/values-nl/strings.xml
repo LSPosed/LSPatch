@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Toevoegen</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">Shizuku-service beschikbaar</string>
+    <string name="shizuku_unavailable">Shizuku-service niet verbonden</string>
     <string name="page_repo">Repo</string>
     <string name="page_logs">Logboeken</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[Bekijk de broncode op %1$s<br/>Word lid van ons %2$s -kanaal]]></string>
     <!-- Manage Page -->
     <string name="page_manage">Beheren</string>
+    <string name="manage_loading">Bezig met laden</string>
+    <string name="manage_no_apps">Nog geen gepatchte apps</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nieuwe patch</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">Selecteer opslagmap</string>
+    <string name="patch_select_dir_text">Selecteer een map om de gepatchte apks op te slaan</string>
+    <string name="patch_select_dir_error">Fout bij het instellen van de opslagmap</string>
+    <string name="patch_from_storage">Selecteer apk(s) uit opslag</string>
+    <string name="patch_from_applist">Selecteer een geïnstalleerde app</string>
     <string name="patch_mode">Patch-modus</string>
     <string name="patch_local">lokaal</string>
     <string name="patch_local_desc">Patch een app zonder ingebouwde modules.\nDe gepatchte app heeft de manager nodig die op de achtergrond draait, en het Xposed-bereik kan dynamisch worden gewijzigd zonder opnieuw te patchen.\nLokale gepatchte apps kunnen alleen op het lokale apparaat worden uitgevoerd.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Patch starten</string>
     <string name="patch_return">Opbrengst</string>
     <string name="patch_install">Installeren</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">Installeren</string>
+    <string name="patch_uninstall">Verwijderen</string>
+    <string name="patch_uninstall_text">Vanwege verschillende handtekeningen moet u de originele app verwijderen voordat u de gepatchte app installeert.\nZorg ervoor dat u een back-up hebt gemaakt van persoonlijke gegevens.</string>
+    <string name="patch_uninstalling">Verwijderen</string>
+    <string name="patch_install_successfully">Succesvol installeren</string>
+    <string name="patch_install_failed">Installatie mislukt</string>
     <string name="patch_copy_error">Kopieerfout</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Selecteer Apps</string>
