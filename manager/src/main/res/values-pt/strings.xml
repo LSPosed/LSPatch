@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Adicionar</string>
-    <string name="shizuku_available">Shizuku service available</string>
-    <string name="shizuku_unavailable">Shizuku service not connected</string>
+    <string name="shizuku_available">Serviço Shizuku disponível</string>
+    <string name="shizuku_unavailable">Serviço Shizuku não conectado</string>
     <string name="page_repo">Repositório</string>
     <string name="page_logs">Histórico</string>
     <!-- Home Page -->
@@ -19,11 +19,15 @@
     <string name="home_view_source_code"><![CDATA[Veja o código fonte em %1$s<br/>Junte-se ao nosso %2$s canais]]></string>
     <!-- Manage Page -->
     <string name="page_manage">Gerenciar</string>
+    <string name="manage_loading">Carregando</string>
+    <string name="manage_no_apps">Nenhum aplicativo corrigido ainda</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Novo Patch</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
+    <string name="patch_select_dir_title">Selecione o diretório de armazenamento</string>
+    <string name="patch_select_dir_text">Selecione um diretório para armazenar os apks corrigidos</string>
+    <string name="patch_select_dir_error">Erro ao definir o diretório de armazenamento</string>
+    <string name="patch_from_storage">Selecione apk(s) do armazenamento</string>
+    <string name="patch_from_applist">Selecione um aplicativo instalado</string>
     <string name="patch_mode">Modo Patch</string>
     <string name="patch_local">Local</string>
     <string name="patch_local_desc">Corrija um aplicativo sem módulos incorporados.\nO aplicativo corrigido precisa do gerenciador em execução em segundo plano, e o escopo Xposed pode ser alterado dinamicamente sem refazer o patch.\nAplicativos com patch local só podem ser executados no dispositivo local.</string>
@@ -41,12 +45,12 @@
     <string name="patch_start">Iniciar patch</string>
     <string name="patch_return">Retornar</string>
     <string name="patch_install">Instalar</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
+    <string name="patch_installing">Instalando</string>
+    <string name="patch_uninstall">Desinstalar</string>
+    <string name="patch_uninstall_text">Devido a assinaturas diferentes, você precisa desinstalar o aplicativo original antes de instalar o corrigido.\nCertifique-se de ter feito backup dos dados pessoais.</string>
+    <string name="patch_uninstalling">Desinstalando</string>
+    <string name="patch_install_successfully">Instalar com sucesso</string>
+    <string name="patch_install_failed">Falha na instalação</string>
     <string name="patch_copy_error">Erro de cópia</string>
     <!-- Select Apps Page -->
     <string name="page_select_apps">Selecionar aplicativos</string>
