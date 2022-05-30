@@ -47,6 +47,7 @@ fun HomePage() {
             ShizukuCard()
             InfoCard()
             SupportCard()
+            Spacer(Modifier)
         }
     }
 }
@@ -84,11 +85,6 @@ private fun ShizukuCard() {
     }
 
     ElevatedCard(
-        modifier = Modifier.clickable {
-            if (ShizukuApi.isBinderAvalable && !ShizukuApi.isPermissionGranted) {
-                Shizuku.requestPermission(114514)
-            }
-        },
         colors = CardDefaults.elevatedCardColors(containerColor = run {
             if (ShizukuApi.isPermissionGranted) MaterialTheme.colorScheme.secondaryContainer
             else MaterialTheme.colorScheme.errorContainer
@@ -97,6 +93,11 @@ private fun ShizukuCard() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .clickable {
+                    if (ShizukuApi.isBinderAvalable && !ShizukuApi.isPermissionGranted) {
+                        Shizuku.requestPermission(114514)
+                    }
+                }
                 .padding(24.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {

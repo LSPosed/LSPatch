@@ -13,8 +13,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -29,19 +32,23 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.lsposed.lspatch.Constants.PREFS_STORAGE_DIRECTORY
 import org.lsposed.lspatch.R
-import org.lsposed.lspatch.TAG
+import org.lsposed.lspatch.config.ConfigManager
+import org.lsposed.lspatch.database.entity.Module
 import org.lsposed.lspatch.lspApp
 import org.lsposed.lspatch.ui.component.AppItem
 import org.lsposed.lspatch.ui.util.LocalNavController
 import org.lsposed.lspatch.ui.util.LocalSnackbarHost
+import org.lsposed.lspatch.ui.util.observeState
+import org.lsposed.lspatch.ui.util.setState
 import org.lsposed.lspatch.ui.viewmodel.ManageViewModel
 import org.lsposed.lspatch.util.LSPPackageManager
+import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 import java.io.IOException
+
+private const val TAG = "ManagePage"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -198,14 +205,8 @@ private fun Fab() {
 @Composable
 private fun Body() {
     val viewModel = viewModel<ManageViewModel>()
-
-    LaunchedEffect(Unit) {
-        if (LSPPackageManager.appList.isEmpty()) {
-            withContext(Dispatchers.IO) {
-                LSPPackageManager.fetchAppList()
-            }
-        }
-    }
+    val navController = LocalNavController.current
+    val scope = rememberCoroutineScope()
 
     if (viewModel.appList.isEmpty()) {
         Box(Modifier.fillMaxSize()) {
@@ -220,32 +221,72 @@ private fun Body() {
             )
         }
     } else {
+        var scopeApp by rememberSaveable { mutableStateOf("") }
+        val isCancelled by navController.currentBackStackEntry!!.observeState<Boolean>("isCancelled")
+        LaunchedEffect(isCancelled) {
+            if (isCancelled == false) {
+                val selected = navController.currentBackStackEntry!!
+                    .savedStateHandle.getLiveData<SnapshotStateList<AppInfo>>("selected").value!!.toSet()
+                Log.d(TAG, "Clear module list for $scopeApp")
+                ConfigManager.getModulesForApp(scopeApp).forEach {
+                    ConfigManager.deactivateModule(scopeApp, it)
+                }
+                selected.forEach {
+                    Log.d(TAG, "Activate ${it.app.packageName} for $scopeApp")
+                    ConfigManager.activateModule(scopeApp, Module(it.app.packageName, it.app.sourceDir))
+                }
+                navController.currentBackStackEntry!!.setState("isCancelled", null)
+            }
+        }
         LazyColumn {
             items(
                 items = viewModel.appList,
                 key = { it.first.app.packageName }
             ) {
-                AppItem(
-                    modifier = Modifier.animateItemPlacement(spring(stiffness = Spring.StiffnessLow)),
-                    icon = LSPPackageManager.getIcon(it.first),
-                    label = it.first.label,
-                    packageName = it.first.app.packageName,
-                    onClick = {}
-                ) {
-                    val text = buildAnnotatedString {
-                        val (text, color) =
-                            if (it.second.useManager) stringResource(R.string.patch_local) to MaterialTheme.colorScheme.secondary
-                            else stringResource(R.string.patch_portable) to MaterialTheme.colorScheme.tertiary
-                        append(AnnotatedString(text, SpanStyle(color = color)))
-                        append("  ")
-                        append(it.second.lspConfig.VERSION_CODE.toString())
-                    }
-                    Text(
-                        text = text,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = FontFamily.Serif,
-                        style = MaterialTheme.typography.bodySmall
+                var expanded by remember { mutableStateOf(false) }
+                Box {
+                    AppItem(
+                        modifier = Modifier.animateItemPlacement(spring(stiffness = Spring.StiffnessLow)),
+                        icon = LSPPackageManager.getIcon(it.first),
+                        label = it.first.label,
+                        packageName = it.first.app.packageName,
+                        onClick = {
+                            scope.launch {
+                                scopeApp = it.first.app.packageName
+                                val activated = ConfigManager.getModulesForApp(scopeApp).map { it.pkgName }.toSet()
+                                navController.currentBackStackEntry!!.setState(
+                                    "selected",
+                                    SnapshotStateList<AppInfo>().apply {
+                                        LSPPackageManager.appList.filterTo(this) { activated.contains(it.app.packageName) }
+                                    }
+                                )
+                                navController.navigate(PageList.SelectApps.name + "?multiSelect=true")
+                            }
+                        },
+                        onLongClick = {
+                            // expanded = true
+                        },
+                        rightIcon = { if (it.second.useManager) Icon(Icons.Filled.ArrowForwardIos, null) },
+                        additionalContent = {
+                            val text = buildAnnotatedString {
+                                val (text, color) =
+                                    if (it.second.useManager) stringResource(R.string.patch_local) to MaterialTheme.colorScheme.secondary
+                                    else stringResource(R.string.patch_portable) to MaterialTheme.colorScheme.tertiary
+                                append(AnnotatedString(text, SpanStyle(color = color)))
+                                append("  ")
+                                append(it.second.lspConfig.VERSION_CODE.toString())
+                            }
+                            Text(
+                                text = text,
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = FontFamily.Serif,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
                     )
+                }
+                DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                    /* TODO */
                 }
             }
         }

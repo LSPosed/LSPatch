@@ -5,6 +5,8 @@ import android.graphics.drawable.GradientDrawable
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,8 +29,11 @@ fun AppItem(
     onClick: () -> Unit,
     onLongClick: (() -> Unit)? = null,
     checked: Boolean? = null,
+    rightIcon: (@Composable () -> Unit)? = null,
     additionalContent: (@Composable () -> Unit)? = null,
 ) {
+    if (checked != null && rightIcon != null)
+        throw IllegalArgumentException("`checked` and `rightIcon` should not be both set")
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -67,6 +72,9 @@ fun AppItem(
                     modifier = Modifier.padding(start = 20.dp)
                 )
             }
+            if (rightIcon != null) {
+                rightIcon()
+            }
         }
     }
 }
@@ -82,7 +90,8 @@ private fun AppItemPreview() {
             icon = shape,
             label = "Sample App",
             packageName = "org.lsposed.sample",
-            onClick = {}
+            onClick = {},
+            rightIcon = { Icon(Icons.Filled.ArrowForwardIos, null) }
         )
     }
 }

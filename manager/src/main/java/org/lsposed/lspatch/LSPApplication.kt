@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.lsposed.hiddenapibypass.HiddenApiBypass
+import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.ShizukuApi
 import java.io.File
 
@@ -29,5 +31,6 @@ class LSPApplication : Application() {
         tmpApkDir.mkdirs()
         prefs = lspApp.getSharedPreferences("settings", Context.MODE_PRIVATE)
         ShizukuApi.init()
+        globalScope.launch { LSPPackageManager.fetchAppList() }
     }
 }

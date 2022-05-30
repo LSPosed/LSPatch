@@ -77,7 +77,10 @@ private fun KeyStore() {
             )
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.settings_keystore_custom)) },
-                onClick = { showDialog = true }
+                onClick = {
+                    dropDownExpanded = false
+                    showDialog = true
+                }
             )
         }
     }
@@ -160,7 +163,10 @@ private fun KeyStore() {
                 )
             },
             text = {
-                Column {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     val interactionSource = remember { MutableInteractionSource() }
                     LaunchedEffect(interactionSource) {
                         interactionSource.interactions.collect { interaction ->
@@ -178,9 +184,7 @@ private fun KeyStore() {
                         else -> null
                     }
                     Text(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(bottom = 8.dp),
+                        modifier = Modifier.padding(bottom = 8.dp),
                         text = wrongText ?: stringResource(R.string.settings_keystore_desc),
                         color = if (wrongText != null) MaterialTheme.colorScheme.error else Color.Unspecified
                     )

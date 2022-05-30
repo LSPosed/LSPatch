@@ -42,7 +42,7 @@ fun SelectAppsPage(multiSelect: Boolean) {
     val filter: (AppInfo) -> Boolean = {
         val packageLowerCase = searchPackage.toLowerCase(Locale.current)
         val contains = it.label.toLowerCase(Locale.current).contains(packageLowerCase) || it.app.packageName.contains(packageLowerCase)
-        if (multiSelect) contains && it.app.metaData?.get("xposedminversion") != null
+        if (multiSelect) contains && it.isXposedModule
         else contains && it.app.flags and ApplicationInfo.FLAG_SYSTEM == 0
     }
 
@@ -94,9 +94,13 @@ fun SelectAppsPage(multiSelect: Boolean) {
 @Composable
 private fun MultiSelectFab() {
     val navController = LocalNavController.current
-    FloatingActionButton(onClick = { navController.popBackStack() }) {
-        Icon(Icons.Outlined.Done, stringResource(R.string.add))
-    }
+    FloatingActionButton(
+        onClick = {
+            navController.previousBackStackEntry!!.setState("isCancelled", false)
+            navController.popBackStack()
+        },
+        content = { Icon(Icons.Outlined.Done, stringResource(R.string.add)) }
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)

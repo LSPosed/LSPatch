@@ -7,6 +7,7 @@ val coreVerName: String by rootProject.extra
 
 plugins {
     id("com.android.application")
+    id("com.google.devtools.ksp")
     id("dev.rikka.tools.refine")
     id("kotlin-parcelize")
     kotlin("android")
@@ -73,6 +74,8 @@ dependencies {
     implementation(projects.share.android)
     implementation(projects.share.java)
 
+    val roomVersion = "2.4.2"
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
     compileOnly("dev.rikka.hidden:stub:2.3.1")
     implementation("dev.rikka.hidden:compat:2.3.1")
     implementation("androidx.core:core-ktx:1.7.0")
@@ -85,6 +88,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-rc01")
     implementation("androidx.navigation:navigation-compose:2.5.0-rc01")
     implementation("androidx.preference:preference:1.2.0")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.room:room-runtime:$roomVersion")
     implementation("com.google.accompanist:accompanist-drawablepainter:0.24.9-beta")
     implementation("com.google.accompanist:accompanist-navigation-animation:0.24.9-beta")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.24.9-beta")
@@ -93,4 +98,5 @@ dependencies {
     implementation("dev.rikka.shizuku:api:12.1.0")
     implementation("dev.rikka.shizuku:provider:12.1.0")
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
+    ksp("androidx.room:room-compiler:$roomVersion")
 }

@@ -19,6 +19,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import org.lsposed.lspatch.Constants.PATCH_FILE_SUFFIX
 import org.lsposed.lspatch.Constants.PREFS_STORAGE_DIRECTORY
+import org.lsposed.lspatch.config.ConfigManager
 import org.lsposed.lspatch.lspApp
 import org.lsposed.patch.util.ManifestParser
 import java.io.File
@@ -35,7 +36,10 @@ object LSPPackageManager {
     private const val TAG = "LSPPackageManager"
 
     @Parcelize
-    class AppInfo(val app: ApplicationInfo, val label: String) : Parcelable
+    class AppInfo(val app: ApplicationInfo, val label: String) : Parcelable {
+        val isXposedModule: Boolean
+            get() = app.metaData?.get("xposedminversion") != null
+    }
 
     const val STATUS_USER_CANCELLED = -2
 
@@ -53,7 +57,11 @@ object LSPPackageManager {
                 collection.add(AppInfo(it, label.toString()))
                 appIcon[it.packageName] = pm.getApplicationIcon(it)
             }
-            collection.sortWith(compareBy(Collator.getInstance(Locale.getDefault())) { it.label })
+            collection.sortWith(compareBy(Collator.getInstance(Locale.getDefault()), AppInfo::label))
+            val modules = buildMap {
+                collection.forEach { if (it.isXposedModule) put(it.app.packageName, it.app.sourceDir) }
+            }
+            ConfigManager.updateModules(modules)
             appList = collection
         }
     }

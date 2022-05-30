@@ -23,6 +23,12 @@ class NewPatchViewModel : ViewModel() {
         SELECTING, CONFIGURING, PATCHING, FINISHED, ERROR
     }
 
+    sealed class ViewAction {
+        data class ConfigurePatch(val app: AppInfo) : ViewAction()
+        object SubmitPatch : ViewAction()
+        object LaunchPatch : ViewAction()
+    }
+
     var patchState by mutableStateOf(PatchState.SELECTING)
         private set
 
@@ -31,10 +37,10 @@ class NewPatchViewModel : ViewModel() {
     var overrideVersionCode by mutableStateOf(false)
     val sign = mutableStateListOf(false, true)
     var sigBypassLevel by mutableStateOf(2)
+    var embeddedModules = SnapshotStateList<AppInfo>()
 
     lateinit var patchApp: AppInfo
         private set
-    lateinit var embeddedModules: SnapshotStateList<AppInfo>
     lateinit var patchOptions: Patcher.Options
         private set
 
@@ -58,13 +64,21 @@ class NewPatchViewModel : ViewModel() {
         }
     }
 
-    fun configurePatch(app: AppInfo) {
+    fun dispatch(action: ViewAction) {
+        when (action) {
+            is ViewAction.ConfigurePatch -> configurePatch(action.app)
+            is ViewAction.SubmitPatch -> submitPatch()
+            is ViewAction.LaunchPatch -> launchPatch()
+        }
+    }
+
+    private fun configurePatch(app: AppInfo) {
         Log.d(TAG, "Configuring patch for ${app.app.packageName}")
         patchApp = app
         patchState = PatchState.CONFIGURING
     }
 
-    fun submitPatch() {
+    private fun submitPatch() {
         Log.d(TAG, "Submit patch")
         if (useManager) embeddedModules.clear()
         patchOptions = Patcher.Options(
@@ -80,7 +94,7 @@ class NewPatchViewModel : ViewModel() {
         patchState = PatchState.PATCHING
     }
 
-    fun launchPatch() {
+    private fun launchPatch() {
         logger.i("Launch patch")
         viewModelScope.launch {
             patchState = try {

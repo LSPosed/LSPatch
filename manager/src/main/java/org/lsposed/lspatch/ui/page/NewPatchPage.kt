@@ -45,6 +45,7 @@ import org.lsposed.lspatch.ui.component.settings.SettingsItem
 import org.lsposed.lspatch.ui.util.*
 import org.lsposed.lspatch.ui.viewmodel.NewPatchViewModel
 import org.lsposed.lspatch.ui.viewmodel.NewPatchViewModel.PatchState
+import org.lsposed.lspatch.ui.viewmodel.NewPatchViewModel.ViewAction
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 import org.lsposed.lspatch.util.ShizukuApi
@@ -71,7 +72,7 @@ fun NewPatchPage(from: String, entry: NavBackStackEntry) {
             runBlocking {
                 LSPPackageManager.getAppInfoFromApks(apks)
                     .onSuccess {
-                        viewModel.configurePatch(it)
+                        viewModel.dispatch(ViewAction.ConfigurePatch(it))
                     }
                     .onFailure {
                         lspApp.globalScope.launch { snackbarHost.showSnackbar(it.message ?: "Unknown error") }
@@ -86,7 +87,7 @@ fun NewPatchPage(from: String, entry: NavBackStackEntry) {
                 "storage" -> storageLauncher.launch(arrayOf("application/vnd.android.package-archive"))
                 "applist" -> {
                     entry.savedStateHandle.getLiveData<AppInfo>("appInfo").observe(lifecycleOwner) {
-                        viewModel.configurePatch(it)
+                        viewModel.dispatch(ViewAction.ConfigurePatch(it))
                     }
                     navController.navigate(PageList.SelectApps.name + "?multiSelect=false")
                 }
@@ -111,7 +112,7 @@ fun NewPatchPage(from: String, entry: NavBackStackEntry) {
         ) { innerPadding ->
             if (viewModel.patchState == PatchState.CONFIGURING) {
                 LaunchedEffect(Unit) {
-                    entry.savedStateHandle.getLiveData<SnapshotStateList<AppInfo>>("selected", SnapshotStateList()).observe(lifecycleOwner) {
+                    entry.savedStateHandle.getLiveData("selected", SnapshotStateList<AppInfo>()).observe(lifecycleOwner) {
                         viewModel.embeddedModules = it
                     }
                 }
@@ -142,7 +143,7 @@ private fun ConfiguringFab() {
     ExtendedFloatingActionButton(
         text = { Text(stringResource(R.string.patch_start)) },
         icon = { Icon(Icons.Outlined.AutoFixHigh, null) },
-        onClick = { viewModel.submitPatch() }
+        onClick = { viewModel.dispatch(ViewAction.SubmitPatch) }
     )
 }
 
@@ -273,7 +274,7 @@ private fun DoPatchBody(modifier: Modifier) {
 
     LaunchedEffect(Unit) {
         if (viewModel.logs.isEmpty()) {
-            viewModel.launchPatch()
+            viewModel.dispatch(ViewAction.LaunchPatch)
         }
     }
 
@@ -288,9 +289,7 @@ private fun DoPatchBody(modifier: Modifier) {
                 .animateContentSize(spring(stiffness = Spring.StiffnessLow))
         ) {
             ShimmerAnimation(enabled = viewModel.patchState == PatchState.PATCHING) {
-                CompositionLocalProvider(
-                    LocalTextStyle provides MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace)
-                ) {
+                ProvideTextStyle(MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace)) {
                     val scrollState = rememberLazyListState()
                     LazyColumn(
                         state = scrollState,
