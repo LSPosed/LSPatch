@@ -1,5 +1,7 @@
 package org.lsposed.lspatch.config
 
+import android.content.pm.PackageManager
+import android.util.Log
 import androidx.room.Room
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -9,8 +11,11 @@ import org.lsposed.lspatch.database.entity.Module
 import org.lsposed.lspatch.database.entity.Scope
 import org.lsposed.lspatch.lspApp
 import org.lsposed.lspatch.util.ModuleLoader
+import java.io.File
 
 object ConfigManager {
+
+    private const val TAG = "ConfigManager"
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val dispatcher = Dispatchers.Default.limitedParallelism(1)
@@ -59,7 +64,18 @@ object ConfigManager {
     suspend fun getModuleFilesForApp(pkgName: String): List<org.lsposed.lspd.models.Module> =
         withContext(dispatcher) {
             val modules = scopeDao.getModulesForApp(pkgName)
-            return@withContext modules.map {
+            return@withContext modules.mapNotNull {
+                if (!File(it.apkPath).exists()) {
+                    loadedModules.remove(it)
+                    try {
+                        it.apkPath = lspApp.packageManager.getApplicationInfo(it.pkgName, 0).sourceDir
+                    } catch (e: PackageManager.NameNotFoundException) {
+                        moduleDao.delete(moduleDao.getModule(it.pkgName))
+                        Log.w(TAG, "Module may be uninstalled: ${it.pkgName}")
+                        return@mapNotNull null
+                    }
+                    Log.i(TAG, "Module apk path updated: ${it.pkgName}")
+                }
                 loadedModules.getOrPut(it) {
                     org.lsposed.lspd.models.Module().apply {
                         packageName = it.pkgName

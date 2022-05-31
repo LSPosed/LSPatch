@@ -10,6 +10,9 @@ import org.lsposed.lspatch.database.entity.Module
 @Dao
 interface ModuleDao {
 
+    @Query("SELECT * FROM module WHERE pkgName = :pkgName")
+    suspend fun getModule(pkgName: String): Module
+
     @Query("SELECT * FROM module")
     suspend fun getAll(): List<Module>
 
