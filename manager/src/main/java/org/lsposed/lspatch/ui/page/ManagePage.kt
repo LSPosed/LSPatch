@@ -2,6 +2,7 @@ package org.lsposed.lspatch.ui.page
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -46,6 +46,7 @@ import org.lsposed.lspatch.ui.util.setState
 import org.lsposed.lspatch.ui.viewmodel.ManageViewModel
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
+import org.lsposed.lspatch.util.ShizukuApi
 import java.io.IOException
 
 private const val TAG = "ManagePage"
@@ -205,6 +206,7 @@ private fun Fab() {
 @Composable
 private fun Body() {
     val viewModel = viewModel<ManageViewModel>()
+    val snackbarHost = LocalSnackbarHost.current
     val navController = LocalNavController.current
     val scope = rememberCoroutineScope()
 
@@ -250,23 +252,8 @@ private fun Body() {
                         icon = LSPPackageManager.getIcon(it.first),
                         label = it.first.label,
                         packageName = it.first.app.packageName,
-                        onClick = {
-                            scope.launch {
-                                scopeApp = it.first.app.packageName
-                                val activated = ConfigManager.getModulesForApp(scopeApp).map { it.pkgName }.toSet()
-                                navController.currentBackStackEntry!!.setState(
-                                    "selected",
-                                    SnapshotStateList<AppInfo>().apply {
-                                        LSPPackageManager.appList.filterTo(this) { activated.contains(it.app.packageName) }
-                                    }
-                                )
-                                navController.navigate(PageList.SelectApps.name + "?multiSelect=true")
-                            }
-                        },
-                        onLongClick = {
-                            // expanded = true
-                        },
-                        rightIcon = { if (it.second.useManager) Icon(Icons.Filled.ArrowForwardIos, null) },
+                        onClick = { expanded = true },
+                        onLongClick = { expanded = true },
                         additionalContent = {
                             val text = buildAnnotatedString {
                                 val (text, color) =
@@ -284,9 +271,66 @@ private fun Body() {
                             )
                         }
                     )
-                }
-                DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                    /* TODO */
+                    DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                        if (it.second.useManager) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.manage_module_scope)) },
+                                onClick = {
+                                    expanded = false
+                                    scope.launch {
+                                        scopeApp = it.first.app.packageName
+                                        val activated = ConfigManager.getModulesForApp(scopeApp).map { it.pkgName }.toSet()
+                                        navController.currentBackStackEntry!!.setState(
+                                            "selected",
+                                            SnapshotStateList<AppInfo>().apply {
+                                                LSPPackageManager.appList.filterTo(this) { activated.contains(it.app.packageName) }
+                                            }
+                                        )
+                                        navController.navigate(PageList.SelectApps.name + "?multiSelect=true")
+                                    }
+                                }
+                            )
+                        }
+                        val shizukuUnavailable = stringResource(R.string.shizuku_unavailable)
+                        val optimizeSucceed = stringResource(R.string.manage_optimize_successfully)
+                        val optimizeFailed = stringResource(R.string.manage_optimize_failed)
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.manage_optimize)) },
+                            onClick = {
+                                expanded = false
+                                if (!ShizukuApi.isPermissionGranted) {
+                                    scope.launch {
+                                        snackbarHost.showSnackbar(shizukuUnavailable)
+                                    }
+                                } else {
+                                    scope.launch {
+                                        val result = ShizukuApi.performDexOptMode(it.first.app.packageName)
+                                        snackbarHost.showSnackbar(if (result) optimizeSucceed else optimizeFailed)
+                                    }
+                                }
+                            }
+                        )
+                        val uninstallSuccessfully = stringResource(R.string.manage_uninstall_successfully)
+                        val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                            if (it.resultCode == Activity.RESULT_OK) {
+                                scope.launch {
+                                    LSPPackageManager.fetchAppList()
+                                    snackbarHost.showSnackbar(uninstallSuccessfully)
+                                }
+                            }
+                        }
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.uninstall)) },
+                            onClick = {
+                                expanded = false
+                                val intent = Intent(Intent.ACTION_DELETE).apply {
+                                    data = Uri.parse("package:${it.first.app.packageName}")
+                                    putExtra(Intent.EXTRA_RETURN_RESULT, true)
+                                }
+                                launcher.launch(intent)
+                            }
+                        )
+                    }
                 }
             }
         }

@@ -5,6 +5,7 @@ import android.content.pm.*
 import android.os.Build
 import android.os.IBinder
 import android.os.IInterface
+import android.os.SystemProperties
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -70,5 +71,13 @@ object ShizukuApi {
 
     fun uninstallPackage(packageName: String, intentSender: IntentSender) {
         packageInstaller.uninstall(packageName, intentSender)
+    }
+
+    fun performDexOptMode(packageName: String): Boolean {
+        return iPackageManager.performDexOptMode(
+            packageName,
+            SystemProperties.getBoolean("dalvik.vm.usejitprofiles", false),
+            "verify", true, true, null
+        )
     }
 }

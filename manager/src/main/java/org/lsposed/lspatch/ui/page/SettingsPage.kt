@@ -57,28 +57,28 @@ private fun TopBar() {
 private fun KeyStore() {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    var dropDownExpanded by remember { mutableStateOf(false) }
+    var dropdownExpanded by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
 
     Box {
         SettingsItem(
-            onClick = { dropDownExpanded = !dropDownExpanded },
+            onClick = { dropdownExpanded = !dropdownExpanded },
             icon = Icons.Outlined.Ballot,
             title = stringResource(R.string.settings_keystore),
             desc = stringResource(if (MyKeyStore.useDefault) R.string.settings_keystore_default else R.string.settings_keystore_custom)
         )
-        DropdownMenu(expanded = dropDownExpanded, onDismissRequest = { dropDownExpanded = false }) {
+        DropdownMenu(expanded = dropdownExpanded, onDismissRequest = { dropdownExpanded = false }) {
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.settings_keystore_default)) },
                 onClick = {
                     scope.launch { MyKeyStore.reset() }
-                    dropDownExpanded = false
+                    dropdownExpanded = false
                 }
             )
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.settings_keystore_custom)) },
                 onClick = {
-                    dropDownExpanded = false
+                    dropdownExpanded = false
                     showDialog = true
                 }
             )
@@ -107,7 +107,7 @@ private fun KeyStore() {
         }
 
         AlertDialog(
-            onDismissRequest = { dropDownExpanded = false; showDialog = false },
+            onDismissRequest = { dropdownExpanded = false; showDialog = false },
             confirmButton = {
                 TextButton(
                     content = { Text(stringResource(android.R.string.ok)) },
@@ -145,14 +145,14 @@ private fun KeyStore() {
                         }
 
                         scope.launch { MyKeyStore.setCustom(password, alias, aliasPassword) }
-                        dropDownExpanded = false
+                        dropdownExpanded = false
                         showDialog = false
                     })
             },
             dismissButton = {
                 TextButton(
                     content = { Text(stringResource(android.R.string.cancel)) },
-                    onClick = { dropDownExpanded = false; showDialog = false }
+                    onClick = { dropdownExpanded = false; showDialog = false }
                 )
             },
             title = {

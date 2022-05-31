@@ -359,7 +359,7 @@ private fun DoPatchBody(modifier: Modifier) {
                                     installing = true
                                 }
                             },
-                            content = { Text(stringResource(R.string.patch_install)) }
+                            content = { Text(stringResource(R.string.install)) }
                         )
                     }
                 }
@@ -439,7 +439,7 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
             title = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.patch_uninstall),
+                    text = stringResource(R.string.uninstall),
                     textAlign = TextAlign.Center
                 )
             },
@@ -454,7 +454,7 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
             title = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(if (installing == 1) R.string.patch_installing else R.string.patch_uninstalling),
+                    text = stringResource(if (installing == 1) R.string.installing else R.string.uninstalling),
                     fontFamily = FontFamily.Serif,
                     textAlign = TextAlign.Center
                 )
