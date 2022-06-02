@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Ekle</string>
+    <string name="install">Düzenlemek</string>
+    <string name="installing">yükleme</string>
+    <string name="uninstall">Kaldır</string>
+    <string name="uninstalling">Kaldırma</string>
     <string name="shizuku_available">Shizuku servisi mevcut</string>
     <string name="shizuku_unavailable">Shizuku hizmeti bağlı değil</string>
     <string name="page_repo">depo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Üstesinden gelmek</string>
     <string name="manage_loading">Yükleniyor</string>
     <string name="manage_no_apps">Henüz yama uygulanmış uygulama yok</string>
+    <string name="manage_module_scope">Modül kapsamı</string>
+    <string name="manage_optimize">optimize et</string>
+    <string name="manage_optimize_successfully">Başarıyla optimize et</string>
+    <string name="manage_optimize_failed">Optimize başarısız oldu</string>
+    <string name="manage_uninstall_successfully">başarıyla kaldır</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Yeni Yama</string>
     <string name="patch_select_dir_title">Depolama dizini seçin</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Yama uygulanmış uygulamanın sürüm kodunu 1\nolarak geçersiz kıl Bu, gelecekte sürüm düşürme kurulumuna izin verir ve genellikle bu, uygulama tarafından gerçekte algılanan sürüm kodunu etkilemez</string>
     <string name="patch_start">Yama Başlat</string>
     <string name="patch_return">Dönüş</string>
-    <string name="patch_install">Düzenlemek</string>
-    <string name="patch_installing">yükleme</string>
-    <string name="patch_uninstall">Kaldır</string>
     <string name="patch_uninstall_text">Farklı imzalar nedeniyle, yamalı uygulamayı yüklemeden önce orijinal uygulamayı kaldırmanız gerekir.\nKişisel verilerinizi yedeklediğinizden emin olun.</string>
-    <string name="patch_uninstalling">Kaldırma</string>
     <string name="patch_install_successfully">başarıyla yükle</string>
     <string name="patch_install_failed">Yükleme başarısız</string>
     <string name="patch_copy_error">Kopyalama hatası</string>
