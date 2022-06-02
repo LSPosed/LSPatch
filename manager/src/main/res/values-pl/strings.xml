@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Dodać</string>
+    <string name="install">Zainstaluj stronę</string>
+    <string name="installing">Instalacja strony</string>
+    <string name="uninstall">Odinstaluj</string>
+    <string name="uninstalling">Dezinstalacja</string>
     <string name="shizuku_available">Dostępna usługa Shizuku</string>
     <string name="shizuku_unavailable">Usługa Shizuku nie jest podłączona</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Zarządzać</string>
     <string name="manage_loading">Ładowanie</string>
     <string name="manage_no_apps">Brak zaktualizowanych aplikacji</string>
+    <string name="manage_module_scope">Zakres modułu</string>
+    <string name="manage_optimize">Zoptymalizuj stronę</string>
+    <string name="manage_optimize_successfully">Skuteczna optymalizacja</string>
+    <string name="manage_optimize_failed">Optymalizacja nie powiodła się</string>
+    <string name="manage_uninstall_successfully">Odinstaluj z powodzeniem</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nowa łatka</string>
     <string name="patch_select_dir_title">Wybierz katalog przechowywania</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Zastąp kod wersji załatanej aplikacji na 1\nUmożliwi to instalację w przyszłości, a generalnie nie będzie miało wpływu na kod wersji faktycznie odbierany przez aplikację</string>
     <string name="patch_start">Rozpocznij łatkę</string>
     <string name="patch_return">Powrót</string>
-    <string name="patch_install">zainstalować</string>
-    <string name="patch_installing">Instalowanie</string>
-    <string name="patch_uninstall">Odinstaluj</string>
     <string name="patch_uninstall_text">Ze względu na różne sygnatury musisz odinstalować oryginalną aplikację przed zainstalowaniem poprawionej.\nUpewnij się, że wykonałeś kopię zapasową danych osobowych.</string>
-    <string name="patch_uninstalling">Odinstalowywanie</string>
     <string name="patch_install_successfully">Zainstaluj pomyślnie</string>
     <string name="patch_install_failed">Instalacja nie powiodła się</string>
     <string name="patch_copy_error">Błąd kopiowania</string>
