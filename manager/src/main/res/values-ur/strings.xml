@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">شامل کریں۔</string>
+    <string name="install">انسٹال کریں۔</string>
+    <string name="installing">انسٹال کرنا</string>
+    <string name="uninstall">ان انسٹال کریں۔</string>
+    <string name="uninstalling">ان انسٹال کرنا</string>
     <string name="shizuku_available">شیزوکو سروس دستیاب ہے۔</string>
     <string name="shizuku_unavailable">شیزوکو سروس منسلک نہیں ہے۔</string>
     <string name="page_repo">ریپو</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">انتظام کریں۔</string>
     <string name="manage_loading">لوڈ ہو رہا ہے۔</string>
     <string name="manage_no_apps">ابھی تک کوئی پیچ شدہ ایپس نہیں ہیں۔</string>
+    <string name="manage_module_scope">ماڈیول دائرہ کار</string>
+    <string name="manage_optimize">بہتر بنائیں</string>
+    <string name="manage_optimize_successfully">کامیابی کے ساتھ اصلاح کریں۔</string>
+    <string name="manage_optimize_failed">اصلاح ناکام ہوگئی</string>
+    <string name="manage_uninstall_successfully">کامیابی کے ساتھ اَن انسٹال کریں۔</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">نیا پیچ</string>
     <string name="patch_select_dir_title">اسٹوریج ڈائرکٹری منتخب کریں۔</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">پیچ شدہ ایپ کے ورژن کوڈ کو 1\nپر اوور رائیڈ کریں یہ مستقبل میں انسٹالیشن کو ڈاؤن گریڈ کرنے کی اجازت دیتا ہے، اور عام طور پر اس سے ایپلیکیشن کے ذریعہ سمجھے گئے ورژن کوڈ پر کوئی اثر نہیں پڑے گا۔</string>
     <string name="patch_start">پیچ شروع کریں۔</string>
     <string name="patch_return">واپسی</string>
-    <string name="patch_install">انسٹال کریں۔</string>
-    <string name="patch_installing">انسٹال کرنا</string>
-    <string name="patch_uninstall">ان انسٹال کریں۔</string>
     <string name="patch_uninstall_text">مختلف دستخطوں کی وجہ سے، آپ کو پیچ شدہ ایپ کو انسٹال کرنے سے پہلے اصل ایپ کو ان انسٹال کرنے کی ضرورت ہے۔\nیقینی بنائیں کہ آپ نے ذاتی ڈیٹا کا بیک اپ لیا ہے۔</string>
-    <string name="patch_uninstalling">ان انسٹال کرنا</string>
     <string name="patch_install_successfully">کامیابی سے انسٹال کریں۔</string>
     <string name="patch_install_failed">انسٹال ناکام ہو گیا۔</string>
     <string name="patch_copy_error">کاپی کی غلطی</string>
