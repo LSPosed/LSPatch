@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Lêzêdekirin</string>
+    <string name="install">Lêkirin</string>
+    <string name="installing">Sazkirin</string>
+    <string name="uninstall">Rakirin</string>
+    <string name="uninstalling">Rakirin</string>
     <string name="shizuku_available">Karûbarê Shizuku heye</string>
     <string name="shizuku_unavailable">Karûbarê Shizuku ne girêdayî ye</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Rêvebirin</string>
     <string name="manage_loading">Barkirin</string>
     <string name="manage_no_apps">Hê sepanên patched tune</string>
+    <string name="manage_module_scope">Qada modulê</string>
+    <string name="manage_optimize">Optimize bikin</string>
+    <string name="manage_optimize_successfully">Optimize bi serkeftî</string>
+    <string name="manage_optimize_failed">Optimîzekirin têk çû</string>
+    <string name="manage_uninstall_successfully">Rakirina bi serkeftî</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Patch Nû</string>
     <string name="patch_select_dir_title">Peldanka hilanînê hilbijêrin</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Koda guhertoya sepana pejirandî biguhezîne 1\nEv rê dide sazkirina dakêşanê di pêşerojê de, û bi gelemperî ev ê bandorê li koda guhertoya ku bi rastî ji hêla serîlêdanê ve tê fêm kirin neke.</string>
     <string name="patch_start">Patchê dest pê bikin</string>
     <string name="patch_return">Vegerr</string>
-    <string name="patch_install">Lêkirin</string>
-    <string name="patch_installing">Sazkirin</string>
-    <string name="patch_uninstall">Rakirin</string>
     <string name="patch_uninstall_text">Ji ber îmzeyên cihêreng, hûn hewce ne ku berî ku ya patched saz bikin sepana orîjînal rakin.\nPiştrast bike ku we daneya kesane piştguh kiriye.</string>
-    <string name="patch_uninstalling">Rakirin</string>
     <string name="patch_install_successfully">Bi serkeftî saz bike</string>
     <string name="patch_install_failed">Sazkirin têk çû</string>
     <string name="patch_copy_error">Çewtiya kopîkirinê</string>
