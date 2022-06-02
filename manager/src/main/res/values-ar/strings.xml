@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">إضافة</string>
+    <string name="install">تثبيت</string>
+    <string name="installing">التثبيت</string>
+    <string name="uninstall">الغاء التثبيت</string>
+    <string name="uninstalling">الإزالة</string>
     <string name="shizuku_available">تتوفر خدمة شيزوكو</string>
     <string name="shizuku_unavailable">خدمة Shizuku غير متصلة</string>
     <string name="page_repo">المسـتودع</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">إدارة</string>
     <string name="manage_loading">جار التحميل</string>
     <string name="manage_no_apps">لا توجد تطبيقات مصححة حتى الآن</string>
+    <string name="manage_module_scope">نطاق الوحدة</string>
+    <string name="manage_optimize">تحسين</string>
+    <string name="manage_optimize_successfully">التحسين بنجاح</string>
+    <string name="manage_optimize_failed">فشل التحسين</string>
+    <string name="manage_uninstall_successfully">تم الإزالة بنجاح</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">باتش جديد</string>
     <string name="patch_select_dir_title">حدد دليل التخزين</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">تجاوز رمز إصدار التطبيق المصحح إلى 1\nوهذا يسمح بالرجوع إلى إصدار أقدم في المستقبل ، وعمومًا لن يؤثر هذا على رمز الإصدار الذي يتصوره التطبيق بالفعل</string>
     <string name="patch_start">بدء التصحيح</string>
     <string name="patch_return">إرجاع</string>
-    <string name="patch_install">تثبيت</string>
-    <string name="patch_installing">التثبيت</string>
-    <string name="patch_uninstall">الغاء التثبيت</string>
     <string name="patch_uninstall_text">نظرًا لاختلاف التوقيعات ، يلزمك إلغاء تثبيت التطبيق الأصلي قبل تثبيت التطبيق المصحح.\nتأكد من عمل نسخة احتياطية من البيانات الشخصية.</string>
-    <string name="patch_uninstalling">الإزالة</string>
     <string name="patch_install_successfully">التثبيت بنجاح</string>
     <string name="patch_install_failed">فشل تثبيت</string>
     <string name="patch_copy_error">خطأ في النسخ</string>
