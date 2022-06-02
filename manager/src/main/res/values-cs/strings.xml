@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Přidat</string>
+    <string name="install">Instalace</string>
+    <string name="installing">Instalace stránek</string>
+    <string name="uninstall">Odinstalujte stránku</string>
+    <string name="uninstalling">Odinstalování stránky</string>
     <string name="shizuku_available">K dispozici služba Shizuku</string>
     <string name="shizuku_unavailable">Služba Shizuku není připojena</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Spravovat</string>
     <string name="manage_loading">načítání</string>
     <string name="manage_no_apps">Zatím žádné opravené aplikace</string>
+    <string name="manage_module_scope">Rozsah modulu</string>
+    <string name="manage_optimize">Optimalizace</string>
+    <string name="manage_optimize_successfully">Úspěšná optimalizace</string>
+    <string name="manage_optimize_failed">Optimalizace selhala</string>
+    <string name="manage_uninstall_successfully">Úspěšná odinstalace</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nový patch</string>
     <string name="patch_select_dir_title">Vyberte adresář úložiště</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Přepsat kód verze opravené aplikace na 1\nTo umožní v budoucnu downgradovat (snížit verzi) a obecně to neovlivní kód verze, který aplikace skutečně vnímá</string>
     <string name="patch_start">Spusťte opravu</string>
     <string name="patch_return">Vrátit se</string>
-    <string name="patch_install">Nainstalujte</string>
-    <string name="patch_installing">Instalace</string>
-    <string name="patch_uninstall">Odinstalovat</string>
     <string name="patch_uninstall_text">Kvůli různým podpisům musíte před instalací opravené odinstalovat původní aplikaci.\nUjistěte se, že máte zálohovaná osobní data.</string>
-    <string name="patch_uninstalling">Odinstalování</string>
     <string name="patch_install_successfully">Nainstalujte úspěšně</string>
     <string name="patch_install_failed">Instalace se nezdařila</string>
     <string name="patch_copy_error">Chyba kopírování</string>
