@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Thêm vào</string>
+    <string name="install">Cài đặt</string>
+    <string name="installing">Đang cài đặt</string>
+    <string name="uninstall">Gỡ cài đặt</string>
+    <string name="uninstalling">Gỡ cài đặt</string>
     <string name="shizuku_available">Có dịch vụ Shizuku</string>
     <string name="shizuku_unavailable">Dịch vụ Shizuku không được kết nối</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Quản lý</string>
     <string name="manage_loading">Đang tải</string>
     <string name="manage_no_apps">Chưa có ứng dụng được vá</string>
+    <string name="manage_module_scope">Phạm vi mô-đun</string>
+    <string name="manage_optimize">Tối ưu hóa</string>
+    <string name="manage_optimize_successfully">Tối ưu hóa thành công</string>
+    <string name="manage_optimize_failed">Tối ưu hóa không thành công</string>
+    <string name="manage_uninstall_successfully">Gỡ cài đặt thành công</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Bản vá mới</string>
     <string name="patch_select_dir_title">Chọn thư mục lưu trữ</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Ghi đè mã phiên bản của ứng dụng đã vá thành 1\nĐiều này cho phép hạ cấp cài đặt trong tương lai và nói chung điều này sẽ không ảnh hưởng đến mã phiên bản mà ứng dụng thực sự nhận thấy</string>
     <string name="patch_start">Bắt đầu bản vá</string>
     <string name="patch_return">Trở về</string>
-    <string name="patch_install">Cài đặt</string>
-    <string name="patch_installing">Đang cài đặt</string>
-    <string name="patch_uninstall">Gỡ cài đặt</string>
     <string name="patch_uninstall_text">Do các chữ ký khác nhau, bạn cần gỡ cài đặt ứng dụng gốc trước khi cài đặt bản vá.\nĐảm bảo rằng bạn đã sao lưu dữ liệu cá nhân.</string>
-    <string name="patch_uninstalling">Gỡ cài đặt</string>
     <string name="patch_install_successfully">Cài đặt thành công</string>
     <string name="patch_install_failed">Cài đặt không thành công</string>
     <string name="patch_copy_error">Sao chép lỗi</string>
