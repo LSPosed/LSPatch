@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Voeg by</string>
+    <string name="install">Installeer</string>
+    <string name="installing">Installeer tans</string>
+    <string name="uninstall">Deïnstalleer</string>
+    <string name="uninstalling">Deïnstalleer tans</string>
     <string name="shizuku_available">Shizuku diens beskikbaar</string>
     <string name="shizuku_unavailable">Shizuku-diens nie gekoppel nie</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Bestuur</string>
     <string name="manage_loading">Laai tans</string>
     <string name="manage_no_apps">Nog geen reggemaakte programme nie</string>
+    <string name="manage_module_scope">Module omvang</string>
+    <string name="manage_optimize">Optimaliseer</string>
+    <string name="manage_optimize_successfully">Optimaliseer suksesvol</string>
+    <string name="manage_optimize_failed">Kon nie optimaliseer nie</string>
+    <string name="manage_uninstall_successfully">Deïnstalleer suksesvol</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nuwe Patch</string>
     <string name="patch_select_dir_title">Kies bergingsgids</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Ignoreer die gelapte toepassing se weergawekode na 1\nDit laat afgradering installasie in die toekoms toe, en oor die algemeen sal dit nie die weergawekode beïnvloed wat werklik deur die toepassing waargeneem word nie</string>
     <string name="patch_start">Begin Patch</string>
     <string name="patch_return">Keer terug</string>
-    <string name="patch_install">Installeer</string>
-    <string name="patch_installing">Installeer tans</string>
-    <string name="patch_uninstall">Deïnstalleer</string>
     <string name="patch_uninstall_text">As gevolg van verskillende handtekeninge, moet u die oorspronklike toepassing deïnstalleer voordat u die gelapte een installeer.\nMaak seker dat jy persoonlike data gerugsteun het.</string>
-    <string name="patch_uninstalling">Deïnstalleer tans</string>
     <string name="patch_install_successfully">Installeer suksesvol</string>
     <string name="patch_install_failed">Installering het misluk</string>
     <string name="patch_copy_error">Kopieerfout</string>
