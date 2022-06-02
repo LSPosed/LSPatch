@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Add</string>
+    <string name="install">Install</string>
+    <string name="installing">Installing</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="uninstalling">Uninstalling</string>
     <string name="shizuku_available">Shizuku service available</string>
     <string name="shizuku_unavailable">Shizuku service not connected</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Manage</string>
     <string name="manage_loading">Loading</string>
     <string name="manage_no_apps">No patched apps yet</string>
+    <string name="manage_module_scope">Module scope</string>
+    <string name="manage_optimize">Optimize</string>
+    <string name="manage_optimize_successfully">Optimize successfully</string>
+    <string name="manage_optimize_failed">Optimize failed</string>
+    <string name="manage_uninstall_successfully">Uninstall successfully</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Select storage directory</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Override the patched app\'s version code to 1\nThis allows downgrade installation in the future, and generally this will not affect the version code actually perceived by the application</string>
     <string name="patch_start">Start Patch</string>
     <string name="patch_return">Return</string>
-    <string name="patch_install">Install</string>
-    <string name="patch_installing">Installing</string>
-    <string name="patch_uninstall">Uninstall</string>
     <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_uninstalling">Uninstalling</string>
     <string name="patch_install_successfully">Install successfully</string>
     <string name="patch_install_failed">Install failed</string>
     <string name="patch_copy_error">Copy error</string>
