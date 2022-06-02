@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Aggiungere</string>
+    <string name="install">Installare</string>
+    <string name="installing">Installazione</string>
+    <string name="uninstall">Disinstallare</string>
+    <string name="uninstalling">Disinstallazione</string>
     <string name="shizuku_available">Servizio Shizuku disponibile</string>
     <string name="shizuku_unavailable">Servizio Shizuku non connesso</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Gestire</string>
     <string name="manage_loading">Caricamento in corso</string>
     <string name="manage_no_apps">Ancora nessuna app patchata</string>
+    <string name="manage_module_scope">Ambito del modulo</string>
+    <string name="manage_optimize">Ottimizzare</string>
+    <string name="manage_optimize_successfully">Ottimizzare con successo</string>
+    <string name="manage_optimize_failed">Ottimizzare il fallimento</string>
+    <string name="manage_uninstall_successfully">Disinstallazione riuscita</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nuova toppa</string>
     <string name="patch_select_dir_title">Seleziona la directory di archiviazione</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Sovrascrivere il codice di versione dell\'applicazione patchata a 1\nQuesto permette il downgrade dell\'installazione in futuro, e generalmente questo non influenzerà il codice di versione effettivamente percepito dall\'applicazione</string>
     <string name="patch_start">Avvia patch</string>
     <string name="patch_return">Ritorno</string>
-    <string name="patch_install">Installare</string>
-    <string name="patch_installing">Installazione</string>
-    <string name="patch_uninstall">Disinstalla</string>
     <string name="patch_uninstall_text">A causa delle diverse firme, è necessario disinstallare l\'app originale prima di installare quella con patch.\nAssicurati di aver eseguito il backup dei dati personali.</string>
-    <string name="patch_uninstalling">Disinstallazione</string>
     <string name="patch_install_successfully">Installa con successo</string>
     <string name="patch_install_failed">Installazione non riuscita</string>
     <string name="patch_copy_error">Errore di copia</string>
