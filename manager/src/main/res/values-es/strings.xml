@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Agregar</string>
+    <string name="install">Instalar</string>
+    <string name="installing">Instalación de</string>
+    <string name="uninstall">Desinstalar</string>
+    <string name="uninstalling">Desinstalación de</string>
     <string name="shizuku_available">Servicio Shizuku disponible</string>
     <string name="shizuku_unavailable">Servicio Shizuku no conectado</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Administrar</string>
     <string name="manage_loading">Cargando</string>
     <string name="manage_no_apps">Aún no hay aplicaciones parcheadas</string>
+    <string name="manage_module_scope">Alcance del módulo</string>
+    <string name="manage_optimize">Optimizar</string>
+    <string name="manage_optimize_successfully">Optimizar con éxito</string>
+    <string name="manage_optimize_failed">Optimización fallida</string>
+    <string name="manage_uninstall_successfully">Desinstalar con éxito</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nuevo parche</string>
     <string name="patch_select_dir_title">Seleccionar directorio de almacenamiento</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Anular el código de versión de la app parcheada a 1\nEsto permite la instalación de downgrade en el futuro, y generalmente esto no afectará al código de versión realmente percibido por la aplicación</string>
     <string name="patch_start">Parche de inicio</string>
     <string name="patch_return">Regreso</string>
-    <string name="patch_install">Instalar en pc</string>
-    <string name="patch_installing">Instalando</string>
-    <string name="patch_uninstall">Desinstalar</string>
     <string name="patch_uninstall_text">Debido a las diferentes firmas, debe desinstalar la aplicación original antes de instalar la parcheada.\nAsegúrese de haber realizado una copia de seguridad de los datos personales.</string>
-    <string name="patch_uninstalling">Desinstalando</string>
     <string name="patch_install_successfully">Instalar con éxito</string>
     <string name="patch_install_failed">Instalación fallida</string>
     <string name="patch_copy_error">error de copia</string>
