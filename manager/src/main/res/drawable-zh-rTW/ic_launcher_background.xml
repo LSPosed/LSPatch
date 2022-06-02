@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of LSPosed.
+  ~
+  ~ LSPosed is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ LSPosed is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with LSPosed.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2022 LSPosed Contributors
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.28265625"
+        android:scaleY="0.28265625"
+        android:translateX="17.82"
+        android:translateY="17.82">
+        <path
+            android:fillColor="#c9dc87"
+            android:pathData="M0,0h256v256h-256z" />
+        <path
+            android:fillAlpha="0.7"
+            android:fillColor="#fff"
+            android:pathData="M256,256v-27.38c-26.01,-15.34 -73.6,-25.62 -128,-25.62S26.01,213.28 0,228.62v27.38H256Z"
+            android:strokeAlpha="0.7" />
+        <path
+            android:fillColor="#0e7c61"
+            android:pathData="M86.37,232.77l1.67,-9.49 -3.13,2.46 -0.29,-0.35c1.25,-1.33 2.51,-2.73 3.79,-4.22l0.08,-0.47 0.21,0.12c2.17,-2.58 4.29,-5.27 6.35,-8.09l2.22,2.7c-0.57,0.55 -1.16,1.05 -1.79,1.52h7.03c0.38,-0.39 0.76,-0.78 1.14,-1.17l1.85,2.81c-2.03,1.33 -4.16,2.54 -6.38,3.63h6.21l2.92,-1.29 -1.98,11.25 -2.17,-2.34h-4.22l0.89,0.94 -1.24,7.03h2.58l-0.02,0.12h3.4l4.53,-6.45 0.6,0.59 -5.6,7.85 -0.1,-0.12 -0.02,0.12h-4.92l0.02,-0.12c-1.53,0.23 -2.84,1.05 -3.95,2.46l0.43,-2.46 -0.14,0.12 1.78,-10.08h-0.23c-0.29,1.64 -1.16,3.01 -2.6,4.1 -1.85,1.64 -3.95,3.13 -6.29,4.45 -2.34,1.33 -4.62,2.5 -6.83,3.52l-0.23,-0.7c1.9,-1.02 3.96,-2.29 6.18,-3.81 2.22,-1.52 4.06,-3.07 5.5,-4.63 0.78,-0.86 1.3,-1.83 1.57,-2.93h-5.62l-0.17,0.94 -3.05,1.99ZM89.81,228.55h5.62l0.89,-5.04h-5.62l-0.89,5.04ZM90.93,222.22h6.21c1.41,-1.33 2.77,-2.66 4.1,-3.98h-7.27c-1.3,1.17 -2.63,2.31 -4,3.4l0.95,0.59ZM98.69,225.38l-0.56,3.16h0.23l0.04,-0.23 0.19,0.23h5.62l0.89,-5.04h-8.09l1.66,1.88Z" />
+        <path
+            android:fillColor="#0e7c61"
+            android:pathData="M116.29,218.38h7.04c4.15,0 7.29,1.44 6.47,6.09 -0.79,4.49 -4.53,6.43 -8.68,6.43h-2.62l-1.24,7.04h-4.42l3.45,-19.55ZM121.38,227.38c2.33,0 3.75,-1 4.09,-2.92 0.34,-1.93 -0.79,-2.58 -3.12,-2.58h-2.26l-0.97,5.5h2.26ZM120.52,229.72l3.56,-2.83 4.29,11.03h-4.95l-2.9,-8.2Z" />
+        <path
+            android:fillColor="#0e7c61"
+            android:pathData="M131.02,230.49c0.87,-4.95 4.86,-7.81 8.63,-7.81s6.75,2.86 5.87,7.81c-0.87,4.94 -4.86,7.79 -8.62,7.79s-6.75,-2.86 -5.88,-7.79ZM141,230.49c0.45,-2.58 -0.16,-4.25 -1.98,-4.25s-3.03,1.67 -3.48,4.25c-0.45,2.58 0.16,4.24 1.98,4.24s3.02,-1.66 3.48,-4.24Z" />
+        <path
+            android:fillColor="#0e7c61"
+            android:pathData="M147.67,230.49c0.87,-4.95 4.86,-7.81 8.63,-7.81s6.75,2.86 5.87,7.81c-0.87,4.94 -4.86,7.79 -8.62,7.79s-6.75,-2.86 -5.88,-7.79ZM157.65,230.49c0.45,-2.58 -0.16,-4.25 -1.98,-4.25s-3.03,1.67 -3.48,4.25c-0.45,2.58 0.16,4.24 1.98,4.24s3.02,-1.66 3.48,-4.24Z" />
+        <path
+            android:fillColor="#0e7c61"
+            android:pathData="M164.64,232.52l1.06,-6.01h-2.03l0.58,-3.29 2.31,-0.17 1.21,-3.95h3.65l-0.7,3.95h3.57l-0.61,3.46h-3.57l-1.05,5.96c-0.3,1.69 0.35,2.36 1.51,2.36 0.49,0 1.05,-0.14 1.46,-0.28l0.13,3.2c-0.83,0.25 -1.96,0.54 -3.4,0.54 -3.68,0 -4.73,-2.32 -4.12,-5.77Z" />
+    </group>
+</vector>
