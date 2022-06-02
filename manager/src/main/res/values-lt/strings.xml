@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Papildyti</string>
+    <string name="install">Įdiekite</string>
+    <string name="installing">diegimas</string>
+    <string name="uninstall">Pašalinti</string>
+    <string name="uninstalling">pašalinimas</string>
     <string name="shizuku_available">Galimas Shizuku servisas</string>
     <string name="shizuku_unavailable">„Shizuku“ paslauga neprijungta</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Tvarkyti</string>
     <string name="manage_loading">Įkeliama</string>
     <string name="manage_no_apps">Dar nėra pataisytų programų</string>
+    <string name="manage_module_scope">Modulio taikymo sritis</string>
+    <string name="manage_optimize">Optimizuokite</string>
+    <string name="manage_optimize_successfully">Sėkmingai optimizuoti</string>
+    <string name="manage_optimize_failed">Optimizuoti nepavyko</string>
+    <string name="manage_uninstall_successfully">Sėkmingai pašalinti</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Naujas pleistras</string>
     <string name="patch_select_dir_title">Pasirinkite saugojimo katalogą</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Pakeiskite pataisytos programos versijos kodą į 1\nTai leidžia ateityje sumažinti įdiegimo lygį, ir paprastai tai neturės įtakos programos faktiškai suvokiamam versijos kodui.</string>
     <string name="patch_start">Pradėti pataisą</string>
     <string name="patch_return">Grįžti</string>
-    <string name="patch_install">Diegti</string>
-    <string name="patch_installing">Diegimas</string>
-    <string name="patch_uninstall">Pašalinkite</string>
     <string name="patch_uninstall_text">Dėl skirtingų parašų prieš įdiegdami pataisytą programą turite pašalinti originalią programą.\nĮsitikinkite, kad turite atsargines asmens duomenų kopijas.</string>
-    <string name="patch_uninstalling">Pašalinama</string>
     <string name="patch_install_successfully">Įdiegti sėkmingai</string>
     <string name="patch_install_failed">Diegimas nepavyko</string>
     <string name="patch_copy_error">Kopijavimo klaida</string>
