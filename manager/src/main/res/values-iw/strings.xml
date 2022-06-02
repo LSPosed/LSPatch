@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">לְהוֹסִיף</string>
+    <string name="install">להתקין</string>
+    <string name="installing">מתקין</string>
+    <string name="uninstall">הסר את ההתקנה</string>
+    <string name="uninstalling">מסיר התקנה</string>
     <string name="shizuku_available">שירות שיזוקו זמין</string>
     <string name="shizuku_unavailable">שירות Shizuku לא מחובר</string>
     <string name="page_repo">ריפו</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">לנהל</string>
     <string name="manage_loading">טוען</string>
     <string name="manage_no_apps">עדיין אין אפליקציות מתוקנות</string>
+    <string name="manage_module_scope">היקף מודול</string>
+    <string name="manage_optimize">בצע אופטימיזציה</string>
+    <string name="manage_optimize_successfully">בצע אופטימיזציה בהצלחה</string>
+    <string name="manage_optimize_failed">האופטימיזציה נכשלה</string>
+    <string name="manage_uninstall_successfully">הסר את ההתקנה בהצלחה</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">תיקון חדש</string>
     <string name="patch_select_dir_title">בחר ספריית אחסון</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">עוקף את קוד הגרסה של האפליקציה המתוקנת ל-1\nזה מאפשר שדרוג לאחור של התקנה בעתיד, ובדרך כלל זה לא ישפיע על קוד הגרסה הנתפס בפועל על ידי האפליקציה</string>
     <string name="patch_start">התחל תיקון</string>
     <string name="patch_return">לַחֲזוֹר</string>
-    <string name="patch_install">להתקין</string>
-    <string name="patch_installing">מתקין</string>
-    <string name="patch_uninstall">הסר את ההתקנה</string>
     <string name="patch_uninstall_text">עקב חתימות שונות, עליך להסיר את ההתקנה של האפליקציה המקורית לפני התקנת האפליקציה המתוקנת.\nודא שגיבית את הנתונים האישיים.</string>
-    <string name="patch_uninstalling">מסיר התקנה</string>
     <string name="patch_install_successfully">התקן בהצלחה</string>
     <string name="patch_install_failed">ההתקנה נכשלה</string>
     <string name="patch_copy_error">שגיאת העתקה</string>
