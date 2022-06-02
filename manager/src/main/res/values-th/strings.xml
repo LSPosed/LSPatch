@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Add</string>
+    <string name="install">ติดตั้ง</string>
+    <string name="installing">กำลังติดตั้ง</string>
+    <string name="uninstall">ถอนการติดตั้ง</string>
+    <string name="uninstalling">กำลังถอนการติดตั้ง</string>
     <string name="shizuku_available">ชิซึกุ มีบริการ</string>
     <string name="shizuku_unavailable">ไม่ได้เชื่อมต่อบริการ Shizuku</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">จัดการ</string>
     <string name="manage_loading">กำลังโหลด</string>
     <string name="manage_no_apps">ยังไม่มีแอพแพตช์</string>
+    <string name="manage_module_scope">ขอบเขตโมดูล</string>
+    <string name="manage_optimize">เพิ่มประสิทธิภาพ</string>
+    <string name="manage_optimize_successfully">เพิ่มประสิทธิภาพสำเร็จ</string>
+    <string name="manage_optimize_failed">การเพิ่มประสิทธิภาพล้มเหลว</string>
+    <string name="manage_uninstall_successfully">ถอนการติดตั้งสำเร็จ</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">แพทช์ใหม่</string>
     <string name="patch_select_dir_title">เลือกไดเร็กทอรีการจัดเก็บ</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">แทนที่รหัสเวอร์ชันของแอปที่แพตช์เป็น\nซึ่งช่วยให้สามารถติดตั้งดาวน์เกรดได้ในอนาคต และโดยทั่วไปแล้วสิ่งนี้จะไม่ส่งผลต่อโค้ดเวอร์ชันที่แอปพลิเคชันรับรู้จริงๆ</string>
     <string name="patch_start">เริ่มโปรแกรมแก้ไข</string>
     <string name="patch_return">กลับ</string>
-    <string name="patch_install">ติดตั้ง</string>
-    <string name="patch_installing">กำลังติดตั้ง</string>
-    <string name="patch_uninstall">ถอนการติดตั้ง</string>
     <string name="patch_uninstall_text">เนื่องจากลายเซ็นต่างกัน คุณต้องถอนการติดตั้งแอปเดิมก่อนที่จะติดตั้งแอปที่แพตช์\nตรวจสอบให้แน่ใจว่าคุณได้สำรองข้อมูลส่วนบุคคลแล้ว</string>
-    <string name="patch_uninstalling">กำลังถอนการติดตั้ง</string>
     <string name="patch_install_successfully">ติดตั้งสำเร็จ</string>
     <string name="patch_install_failed">ติดตั้งไม่สำเร็จ</string>
     <string name="patch_copy_error">ข้อผิดพลาดในการคัดลอก</string>
