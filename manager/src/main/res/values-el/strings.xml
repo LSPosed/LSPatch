@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Προσθήκη</string>
+    <string name="install">Εγκαταστήστε το</string>
+    <string name="installing">Εγκατάσταση του</string>
+    <string name="uninstall">Απεγκατάσταση του</string>
+    <string name="uninstalling">Απεγκατάσταση του</string>
     <string name="shizuku_available">Διατίθεται υπηρεσία Shizuku</string>
     <string name="shizuku_unavailable">Η υπηρεσία Shizuku δεν είναι συνδεδεμένη</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Διαχειρίζονται</string>
     <string name="manage_loading">Φόρτωση</string>
     <string name="manage_no_apps">Δεν υπάρχουν ακόμα επιδιορθωμένες εφαρμογές</string>
+    <string name="manage_module_scope">Πεδίο εφαρμογής της ενότητας</string>
+    <string name="manage_optimize">Βελτιστοποίηση</string>
+    <string name="manage_optimize_successfully">Βελτιστοποιήστε με επιτυχία</string>
+    <string name="manage_optimize_failed">Βελτιστοποίηση αποτυχημένων</string>
+    <string name="manage_uninstall_successfully">Απεγκατάσταση με επιτυχία</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Νέο Patch</string>
     <string name="patch_select_dir_title">Επιλέξτε κατάλογο αποθήκευσης</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Αντικαταστήστε τον κωδικό έκδοσης της επιδιορθωμένης εφαρμογής σε 1\nΑυτό επιτρέπει την εγκατάσταση υποβάθμισης στο μέλλον και γενικά αυτό δεν θα επηρεάσει τον κωδικό έκδοσης που αντιλαμβάνεται πραγματικά η εφαρμογή.</string>
     <string name="patch_start">Ξεκινήστε το Patch</string>
     <string name="patch_return">ΕΠΙΣΤΡΟΦΗ</string>
-    <string name="patch_install">Εγκαθιστώ</string>
-    <string name="patch_installing">Εγκατάσταση</string>
-    <string name="patch_uninstall">Απεγκατάσταση</string>
     <string name="patch_uninstall_text">Λόγω διαφορετικών υπογραφών, πρέπει να απεγκαταστήσετε την αρχική εφαρμογή πριν εγκαταστήσετε την επιδιορθωμένη.\nΒεβαιωθείτε ότι έχετε δημιουργήσει αντίγραφα ασφαλείας προσωπικών δεδομένων.</string>
-    <string name="patch_uninstalling">Απεγκατάσταση</string>
     <string name="patch_install_successfully">Εγκατάσταση με επιτυχία</string>
     <string name="patch_install_failed">Η εγκατάσταση απέτυχε</string>
     <string name="patch_copy_error">Σφάλμα αντιγραφής</string>
