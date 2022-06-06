@@ -166,10 +166,12 @@ public class LSPApplication {
             };
             var mActivities = (Map<?, ?>) XposedHelpers.getObjectField(activityThread, "mActivities");
             mActivities.forEach(fixActivityClientRecord);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                var mLaunchingActivities = (Map<?, ?>) XposedHelpers.getObjectField(activityThread, "mLaunchingActivities");
-                mLaunchingActivities.forEach(fixActivityClientRecord);
-            }
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    var mLaunchingActivities = (Map<?, ?>) XposedHelpers.getObjectField(activityThread, "mLaunchingActivities");
+                    mLaunchingActivities.forEach(fixActivityClientRecord);
+                }
+            } catch (Throwable ignored) {}
             Log.i(TAG, "hooked app initialized: " + appLoadedApk);
 
             var context = (Context) XposedHelpers.callStaticMethod(Class.forName("android.app.ContextImpl"), "createAppContext", activityThread, stubLoadedApk);
