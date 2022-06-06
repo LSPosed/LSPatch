@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">新增</string>
+    <string name="install">安裝</string>
+    <string name="installing">安裝</string>
+    <string name="uninstall">卸載</string>
+    <string name="uninstalling">卸載</string>
     <string name="shizuku_available">Shizuku 服務可用</string>
     <string name="shizuku_unavailable">Shizuku 服務未連線</string>
     <string name="page_repo">倉庫</string>
@@ -20,14 +24,19 @@
     <!-- Manage Page -->
     <string name="page_manage">管理</string>
     <string name="manage_loading">正在加載</string>
-    <string name="manage_no_apps">還沒有打補丁的應用</string>
+    <string name="manage_no_apps">還沒有打包的程式</string>
+    <string name="manage_module_scope">模塊範圍</string>
+    <string name="manage_optimize">優化</string>
+    <string name="manage_optimize_successfully">優化成功</string>
+    <string name="manage_optimize_failed">優化失敗</string>
+    <string name="manage_uninstall_successfully">卸載成功</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">打包新 App</string>
     <string name="patch_select_dir_title">選擇儲存資料夾</string>
     <string name="patch_select_dir_text">選擇一個資料夾儲存打包好的 apk</string>
     <string name="patch_select_dir_error">設定儲存資料夾出錯</string>
-    <string name="patch_from_storage">從存儲中選擇 apk</string>
-    <string name="patch_from_applist">選擇已安裝的應用</string>
+    <string name="patch_from_storage">從儲存中選擇 apk</string>
+    <string name="patch_from_applist">選擇已安裝的程式</string>
     <string name="patch_mode">打包模式</string>
     <string name="patch_local">本機</string>
     <string name="patch_local_desc">打包沒有內建模組的應用程式。\n打包後的程式需要此管理器背景執行，Xposed 作用域可以動態更改而無需重新打包。\n本機打包的應用程式，只能在本機執行。</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">將打包應用程式的版本編號改成 1\n允許以後降級安裝，一般來說，這不會影響應用程式實際感知的版本編號。</string>
     <string name="patch_start">開始打包</string>
     <string name="patch_return">返回</string>
-    <string name="patch_install">安裝</string>
-    <string name="patch_installing">正在安裝</string>
-    <string name="patch_uninstall">解除安裝</string>
     <string name="patch_uninstall_text">由於簽名不同，安裝前需要先解除安裝原程式。\n確保您已備份好個人資料。</string>
-    <string name="patch_uninstalling">正在解除安裝</string>
     <string name="patch_install_successfully">安裝成功</string>
     <string name="patch_install_failed">安裝失敗</string>
     <string name="patch_copy_error">複製錯誤資訊</string>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Hozzáadás</string>
+    <string name="install">Telepítse a</string>
+    <string name="installing">A  telepítése</string>
+    <string name="uninstall">A  eltávolítása</string>
+    <string name="uninstalling">A  eltávolítása</string>
     <string name="shizuku_available">Shizuku szerviz elérhető</string>
     <string name="shizuku_unavailable">A Shizuku szolgáltatás nincs csatlakoztatva</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Kezelése</string>
     <string name="manage_loading">Betöltés</string>
     <string name="manage_no_apps">Még nincsenek javított alkalmazások</string>
+    <string name="manage_module_scope">A modul hatóköre</string>
+    <string name="manage_optimize">Optimalizálja a  címet.</string>
+    <string name="manage_optimize_successfully">Sikeresen optimalizálni</string>
+    <string name="manage_optimize_failed">Optimalizálni nem sikerült</string>
+    <string name="manage_uninstall_successfully">Sikeres eltávolítás</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Új javítás</string>
     <string name="patch_select_dir_title">Válassza ki a tárolási könyvtárat</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">A javított alkalmazás verziószámának felülírása 1-re\nEz lehetővé teszi a jövőbeni downgrade telepítést, és általában ez nem befolyásolja az alkalmazás által ténylegesen érzékelt verziószámot.</string>
     <string name="patch_start">Indítsa el a Patch-et</string>
     <string name="patch_return">Visszatérés</string>
-    <string name="patch_install">Telepítés</string>
-    <string name="patch_installing">Telepítés</string>
-    <string name="patch_uninstall">Eltávolítás</string>
     <string name="patch_uninstall_text">Az eltérő aláírások miatt a javított alkalmazás telepítése előtt el kell távolítania az eredeti alkalmazást.\nGyőződjön meg arról, hogy biztonsági másolatot készített a személyes adatokról.</string>
-    <string name="patch_uninstalling">Eltávolítás</string>
     <string name="patch_install_successfully">Sikeres telepítés</string>
     <string name="patch_install_failed">A telepítés sikertelen</string>
     <string name="patch_copy_error">Másolási hiba</string>

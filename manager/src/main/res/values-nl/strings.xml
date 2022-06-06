@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Toevoegen</string>
+    <string name="install">Installeer</string>
+    <string name="installing">Installatie van</string>
+    <string name="uninstall">Verwijder</string>
+    <string name="uninstalling">De-installeren van</string>
     <string name="shizuku_available">Shizuku-service beschikbaar</string>
     <string name="shizuku_unavailable">Shizuku-service niet verbonden</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Beheren</string>
     <string name="manage_loading">Bezig met laden</string>
     <string name="manage_no_apps">Nog geen gepatchte apps</string>
+    <string name="manage_module_scope">Toepassingsgebied van de module</string>
+    <string name="manage_optimize">Optimaliseren</string>
+    <string name="manage_optimize_successfully">Succesvol optimaliseren</string>
+    <string name="manage_optimize_failed">Optimaliseren mislukt</string>
+    <string name="manage_uninstall_successfully">Installatie ongedaan maken</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nieuwe patch</string>
     <string name="patch_select_dir_title">Selecteer opslagmap</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Overschrijf de versiecode van de gepatchte app naar 1\nDit maakt downgrade installatie in de toekomst mogelijk, en over het algemeen zal dit geen invloed hebben op de versiecode die daadwerkelijk wordt waargenomen door de applicatie</string>
     <string name="patch_start">Patch starten</string>
     <string name="patch_return">Opbrengst</string>
-    <string name="patch_install">Installeren</string>
-    <string name="patch_installing">Installeren</string>
-    <string name="patch_uninstall">Verwijderen</string>
     <string name="patch_uninstall_text">Vanwege verschillende handtekeningen moet u de originele app verwijderen voordat u de gepatchte app installeert.\nZorg ervoor dat u een back-up hebt gemaakt van persoonlijke gegevens.</string>
-    <string name="patch_uninstalling">Verwijderen</string>
     <string name="patch_install_successfully">Succesvol installeren</string>
     <string name="patch_install_failed">Installatie mislukt</string>
     <string name="patch_copy_error">Kopieerfout</string>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Menambahkan</string>
+    <string name="install">Install</string>
+    <string name="installing">Menginstal</string>
+    <string name="uninstall">Copot pemasangan</string>
+    <string name="uninstalling">Mencopot pemasangan</string>
     <string name="shizuku_available">Layanan Shizuku tersedia</string>
     <string name="shizuku_unavailable">Layanan Shizuku tidak terhubung</string>
     <string name="page_repo">repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Mengelola</string>
     <string name="manage_loading">Memuat</string>
     <string name="manage_no_apps">Belum ada aplikasi yang ditambal</string>
+    <string name="manage_module_scope">Lingkup modul</string>
+    <string name="manage_optimize">Optimalkan</string>
+    <string name="manage_optimize_successfully">Optimalkan berhasil</string>
+    <string name="manage_optimize_failed">Pengoptimalan gagal</string>
+    <string name="manage_uninstall_successfully">Copot pemasangan dengan sukses</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Patch Baru</string>
     <string name="patch_select_dir_title">Pilih direktori penyimpanan</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Ganti kode versi aplikasi yang ditambal ke 1\nIni memungkinkan penginstalan downgrade di masa mendatang, dan umumnya ini tidak akan memengaruhi kode versi yang sebenarnya dirasakan oleh aplikasi</string>
     <string name="patch_start">Mulai Patch</string>
     <string name="patch_return">Kembali</string>
-    <string name="patch_install">Install</string>
-    <string name="patch_installing">Menginstal</string>
-    <string name="patch_uninstall">Copot pemasangan</string>
     <string name="patch_uninstall_text">Karena tanda tangan yang berbeda, Anda perlu mencopot pemasangan aplikasi asli sebelum memasang yang ditambal.\nPastikan Anda telah mencadangkan data pribadi.</string>
-    <string name="patch_uninstalling">Mencopot pemasangan</string>
     <string name="patch_install_successfully">Instal berhasil</string>
     <string name="patch_install_failed">Instal gagal</string>
     <string name="patch_copy_error">Kesalahan penyalinan</string>

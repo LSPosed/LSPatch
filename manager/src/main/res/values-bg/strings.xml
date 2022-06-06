@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add">Добавяне на</string>
+    <string name="install">Инсталиране на</string>
+    <string name="installing">Инсталиране на</string>
+    <string name="uninstall">Деинсталиране на</string>
+    <string name="uninstalling">Деинсталиране на</string>
+    <string name="shizuku_available">Налична услуга Shizuku</string>
+    <string name="shizuku_unavailable">Услугата Shizuku не е свързана</string>
+    <string name="page_repo">Репо</string>
+    <string name="page_logs">Дневници</string>
+    <!-- Home Page -->
+    <string name="home_shizuku_warning">Някои функции са недостъпни</string>
+    <string name="home_api_version">Версия на API</string>
+    <string name="home_lspatch_version">Версия на LSPatch</string>
+    <string name="home_framework_version">Версия на рамката</string>
+    <string name="home_system_version">Версия на системата</string>
+    <string name="home_device">Устройство</string>
+    <string name="home_system_abi">ABI на системата</string>
+    <string name="home_info_copied">Копиране в клипборда</string>
+    <string name="home_support">Подкрепа</string>
+    <string name="home_description">LSPatch е безплатна некоренова рамка Xposed, базирана на ядрото LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Преглед на изходния код в %1$s<br/>Присъединете се към нашия %2$s канал]]></string>
+    <!-- Manage Page -->
+    <string name="page_manage">Управление на</string>
+    <string name="manage_loading">Зареждане на</string>
+    <string name="manage_no_apps">Все още няма поправени приложения</string>
+    <string name="manage_module_scope">Обхват на модула</string>
+    <string name="manage_optimize">Оптимизиране на</string>
+    <string name="manage_optimize_successfully">Оптимизирайте успешно</string>
+    <string name="manage_optimize_failed">Оптимизиране на неуспешни</string>
+    <string name="manage_uninstall_successfully">Успешно деинсталиране</string>
+    <!-- New Patch Page -->
+    <string name="page_new_patch">Нова кръпка</string>
+    <string name="patch_select_dir_title">Изберете директория за съхранение</string>
+    <string name="patch_select_dir_text">Изберете директория, в която да съхранявате поправените apks</string>
+    <string name="patch_select_dir_error">Грешка при задаване на директория за съхранение</string>
+    <string name="patch_from_storage">Изберете apk(s) от хранилището</string>
+    <string name="patch_from_applist">Изберете инсталирано приложение</string>
+    <string name="patch_mode">Режим Patch</string>
+    <string name="patch_local">Местни</string>
+    <string name="patch_local_desc">Поправка на приложение без вградени модули.\nПатчираното приложение се нуждае от мениджър, работещ във фонов режим, и обхватът на Xposed може да се променя динамично, без да се налага повторно патчване.\nЛокалните патирани приложения могат да се изпълняват само на локалното устройство.</string>
+    <string name="patch_portable">Преносим</string>
+    <string name="patch_portable_desc">Поправка на приложение с вградени модули.\nПатчираното приложение може да работи без мениджъра, но не може да се управлява динамично.\nПреносимите закърпени приложения могат да се използват на устройства, на които не е инсталиран LSPatch Manager.</string>
+    <string name="patch_embed_modules">Вграждане на модули</string>
+    <string name="patch_debuggable">Отстраняване на грешки</string>
+    <string name="patch_sign">Знак</string>
+    <string name="patch_sigbypass">Подписване на байпас</string>
+    <string name="patch_sigbypasslv0">lv0: Изключено</string>
+    <string name="patch_sigbypasslv1">1 лев: Заобикаляне на PM</string>
+    <string name="patch_sigbypasslv2">2 лв: Заобикаляне на PM openat (libc)</string>
+    <string name="patch_override_version_code">Код на версията за пренастройване</string>
+    <string name="patch_override_version_code_desc">Презаписване на кода на версията на коригираното приложение на 1\nТова позволява понижаване на инсталацията в бъдеще и като цяло няма да се отрази на кода на версията, възприеман от приложението.</string>
+    <string name="patch_start">Начална кръпка</string>
+    <string name="patch_return">Връщане на</string>
+    <string name="patch_uninstall_text">Поради различните сигнатури е необходимо да деинсталирате оригиналното приложение, преди да инсталирате коригираното.\nУверете се, че сте направили резервно копие на личните си данни.</string>
+    <string name="patch_install_successfully">Инсталирайте успешно</string>
+    <string name="patch_install_failed">Инсталацията е неуспешна</string>
+    <string name="patch_copy_error">Грешка при копиране</string>
+    <!-- Select Apps Page -->
+    <string name="page_select_apps">Изберете приложения</string>
+    <!-- Settings Page -->
+    <string name="page_settings">Настройки</string>
+    <string name="settings_keystore">Хранилище на ключове за подписване</string>
+    <string name="settings_keystore_default">Вграден</string>
+    <string name="settings_keystore_custom">Потребителски</string>
+    <string name="settings_keystore_dialog_title">Потребителско хранилище на ключове</string>
+    <string name="settings_keystore_file">Файл на хранилището за ключове</string>
+    <string name="settings_keystore_password">Парола</string>
+    <string name="settings_keystore_alias">Псевдоним</string>
+    <string name="settings_keystore_alias_password">Псевдоним за парола</string>
+    <string name="settings_keystore_desc">Задаване на хранилище на ключове (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Неправилен тип хранилище на ключове</string>
+    <string name="settings_keystore_wrong_password">Грешна парола на хранилището на ключове</string>
+    <string name="settings_keystore_wrong_alias">Неправилно име на псевдоним</string>
+    <string name="settings_keystore_wrong_alias_password">Грешна парола за псевдоним</string>
+</resources>

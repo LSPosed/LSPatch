@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Adăuga</string>
+    <string name="install">Instalați</string>
+    <string name="installing">Instalarea</string>
+    <string name="uninstall">Dezinstalați</string>
+    <string name="uninstalling">Dezinstalarea</string>
     <string name="shizuku_available">Serviciu Shizuku disponibil</string>
     <string name="shizuku_unavailable">Serviciul Shizuku nu este conectat</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Administra</string>
     <string name="manage_loading">Se încarcă</string>
     <string name="manage_no_apps">Nicio aplicație corecţionată încă</string>
+    <string name="manage_module_scope">Domeniul de aplicare al modulului</string>
+    <string name="manage_optimize">Optimizați</string>
+    <string name="manage_optimize_successfully">Optimizați cu succes</string>
+    <string name="manage_optimize_failed">Optimizarea a eșuat</string>
+    <string name="manage_uninstall_successfully">Dezinstalare cu succes</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Patch nou</string>
     <string name="patch_select_dir_title">Selectați directorul de stocare</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Suprascrieți codul de versiune al aplicației corectate la 1\nAcest lucru permite o instalare retrogradată în viitor și, în general, acest lucru nu va afecta codul de versiune perceput efectiv de aplicație.</string>
     <string name="patch_start">Începeți Patch-ul</string>
     <string name="patch_return">Întoarcere</string>
-    <string name="patch_install">Instalare</string>
-    <string name="patch_installing">Instalare</string>
-    <string name="patch_uninstall">Dezinstalează</string>
     <string name="patch_uninstall_text">Din cauza semnăturilor diferite, trebuie să dezinstalați aplicația originală înainte de a o instala pe cea corectată.\nAsigurați-vă că ați făcut o copie de rezervă a datelor personale.</string>
-    <string name="patch_uninstalling">Dezinstalare</string>
     <string name="patch_install_successfully">Instalați cu succes</string>
     <string name="patch_install_failed">Instalarea a eșuat</string>
     <string name="patch_copy_error">Eroare de copiere</string>

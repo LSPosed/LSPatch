@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Addieren</string>
+    <string name="install">Installieren Sie</string>
+    <string name="installing">Installation von</string>
+    <string name="uninstall">Deinstallieren Sie</string>
+    <string name="uninstalling">Deinstallation von</string>
     <string name="shizuku_available">Shizuku-Service verfügbar</string>
     <string name="shizuku_unavailable">Shizuku-Dienst nicht verbunden</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Verwalten</string>
     <string name="manage_loading">Wird geladen</string>
     <string name="manage_no_apps">Noch keine gepatchten Apps</string>
+    <string name="manage_module_scope">Umfang des Moduls</string>
+    <string name="manage_optimize">Optimieren Sie</string>
+    <string name="manage_optimize_successfully">Erfolgreich optimieren</string>
+    <string name="manage_optimize_failed">Optimieren fehlgeschlagen</string>
+    <string name="manage_uninstall_successfully">Erfolgreiche Deinstallation</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Neuer Patch</string>
     <string name="patch_select_dir_title">Speicherverzeichnis auswählen</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Überschreiben Sie den Versionscode der gepatchten Anwendung auf 1\nDies ermöglicht eine Downgrade-Installation in der Zukunft und hat im Allgemeinen keinen Einfluss auf den Versionscode, der von der Anwendung tatsächlich wahrgenommen wird</string>
     <string name="patch_start">Patch starten</string>
     <string name="patch_return">Zurückkehren</string>
-    <string name="patch_install">Installieren</string>
-    <string name="patch_installing">Installieren</string>
-    <string name="patch_uninstall">Deinstallieren</string>
     <string name="patch_uninstall_text">Aufgrund unterschiedlicher Signaturen müssen Sie die Original-App deinstallieren, bevor Sie die gepatchte App installieren.\nStellen Sie sicher, dass Sie Ihre persönlichen Daten gesichert haben.</string>
-    <string name="patch_uninstalling">Deinstallieren</string>
     <string name="patch_install_successfully">Erfolgreich installieren</string>
     <string name="patch_install_failed">Installation fehlgeschlagen</string>
     <string name="patch_copy_error">Kopierfehler</string>

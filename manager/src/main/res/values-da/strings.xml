@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Tilføje</string>
+    <string name="install">Installer</string>
+    <string name="installing">Installation af</string>
+    <string name="uninstall">Afinstaller</string>
+    <string name="uninstalling">Afinstallation af</string>
     <string name="shizuku_available">Shizuku service tilgængelig</string>
     <string name="shizuku_unavailable">Shizuku-tjenesten er ikke tilsluttet</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Styre</string>
     <string name="manage_loading">Indlæser</string>
     <string name="manage_no_apps">Ingen lappede apps endnu</string>
+    <string name="manage_module_scope">Modulets anvendelsesområde</string>
+    <string name="manage_optimize">Optimering af</string>
+    <string name="manage_optimize_successfully">Optimering med succes</string>
+    <string name="manage_optimize_failed">Optimering af mislykkedes</string>
+    <string name="manage_uninstall_successfully">Afinstaller med succes</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Ny patch</string>
     <string name="patch_select_dir_title">Vælg lagerbibliotek</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Overskrive den patchede apps versionskode til 1\nDette giver mulighed for at nedgradere installationen i fremtiden, og generelt vil det ikke påvirke den versionskode, som programmet faktisk opfatter.</string>
     <string name="patch_start">Start patch</string>
     <string name="patch_return">Vend tilbage</string>
-    <string name="patch_install">Installere</string>
-    <string name="patch_installing">Installerer</string>
-    <string name="patch_uninstall">Afinstaller</string>
     <string name="patch_uninstall_text">På grund af forskellige signaturer skal du afinstallere den originale app, før du installerer den patchede.\nSørg for, at du har sikkerhedskopieret personlige data.</string>
-    <string name="patch_uninstalling">Afinstallerer</string>
     <string name="patch_install_successfully">Installer med succes</string>
     <string name="patch_install_failed">Installationen mislykkedes</string>
     <string name="patch_copy_error">Kopifejl</string>

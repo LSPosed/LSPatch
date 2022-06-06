@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Ajouter</string>
+    <string name="install">Installer</string>
+    <string name="installing">Installation de</string>
+    <string name="uninstall">Désinstaller</string>
+    <string name="uninstalling">Désinstallation de</string>
     <string name="shizuku_available">Service Shizuku disponible</string>
     <string name="shizuku_unavailable">Service Shizuku non connecté</string>
     <string name="page_repo">Dépôt</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Gestion</string>
     <string name="manage_loading">Chargement</string>
     <string name="manage_no_apps">Aucune appli patchée pour le moment</string>
+    <string name="manage_module_scope">Portée du module</string>
+    <string name="manage_optimize">Optimiser</string>
+    <string name="manage_optimize_successfully">Optimiser avec succès</string>
+    <string name="manage_optimize_failed">Optimiser les échecs</string>
+    <string name="manage_uninstall_successfully">Désinstallation réussie</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Nouveau patch</string>
     <string name="patch_select_dir_title">Sélectionner le répertoire de stockage</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Remplacer le code de version de l\'application corrigée par 1\nCela permet de rétrograder l\'installation à l\'avenir, et généralement cela n\'affectera pas le code de version réellement perçu par l\'application.</string>
     <string name="patch_start">Démarrer le correctif</string>
     <string name="patch_return">Retour</string>
-    <string name="patch_install">Installer</string>
-    <string name="patch_installing">Installation</string>
-    <string name="patch_uninstall">Désinstaller</string>
     <string name="patch_uninstall_text">En raison de signatures différentes, vous devez désinstaller l\'appli originale avant d\'installer celle modifiée.\nAssurez-vous d\'avoir sauvegardé vos données personnelles.</string>
-    <string name="patch_uninstalling">Désinstallation</string>
     <string name="patch_install_successfully">Installation réussie</string>
     <string name="patch_install_failed">Échec de l\'installation</string>
     <string name="patch_copy_error">Erreur de copie</string>

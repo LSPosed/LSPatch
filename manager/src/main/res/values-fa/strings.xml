@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">افزودن</string>
+    <string name="install">نصب</string>
+    <string name="installing">در حال نصب</string>
+    <string name="uninstall">حذف نصب کنید</string>
+    <string name="uninstalling">در حال حذف نصب</string>
     <string name="shizuku_available">سرویس شیزوکو در دسترس‌ است</string>
     <string name="shizuku_unavailable">سرویس شیزوکو متصل نیست</string>
     <string name="page_repo">مخزن</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">مدیریت کنید</string>
     <string name="manage_loading">در حال لود ...</string>
     <string name="manage_no_apps">هنوز برنامه پچ شده ای موجود نیست</string>
+    <string name="manage_module_scope">محدوده ماژول</string>
+    <string name="manage_optimize">بهینه سازی کنید</string>
+    <string name="manage_optimize_successfully">بهینه سازی با موفقیت</string>
+    <string name="manage_optimize_failed">بهینه سازی انجام نشد</string>
+    <string name="manage_uninstall_successfully">با موفقیت حذف نصب شد</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">پچ جدید</string>
     <string name="patch_select_dir_title">پوشه ذخیره‌سازی را انتخاب کنید</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">کد نسخه برنامه وصله‌شده را به 1\nتغییر دهید، این امکان نصب کاهش رتبه را در آینده فراهم می‌کند، و معمولاً این روی کد نسخه که واقعاً توسط برنامه درک می‌شود تأثیری نخواهد داشت.</string>
     <string name="patch_start">Patch را شروع کنید</string>
     <string name="patch_return">برگشت</string>
-    <string name="patch_install">نصب</string>
-    <string name="patch_installing">در حال نصب</string>
-    <string name="patch_uninstall">حذف نصب</string>
     <string name="patch_uninstall_text">به دلیل امضاهای مختلف، باید قبل از نصب برنامه پچ شده، برنامه اصلی را حذف کنید.\nمطمئن شوید که از اطلاعات شخصی پشتیبان تهیه کرده اید.</string>
-    <string name="patch_uninstalling">در حال حذف نصب</string>
     <string name="patch_install_successfully">نصب با موفقیت انجام شد</string>
     <string name="patch_install_failed">نصب نشد</string>
     <string name="patch_copy_error">خطای کپی</string>

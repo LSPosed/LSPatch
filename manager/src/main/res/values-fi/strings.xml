@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Lisätä</string>
+    <string name="install">Asenna</string>
+    <string name="installing">Asennus</string>
+    <string name="uninstall">Poista</string>
+    <string name="uninstalling">Asennuksen poistaminen</string>
     <string name="shizuku_available">Shizuku-palvelu saatavilla</string>
     <string name="shizuku_unavailable">Shizuku-palvelua ei ole yhdistetty</string>
     <string name="page_repo">Repo</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Hallitse</string>
     <string name="manage_loading">Ladataan</string>
     <string name="manage_no_apps">Ei vielä korjattuja sovelluksia</string>
+    <string name="manage_module_scope">Moduulin laajuus</string>
+    <string name="manage_optimize">Optimoi</string>
+    <string name="manage_optimize_successfully">Optimoi onnistuneesti</string>
+    <string name="manage_optimize_failed">Optimoi epäonnistunut</string>
+    <string name="manage_uninstall_successfully">Poista asennus onnistuneesti</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Uusi Patch</string>
     <string name="patch_select_dir_title">Valitse tallennushakemisto</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Korjatun sovelluksen versiokoodi korvataan arvolla 1\nTämä mahdollistaa downgrade-asennuksen tulevaisuudessa, eikä tämä yleensä vaikuta sovelluksen havaitsemaan versiokoodiin.</string>
     <string name="patch_start">Aloita korjaustiedosto</string>
     <string name="patch_return">Palata</string>
-    <string name="patch_install">Asentaa</string>
-    <string name="patch_installing">Asennus</string>
-    <string name="patch_uninstall">Poista asennus</string>
     <string name="patch_uninstall_text">Erilaisten allekirjoitusten vuoksi sinun on poistettava alkuperäinen sovellus ennen korjatun sovelluksen asentamista.\nVarmista, että olet varmuuskopioinut henkilökohtaiset tiedot.</string>
-    <string name="patch_uninstalling">Poistetaan</string>
     <string name="patch_install_successfully">Asennus onnistui</string>
     <string name="patch_install_failed">Asennus epäonnistui</string>
     <string name="patch_copy_error">Kopiointivirhe</string>

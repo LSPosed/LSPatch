@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">追加</string>
+    <string name="install">インストール</string>
+    <string name="installing">インストール</string>
+    <string name="uninstall">アンインストール</string>
+    <string name="uninstalling">アンインストール</string>
     <string name="shizuku_available">しずくサービスあり</string>
     <string name="shizuku_unavailable">しずくサービスが接続されていません</string>
     <string name="page_repo">レポ</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">管理</string>
     <string name="manage_loading">読み込み中</string>
     <string name="manage_no_apps">パッチが適用されたアプリはまだありません</string>
+    <string name="manage_module_scope">モジュール範囲</string>
+    <string name="manage_optimize">最適化</string>
+    <string name="manage_optimize_successfully">最適化を成功させる</string>
+    <string name="manage_optimize_failed">最適化失敗</string>
+    <string name="manage_uninstall_successfully">アンインストールに成功</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">新しいパッチ</string>
     <string name="patch_select_dir_title">ストレージディレクトリを選択します</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">パッチを適用したアプリのバージョンコードを 1 に上書きする\nこれにより、将来的にダウングレードのインストールが可能になり、通常、アプリケーションが実際に認識するバージョンコードには影響を与えません。</string>
     <string name="patch_start">パッチを開始する</string>
     <string name="patch_return">戻る</string>
-    <string name="patch_install">インストール</string>
-    <string name="patch_installing">インストール</string>
-    <string name="patch_uninstall">アンインストール</string>
     <string name="patch_uninstall_text">署名が異なるため、パッチを適用したアプリをインストールする前に、元のアプリをアンインストールする必要があります。\n個人データをバックアップしたことを確認してください。</string>
-    <string name="patch_uninstalling">アンインストール</string>
     <string name="patch_install_successfully">正常にインストール</string>
     <string name="patch_install_failed">インストールに失敗しました</string>
     <string name="patch_copy_error">コピーエラー</string>

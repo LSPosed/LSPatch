@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Добавить</string>
+    <string name="install">Установите</string>
+    <string name="installing">Установка</string>
+    <string name="uninstall">Удалить</string>
+    <string name="uninstalling">Деинсталляция</string>
     <string name="shizuku_available">Служба Shizuku доступна</string>
     <string name="shizuku_unavailable">Служба Shizuku не подключена</string>
     <string name="page_repo">Репозиторий</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Управление</string>
     <string name="manage_loading">Загрузка</string>
     <string name="manage_no_apps">Пропатченных приложений пока нет</string>
+    <string name="manage_module_scope">Область применения модуля</string>
+    <string name="manage_optimize">Оптимизируйте</string>
+    <string name="manage_optimize_successfully">Успешная оптимизация</string>
+    <string name="manage_optimize_failed">Оптимизировать не удалось</string>
+    <string name="manage_uninstall_successfully">Успешная деинсталляция</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Новый патч</string>
     <string name="patch_select_dir_title">Выберите каталог хранения</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Переопределите код версии исправленного приложения на 1\nЭто позволит в будущем понизить уровень установки, и, как правило, это не повлияет на код версии, фактически воспринимаемый приложением</string>
     <string name="patch_start">Запустить патч</string>
     <string name="patch_return">Вернуться</string>
-    <string name="patch_install">Установить</string>
-    <string name="patch_installing">Установка</string>
-    <string name="patch_uninstall">Удалить</string>
     <string name="patch_uninstall_text">Из-за разных сигнатур вам необходимо удалить оригинальное приложение перед установкой исправленного.\nУбедитесь, что у вас есть резервная копия личных данных.</string>
-    <string name="patch_uninstalling">Удаление</string>
     <string name="patch_install_successfully">Установка завершена</string>
     <string name="patch_install_failed">Установка не удалась</string>
     <string name="patch_copy_error">Ошибка копирования</string>

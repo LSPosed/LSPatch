@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">যোগ করুন</string>
+    <string name="install">ইনস্টল করুন</string>
+    <string name="installing">ইনস্টল করা হচ্ছে</string>
+    <string name="uninstall">আনইনস্টল করুন</string>
+    <string name="uninstalling">আনইনস্টল হচ্ছে</string>
     <string name="shizuku_available">শিজুকু পরিষেবা উপলব্ধ</string>
     <string name="shizuku_unavailable">Shizuku পরিষেবা সংযুক্ত নেই৷</string>
     <string name="page_repo">রেপো</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">পরিচালনা করুন</string>
     <string name="manage_loading">লোড হচ্ছে</string>
     <string name="manage_no_apps">এখনো কোনো প্যাচড অ্যাপস</string>
+    <string name="manage_module_scope">মডিউল সুযোগ</string>
+    <string name="manage_optimize">অপ্টিমাইজ করুন</string>
+    <string name="manage_optimize_successfully">সফলভাবে অপ্টিমাইজ করুন</string>
+    <string name="manage_optimize_failed">অপ্টিমাইজ ব্যর্থ হয়েছে৷</string>
+    <string name="manage_uninstall_successfully">সফলভাবে আনইনস্টল</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">নতুন প্যাচ</string>
     <string name="patch_select_dir_title">স্টোরেজ ডিরেক্টরি নির্বাচন করুন</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">প্যাচ করা অ্যাপের সংস্করণ কোডটিকে 1\nএ ওভাররাইড করুন এটি ভবিষ্যতে ইনস্টলেশন ডাউনগ্রেড করার অনুমতি দেয় এবং সাধারণত এটি অ্যাপ্লিকেশন দ্বারা অনুভূত সংস্করণ কোডকে প্রভাবিত করবে না</string>
     <string name="patch_start">প্যাচ শুরু করুন</string>
     <string name="patch_return">প্রত্যাবর্তন</string>
-    <string name="patch_install">ইনস্টল করুন</string>
-    <string name="patch_installing">ইনস্টল করা হচ্ছে</string>
-    <string name="patch_uninstall">আনইনস্টল করুন</string>
     <string name="patch_uninstall_text">বিভিন্ন স্বাক্ষরের কারণে, প্যাচ করা একটি ইনস্টল করার আগে আপনাকে আসল অ্যাপটি আনইনস্টল করতে হবে।\nআপনি ব্যক্তিগত ডেটা ব্যাক আপ করেছেন তা নিশ্চিত করুন৷</string>
-    <string name="patch_uninstalling">আনইনস্টল হচ্ছে</string>
     <string name="patch_install_successfully">সফলভাবে ইনস্টল করুন</string>
     <string name="patch_install_failed">ইনস্টল ব্যর্থ হয়েছে</string>
     <string name="patch_copy_error">কপি ত্রুটি</string>

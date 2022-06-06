@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Додати</string>
+    <string name="install">Встановити</string>
+    <string name="installing">Встановлення</string>
+    <string name="uninstall">Видалити</string>
+    <string name="uninstalling">Видалення</string>
     <string name="shizuku_available">Доступна послуга Shizuku</string>
     <string name="shizuku_unavailable">Служба Shizuku не підключена</string>
     <string name="page_repo">Репо</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">Керувати</string>
     <string name="manage_loading">Завантаження</string>
     <string name="manage_no_apps">Ще немає виправлених програм</string>
+    <string name="manage_module_scope">Область застосування модуля</string>
+    <string name="manage_optimize">Оптимізувати</string>
+    <string name="manage_optimize_successfully">Оптимізація успішно</string>
+    <string name="manage_optimize_failed">Не вдалося оптимізувати</string>
+    <string name="manage_uninstall_successfully">Успішно видалити</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">Новий патч</string>
     <string name="patch_select_dir_title">Виберіть каталог зберігання</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">Замінити код версії виправленого додатка на 1\nЦе дозволить встановити попередню версію в майбутньому, і, як правило, це не вплине на код версії, який фактично сприймається програмою</string>
     <string name="patch_start">Запустити патч</string>
     <string name="patch_return">Повернення</string>
-    <string name="patch_install">Встановити</string>
-    <string name="patch_installing">Встановлення</string>
-    <string name="patch_uninstall">Видалити</string>
     <string name="patch_uninstall_text">Через різні сигнатури вам потрібно видалити оригінальну програму, перш ніж встановлювати виправлену.\nПереконайтеся, що ви створили резервну копію особистих даних.</string>
-    <string name="patch_uninstalling">Видалення</string>
     <string name="patch_install_successfully">Встановити успішно</string>
     <string name="patch_install_failed">Помилка встановлення</string>
     <string name="patch_copy_error">Помилка копіювання</string>

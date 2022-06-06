@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">추가하다</string>
+    <string name="install">설치</string>
+    <string name="installing">설치 중</string>
+    <string name="uninstall">제거</string>
+    <string name="uninstalling">제거 중</string>
     <string name="shizuku_available">시즈쿠 서비스 가능</string>
     <string name="shizuku_unavailable">시즈쿠 서비스가 연결되지 않았습니다</string>
     <string name="page_repo">레포</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">관리하다</string>
     <string name="manage_loading">로딩 중</string>
     <string name="manage_no_apps">아직 패치된 앱이 없습니다.</string>
+    <string name="manage_module_scope">모듈 범위</string>
+    <string name="manage_optimize">최적화</string>
+    <string name="manage_optimize_successfully">최적화 성공</string>
+    <string name="manage_optimize_failed">최적화 실패</string>
+    <string name="manage_uninstall_successfully">성공적으로 제거</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">새로운 패치</string>
     <string name="patch_select_dir_title">스토리지 디렉토리 선택</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">패치된 앱의 버전 코드를 1\n으로 재정의합니다. 이렇게 하면 향후 설치를 다운그레이드할 수 있으며 일반적으로 애플리케이션에서 실제로 인식하는 버전 코드에는 영향을 미치지 않습니다.</string>
     <string name="patch_start">패치 시작</string>
     <string name="patch_return">반품</string>
-    <string name="patch_install">설치하다</string>
-    <string name="patch_installing">설치 중</string>
-    <string name="patch_uninstall">제거</string>
     <string name="patch_uninstall_text">서명이 다르기 때문에 패치된 앱을 설치하기 전에 원래 앱을 제거해야 합니다.\n개인 데이터를 백업했는지 확인하십시오.</string>
-    <string name="patch_uninstalling">제거 중</string>
     <string name="patch_install_successfully">성공적으로 설치</string>
     <string name="patch_install_failed">설치 실패</string>
     <string name="patch_copy_error">복사 오류</string>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">जोड़ें</string>
+    <string name="install">स्थापित करना</string>
+    <string name="installing">स्थापित कर रहा है</string>
+    <string name="uninstall">स्थापना रद्द करें</string>
+    <string name="uninstalling">की स्थापना रद्द</string>
     <string name="shizuku_available">शिज़ुकु सेवा उपलब्ध</string>
     <string name="shizuku_unavailable">शिज़ुकु सेवा कनेक्ट नहीं है</string>
     <string name="page_repo">रेपो</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">प्रबंधित करना</string>
     <string name="manage_loading">लोड हो रहा है</string>
     <string name="manage_no_apps">अभी तक कोई पैच किया गया ऐप्स नहीं</string>
+    <string name="manage_module_scope">मॉड्यूल स्कोप</string>
+    <string name="manage_optimize">अनुकूलन</string>
+    <string name="manage_optimize_successfully">सफलतापूर्वक अनुकूलित करें</string>
+    <string name="manage_optimize_failed">अनुकूलन विफल</string>
+    <string name="manage_uninstall_successfully">सफलतापूर्वक अनइंस्टॉल करें</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">नया पैच</string>
     <string name="patch_select_dir_title">भंडारण निर्देशिका का चयन करें</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">पैच किए गए ऐप के संस्करण कोड को 1\nपर ओवरराइड करें यह भविष्य में डाउनग्रेड इंस्टॉलेशन की अनुमति देता है, और आम तौर पर यह एप्लिकेशन द्वारा वास्तव में देखे जाने वाले संस्करण कोड को प्रभावित नहीं करेगा।</string>
     <string name="patch_start">पैच शुरू करें</string>
     <string name="patch_return">वापस करना</string>
-    <string name="patch_install">स्थापित करना</string>
-    <string name="patch_installing">स्थापित कर रहा है</string>
-    <string name="patch_uninstall">स्थापना रद्द करें</string>
     <string name="patch_uninstall_text">अलग-अलग हस्ताक्षरों के कारण, आपको पैच किए गए ऐप को इंस्टॉल करने से पहले मूल ऐप को अनइंस्टॉल करना होगा।\nसुनिश्चित करें कि आपने व्यक्तिगत डेटा का बैकअप लिया है।</string>
-    <string name="patch_uninstalling">की स्थापना रद्द</string>
     <string name="patch_install_successfully">सफलतापूर्वक स्थापित करें</string>
     <string name="patch_install_failed">स्थापित करना विफल</string>
     <string name="patch_copy_error">कॉपी एरर</string>

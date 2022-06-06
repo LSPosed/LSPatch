@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">添加</string>
+    <string name="install">安装</string>
+    <string name="installing">安装</string>
+    <string name="uninstall">卸载</string>
+    <string name="uninstalling">卸载</string>
     <string name="shizuku_available">Shizuku 服务可用</string>
     <string name="shizuku_unavailable">Shizuku 服务未连接</string>
     <string name="page_repo">仓库</string>
@@ -21,6 +25,11 @@
     <string name="page_manage">管理</string>
     <string name="manage_loading">加载中</string>
     <string name="manage_no_apps">尚无已修补的应用</string>
+    <string name="manage_module_scope">模块范围</string>
+    <string name="manage_optimize">优化</string>
+    <string name="manage_optimize_successfully">成功优化</string>
+    <string name="manage_optimize_failed">优化失败</string>
+    <string name="manage_uninstall_successfully">卸载成功</string>
     <!-- New Patch Page -->
     <string name="page_new_patch">新建修补</string>
     <string name="patch_select_dir_title">选择存储目录</string>
@@ -44,11 +53,7 @@
     <string name="patch_override_version_code_desc">将修补的 App 版本号重写为 1\n这将允许后续降级安装，并且通常来说这不会影响应用实际感知到的版本号</string>
     <string name="patch_start">开始修补</string>
     <string name="patch_return">返回</string>
-    <string name="patch_install">安装</string>
-    <string name="patch_installing">正在安装</string>
-    <string name="patch_uninstall">卸载</string>
     <string name="patch_uninstall_text">由于签名不同，安装修补的应用前需要先卸载原应用。\n确保您已备份好个人数据。</string>
-    <string name="patch_uninstalling">正在卸载</string>
     <string name="patch_install_successfully">安装成功</string>
     <string name="patch_install_failed">安装失败</string>
     <string name="patch_copy_error">复制错误信息</string>
