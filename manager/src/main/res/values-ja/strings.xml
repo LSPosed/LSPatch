@@ -7,7 +7,7 @@
     <string name="uninstalling">アンインストール中</string>
     <string name="shizuku_available">Shizukuサービスが有効</string>
     <string name="shizuku_unavailable">Shizukuサービスが無効</string>
-    <string name="page_repo">レポート</string>
+    <string name="page_repo">リポジトリ</string>
     <string name="page_logs">ログ</string>
     <!-- Home Page -->
     <string name="home_shizuku_warning">一部の機能が利用できません</string>
