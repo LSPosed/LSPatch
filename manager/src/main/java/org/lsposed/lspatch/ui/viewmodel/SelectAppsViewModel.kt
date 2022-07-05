@@ -10,9 +10,11 @@ import kotlinx.coroutines.launch
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 
-private const val TAG = "SelectAppViewModel"
-
 class SelectAppsViewModel : ViewModel() {
+
+    companion object {
+        private const val TAG = "SelectAppViewModel"
+    }
 
     init {
         Log.d(TAG, "SelectAppsViewModel ${toString().substringAfterLast('@')} construct")

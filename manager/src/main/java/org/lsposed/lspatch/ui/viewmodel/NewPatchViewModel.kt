@@ -15,9 +15,11 @@ import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 import org.lsposed.patch.util.Logger
 
-private const val TAG = "NewPatchViewModel"
-
 class NewPatchViewModel : ViewModel() {
+
+    companion object {
+        private const val TAG = "NewPatchViewModel"
+    }
 
     enum class PatchState {
         SELECTING, CONFIGURING, PATCHING, FINISHED, ERROR

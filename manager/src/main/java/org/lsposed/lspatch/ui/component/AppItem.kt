@@ -30,7 +30,7 @@ fun AppItem(
     onLongClick: (() -> Unit)? = null,
     checked: Boolean? = null,
     rightIcon: (@Composable () -> Unit)? = null,
-    additionalContent: (@Composable () -> Unit)? = null,
+    additionalContent: (@Composable ColumnScope.() -> Unit)? = null,
 ) {
     if (checked != null && rightIcon != null)
         throw IllegalArgumentException("`checked` and `rightIcon` should not be both set")
@@ -63,7 +63,7 @@ fun AppItem(
                     fontFamily = FontFamily.Monospace,
                     style = MaterialTheme.typography.bodySmall
                 )
-                additionalContent?.invoke()
+                additionalContent?.invoke(this)
             }
             if (checked != null) {
                 Checkbox(

@@ -71,6 +71,7 @@ dependencies {
     implementation(projects.hiddenapi.bridge)
     implementation(projects.patch)
     implementation(projects.services.daemonService)
+    implementation(projects.services.xposedService.`interface`)
     implementation(projects.share.android)
     implementation(projects.share.java)
 
