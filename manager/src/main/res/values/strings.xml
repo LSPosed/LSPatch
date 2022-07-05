@@ -4,6 +4,7 @@
     <string name="installing">Installing</string>
     <string name="uninstall">Uninstall</string>
     <string name="uninstalling">Uninstalling</string>
+    <string name="copy_error">Copy error</string>
     <string name="shizuku_available">Shizuku service available</string>
     <string name="shizuku_unavailable">Shizuku service not connected</string>
     <string name="page_repo">Repo</string>
@@ -26,6 +27,9 @@
     <string name="page_manage">Manage</string>
     <string name="manage_loading">Loading</string>
     <string name="manage_no_apps">No patched apps yet</string>
+    <string name="manage_update_loader">Update loader</string>
+    <string name="manage_update_loader_successfully">Update successfully</string>
+    <string name="manage_update_loader_failed">Update failed</string>
     <string name="manage_module_scope">Module scope</string>
     <string name="manage_optimize">Optimize</string>
     <string name="manage_optimize_successfully">Optimize successfully</string>
@@ -58,7 +62,6 @@
     <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
     <string name="patch_install_successfully">Install successfully</string>
     <string name="patch_install_failed">Install failed</string>
-    <string name="patch_copy_error">Copy error</string>
 
     <!-- Select Apps Page -->
     <string name="page_select_apps">Select Apps</string>

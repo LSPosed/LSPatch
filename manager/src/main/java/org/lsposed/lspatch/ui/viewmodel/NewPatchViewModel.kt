@@ -10,10 +10,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.lsposed.lspatch.Patcher
-import org.lsposed.lspatch.lspApp
+import org.lsposed.lspatch.share.PatchConfig
+import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 import org.lsposed.patch.util.Logger
-import java.io.File
 
 private const val TAG = "NewPatchViewModel"
 
@@ -82,13 +82,9 @@ class NewPatchViewModel : ViewModel() {
         Log.d(TAG, "Submit patch")
         if (useManager) embeddedModules.clear()
         patchOptions = Patcher.Options(
-            apkPaths = listOf(patchApp.app.sourceDir) + (patchApp.app.splitSourceDirs ?: emptyArray()),
-            debuggable = debuggable,
-            sigbypassLevel = sigBypassLevel,
-            v1 = sign[0], v2 = sign[1],
-            useManager = useManager,
-            overrideVersionCode = overrideVersionCode,
             verbose = true,
+            config = PatchConfig(useManager, debuggable, overrideVersionCode, sign[0], sign[1], sigBypassLevel, null, null),
+            apkPaths = listOf(patchApp.app.sourceDir) + (patchApp.app.splitSourceDirs ?: emptyArray()),
             embeddedModules = embeddedModules.flatMap { listOf(it.app.sourceDir) + (it.app.splitSourceDirs ?: emptyArray()) }
         )
         patchState = PatchState.PATCHING
@@ -105,7 +101,7 @@ class NewPatchViewModel : ViewModel() {
                 logger.e(t.stackTraceToString())
                 PatchState.ERROR
             } finally {
-                lspApp.tmpApkDir.listFiles()?.forEach(File::delete)
+                LSPPackageManager.cleanTmpApkDir()
             }
         }
     }

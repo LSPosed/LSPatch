@@ -81,7 +81,7 @@ fun NewPatchPage(from: String, entry: NavBackStackEntry) {
             }
         }
         LaunchedEffect(Unit) {
-            lspApp.tmpApkDir.listFiles()?.forEach(File::delete)
+            LSPPackageManager.cleanTmpApkDir()
             if (isCancelled == true) navController.popBackStack()
             else when (from) {
                 "storage" -> storageLauncher.launch(arrayOf("application/vnd.android.package-archive"))
@@ -323,7 +323,7 @@ private fun DoPatchBody(modifier: Modifier) {
                     val shizukuUnavailable = stringResource(R.string.shizuku_unavailable)
                     val installSuccessfully = stringResource(R.string.patch_install_successfully)
                     val installFailed = stringResource(R.string.patch_install_failed)
-                    val copyError = stringResource(R.string.patch_copy_error)
+                    val copyError = stringResource(R.string.copy_error)
                     var installing by remember { mutableStateOf(false) }
                     if (installing) InstallDialog(viewModel.patchApp) { status, message ->
                         scope.launch {
@@ -377,7 +377,7 @@ private fun DoPatchBody(modifier: Modifier) {
                                 val cm = lspApp.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                                 cm.setPrimaryClip(ClipData.newPlainText("LSPatch", viewModel.logs.joinToString { it.second + "\n" }))
                             },
-                            content = { Text(stringResource(R.string.patch_copy_error)) }
+                            content = { Text(stringResource(R.string.copy_error)) }
                         )
                     }
                 }

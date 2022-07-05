@@ -7,6 +7,7 @@ import kotlinx.coroutines.withContext
 import org.lsposed.lspatch.Constants.PATCH_FILE_SUFFIX
 import org.lsposed.lspatch.Constants.PREFS_STORAGE_DIRECTORY
 import org.lsposed.lspatch.config.MyKeyStore
+import org.lsposed.lspatch.share.PatchConfig
 import org.lsposed.patch.LSPatch
 import org.lsposed.patch.util.Logger
 import java.io.IOException
@@ -14,26 +15,21 @@ import java.io.IOException
 object Patcher {
 
     class Options(
-        private val apkPaths: List<String>,
-        private val debuggable: Boolean,
-        private val sigbypassLevel: Int,
-        private val v1: Boolean,
-        private val v2: Boolean,
-        private val useManager: Boolean,
-        private val overrideVersionCode: Boolean,
         private val verbose: Boolean,
+        private val config: PatchConfig,
+        private val apkPaths: List<String>,
         private val embeddedModules: List<String>?
     ) {
         fun toStringArray(): Array<String> {
             return buildList {
                 addAll(apkPaths)
                 add("-o"); add(lspApp.tmpApkDir.absolutePath)
-                if (debuggable) add("-d")
-                add("-l"); add(sigbypassLevel.toString())
-                add("--v1"); add(v1.toString())
-                add("--v2"); add(v2.toString())
-                if (useManager) add("--manager")
-                if (overrideVersionCode) add("-r")
+                if (config.debuggable) add("-d")
+                add("-l"); add(config.sigBypassLevel.toString())
+                add("--v1"); add(config.v1.toString())
+                add("--v2"); add(config.v2.toString())
+                if (config.useManager) add("--manager")
+                if (config.overrideVersionCode) add("-r")
                 if (verbose) add("-v")
                 embeddedModules?.forEach {
                     add("-m"); add(it)

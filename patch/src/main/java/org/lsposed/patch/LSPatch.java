@@ -216,16 +216,11 @@ public class LSPatch {
                 throw new PatchError("Failed to register signer", e);
             }
 
-            String originalSignature = null;
-            if (sigbypassLevel > 0) {
-                // save the apk original signature info, to support crack signature.
-                originalSignature = ApkSignatureHelper.getApkSignInfo(srcApkFile.getAbsolutePath());
-                if (originalSignature == null || originalSignature.isEmpty()) {
-                    throw new PatchError("get original signature failed");
-                }
-
-                logger.d("Original signature\n" + originalSignature);
+            final String originalSignature = ApkSignatureHelper.getApkSignInfo(srcApkFile.getAbsolutePath());
+            if (originalSignature == null || originalSignature.isEmpty()) {
+                throw new PatchError("get original signature failed");
             }
+            logger.d("Original signature\n" + originalSignature);
 
             // copy out manifest file from zlib
             var manifestEntry = srcZFile.get(ANDROID_MANIFEST_XML);
@@ -233,7 +228,7 @@ public class LSPatch {
                 throw new PatchError("Provided file is not a valid apk");
 
             // parse the app appComponentFactory full name from the manifest file
-            String appComponentFactory;
+            final String appComponentFactory;
             try (var is = manifestEntry.open()) {
                 var pair = ManifestParser.parseManifestFile(is);
                 if (pair == null)
@@ -244,9 +239,9 @@ public class LSPatch {
 
             logger.i("Patching apk...");
             // modify manifest
-            var config = new PatchConfig(useManager, sigbypassLevel, null, appComponentFactory);
-            var configBytes = new Gson().toJson(config).getBytes(StandardCharsets.UTF_8);
-            var metadata = Base64.getEncoder().encodeToString(configBytes);
+            final var config = new PatchConfig(useManager, debuggableFlag, overrideVersionCode, v1, v2, sigbypassLevel, originalSignature, appComponentFactory);
+            final var configBytes = new Gson().toJson(config).getBytes(StandardCharsets.UTF_8);
+            final var metadata = Base64.getEncoder().encodeToString(configBytes);
             try (var is = new ByteArrayInputStream(modifyManifestFile(manifestEntry.open(), metadata))) {
                 dstZFile.add(ANDROID_MANIFEST_XML, is);
             } catch (Throwable e) {
@@ -283,8 +278,6 @@ public class LSPatch {
             }
 
             // save lspatch config to asset..
-            config = new PatchConfig(useManager, sigbypassLevel, originalSignature, appComponentFactory);
-            configBytes = new Gson().toJson(config).getBytes(StandardCharsets.UTF_8);
             try (var is = new ByteArrayInputStream(configBytes)) {
                 dstZFile.add(CONFIG_ASSET_PATH, is);
             } catch (Throwable e) {

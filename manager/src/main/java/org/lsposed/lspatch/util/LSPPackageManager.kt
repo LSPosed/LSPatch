@@ -68,7 +68,14 @@ object LSPPackageManager {
 
     fun getIcon(appInfo: AppInfo) = appIcon[appInfo.app.packageName]!!
 
+    suspend fun cleanTmpApkDir() {
+        withContext(Dispatchers.IO) {
+            lspApp.tmpApkDir.listFiles()?.forEach(File::delete)
+        }
+    }
+
     suspend fun install(): Pair<Int, String?> {
+        Log.i(TAG, "Perform install patched apks")
         var status = PackageInstaller.STATUS_FAILURE
         var message: String? = null
         withContext(Dispatchers.IO) {
@@ -85,6 +92,7 @@ object LSPPackageManager {
                         ?: throw IOException("DocumentFile is null")
                     root.listFiles().forEach { file ->
                         if (file.name?.endsWith(PATCH_FILE_SUFFIX) != true) return@forEach
+                        Log.d(TAG, "Add ${file.name}")
                         val input = lspApp.contentResolver.openInputStream(file.uri)
                             ?: throw IOException("Cannot open input stream")
                         input.use {
@@ -180,7 +188,7 @@ object LSPPackageManager {
                 }
                 AppInfo(app, app.packageName)
             }.recoverCatching { t ->
-                lspApp.tmpApkDir.listFiles()?.forEach(File::delete)
+                cleanTmpApkDir()
                 Log.e(TAG, "Failed to load apks", t)
                 throw t
             }

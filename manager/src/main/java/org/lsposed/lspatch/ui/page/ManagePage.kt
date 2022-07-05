@@ -1,6 +1,9 @@
 package org.lsposed.lspatch.ui.page
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
@@ -38,12 +41,15 @@ import org.lsposed.lspatch.R
 import org.lsposed.lspatch.config.ConfigManager
 import org.lsposed.lspatch.database.entity.Module
 import org.lsposed.lspatch.lspApp
+import org.lsposed.lspatch.share.LSPConfig
 import org.lsposed.lspatch.ui.component.AppItem
+import org.lsposed.lspatch.ui.component.LoadingDialog
 import org.lsposed.lspatch.ui.util.LocalNavController
 import org.lsposed.lspatch.ui.util.LocalSnackbarHost
 import org.lsposed.lspatch.ui.util.observeState
 import org.lsposed.lspatch.ui.util.setState
 import org.lsposed.lspatch.ui.viewmodel.ManageViewModel
+import org.lsposed.lspatch.ui.viewmodel.ManageViewModel.ViewAction
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 import org.lsposed.lspatch.util.ShizukuApi
@@ -240,6 +246,27 @@ private fun Body() {
                 navController.currentBackStackEntry!!.setState("isCancelled", null)
             }
         }
+
+        if (viewModel.processingUpdate) LoadingDialog()
+        viewModel.updateLoaderResult?.let {
+            val updateSuccessfully = stringResource(R.string.manage_update_loader_successfully)
+            val updateFailed = stringResource(R.string.manage_update_loader_failed)
+            val copyError = stringResource(R.string.copy_error)
+            LaunchedEffect(Unit) {
+                it.onSuccess {
+                    LSPPackageManager.fetchAppList()
+                    snackbarHost.showSnackbar(updateSuccessfully)
+                }.onFailure {
+                    val result = snackbarHost.showSnackbar(updateFailed, copyError)
+                    if (result == SnackbarResult.ActionPerformed) {
+                        val cm = lspApp.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        cm.setPrimaryClip(ClipData.newPlainText("LSPatch", it.toString()))
+                    }
+                }
+                viewModel.dispatch(ViewAction.ClearUpdateLoaderResult)
+            }
+        }
+
         LazyColumn {
             items(
                 items = viewModel.appList,
@@ -272,6 +299,22 @@ private fun Body() {
                         }
                     )
                     DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                        val shizukuUnavailable = stringResource(R.string.shizuku_unavailable)
+                        if (it.second.lspConfig.VERSION_CODE >= 319 && it.second.lspConfig.VERSION_CODE < LSPConfig.instance.VERSION_CODE) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.manage_update_loader)) },
+                                onClick = {
+                                    expanded = false
+                                    scope.launch {
+                                        if (!ShizukuApi.isPermissionGranted) {
+                                            snackbarHost.showSnackbar(shizukuUnavailable)
+                                        } else {
+                                            viewModel.dispatch(ViewAction.UpdateLoader(it.first, it.second))
+                                        }
+                                    }
+                                }
+                            )
+                        }
                         if (it.second.useManager) {
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.manage_module_scope)) },
@@ -291,19 +334,16 @@ private fun Body() {
                                 }
                             )
                         }
-                        val shizukuUnavailable = stringResource(R.string.shizuku_unavailable)
                         val optimizeSucceed = stringResource(R.string.manage_optimize_successfully)
                         val optimizeFailed = stringResource(R.string.manage_optimize_failed)
                         DropdownMenuItem(
                             text = { Text(stringResource(R.string.manage_optimize)) },
                             onClick = {
                                 expanded = false
-                                if (!ShizukuApi.isPermissionGranted) {
-                                    scope.launch {
+                                scope.launch {
+                                    if (!ShizukuApi.isPermissionGranted) {
                                         snackbarHost.showSnackbar(shizukuUnavailable)
-                                    }
-                                } else {
-                                    scope.launch {
+                                    } else {
                                         val result = ShizukuApi.performDexOptMode(it.first.app.packageName)
                                         snackbarHost.showSnackbar(if (result) optimizeSucceed else optimizeFailed)
                                     }
