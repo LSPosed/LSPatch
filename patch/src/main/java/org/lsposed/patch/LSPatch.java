@@ -345,7 +345,7 @@ public class LSPatch {
                 var manifest = Objects.requireNonNull(ManifestParser.parseManifestFile(xmlIs));
                 var packageName = manifest.packageName;
                 logger.i("  - " + packageName);
-                zFile.add("assets/lspatch/modules/" + packageName + ".bin", fileIs);
+                zFile.add("assets/lspatch/modules/" + packageName + ".apk", fileIs);
             } catch (NullPointerException | IOException e) {
                 logger.e(module + " does not exist or is not a valid apk file.");
             }

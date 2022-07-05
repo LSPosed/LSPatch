@@ -33,7 +33,7 @@ public class LocalApplicationService extends ILSPApplicationService.Stub {
                 String modulePath = context.getCacheDir() + "/lspatch/" + packageName + "/";
                 String cacheApkPath;
                 try (ZipFile sourceFile = new ZipFile(context.getPackageResourcePath())) {
-                    cacheApkPath = modulePath + sourceFile.getEntry("assets/lspatch/modules/" + name).getCrc();
+                    cacheApkPath = modulePath + sourceFile.getEntry("assets/lspatch/modules/" + name).getCrc() + ".apk";
                 }
 
                 if (!Files.exists(Paths.get(cacheApkPath))) {

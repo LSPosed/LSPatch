@@ -133,7 +133,7 @@ public class LSPApplication {
             String originPath = appInfo.dataDir + "/cache/lspatch/origin/";
             String cacheApkPath;
             try (ZipFile sourceFile = new ZipFile(appInfo.sourceDir)) {
-                cacheApkPath = originPath + sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc();
+                cacheApkPath = originPath + sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc() + ".apk";
             }
 
             appInfo.sourceDir = cacheApkPath;
@@ -317,7 +317,7 @@ public class LSPApplication {
         if (config.sigBypassLevel >= Constants.SIGBYPASS_LV_PM_OPENAT) {
             String cacheApkPath;
             try (ZipFile sourceFile = new ZipFile(context.getPackageResourcePath())) {
-                cacheApkPath = context.getCacheDir() + "/lspatch/origin/" + sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc();
+                cacheApkPath = context.getCacheDir() + "/lspatch/origin/" + sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc() + ".apk";
             }
             SigBypass.enableOpenatHook(context.getPackageResourcePath(), cacheApkPath);
         }
