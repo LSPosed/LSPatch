@@ -5,11 +5,14 @@
     <string name="installing">Встановлення</string>
     <string name="uninstall">Видалити</string>
     <string name="uninstalling">Видалення</string>
+    <string name="copy_error">Copy error</string>
+    <string name="apps">Apps</string>
+    <string name="modules">Modules</string>
     <string name="shizuku_available">Доступна послуга Shizuku</string>
     <string name="shizuku_unavailable">Служба Shizuku не підключена</string>
-    <string name="page_repo">Репо</string>
-    <string name="page_logs">Журнали</string>
-    <!-- Home Page -->
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Logs</string>
+    <!-- Home Screen -->
     <string name="home_shizuku_warning">Деякі функції недоступні</string>
     <string name="home_api_version">Версія API</string>
     <string name="home_lspatch_version">Версія LSPatch</string>
@@ -21,17 +24,21 @@
     <string name="home_support">Підтримка</string>
     <string name="home_description">LSPatch — це безкоштовний некорневий фреймворк Xposed, заснований на ядрі LSPosed.</string>
     <string name="home_view_source_code"><![CDATA[Перегляньте вихідний код на %1$s<br/>Приєднуйтесь до нашого %2$s каналу]]></string>
-    <!-- Manage Page -->
-    <string name="page_manage">Керувати</string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">Manage</string>
     <string name="manage_loading">Завантаження</string>
     <string name="manage_no_apps">Ще немає виправлених програм</string>
+    <string name="manage_update_loader">Update loader</string>
+    <string name="manage_update_loader_successfully">Update successfully</string>
+    <string name="manage_update_loader_failed">Update failed</string>
     <string name="manage_module_scope">Область застосування модуля</string>
     <string name="manage_optimize">Оптимізувати</string>
     <string name="manage_optimize_successfully">Оптимізація успішно</string>
     <string name="manage_optimize_failed">Не вдалося оптимізувати</string>
     <string name="manage_uninstall_successfully">Успішно видалити</string>
-    <!-- New Patch Page -->
-    <string name="page_new_patch">Новий патч</string>
+    <string name="manage_no_modules">No modules yet</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Виберіть каталог зберігання</string>
     <string name="patch_select_dir_text">Виберіть каталог для зберігання виправлених apks</string>
     <string name="patch_select_dir_error">Помилка під час налаштування каталогу зберігання</string>
@@ -56,11 +63,10 @@
     <string name="patch_uninstall_text">Через різні сигнатури вам потрібно видалити оригінальну програму, перш ніж встановлювати виправлену.\nПереконайтеся, що ви створили резервну копію особистих даних.</string>
     <string name="patch_install_successfully">Встановити успішно</string>
     <string name="patch_install_failed">Помилка встановлення</string>
-    <string name="patch_copy_error">Помилка копіювання</string>
-    <!-- Select Apps Page -->
-    <string name="page_select_apps">Виберіть Програми</string>
-    <!-- Settings Page -->
-    <string name="page_settings">Налаштування</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Select Apps</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">Settings</string>
     <string name="settings_keystore">Сховище ключів підпису</string>
     <string name="settings_keystore_default">Вбудований</string>
     <string name="settings_keystore_custom">На замовлення</string>
