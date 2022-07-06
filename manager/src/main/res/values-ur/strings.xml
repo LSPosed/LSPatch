@@ -5,11 +5,14 @@
     <string name="installing">انسٹال کرنا</string>
     <string name="uninstall">ان انسٹال کریں۔</string>
     <string name="uninstalling">ان انسٹال کرنا</string>
+    <string name="copy_error">Copy error</string>
+    <string name="apps">Apps</string>
+    <string name="modules">Modules</string>
     <string name="shizuku_available">شیزوکو سروس دستیاب ہے۔</string>
     <string name="shizuku_unavailable">شیزوکو سروس منسلک نہیں ہے۔</string>
-    <string name="page_repo">ریپو</string>
-    <string name="page_logs">نوشتہ جات</string>
-    <!-- Home Page -->
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Logs</string>
+    <!-- Home Screen -->
     <string name="home_shizuku_warning">کچھ فنکشنز دستیاب نہیں ہیں۔</string>
     <string name="home_api_version">API ورژن</string>
     <string name="home_lspatch_version">ایل ایس پیچ ورژن</string>
@@ -21,17 +24,21 @@
     <string name="home_support">حمایت</string>
     <string name="home_description">LSPatch LSPosed کور پر مبنی ایک مفت نان روٹ Xposed فریم ورک ہے۔</string>
     <string name="home_view_source_code"><![CDATA[%1$s<br/>پر سورس کوڈ دیکھیں ہمارے %2$s چینل میں شامل ہوں۔]]></string>
-    <!-- Manage Page -->
-    <string name="page_manage">انتظام کریں۔</string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">Manage</string>
     <string name="manage_loading">لوڈ ہو رہا ہے۔</string>
     <string name="manage_no_apps">ابھی تک کوئی پیچ شدہ ایپس نہیں ہیں۔</string>
+    <string name="manage_update_loader">Update loader</string>
+    <string name="manage_update_loader_successfully">Update successfully</string>
+    <string name="manage_update_loader_failed">Update failed</string>
     <string name="manage_module_scope">ماڈیول دائرہ کار</string>
     <string name="manage_optimize">بہتر بنائیں</string>
     <string name="manage_optimize_successfully">کامیابی کے ساتھ اصلاح کریں۔</string>
     <string name="manage_optimize_failed">اصلاح ناکام ہوگئی</string>
     <string name="manage_uninstall_successfully">کامیابی کے ساتھ اَن انسٹال کریں۔</string>
-    <!-- New Patch Page -->
-    <string name="page_new_patch">نیا پیچ</string>
+    <string name="manage_no_modules">No modules yet</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">اسٹوریج ڈائرکٹری منتخب کریں۔</string>
     <string name="patch_select_dir_text">پیچ شدہ apks کو ذخیرہ کرنے کے لیے ایک ڈائریکٹری منتخب کریں۔</string>
     <string name="patch_select_dir_error">اسٹوریج ڈائرکٹری ترتیب دیتے وقت خرابی</string>
@@ -56,11 +63,10 @@
     <string name="patch_uninstall_text">مختلف دستخطوں کی وجہ سے، آپ کو پیچ شدہ ایپ کو انسٹال کرنے سے پہلے اصل ایپ کو ان انسٹال کرنے کی ضرورت ہے۔\nیقینی بنائیں کہ آپ نے ذاتی ڈیٹا کا بیک اپ لیا ہے۔</string>
     <string name="patch_install_successfully">کامیابی سے انسٹال کریں۔</string>
     <string name="patch_install_failed">انسٹال ناکام ہو گیا۔</string>
-    <string name="patch_copy_error">کاپی کی غلطی</string>
-    <!-- Select Apps Page -->
-    <string name="page_select_apps">ایپس کو منتخب کریں۔</string>
-    <!-- Settings Page -->
-    <string name="page_settings">ترتیبات</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Select Apps</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">Settings</string>
     <string name="settings_keystore">دستخطی کی اسٹور</string>
     <string name="settings_keystore_default">بلٹ ان</string>
     <string name="settings_keystore_custom">اپنی مرضی کے مطابق</string>
