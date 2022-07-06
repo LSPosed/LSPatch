@@ -7,10 +7,13 @@ import android.net.Uri
 import android.os.Binder
 import android.os.Bundle
 import android.util.Log
-import org.lsposed.lspatch.TAG
 import org.lsposed.lspatch.lspApp
 
 class ModuleProvider : ContentProvider() {
+
+    companion object {
+        private const val TAG = "ModuleProvider"
+    }
 
     override fun onCreate(): Boolean {
         return false

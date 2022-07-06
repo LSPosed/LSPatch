@@ -92,6 +92,7 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("com.google.accompanist:accompanist-drawablepainter:0.24.11-rc")
     implementation("com.google.accompanist:accompanist-navigation-animation:0.24.11-rc")
+    implementation("com.google.accompanist:accompanist-pager:0.24.11-rc")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.24.11-rc")
     implementation("com.google.android.material:material:1.6.1")
     implementation("com.google.code.gson:gson:2.9.0")

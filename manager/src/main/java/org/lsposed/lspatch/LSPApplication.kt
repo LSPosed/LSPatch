@@ -11,8 +11,6 @@ import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.ShizukuApi
 import java.io.File
 
-const val TAG = "LSPatch Manager"
-
 lateinit var lspApp: LSPApplication
 
 class LSPApplication : Application() {

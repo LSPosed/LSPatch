@@ -5,6 +5,8 @@
     <string name="uninstall">Uninstall</string>
     <string name="uninstalling">Uninstalling</string>
     <string name="copy_error">Copy error</string>
+    <string name="apps">Apps</string>
+    <string name="modules">Modules</string>
     <string name="shizuku_available">Shizuku service available</string>
     <string name="shizuku_unavailable">Shizuku service not connected</string>
     <string name="page_repo">Repo</string>
@@ -35,6 +37,7 @@
     <string name="manage_optimize_successfully">Optimize successfully</string>
     <string name="manage_optimize_failed">Optimize failed</string>
     <string name="manage_uninstall_successfully">Uninstall successfully</string>
+    <string name="manage_no_modules">No modules yet</string>
 
     <!-- New Patch Page -->
     <string name="page_new_patch">New Patch</string>

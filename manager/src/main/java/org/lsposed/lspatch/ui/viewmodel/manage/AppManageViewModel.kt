@@ -1,4 +1,4 @@
-package org.lsposed.lspatch.ui.viewmodel
+package org.lsposed.lspatch.ui.viewmodel.manage
 
 import android.content.pm.PackageInstaller
 import android.util.Base64
@@ -23,9 +23,11 @@ import org.lsposed.patch.util.Logger
 import java.io.FileNotFoundException
 import java.util.zip.ZipFile
 
-private const val TAG = "ManageViewModel"
+class AppManageViewModel : ViewModel() {
 
-class ManageViewModel : ViewModel() {
+    companion object {
+        private const val TAG = "ManageViewModel"
+    }
 
     sealed class ViewAction {
         data class UpdateLoader(val appInfo: AppInfo, val config: PatchConfig) : ViewAction()
