@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
 import org.lsposed.lspatch.R
 import org.lsposed.lspatch.config.MyKeyStore
@@ -31,8 +32,9 @@ import java.security.GeneralSecurityException
 import java.security.KeyStore
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Destination
 @Composable
-fun SettingsPage() {
+fun SettingsScreen() {
     Scaffold(
         topBar = { TopBar() }
     ) { innerPadding ->
@@ -49,7 +51,7 @@ fun SettingsPage() {
 @Composable
 private fun TopBar() {
     SmallTopAppBar(
-        title = { Text(stringResource(R.string.page_settings)) }
+        title = { Text(stringResource(R.string.screen_settings)) }
     )
 }
 

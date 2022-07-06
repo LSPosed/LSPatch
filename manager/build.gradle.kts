@@ -49,6 +49,12 @@ afterEvaluate {
         val variantLowered = variant.name.toLowerCase()
         val variantCapped = variant.name.capitalize()
 
+        kotlin.sourceSets {
+            getByName(variant.name) {
+                kotlin.srcDir("build/generated/ksp/${variant.name}/kotlin")
+            }
+        }
+
         task<Copy>("copy${variantCapped}Assets") {
             dependsOn(":appstub:copy$variantCapped")
             dependsOn(":patch-loader:copy$variantCapped")
@@ -75,6 +81,7 @@ dependencies {
     implementation(projects.share.java)
 
     val roomVersion = "2.4.2"
+    val composeDestinationsVersion = "1.6.13-beta"
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     compileOnly("dev.rikka.hidden:stub:2.3.1")
     implementation("dev.rikka.hidden:compat:2.3.1")
@@ -82,7 +89,6 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.6.0-alpha05")
     implementation("androidx.compose.material:material-icons-extended:1.3.0-alpha01")
     implementation("androidx.compose.material3:material3:1.0.0-alpha14")
-    implementation("androidx.compose.runtime:runtime-livedata:1.3.0-alpha01")
     implementation("androidx.compose.ui:ui:1.3.0-alpha01")
     implementation("androidx.compose.ui:ui-tooling:1.3.0-alpha01")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0")
@@ -98,6 +104,8 @@ dependencies {
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("dev.rikka.shizuku:api:12.1.0")
     implementation("dev.rikka.shizuku:provider:12.1.0")
+    implementation("io.github.raamcosta.compose-destinations:core:$composeDestinationsVersion")
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
     ksp("androidx.room:room-compiler:$roomVersion")
+    ksp("io.github.raamcosta.compose-destinations:ksp:$composeDestinationsVersion")
 }

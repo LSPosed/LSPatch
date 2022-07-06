@@ -9,16 +9,19 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import org.lsposed.lspatch.ui.page.PageList
+import com.ramcosta.composedestinations.DestinationsNavHost
+import org.lsposed.lspatch.ui.page.BottomBarDestination
+import org.lsposed.lspatch.ui.page.NavGraphs
+import org.lsposed.lspatch.ui.page.appCurrentDestinationAsState
+import org.lsposed.lspatch.ui.page.destinations.Destination
+import org.lsposed.lspatch.ui.page.startAppDestination
 import org.lsposed.lspatch.ui.theme.LSPTheme
-import org.lsposed.lspatch.ui.util.LocalNavController
 import org.lsposed.lspatch.ui.util.LocalSnackbarHost
-import org.lsposed.lspatch.ui.util.navigateWithState
 
 class MainActivity : ComponentActivity() {
 
@@ -27,25 +30,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberAnimatedNavController()
-            var mainPage by rememberSaveable { mutableStateOf(PageList.Home) }
-
             LSPTheme {
                 val snackbarHostState = remember { SnackbarHostState() }
-                CompositionLocalProvider(
-                    LocalNavController provides navController,
-                    LocalSnackbarHost provides snackbarHostState
-                ) {
+                CompositionLocalProvider(LocalSnackbarHost provides snackbarHostState) {
                     Scaffold(
-                        bottomBar = {
-                            MainNavigationBar(mainPage) {
-                                if (mainPage == it) return@MainNavigationBar
-                                mainPage = it
-                                navController.navigateWithState(it.name)
-                            }
-                        },
+                        bottomBar = { BottomBar(navController) },
                         snackbarHost = { SnackbarHost(snackbarHostState) }
                     ) { innerPadding ->
-                        MainNavHost(navController, Modifier.padding(innerPadding))
+                        DestinationsNavHost(
+                            modifier = Modifier.padding(innerPadding),
+                            navGraph = NavGraphs.root,
+                            navController = navController
+                        )
                     }
                 }
             }
@@ -54,30 +50,34 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun MainNavHost(navController: NavHostController, modifier: Modifier) {
-    NavHost(
-        navController = navController,
-        startDestination = PageList.Home.name,
-        modifier = modifier
-    ) {
-        for (page in PageList.values()) {
-            composable(route = page.route, arguments = page.arguments, content = page.body)
-        }
+private fun BottomBar(navController: NavHostController) {
+    val currentDestination: Destination = navController.appCurrentDestinationAsState().value
+        ?: NavGraphs.root.startAppDestination
+    var topDestination by rememberSaveable { mutableStateOf(currentDestination.route) }
+    LaunchedEffect(currentDestination) {
+        val queue = navController.backQueue
+        if (queue.size == 2) topDestination = queue[1].destination.route!!
+        else if (queue.size > 2) topDestination = queue[2].destination.route!!
     }
-}
 
-@Composable
-private fun MainNavigationBar(page: PageList, onClick: (PageList) -> Unit) {
     NavigationBar(tonalElevation = 8.dp) {
-        arrayOf(PageList.Repo, PageList.Manage, PageList.Home, PageList.Logs, PageList.Settings).forEach {
+        BottomBarDestination.values().forEach { destination ->
             NavigationBarItem(
-                selected = page == it,
-                onClick = { onClick(it) },
-                icon = {
-                    if (page == it) Icon(it.iconSelected!!, it.title)
-                    else Icon(it.iconNotSelected!!, it.title)
+                selected = topDestination == destination.direction.route,
+                onClick = {
+                    navController.navigate(destination.direction.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 },
-                label = { Text(it.title) },
+                icon = {
+                    if (topDestination == destination.direction.route) Icon(destination.iconSelected, stringResource(destination.label))
+                    else Icon(destination.iconNotSelected, stringResource(destination.label))
+                },
+                label = { Text(stringResource(destination.label)) },
                 alwaysShowLabel = false
             )
         }

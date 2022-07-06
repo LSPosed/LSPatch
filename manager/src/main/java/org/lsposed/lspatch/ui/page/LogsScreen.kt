@@ -8,11 +8,14 @@ import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import com.ramcosta.composedestinations.annotation.Destination
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Destination
 @Composable
-fun RepoPage() {
+fun LogsScreen() {
     Scaffold(topBar = { TopBar() }) { innerPadding ->
         Text(
             modifier = Modifier
@@ -27,6 +30,6 @@ fun RepoPage() {
 @Composable
 private fun TopBar() {
     SmallTopAppBar(
-        title = { Text(PageList.Repo.title) }
+        title = { Text(stringResource(BottomBarDestination.Logs.label)) }
     )
 }

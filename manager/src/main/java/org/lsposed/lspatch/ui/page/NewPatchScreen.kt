@@ -23,17 +23,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavBackStackEntry
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.result.NavResult
+import com.ramcosta.composedestinations.result.ResultRecipient
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.lsposed.lspatch.R
@@ -42,83 +43,100 @@ import org.lsposed.lspatch.ui.component.SelectionColumn
 import org.lsposed.lspatch.ui.component.ShimmerAnimation
 import org.lsposed.lspatch.ui.component.settings.SettingsCheckBox
 import org.lsposed.lspatch.ui.component.settings.SettingsItem
-import org.lsposed.lspatch.ui.util.*
+import org.lsposed.lspatch.ui.page.destinations.SelectAppsScreenDestination
+import org.lsposed.lspatch.ui.util.LocalSnackbarHost
+import org.lsposed.lspatch.ui.util.isScrolledToEnd
+import org.lsposed.lspatch.ui.util.lastItemIndex
 import org.lsposed.lspatch.ui.viewmodel.NewPatchViewModel
 import org.lsposed.lspatch.ui.viewmodel.NewPatchViewModel.PatchState
 import org.lsposed.lspatch.ui.viewmodel.NewPatchViewModel.ViewAction
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 import org.lsposed.lspatch.util.ShizukuApi
-import java.io.File
 
 private const val TAG = "NewPatchPage"
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Destination
 @Composable
-fun NewPatchPage(from: String, entry: NavBackStackEntry) {
+fun NewPatchScreen(
+    navigator: DestinationsNavigator,
+    resultRecipient: ResultRecipient<SelectAppsScreenDestination, SelectAppsResult>,
+    from: String
+) {
     val viewModel = viewModel<NewPatchViewModel>()
     val snackbarHost = LocalSnackbarHost.current
-    val navController = LocalNavController.current
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val isCancelled by entry.observeState<Boolean>("isCancelled")
+    val storageLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { apks ->
+        if (apks.isEmpty()) {
+            navigator.navigateUp()
+            return@rememberLauncherForActivityResult
+        }
+        runBlocking {
+            LSPPackageManager.getAppInfoFromApks(apks)
+                .onSuccess {
+                    viewModel.dispatch(ViewAction.ConfigurePatch(it))
+                }
+                .onFailure {
+                    lspApp.globalScope.launch { snackbarHost.showSnackbar(it.message ?: "Unknown error") }
+                    navigator.navigateUp()
+                }
+        }
+    }
 
     Log.d(TAG, "PatchState: ${viewModel.patchState}")
-    if (viewModel.patchState == PatchState.SELECTING) {
-        val storageLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { apks ->
-            if (apks.isEmpty()) {
-                navController.popBackStack()
-                return@rememberLauncherForActivityResult
-            }
-            runBlocking {
-                LSPPackageManager.getAppInfoFromApks(apks)
-                    .onSuccess {
-                        viewModel.dispatch(ViewAction.ConfigurePatch(it))
-                    }
-                    .onFailure {
-                        lspApp.globalScope.launch { snackbarHost.showSnackbar(it.message ?: "Unknown error") }
-                        navController.popBackStack()
-                    }
+    when (viewModel.patchState) {
+        PatchState.INIT -> {
+            LaunchedEffect(Unit) {
+                LSPPackageManager.cleanTmpApkDir()
+                when (from) {
+                    "storage" -> storageLauncher.launch(arrayOf("application/vnd.android.package-archive"))
+                    "applist" -> navigator.navigate(SelectAppsScreenDestination(false))
+                }
+                viewModel.dispatch(ViewAction.DoneInit)
             }
         }
-        LaunchedEffect(Unit) {
-            LSPPackageManager.cleanTmpApkDir()
-            if (isCancelled == true) navController.popBackStack()
-            else when (from) {
-                "storage" -> storageLauncher.launch(arrayOf("application/vnd.android.package-archive"))
-                "applist" -> {
-                    entry.savedStateHandle.getLiveData<AppInfo>("appInfo").observe(lifecycleOwner) {
-                        viewModel.dispatch(ViewAction.ConfigurePatch(it))
+        PatchState.SELECTING -> {
+            resultRecipient.onNavResult {
+                Log.d(TAG, "onNavResult: $it")
+                when (it) {
+                    is NavResult.Canceled -> navigator.navigateUp()
+                    is NavResult.Value -> {
+                        val result = it.value as SelectAppsResult.SingleApp
+                        viewModel.dispatch(ViewAction.ConfigurePatch(result.selected))
                     }
-                    navController.navigate(PageList.SelectApps.name + "?multiSelect=false")
                 }
             }
         }
-    } else {
-        Scaffold(
-            topBar = {
-                when (viewModel.patchState) {
-                    PatchState.CONFIGURING -> ConfiguringTopBar { navController.popBackStack() }
-                    PatchState.PATCHING,
-                    PatchState.FINISHED,
-                    PatchState.ERROR -> CenterAlignedTopAppBar(title = { Text(viewModel.patchApp.app.packageName) })
-                    else -> Unit
+        else -> {
+            Scaffold(
+                topBar = {
+                    when (viewModel.patchState) {
+                        PatchState.CONFIGURING -> ConfiguringTopBar { navigator.navigateUp() }
+                        PatchState.PATCHING,
+                        PatchState.FINISHED,
+                        PatchState.ERROR -> CenterAlignedTopAppBar(title = { Text(viewModel.patchApp.app.packageName) })
+                        else -> Unit
+                    }
+                },
+                floatingActionButton = {
+                    if (viewModel.patchState == PatchState.CONFIGURING) {
+                        ConfiguringFab()
+                    }
                 }
-            },
-            floatingActionButton = {
+            ) { innerPadding ->
                 if (viewModel.patchState == PatchState.CONFIGURING) {
-                    ConfiguringFab()
-                }
-            }
-        ) { innerPadding ->
-            if (viewModel.patchState == PatchState.CONFIGURING) {
-                LaunchedEffect(Unit) {
-                    entry.savedStateHandle.getLiveData("selected", SnapshotStateList<AppInfo>()).observe(lifecycleOwner) {
-                        viewModel.embeddedModules = it
+                    PatchOptionsBody(Modifier.padding(innerPadding)) {
+                        navigator.navigate(SelectAppsScreenDestination(true, viewModel.embeddedModules.mapTo(ArrayList()) { it.app.packageName }))
                     }
+                    resultRecipient.onNavResult {
+                        if (it is NavResult.Value) {
+                            val result = it.value as SelectAppsResult.MultipleApps
+                            viewModel.embeddedModules = result.selected
+                        }
+                    }
+                } else {
+                    DoPatchBody(Modifier.padding(innerPadding), navigator)
                 }
-                PatchOptionsBody(Modifier.padding(innerPadding))
-            } else {
-                DoPatchBody(Modifier.padding(innerPadding))
             }
         }
     }
@@ -127,7 +145,7 @@ fun NewPatchPage(from: String, entry: NavBackStackEntry) {
 @Composable
 private fun ConfiguringTopBar(onBackClick: () -> Unit) {
     SmallTopAppBar(
-        title = { Text(stringResource(R.string.page_new_patch)) },
+        title = { Text(stringResource(R.string.screen_new_patch)) },
         navigationIcon = {
             IconButton(
                 onClick = onBackClick,
@@ -157,9 +175,8 @@ private fun sigBypassLvStr(level: Int) = when (level) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun PatchOptionsBody(modifier: Modifier) {
+private fun PatchOptionsBody(modifier: Modifier, onAddEmbed: () -> Unit) {
     val viewModel = viewModel<NewPatchViewModel>()
-    val navController = LocalNavController.current
 
     Column(modifier.verticalScroll(rememberScrollState())) {
         Text(
@@ -195,7 +212,7 @@ private fun PatchOptionsBody(modifier: Modifier) {
                 desc = stringResource(R.string.patch_portable_desc),
                 extraContent = {
                     TextButton(
-                        onClick = { navController.navigate(PageList.SelectApps.name + "?multiSelect=true") },
+                        onClick = onAddEmbed,
                         content = { Text(text = stringResource(R.string.patch_embed_modules), style = MaterialTheme.typography.bodyLarge) }
                     )
                 }
@@ -266,10 +283,9 @@ private fun PatchOptionsBody(modifier: Modifier) {
 }
 
 @Composable
-private fun DoPatchBody(modifier: Modifier) {
+private fun DoPatchBody(modifier: Modifier, navigator: DestinationsNavigator) {
     val viewModel = viewModel<NewPatchViewModel>()
     val snackbarHost = LocalSnackbarHost.current
-    val navController = LocalNavController.current
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
@@ -331,7 +347,7 @@ private fun DoPatchBody(modifier: Modifier) {
                             installing = false
                             if (status == PackageInstaller.STATUS_SUCCESS) {
                                 lspApp.globalScope.launch { snackbarHost.showSnackbar(installSuccessfully) }
-                                navController.popBackStack()
+                                navigator.navigateUp()
                             } else if (status != LSPPackageManager.STATUS_USER_CANCELLED) {
                                 val result = snackbarHost.showSnackbar(installFailed, copyError)
                                 if (result == SnackbarResult.ActionPerformed) {
@@ -344,7 +360,7 @@ private fun DoPatchBody(modifier: Modifier) {
                     Row(Modifier.padding(top = 12.dp)) {
                         Button(
                             modifier = Modifier.weight(1f),
-                            onClick = { navController.popBackStack() },
+                            onClick = { navigator.navigateUp() },
                             content = { Text(stringResource(R.string.patch_return)) }
                         )
                         Spacer(Modifier.weight(0.2f))
@@ -367,7 +383,7 @@ private fun DoPatchBody(modifier: Modifier) {
                     Row(Modifier.padding(top = 12.dp)) {
                         Button(
                             modifier = Modifier.weight(1f),
-                            onClick = { navController.popBackStack() },
+                            onClick = { navigator.navigateUp() },
                             content = { Text(stringResource(R.string.patch_return)) }
                         )
                         Spacer(Modifier.weight(0.2f))

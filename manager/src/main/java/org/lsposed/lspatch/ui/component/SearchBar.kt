@@ -26,7 +26,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-
 private const val TAG = "SearchBar"
 
 @OptIn(ExperimentalComposeUiApi::class)

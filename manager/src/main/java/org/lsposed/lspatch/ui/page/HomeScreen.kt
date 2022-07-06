@@ -25,6 +25,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import kotlinx.coroutines.launch
 import org.lsposed.lspatch.R
 import org.lsposed.lspatch.share.LSPConfig
@@ -34,8 +36,10 @@ import org.lsposed.lspatch.util.ShizukuApi
 import rikka.shizuku.Shizuku
 
 @OptIn(ExperimentalMaterial3Api::class)
+@RootNavGraph(start = true)
+@Destination
 @Composable
-fun HomePage() {
+fun HomeScreen() {
     Scaffold(topBar = { TopBar() }) { innerPadding ->
         Column(
             modifier = Modifier

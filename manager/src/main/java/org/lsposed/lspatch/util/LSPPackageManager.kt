@@ -103,7 +103,7 @@ object LSPPackageManager {
                         }
                     }
                     var result: Intent? = null
-                    suspendCoroutine<Unit> { cont ->
+                    suspendCoroutine { cont ->
                         val countDownLatch = CountDownLatch(1)
                         val adapter = IntentSenderHelper.IIntentSenderAdaptor { intent ->
                             result = intent
@@ -133,7 +133,7 @@ object LSPPackageManager {
         withContext(Dispatchers.IO) {
             runCatching {
                 var result: Intent? = null
-                suspendCoroutine<Unit> { cont ->
+                suspendCoroutine { cont ->
                     val countDownLatch = CountDownLatch(1)
                     val adapter = IntentSenderHelper.IIntentSenderAdaptor { intent ->
                         result = intent

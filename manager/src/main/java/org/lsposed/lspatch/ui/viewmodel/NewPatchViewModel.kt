@@ -5,7 +5,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -22,16 +21,17 @@ class NewPatchViewModel : ViewModel() {
     }
 
     enum class PatchState {
-        SELECTING, CONFIGURING, PATCHING, FINISHED, ERROR
+        INIT, SELECTING, CONFIGURING, PATCHING, FINISHED, ERROR
     }
 
     sealed class ViewAction {
+        object DoneInit : ViewAction()
         data class ConfigurePatch(val app: AppInfo) : ViewAction()
         object SubmitPatch : ViewAction()
         object LaunchPatch : ViewAction()
     }
 
-    var patchState by mutableStateOf(PatchState.SELECTING)
+    var patchState by mutableStateOf(PatchState.INIT)
         private set
 
     var useManager by mutableStateOf(true)
@@ -39,7 +39,7 @@ class NewPatchViewModel : ViewModel() {
     var overrideVersionCode by mutableStateOf(false)
     val sign = mutableStateListOf(false, true)
     var sigBypassLevel by mutableStateOf(2)
-    var embeddedModules = SnapshotStateList<AppInfo>()
+    var embeddedModules = emptyList<AppInfo>()
 
     lateinit var patchApp: AppInfo
         private set
@@ -68,10 +68,15 @@ class NewPatchViewModel : ViewModel() {
 
     fun dispatch(action: ViewAction) {
         when (action) {
+            is ViewAction.DoneInit -> doneInit()
             is ViewAction.ConfigurePatch -> configurePatch(action.app)
             is ViewAction.SubmitPatch -> submitPatch()
             is ViewAction.LaunchPatch -> launchPatch()
         }
+    }
+
+    private fun doneInit() {
+        patchState = PatchState.SELECTING
     }
 
     private fun configurePatch(app: AppInfo) {
@@ -82,7 +87,7 @@ class NewPatchViewModel : ViewModel() {
 
     private fun submitPatch() {
         Log.d(TAG, "Submit patch")
-        if (useManager) embeddedModules.clear()
+        if (useManager) embeddedModules = emptyList()
         patchOptions = Patcher.Options(
             verbose = true,
             config = PatchConfig(useManager, debuggable, overrideVersionCode, sign[0], sign[1], sigBypassLevel, null, null),

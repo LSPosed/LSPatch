@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -32,6 +31,9 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.result.NavResult
+import com.ramcosta.composedestinations.result.ResultRecipient
 import kotlinx.coroutines.launch
 import org.lsposed.lspatch.Constants
 import org.lsposed.lspatch.R
@@ -41,11 +43,10 @@ import org.lsposed.lspatch.lspApp
 import org.lsposed.lspatch.share.LSPConfig
 import org.lsposed.lspatch.ui.component.AppItem
 import org.lsposed.lspatch.ui.component.LoadingDialog
-import org.lsposed.lspatch.ui.page.PageList
-import org.lsposed.lspatch.ui.util.LocalNavController
+import org.lsposed.lspatch.ui.page.SelectAppsResult
+import org.lsposed.lspatch.ui.page.destinations.NewPatchScreenDestination
+import org.lsposed.lspatch.ui.page.destinations.SelectAppsScreenDestination
 import org.lsposed.lspatch.ui.util.LocalSnackbarHost
-import org.lsposed.lspatch.ui.util.observeState
-import org.lsposed.lspatch.ui.util.setState
 import org.lsposed.lspatch.ui.viewmodel.manage.AppManageViewModel
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.ShizukuApi
@@ -54,10 +55,12 @@ import java.io.IOException
 private const val TAG = "AppManagePage"
 
 @Composable
-fun AppManageBody() {
+fun AppManageBody(
+    navigator: DestinationsNavigator,
+    resultRecipient: ResultRecipient<SelectAppsScreenDestination, SelectAppsResult>
+) {
     val viewModel = viewModel<AppManageViewModel>()
     val snackbarHost = LocalSnackbarHost.current
-    val navController = LocalNavController.current
     val scope = rememberCoroutineScope()
 
     if (viewModel.appList.isEmpty()) {
@@ -74,20 +77,18 @@ fun AppManageBody() {
         }
     } else {
         var scopeApp by rememberSaveable { mutableStateOf("") }
-        val isCancelled by navController.currentBackStackEntry!!.observeState<Boolean>("isCancelled")
-        LaunchedEffect(isCancelled) {
-            if (isCancelled == false) {
-                val selected = navController.currentBackStackEntry!!
-                    .savedStateHandle.getLiveData<SnapshotStateList<LSPPackageManager.AppInfo>>("selected").value!!.toSet()
-                Log.d(TAG, "Clear module list for $scopeApp")
-                ConfigManager.getModulesForApp(scopeApp).forEach {
-                    ConfigManager.deactivateModule(scopeApp, it)
+        resultRecipient.onNavResult {
+            if (it is NavResult.Value) {
+                scope.launch {
+                    val result = it.value as SelectAppsResult.MultipleApps
+                    ConfigManager.getModulesForApp(scopeApp).forEach {
+                        ConfigManager.deactivateModule(scopeApp, it)
+                    }
+                    result.selected.forEach {
+                        Log.d(TAG, "Activate ${it.app.packageName} for $scopeApp")
+                        ConfigManager.activateModule(scopeApp, Module(it.app.packageName, it.app.sourceDir))
+                    }
                 }
-                selected.forEach {
-                    Log.d(TAG, "Activate ${it.app.packageName} for $scopeApp")
-                    ConfigManager.activateModule(scopeApp, Module(it.app.packageName, it.app.sourceDir))
-                }
-                navController.currentBackStackEntry!!.setState("isCancelled", null)
             }
         }
 
@@ -165,13 +166,10 @@ fun AppManageBody() {
                                     scope.launch {
                                         scopeApp = it.first.app.packageName
                                         val activated = ConfigManager.getModulesForApp(scopeApp).map { it.pkgName }.toSet()
-                                        navController.currentBackStackEntry!!.setState(
-                                            "selected",
-                                            SnapshotStateList<LSPPackageManager.AppInfo>().apply {
-                                                LSPPackageManager.appList.filterTo(this) { activated.contains(it.app.packageName) }
-                                            }
-                                        )
-                                        navController.navigate(PageList.SelectApps.name + "?multiSelect=true")
+                                        val initialSelected = LSPPackageManager.appList.mapNotNullTo(ArrayList()) {
+                                            if (activated.contains(it.app.packageName)) it.app.packageName else null
+                                        }
+                                        navigator.navigate(SelectAppsScreenDestination(true, initialSelected))
                                     }
                                 }
                             )
@@ -220,10 +218,9 @@ fun AppManageBody() {
 }
 
 @Composable
-fun AppManageFab() {
+fun AppManageFab(navigator: DestinationsNavigator) {
     val context = LocalContext.current
     val snackbarHost = LocalSnackbarHost.current
-    val navController = LocalNavController.current
     val scope = rememberCoroutineScope()
     var shouldSelectDirectory by remember { mutableStateOf(false) }
     var showNewPatchDialog by remember { mutableStateOf(false) }
@@ -286,7 +283,7 @@ fun AppManageFab() {
             title = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.page_new_patch),
+                    text = stringResource(R.string.screen_new_patch),
                     textAlign = TextAlign.Center
                 )
             },
@@ -296,7 +293,7 @@ fun AppManageFab() {
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.secondary),
                         onClick = {
-                            navController.navigate(PageList.NewPatch.name + "?from=storage")
+                            navigator.navigate(NewPatchScreenDestination("storage"))
                             showNewPatchDialog = false
                         }
                     ) {
@@ -310,7 +307,7 @@ fun AppManageFab() {
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.secondary),
                         onClick = {
-                            navController.navigate(PageList.NewPatch.name + "?from=applist")
+                            navigator.navigate(NewPatchScreenDestination("applist"))
                             showNewPatchDialog = false
                         }
                     ) {
