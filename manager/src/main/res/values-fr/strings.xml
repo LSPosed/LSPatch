@@ -5,11 +5,14 @@
     <string name="installing">Installation de</string>
     <string name="uninstall">Désinstaller</string>
     <string name="uninstalling">Désinstallation de</string>
+    <string name="copy_error">Copy error</string>
+    <string name="apps">Apps</string>
+    <string name="modules">Modules</string>
     <string name="shizuku_available">Service Shizuku disponible</string>
     <string name="shizuku_unavailable">Service Shizuku non connecté</string>
-    <string name="page_repo">Dépôt</string>
-    <string name="page_logs">Journaux</string>
-    <!-- Home Page -->
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Logs</string>
+    <!-- Home Screen -->
     <string name="home_shizuku_warning">Certaines fonctions seront indisponibles</string>
     <string name="home_api_version">Version de l\'API</string>
     <string name="home_lspatch_version">Version de LSPatch</string>
@@ -21,17 +24,21 @@
     <string name="home_support">Support</string>
     <string name="home_description">LSPatch est un framework Xposed gratuit non root basé sur le noyau de LSPosed.</string>
     <string name="home_view_source_code"><![CDATA[Voir le code source sur %1$s<br/>Rejoignez notre %2$s canal]]></string>
-    <!-- Manage Page -->
-    <string name="page_manage">Gestion</string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">Manage</string>
     <string name="manage_loading">Chargement</string>
     <string name="manage_no_apps">Aucune appli patchée pour le moment</string>
+    <string name="manage_update_loader">Update loader</string>
+    <string name="manage_update_loader_successfully">Update successfully</string>
+    <string name="manage_update_loader_failed">Update failed</string>
     <string name="manage_module_scope">Portée du module</string>
     <string name="manage_optimize">Optimiser</string>
     <string name="manage_optimize_successfully">Optimiser avec succès</string>
     <string name="manage_optimize_failed">Optimiser les échecs</string>
     <string name="manage_uninstall_successfully">Désinstallation réussie</string>
-    <!-- New Patch Page -->
-    <string name="page_new_patch">Nouveau patch</string>
+    <string name="manage_no_modules">No modules yet</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Sélectionner le répertoire de stockage</string>
     <string name="patch_select_dir_text">Sélectionnez un répertoire pour stocker les apks modifiés</string>
     <string name="patch_select_dir_error">Érreur lors de la définition du répertoire de stockage</string>
@@ -56,11 +63,10 @@
     <string name="patch_uninstall_text">En raison de signatures différentes, vous devez désinstaller l\'appli originale avant d\'installer celle modifiée.\nAssurez-vous d\'avoir sauvegardé vos données personnelles.</string>
     <string name="patch_install_successfully">Installation réussie</string>
     <string name="patch_install_failed">Échec de l\'installation</string>
-    <string name="patch_copy_error">Erreur de copie</string>
-    <!-- Select Apps Page -->
-    <string name="page_select_apps">Sélectionnez les applis</string>
-    <!-- Settings Page -->
-    <string name="page_settings">Réglages</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Select Apps</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">Settings</string>
     <string name="settings_keystore">Magasin de clés de signature</string>
     <string name="settings_keystore_default">Intégré</string>
     <string name="settings_keystore_custom">Personnalisé</string>
