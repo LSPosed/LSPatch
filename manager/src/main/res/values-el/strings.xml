@@ -5,11 +5,14 @@
     <string name="installing">Εγκατάσταση του</string>
     <string name="uninstall">Απεγκατάσταση του</string>
     <string name="uninstalling">Απεγκατάσταση του</string>
+    <string name="copy_error">Copy error</string>
+    <string name="apps">Apps</string>
+    <string name="modules">Modules</string>
     <string name="shizuku_available">Διατίθεται υπηρεσία Shizuku</string>
     <string name="shizuku_unavailable">Η υπηρεσία Shizuku δεν είναι συνδεδεμένη</string>
-    <string name="page_repo">Repo</string>
-    <string name="page_logs">κούτσουρα</string>
-    <!-- Home Page -->
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Logs</string>
+    <!-- Home Screen -->
     <string name="home_shizuku_warning">Ορισμένες λειτουργίες δεν είναι διαθέσιμες</string>
     <string name="home_api_version">Έκδοση API</string>
     <string name="home_lspatch_version">Έκδοση LSPatch</string>
@@ -21,17 +24,21 @@
     <string name="home_support">Υποστήριξη</string>
     <string name="home_description">Το LSPatch είναι ένα δωρεάν πλαίσιο Xposed χωρίς ρίζα που βασίζεται στον πυρήνα LSPosed.</string>
     <string name="home_view_source_code"><![CDATA[Δείτε τον πηγαίο κώδικα στο %1$s<br/>Εγγραφείτε στο %2$s κανάλι μας]]></string>
-    <!-- Manage Page -->
-    <string name="page_manage">Διαχειρίζονται</string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">Manage</string>
     <string name="manage_loading">Φόρτωση</string>
     <string name="manage_no_apps">Δεν υπάρχουν ακόμα επιδιορθωμένες εφαρμογές</string>
+    <string name="manage_update_loader">Update loader</string>
+    <string name="manage_update_loader_successfully">Update successfully</string>
+    <string name="manage_update_loader_failed">Update failed</string>
     <string name="manage_module_scope">Πεδίο εφαρμογής της ενότητας</string>
     <string name="manage_optimize">Βελτιστοποίηση</string>
     <string name="manage_optimize_successfully">Βελτιστοποιήστε με επιτυχία</string>
     <string name="manage_optimize_failed">Βελτιστοποίηση αποτυχημένων</string>
     <string name="manage_uninstall_successfully">Απεγκατάσταση με επιτυχία</string>
-    <!-- New Patch Page -->
-    <string name="page_new_patch">Νέο Patch</string>
+    <string name="manage_no_modules">No modules yet</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Επιλέξτε κατάλογο αποθήκευσης</string>
     <string name="patch_select_dir_text">Επιλέξτε έναν κατάλογο για να αποθηκεύσετε τα επιδιορθωμένα apk</string>
     <string name="patch_select_dir_error">Σφάλμα κατά τη ρύθμιση του καταλόγου αποθήκευσης</string>
@@ -56,11 +63,10 @@
     <string name="patch_uninstall_text">Λόγω διαφορετικών υπογραφών, πρέπει να απεγκαταστήσετε την αρχική εφαρμογή πριν εγκαταστήσετε την επιδιορθωμένη.\nΒεβαιωθείτε ότι έχετε δημιουργήσει αντίγραφα ασφαλείας προσωπικών δεδομένων.</string>
     <string name="patch_install_successfully">Εγκατάσταση με επιτυχία</string>
     <string name="patch_install_failed">Η εγκατάσταση απέτυχε</string>
-    <string name="patch_copy_error">Σφάλμα αντιγραφής</string>
-    <!-- Select Apps Page -->
-    <string name="page_select_apps">Επιλέξτε Εφαρμογές</string>
-    <!-- Settings Page -->
-    <string name="page_settings">Ρυθμίσεις</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Select Apps</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">Settings</string>
     <string name="settings_keystore">Υπογραφή keystore</string>
     <string name="settings_keystore_default">Ενσωματωμένο</string>
     <string name="settings_keystore_custom">Προσαρμοσμένο</string>

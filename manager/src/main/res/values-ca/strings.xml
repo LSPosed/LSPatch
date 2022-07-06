@@ -5,11 +5,14 @@
     <string name="installing">Instal·lació</string>
     <string name="uninstall">Desinstal·la</string>
     <string name="uninstalling">S\'està desinstal·lant</string>
+    <string name="copy_error">Copy error</string>
+    <string name="apps">Apps</string>
+    <string name="modules">Modules</string>
     <string name="shizuku_available">Servei Shizuku disponible</string>
     <string name="shizuku_unavailable">El servei Shizuku no està connectat</string>
-    <string name="page_repo">Repo</string>
-    <string name="page_logs">Registres</string>
-    <!-- Home Page -->
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Logs</string>
+    <!-- Home Screen -->
     <string name="home_shizuku_warning">Algunes funcions no estan disponibles</string>
     <string name="home_api_version">Versió de l\'API</string>
     <string name="home_lspatch_version">Versió LSPatch</string>
@@ -21,17 +24,21 @@
     <string name="home_support">Suport</string>
     <string name="home_description">LSPatch és un marc Xposed gratuït no root basat en el nucli LSPosed.</string>
     <string name="home_view_source_code"><![CDATA[Veure el codi font a %1$s<br/>Uneix-te al nostre canal %2$s]]></string>
-    <!-- Manage Page -->
-    <string name="page_manage">Gestionar</string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">Manage</string>
     <string name="manage_loading">Carregant</string>
     <string name="manage_no_apps">Encara no hi ha cap aplicació pegada</string>
+    <string name="manage_update_loader">Update loader</string>
+    <string name="manage_update_loader_successfully">Update successfully</string>
+    <string name="manage_update_loader_failed">Update failed</string>
     <string name="manage_module_scope">Àmbit del mòdul</string>
     <string name="manage_optimize">Optimitzar</string>
     <string name="manage_optimize_successfully">Optimitzar amb èxit</string>
     <string name="manage_optimize_failed">L\'optimització ha fallat</string>
     <string name="manage_uninstall_successfully">Desinstal·la correctament</string>
-    <!-- New Patch Page -->
-    <string name="page_new_patch">Nou Pegat</string>
+    <string name="manage_no_modules">No modules yet</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Seleccioneu el directori d\'emmagatzematge</string>
     <string name="patch_select_dir_text">Seleccioneu un directori per emmagatzemar els apks pegats</string>
     <string name="patch_select_dir_error">Error en configurar el directori d\'emmagatzematge</string>
@@ -56,11 +63,10 @@
     <string name="patch_uninstall_text">A causa de les diferents signatures, heu de desinstal·lar l\'aplicació original abans d\'instal·lar la pegada.\nAssegureu-vos que heu fet una còpia de seguretat de les dades personals.</string>
     <string name="patch_install_successfully">Instal·la correctament</string>
     <string name="patch_install_failed">La instal·lació ha fallat</string>
-    <string name="patch_copy_error">Error de còpia</string>
-    <!-- Select Apps Page -->
-    <string name="page_select_apps">Seleccioneu Aplicacions</string>
-    <!-- Settings Page -->
-    <string name="page_settings">Configuració</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Select Apps</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">Settings</string>
     <string name="settings_keystore">Botiga de claus de signatures</string>
     <string name="settings_keystore_default">Integrat</string>
     <string name="settings_keystore_custom">Personalitzat</string>

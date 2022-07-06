@@ -5,11 +5,14 @@
     <string name="installing">Sazkirin</string>
     <string name="uninstall">Rakirin</string>
     <string name="uninstalling">Rakirin</string>
+    <string name="copy_error">Copy error</string>
+    <string name="apps">Apps</string>
+    <string name="modules">Modules</string>
     <string name="shizuku_available">Karûbarê Shizuku heye</string>
     <string name="shizuku_unavailable">Karûbarê Shizuku ne girêdayî ye</string>
-    <string name="page_repo">Repo</string>
-    <string name="page_logs">Logs</string>
-    <!-- Home Page -->
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Logs</string>
+    <!-- Home Screen -->
     <string name="home_shizuku_warning">Hin fonksiyon ne berdest in</string>
     <string name="home_api_version">Guhertoya API</string>
     <string name="home_lspatch_version">Guhertoya LSPatch</string>
@@ -21,17 +24,21 @@
     <string name="home_support">Alîkarî</string>
     <string name="home_description">LSPatch çarçoveyek Xposed-a ne-root-a belaş e ku li ser bingeha LSPosed-ê ye.</string>
     <string name="home_view_source_code"><![CDATA[Koda çavkaniyê li %1$s<br/>bibînin Tevlî %2$s kanala me bibin]]></string>
-    <!-- Manage Page -->
-    <string name="page_manage">Rêvebirin</string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">Manage</string>
     <string name="manage_loading">Barkirin</string>
     <string name="manage_no_apps">Hê sepanên patched tune</string>
+    <string name="manage_update_loader">Update loader</string>
+    <string name="manage_update_loader_successfully">Update successfully</string>
+    <string name="manage_update_loader_failed">Update failed</string>
     <string name="manage_module_scope">Qada modulê</string>
     <string name="manage_optimize">Optimize bikin</string>
     <string name="manage_optimize_successfully">Optimize bi serkeftî</string>
     <string name="manage_optimize_failed">Optimîzekirin têk çû</string>
     <string name="manage_uninstall_successfully">Rakirina bi serkeftî</string>
-    <!-- New Patch Page -->
-    <string name="page_new_patch">Patch Nû</string>
+    <string name="manage_no_modules">No modules yet</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Peldanka hilanînê hilbijêrin</string>
     <string name="patch_select_dir_text">Ji bo hilanîna apkên patched pelrêçek hilbijêrin</string>
     <string name="patch_select_dir_error">Di sazkirina pelrêça hilanînê de çewtî</string>
@@ -56,11 +63,10 @@
     <string name="patch_uninstall_text">Ji ber îmzeyên cihêreng, hûn hewce ne ku berî ku ya patched saz bikin sepana orîjînal rakin.\nPiştrast bike ku we daneya kesane piştguh kiriye.</string>
     <string name="patch_install_successfully">Bi serkeftî saz bike</string>
     <string name="patch_install_failed">Sazkirin têk çû</string>
-    <string name="patch_copy_error">Çewtiya kopîkirinê</string>
-    <!-- Select Apps Page -->
-    <string name="page_select_apps">Serlêdan hilbijêrin</string>
-    <!-- Settings Page -->
-    <string name="page_settings">Settings</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Select Apps</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">Settings</string>
     <string name="settings_keystore">keystore îmza</string>
     <string name="settings_keystore_default">Avakirin</string>
     <string name="settings_keystore_custom">Hûnbunî</string>

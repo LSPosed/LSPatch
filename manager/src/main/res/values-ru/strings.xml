@@ -4,34 +4,41 @@
     <string name="install">Установите</string>
     <string name="installing">Установка</string>
     <string name="uninstall">Удалить</string>
-    <string name="uninstalling">Деинсталляция</string>
+    <string name="uninstalling">Удаление</string>
+    <string name="copy_error">Copy error</string>
+    <string name="apps">Apps</string>
+    <string name="modules">Modules</string>
     <string name="shizuku_available">Служба Shizuku доступна</string>
     <string name="shizuku_unavailable">Служба Shizuku не подключена</string>
-    <string name="page_repo">Репозиторий</string>
-    <string name="page_logs">Логи</string>
-    <!-- Home Page -->
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Logs</string>
+    <!-- Home Screen -->
     <string name="home_shizuku_warning">Некоторые функции недоступны</string>
     <string name="home_api_version">Версия API</string>
     <string name="home_lspatch_version">Версия LSPatch</string>
-    <string name="home_framework_version">Версия фреймворка</string>
+    <string name="home_framework_version">Версия фреймворк</string>
     <string name="home_system_version">Версия Android</string>
     <string name="home_device">Устройство</string>
-    <string name="home_system_abi">Разрядность системы ABI</string>
+    <string name="home_system_abi">Разрядность системы (ABI)</string>
     <string name="home_info_copied">Скопировано в буфер обмена</string>
     <string name="home_support">О приложении</string>
-    <string name="home_description">LSPatch — это бесплатный фреймворк Xposed не требующий прав суперпользователя (root), основанный на ядре LSPosed.</string>
+    <string name="home_description">LSPatch — это бесплатный фреймворк Xposed без полномочий root, основанный на ядре LSPosed</string>
     <string name="home_view_source_code"><![CDATA[Посмотреть исходный код на %1$s<br/>Присоединяйтесь к нашему %2$s каналу]]></string>
-    <!-- Manage Page -->
-    <string name="page_manage">Управление</string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">Manage</string>
     <string name="manage_loading">Загрузка</string>
     <string name="manage_no_apps">Пропатченных приложений пока нет</string>
+    <string name="manage_update_loader">Update loader</string>
+    <string name="manage_update_loader_successfully">Update successfully</string>
+    <string name="manage_update_loader_failed">Update failed</string>
     <string name="manage_module_scope">Область применения модуля</string>
-    <string name="manage_optimize">Оптимизируйте</string>
-    <string name="manage_optimize_successfully">Успешная оптимизация</string>
-    <string name="manage_optimize_failed">Оптимизировать не удалось</string>
-    <string name="manage_uninstall_successfully">Успешная деинсталляция</string>
-    <!-- New Patch Page -->
-    <string name="page_new_patch">Новый патч</string>
+    <string name="manage_optimize">Оптимизировать</string>
+    <string name="manage_optimize_successfully">Оптимизация завершена!</string>
+    <string name="manage_optimize_failed">Ошибка оптимизации</string>
+    <string name="manage_uninstall_successfully">Удаление завершено!</string>
+    <string name="manage_no_modules">No modules yet</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Выберите каталог хранения</string>
     <string name="patch_select_dir_text">Выберите каталог для хранения пропатченных Apk</string>
     <string name="patch_select_dir_error">Ошибка при настройке каталога хранения</string>
@@ -39,36 +46,35 @@
     <string name="patch_from_applist">Выберите установленное приложение</string>
     <string name="patch_mode">Режим патча</string>
     <string name="patch_local">Локальный</string>
-    <string name="patch_local_desc">Патч приложения без встроенных модулей.\nПатченному приложению требуется, чтобы менеджер работал в фоновом режиме, а область действия Xposed могло изменять динамически без повторного исправления.\nЛокальные патченные приложения могут работать только на локальном устройстве.</string>
+    <string name="patch_local_desc">Патч приложения без встроенных модулей.\nПатченному приложению требуется, чтобы менеджер работал в фоновом режиме, а область действия Xposed могло изменять динамически без повторного исправления.\nЛокальные патченные приложения могут работать только на локальном устройстве</string>
     <string name="patch_portable">Портативный</string>
-    <string name="patch_portable_desc">Патч приложения со встроенными модулями.\nПатченное приложение может работать без менеджера, но не может управляться динамически.\nПортативные патченные приложения могут быть использованы на устройствах, у которых не установлен LSPatch Manager.</string>
+    <string name="patch_portable_desc">Патч приложения со встроенными модулями.\nПатченное приложение может работать без менеджера, но не может управляться динамически.\nПортативные патченные приложения могут быть использованы на устройствах, у которых не установлен LSPatch менеджер</string>
     <string name="patch_embed_modules">Встроить модули</string>
-    <string name="patch_debuggable">Отлаживаемый</string>
+    <string name="patch_debuggable">Отладка</string>
     <string name="patch_sign">Подписать</string>
     <string name="patch_sigbypass">Обход подписи</string>
     <string name="patch_sigbypasslv0">lv0: Выкл.</string>
-    <string name="patch_sigbypasslv1">lv1: Обход ПМ</string>
+    <string name="patch_sigbypasslv1">lv1: Обход PM</string>
     <string name="patch_sigbypasslv2">lv2: Обход PM + openat (libc)</string>
     <string name="patch_override_version_code">Переопределить код версии</string>
-    <string name="patch_override_version_code_desc">Переопределите код версии исправленного приложения на 1\nЭто позволит в будущем понизить уровень установки, и, как правило, это не повлияет на код версии, фактически воспринимаемый приложением</string>
+    <string name="patch_override_version_code_desc">Переопределить код версии исправленного приложения на 1\nЭто позволит понижать версию установки, и это не повлияет на код версии, фактически воспринимаемый приложением</string>
     <string name="patch_start">Запустить патч</string>
     <string name="patch_return">Вернуться</string>
     <string name="patch_uninstall_text">Из-за разных сигнатур вам необходимо удалить оригинальное приложение перед установкой исправленного.\nУбедитесь, что у вас есть резервная копия личных данных.</string>
     <string name="patch_install_successfully">Установка завершена</string>
     <string name="patch_install_failed">Установка не удалась</string>
-    <string name="patch_copy_error">Ошибка копирования</string>
-    <!-- Select Apps Page -->
-    <string name="page_select_apps">Выберите приложения</string>
-    <!-- Settings Page -->
-    <string name="page_settings">Настройки</string>
-    <string name="settings_keystore">Хранилище ключей подписей</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Select Apps</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">Settings</string>
+    <string name="settings_keystore">Хранилище ключей подписи</string>
     <string name="settings_keystore_default">Встроенное</string>
     <string name="settings_keystore_custom">Пользовательское</string>
     <string name="settings_keystore_dialog_title">Пользовательское хранилище ключей</string>
     <string name="settings_keystore_file">Файл хранилища ключей</string>
     <string name="settings_keystore_password">Пароль</string>
     <string name="settings_keystore_alias">Псевдоним</string>
-    <string name="settings_keystore_alias_password">Псевдоним пароль</string>
+    <string name="settings_keystore_alias_password">Псевдоним пароля</string>
     <string name="settings_keystore_desc">Установите хранилище ключей (BKS)</string>
     <string name="settings_keystore_wrong_keystore">Неправильный тип хранилища ключей</string>
     <string name="settings_keystore_wrong_password">Неправильный пароль хранилища ключей</string>

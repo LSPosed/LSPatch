@@ -2,14 +2,17 @@
 <resources>
     <string name="add">添加</string>
     <string name="install">安装</string>
-    <string name="installing">安装</string>
+    <string name="installing">安装中</string>
     <string name="uninstall">卸载</string>
-    <string name="uninstalling">卸载</string>
+    <string name="uninstalling">卸载中</string>
+    <string name="copy_error">复制错误信息</string>
+    <string name="apps">应用</string>
+    <string name="modules">模块</string>
     <string name="shizuku_available">Shizuku 服务可用</string>
     <string name="shizuku_unavailable">Shizuku 服务未连接</string>
-    <string name="page_repo">仓库</string>
-    <string name="page_logs">日志</string>
-    <!-- Home Page -->
+    <string name="screen_repo">仓库</string>
+    <string name="screen_logs">日志</string>
+    <!-- Home Screen -->
     <string name="home_shizuku_warning">部分功能不可用</string>
     <string name="home_api_version">API 版本</string>
     <string name="home_lspatch_version">LSPatch 版本</string>
@@ -21,17 +24,21 @@
     <string name="home_support">支持</string>
     <string name="home_description">LSPatch 是一款免费的基于 LSPosed 核心的免 Root Xposed 框架。</string>
     <string name="home_view_source_code"><![CDATA[查看源代码 %1$s<br/>加入我们的 %2$s 频道]]></string>
-    <!-- Manage Page -->
-    <string name="page_manage">管理</string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">管理</string>
     <string name="manage_loading">加载中</string>
     <string name="manage_no_apps">尚无已修补的应用</string>
-    <string name="manage_module_scope">模块范围</string>
+    <string name="manage_update_loader">更新加载器</string>
+    <string name="manage_update_loader_successfully">更新成功</string>
+    <string name="manage_update_loader_failed">更新失败</string>
+    <string name="manage_module_scope">模块作用域</string>
     <string name="manage_optimize">优化</string>
-    <string name="manage_optimize_successfully">成功优化</string>
+    <string name="manage_optimize_successfully">优化成功</string>
     <string name="manage_optimize_failed">优化失败</string>
     <string name="manage_uninstall_successfully">卸载成功</string>
-    <!-- New Patch Page -->
-    <string name="page_new_patch">新建修补</string>
+    <string name="manage_no_modules">尚无模块</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">新建修补</string>
     <string name="patch_select_dir_title">选择存储目录</string>
     <string name="patch_select_dir_text">选择一个目录来存储已修补的 apk</string>
     <string name="patch_select_dir_error">设置存储目录时出错</string>
@@ -56,11 +63,10 @@
     <string name="patch_uninstall_text">由于签名不同，安装修补的应用前需要先卸载原应用。\n确保您已备份好个人数据。</string>
     <string name="patch_install_successfully">安装成功</string>
     <string name="patch_install_failed">安装失败</string>
-    <string name="patch_copy_error">复制错误信息</string>
-    <!-- Select Apps Page -->
-    <string name="page_select_apps">选择应用程序</string>
-    <!-- Settings Page -->
-    <string name="page_settings">设置</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">选择应用程序</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">设置</string>
     <string name="settings_keystore">签名密钥库</string>
     <string name="settings_keystore_default">内置</string>
     <string name="settings_keystore_custom">自定义</string>

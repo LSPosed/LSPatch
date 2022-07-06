@@ -5,11 +5,14 @@
     <string name="installing">Instalace stránek</string>
     <string name="uninstall">Odinstalujte stránku</string>
     <string name="uninstalling">Odinstalování stránky</string>
+    <string name="copy_error">Copy error</string>
+    <string name="apps">Apps</string>
+    <string name="modules">Modules</string>
     <string name="shizuku_available">K dispozici služba Shizuku</string>
     <string name="shizuku_unavailable">Služba Shizuku není připojena</string>
-    <string name="page_repo">Repo</string>
-    <string name="page_logs">Protokoly</string>
-    <!-- Home Page -->
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Logs</string>
+    <!-- Home Screen -->
     <string name="home_shizuku_warning">Některé funkce nejsou k dispozici</string>
     <string name="home_api_version">Verze API</string>
     <string name="home_lspatch_version">Verze LSPatch</string>
@@ -21,17 +24,21 @@
     <string name="home_support">Podpěra, podpora</string>
     <string name="home_description">LSPatch je bezplatný non-root Xposed framework založený na jádru LSPosed.</string>
     <string name="home_view_source_code"><![CDATA[Zobrazit zdrojový kód na %1$s<br/>Připojte se k našemu %2$s kanálu]]></string>
-    <!-- Manage Page -->
-    <string name="page_manage">Spravovat</string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">Manage</string>
     <string name="manage_loading">načítání</string>
     <string name="manage_no_apps">Zatím žádné opravené aplikace</string>
+    <string name="manage_update_loader">Update loader</string>
+    <string name="manage_update_loader_successfully">Update successfully</string>
+    <string name="manage_update_loader_failed">Update failed</string>
     <string name="manage_module_scope">Rozsah modulu</string>
     <string name="manage_optimize">Optimalizace</string>
     <string name="manage_optimize_successfully">Úspěšná optimalizace</string>
     <string name="manage_optimize_failed">Optimalizace selhala</string>
     <string name="manage_uninstall_successfully">Úspěšná odinstalace</string>
-    <!-- New Patch Page -->
-    <string name="page_new_patch">Nový patch</string>
+    <string name="manage_no_modules">No modules yet</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Vyberte adresář úložiště</string>
     <string name="patch_select_dir_text">Vyberte adresář pro uložení opravených souborů APK</string>
     <string name="patch_select_dir_error">Chyba při nastavování adresáře úložiště</string>
@@ -56,11 +63,10 @@
     <string name="patch_uninstall_text">Kvůli různým podpisům musíte před instalací opravené odinstalovat původní aplikaci.\nUjistěte se, že máte zálohovaná osobní data.</string>
     <string name="patch_install_successfully">Nainstalujte úspěšně</string>
     <string name="patch_install_failed">Instalace se nezdařila</string>
-    <string name="patch_copy_error">Chyba kopírování</string>
-    <!-- Select Apps Page -->
-    <string name="page_select_apps">Vyberte Aplikace</string>
-    <!-- Settings Page -->
-    <string name="page_settings">Nastavení</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Select Apps</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">Settings</string>
     <string name="settings_keystore">Úložiště klíčů s podpisem</string>
     <string name="settings_keystore_default">Vestavěný</string>
     <string name="settings_keystore_custom">Vlastní</string>

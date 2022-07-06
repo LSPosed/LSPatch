@@ -5,11 +5,14 @@
     <string name="installing">در حال نصب</string>
     <string name="uninstall">حذف نصب کنید</string>
     <string name="uninstalling">در حال حذف نصب</string>
+    <string name="copy_error">Copy error</string>
+    <string name="apps">Apps</string>
+    <string name="modules">Modules</string>
     <string name="shizuku_available">سرویس شیزوکو در دسترس‌ است</string>
     <string name="shizuku_unavailable">سرویس شیزوکو متصل نیست</string>
-    <string name="page_repo">مخزن</string>
-    <string name="page_logs">سیاهههای مربوط</string>
-    <!-- Home Page -->
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Logs</string>
+    <!-- Home Screen -->
     <string name="home_shizuku_warning">برخی از عملکردها در دسترس نیستند</string>
     <string name="home_api_version">نسخه API</string>
     <string name="home_lspatch_version">نسخه LSPatch</string>
@@ -21,17 +24,21 @@
     <string name="home_support">حمایت کردن</string>
     <string name="home_description">LSPatch یک فریمورک Xposed غیر روت رایگان است که مبتنی بر هسته LSPosed است.</string>
     <string name="home_view_source_code"><![CDATA[مشاهده کد منبع در %1$s<br/>به کانال %2$s ما بپیوندید]]></string>
-    <!-- Manage Page -->
-    <string name="page_manage">مدیریت کنید</string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">Manage</string>
     <string name="manage_loading">در حال لود ...</string>
     <string name="manage_no_apps">هنوز برنامه پچ شده ای موجود نیست</string>
+    <string name="manage_update_loader">Update loader</string>
+    <string name="manage_update_loader_successfully">Update successfully</string>
+    <string name="manage_update_loader_failed">Update failed</string>
     <string name="manage_module_scope">محدوده ماژول</string>
     <string name="manage_optimize">بهینه سازی کنید</string>
     <string name="manage_optimize_successfully">بهینه سازی با موفقیت</string>
     <string name="manage_optimize_failed">بهینه سازی انجام نشد</string>
     <string name="manage_uninstall_successfully">با موفقیت حذف نصب شد</string>
-    <!-- New Patch Page -->
-    <string name="page_new_patch">پچ جدید</string>
+    <string name="manage_no_modules">No modules yet</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">پوشه ذخیره‌سازی را انتخاب کنید</string>
     <string name="patch_select_dir_text">مکان نصبی برای ذخیره apk های پچ شده انتخاب کنید</string>
     <string name="patch_select_dir_error">خطا هنگام تنظیم فهرست ذخیره سازی</string>
@@ -56,11 +63,10 @@
     <string name="patch_uninstall_text">به دلیل امضاهای مختلف، باید قبل از نصب برنامه پچ شده، برنامه اصلی را حذف کنید.\nمطمئن شوید که از اطلاعات شخصی پشتیبان تهیه کرده اید.</string>
     <string name="patch_install_successfully">نصب با موفقیت انجام شد</string>
     <string name="patch_install_failed">نصب نشد</string>
-    <string name="patch_copy_error">خطای کپی</string>
-    <!-- Select Apps Page -->
-    <string name="page_select_apps">Apps را انتخاب کنید</string>
-    <!-- Settings Page -->
-    <string name="page_settings">تنظیمات</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Select Apps</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">Settings</string>
     <string name="settings_keystore">فروشگاه کلید امضا</string>
     <string name="settings_keystore_default">ساخته شده در</string>
     <string name="settings_keystore_custom">سفارشی</string>
