@@ -5,11 +5,14 @@
     <string name="installing">Installation af</string>
     <string name="uninstall">Afinstaller</string>
     <string name="uninstalling">Afinstallation af</string>
+    <string name="copy_error">Copy error</string>
+    <string name="apps">Apps</string>
+    <string name="modules">Modules</string>
     <string name="shizuku_available">Shizuku service tilgængelig</string>
     <string name="shizuku_unavailable">Shizuku-tjenesten er ikke tilsluttet</string>
-    <string name="page_repo">Repo</string>
-    <string name="page_logs">Logs</string>
-    <!-- Home Page -->
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Logs</string>
+    <!-- Home Screen -->
     <string name="home_shizuku_warning">Nogle funktioner er ikke tilgængelige</string>
     <string name="home_api_version">API-version</string>
     <string name="home_lspatch_version">LSPatch version</string>
@@ -21,17 +24,21 @@
     <string name="home_support">Support</string>
     <string name="home_description">LSPatch er en gratis ikke-root Xposed-ramme baseret på LSPosed-kerne.</string>
     <string name="home_view_source_code"><![CDATA[Se kildekoden på %1$s<br/>Deltag i vores %2$s kanal]]></string>
-    <!-- Manage Page -->
-    <string name="page_manage">Styre</string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">Manage</string>
     <string name="manage_loading">Indlæser</string>
     <string name="manage_no_apps">Ingen lappede apps endnu</string>
+    <string name="manage_update_loader">Update loader</string>
+    <string name="manage_update_loader_successfully">Update successfully</string>
+    <string name="manage_update_loader_failed">Update failed</string>
     <string name="manage_module_scope">Modulets anvendelsesområde</string>
     <string name="manage_optimize">Optimering af</string>
     <string name="manage_optimize_successfully">Optimering med succes</string>
     <string name="manage_optimize_failed">Optimering af mislykkedes</string>
     <string name="manage_uninstall_successfully">Afinstaller med succes</string>
-    <!-- New Patch Page -->
-    <string name="page_new_patch">Ny patch</string>
+    <string name="manage_no_modules">No modules yet</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Vælg lagerbibliotek</string>
     <string name="patch_select_dir_text">Vælg en mappe til at gemme de patchede apks</string>
     <string name="patch_select_dir_error">Fejl ved indstilling af lagerbibliotek</string>
@@ -56,11 +63,10 @@
     <string name="patch_uninstall_text">På grund af forskellige signaturer skal du afinstallere den originale app, før du installerer den patchede.\nSørg for, at du har sikkerhedskopieret personlige data.</string>
     <string name="patch_install_successfully">Installer med succes</string>
     <string name="patch_install_failed">Installationen mislykkedes</string>
-    <string name="patch_copy_error">Kopifejl</string>
-    <!-- Select Apps Page -->
-    <string name="page_select_apps">Vælg Apps</string>
-    <!-- Settings Page -->
-    <string name="page_settings">Indstillinger</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Select Apps</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">Settings</string>
     <string name="settings_keystore">Signatur-nøgleopbevaring</string>
     <string name="settings_keystore_default">Indbygget</string>
     <string name="settings_keystore_custom">Tilpasset</string>
