@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add">추가하다</string>
+    <string name="add">추가</string>
     <string name="install">설치</string>
     <string name="installing">설치 중</string>
     <string name="uninstall">제거</string>
     <string name="uninstalling">제거 중</string>
+    <string name="copy_error">Copy error</string>
+    <string name="apps">Apps</string>
+    <string name="modules">Modules</string>
     <string name="shizuku_available">시즈쿠 서비스 가능</string>
     <string name="shizuku_unavailable">시즈쿠 서비스가 연결되지 않았습니다</string>
-    <string name="page_repo">레포</string>
-    <string name="page_logs">로그</string>
-    <!-- Home Page -->
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Logs</string>
+    <!-- Home Screen -->
     <string name="home_shizuku_warning">일부 기능을 사용할 수 없음</string>
     <string name="home_api_version">API 버전</string>
     <string name="home_lspatch_version">LSPatch 버전</string>
@@ -18,56 +21,59 @@
     <string name="home_device">장치</string>
     <string name="home_system_abi">시스템 ABI</string>
     <string name="home_info_copied">클립보드에 복사됨</string>
-    <string name="home_support">지원하다</string>
+    <string name="home_support">지원</string>
     <string name="home_description">LSPatch는 LSPosed 코어를 기반으로 하는 무료 비루트 Xposed 프레임워크입니다.</string>
     <string name="home_view_source_code"><![CDATA[%1$s<br/>에서 소스 코드 보기 %2$s 채널 가입]]></string>
-    <!-- Manage Page -->
-    <string name="page_manage">관리하다</string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">Manage</string>
     <string name="manage_loading">로딩 중</string>
     <string name="manage_no_apps">아직 패치된 앱이 없습니다.</string>
+    <string name="manage_update_loader">Update loader</string>
+    <string name="manage_update_loader_successfully">Update successfully</string>
+    <string name="manage_update_loader_failed">Update failed</string>
     <string name="manage_module_scope">모듈 범위</string>
     <string name="manage_optimize">최적화</string>
     <string name="manage_optimize_successfully">최적화 성공</string>
     <string name="manage_optimize_failed">최적화 실패</string>
-    <string name="manage_uninstall_successfully">성공적으로 제거</string>
-    <!-- New Patch Page -->
-    <string name="page_new_patch">새로운 패치</string>
-    <string name="patch_select_dir_title">스토리지 디렉토리 선택</string>
+    <string name="manage_uninstall_successfully">성공적으로 제거함</string>
+    <string name="manage_no_modules">No modules yet</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">New Patch</string>
+    <string name="patch_select_dir_title">저장 디렉토리 선택</string>
     <string name="patch_select_dir_text">패치된 APK를 저장할 디렉토리를 선택하세요.</string>
     <string name="patch_select_dir_error">저장 디렉토리를 설정하는 동안 오류가 발생했습니다.</string>
     <string name="patch_from_storage">저장소에서 APK 선택</string>
     <string name="patch_from_applist">설치된 앱 선택</string>
     <string name="patch_mode">패치 모드</string>
-    <string name="patch_local">현지의</string>
+    <string name="patch_local">로컬</string>
     <string name="patch_local_desc">모듈이 포함되지 않은 앱을 패치합니다.\n패치된 앱은 백그라운드에서 실행되는 관리자가 필요하며 Xposed 범위는 다시 패치하지 않고도 동적으로 변경할 수 있습니다.\n로컬 패치 앱은 로컬 장치에서만 실행할 수 있습니다.</string>
-    <string name="patch_portable">가지고 다닐 수 있는</string>
-    <string name="patch_portable_desc">모듈이 포함된 앱을 패치합니다.\n패치된 앱은 관리자 없이 실행할 수 있지만 동적으로 관리할 수는 없습니다.\n휴대용 패치 앱은 LSPatch Manager가 설치되지 않은 장치에서 사용할 수 있습니다.</string>
+    <string name="patch_portable">포터블</string>
+    <string name="patch_portable_desc">모듈이 포함된 앱을 패치합니다.\n패치된 앱은 관리자 없이 실행할 수 있지만 동적으로 관리할 수는 없습니다.\n포터블 패치가 된 앱은 LSPatch Manager가 설치되지 않은 장치에서 사용할 수 있습니다.</string>
     <string name="patch_embed_modules">모듈 포함</string>
     <string name="patch_debuggable">디버깅 가능</string>
-    <string name="patch_sign">징후</string>
+    <string name="patch_sign">서명</string>
     <string name="patch_sigbypass">서명 우회</string>
     <string name="patch_sigbypasslv0">lv0: 꺼짐</string>
     <string name="patch_sigbypasslv1">lv1: PM 우회</string>
     <string name="patch_sigbypasslv2">lv2: PM + openat(libc) 우회</string>
-    <string name="patch_override_version_code">버전 코드 재정의</string>
-    <string name="patch_override_version_code_desc">패치된 앱의 버전 코드를 1\n으로 재정의합니다. 이렇게 하면 향후 설치를 다운그레이드할 수 있으며 일반적으로 애플리케이션에서 실제로 인식하는 버전 코드에는 영향을 미치지 않습니다.</string>
+    <string name="patch_override_version_code">버전 코드 덮어씌우기</string>
+    <string name="patch_override_version_code_desc">패치된 앱의 버전 코드를 1\n으로 덮어씌웁니다. 이렇게 하면 향후 다운그레이드 설치를 할 수 있으며 일반적으로 애플리케이션에서 실제로 인식하는 버전 코드에는 영향을 미치지 않습니다.</string>
     <string name="patch_start">패치 시작</string>
-    <string name="patch_return">반품</string>
-    <string name="patch_uninstall_text">서명이 다르기 때문에 패치된 앱을 설치하기 전에 원래 앱을 제거해야 합니다.\n개인 데이터를 백업했는지 확인하십시오.</string>
-    <string name="patch_install_successfully">성공적으로 설치</string>
-    <string name="patch_install_failed">설치 실패</string>
-    <string name="patch_copy_error">복사 오류</string>
-    <!-- Select Apps Page -->
-    <string name="page_select_apps">앱 선택</string>
-    <!-- Settings Page -->
-    <string name="page_settings">설정</string>
+    <string name="patch_return">되돌리기</string>
+    <string name="patch_uninstall_text">서명이 다르기 때문에 패치된 앱을 설치하기 전에 기존 앱을 제거해야 합니다.\n개인 데이터를 백업했는지 확인하십시오.</string>
+    <string name="patch_install_successfully">성공적으로 설치함</string>
+    <string name="patch_install_failed">설치 실패함</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Select Apps</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">Settings</string>
     <string name="settings_keystore">서명 키 저장소</string>
     <string name="settings_keystore_default">내장</string>
-    <string name="settings_keystore_custom">관습</string>
+    <string name="settings_keystore_custom">사용자 정의</string>
     <string name="settings_keystore_dialog_title">사용자 정의 키 저장소</string>
     <string name="settings_keystore_file">키 저장소 파일</string>
     <string name="settings_keystore_password">비밀번호</string>
-    <string name="settings_keystore_alias">별명</string>
+    <string name="settings_keystore_alias">별칭</string>
     <string name="settings_keystore_alias_password">별칭 비밀번호</string>
     <string name="settings_keystore_desc">키 저장소 설정(BKS)</string>
     <string name="settings_keystore_wrong_keystore">잘못된 유형의 키 저장소</string>
