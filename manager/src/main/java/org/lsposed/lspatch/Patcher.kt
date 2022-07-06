@@ -5,7 +5,7 @@ import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.lsposed.lspatch.Constants.PATCH_FILE_SUFFIX
-import org.lsposed.lspatch.Constants.PREFS_STORAGE_DIRECTORY
+import org.lsposed.lspatch.config.Configs
 import org.lsposed.lspatch.config.MyKeyStore
 import org.lsposed.lspatch.share.PatchConfig
 import org.lsposed.patch.LSPatch
@@ -15,7 +15,6 @@ import java.io.IOException
 object Patcher {
 
     class Options(
-        private val verbose: Boolean,
         private val config: PatchConfig,
         private val apkPaths: List<String>,
         private val embeddedModules: List<String>?
@@ -30,12 +29,12 @@ object Patcher {
                 add("--v2"); add(config.v2.toString())
                 if (config.useManager) add("--manager")
                 if (config.overrideVersionCode) add("-r")
-                if (verbose) add("-v")
+                if (Configs.detailPatchLogs) add("-v")
                 embeddedModules?.forEach {
                     add("-m"); add(it)
                 }
                 if (!MyKeyStore.useDefault) {
-                    addAll(arrayOf("-k", MyKeyStore.file.path, MyKeyStore.password, MyKeyStore.alias, MyKeyStore.aliasPassword))
+                    addAll(arrayOf("-k", MyKeyStore.file.path, Configs.keyStorePassword, Configs.keyStoreAlias, Configs.keyStoreAliasPassword))
                 }
             }.toTypedArray()
         }
@@ -45,7 +44,7 @@ object Patcher {
         withContext(Dispatchers.IO) {
             LSPatch(logger, *options.toStringArray()).doCommandLine()
 
-            val uri = lspApp.prefs.getString(PREFS_STORAGE_DIRECTORY, null)?.toUri()
+            val uri = Configs.storageDirectory?.toUri()
                 ?: throw IOException("Uri is null")
             val root = DocumentFile.fromTreeUri(lspApp, uri)
                 ?: throw IOException("DocumentFile is null")

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -18,6 +17,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.ResultRecipient
 import kotlinx.coroutines.launch
 import org.lsposed.lspatch.R
+import org.lsposed.lspatch.ui.component.CenterTopBar
 import org.lsposed.lspatch.ui.page.destinations.SelectAppsScreenDestination
 import org.lsposed.lspatch.ui.page.manage.AppManageBody
 import org.lsposed.lspatch.ui.page.manage.AppManageFab
@@ -33,23 +33,21 @@ fun ManageScreen(
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     Scaffold(
-        topBar = { TopBar() },
+        topBar = { CenterTopBar(stringResource(BottomBarDestination.Manage.label)) },
         floatingActionButton = { if (pagerState.currentPage == 0) AppManageFab(navigator) }
     ) { innerPadding ->
         Box(Modifier.padding(innerPadding)) {
             Column {
                 TabRow(
-                    selectedTabIndex = pagerState.currentPage,
-                    indicator = { tabPositions ->
-                        TabRowDefaults.Indicator(Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]))
-                    }
+                    contentColor = MaterialTheme.colorScheme.secondary,
+                    selectedTabIndex = pagerState.currentPage
                 ) {
                     Tab(
                         selected = pagerState.currentPage == 0,
                         onClick = { scope.launch { pagerState.animateScrollToPage(0) } }
                     ) {
                         Text(
-                            modifier = Modifier.padding(vertical = 12.dp),
+                            modifier = Modifier.padding(vertical = 16.dp),
                             text = stringResource(R.string.apps)
                         )
                     }
@@ -58,7 +56,7 @@ fun ManageScreen(
                         onClick = { scope.launch { pagerState.animateScrollToPage(1) } }
                     ) {
                         Text(
-                            modifier = Modifier.padding(vertical = 12.dp),
+                            modifier = Modifier.padding(vertical = 16.dp),
                             text = stringResource(R.string.modules)
                         )
                     }
@@ -73,11 +71,4 @@ fun ManageScreen(
             }
         }
     }
-}
-
-@Composable
-private fun TopBar() {
-    SmallTopAppBar(
-        title = { Text(stringResource(BottomBarDestination.Manage.label)) }
-    )
 }

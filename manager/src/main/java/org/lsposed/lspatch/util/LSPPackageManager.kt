@@ -18,8 +18,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import org.lsposed.lspatch.Constants.PATCH_FILE_SUFFIX
-import org.lsposed.lspatch.Constants.PREFS_STORAGE_DIRECTORY
 import org.lsposed.lspatch.config.ConfigManager
+import org.lsposed.lspatch.config.Configs
 import org.lsposed.lspatch.lspApp
 import org.lsposed.patch.util.ManifestParser
 import java.io.File
@@ -86,10 +86,8 @@ object LSPPackageManager {
                 flags = flags or 0x00000004 /* PackageManager.INSTALL_ALLOW_TEST */ or 0x00000002 /* PackageManager.INSTALL_REPLACE_EXISTING */
                 HiddenApiBridge.PackageInstaller_SessionParams_installFlags(params, flags)
                 ShizukuApi.createPackageInstallerSession(params).use { session ->
-                    val uri = lspApp.prefs.getString(PREFS_STORAGE_DIRECTORY, null)?.toUri()
-                        ?: throw IOException("Uri is null")
-                    val root = DocumentFile.fromTreeUri(lspApp, uri)
-                        ?: throw IOException("DocumentFile is null")
+                    val uri = Configs.storageDirectory?.toUri() ?: throw IOException("Uri is null")
+                    val root = DocumentFile.fromTreeUri(lspApp, uri) ?: throw IOException("DocumentFile is null")
                     root.listFiles().forEach { file ->
                         if (file.name?.endsWith(PATCH_FILE_SUFFIX) != true) return@forEach
                         Log.d(TAG, "Add ${file.name}")

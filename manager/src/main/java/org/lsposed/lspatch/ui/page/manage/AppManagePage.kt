@@ -35,9 +35,9 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
 import kotlinx.coroutines.launch
-import org.lsposed.lspatch.Constants
 import org.lsposed.lspatch.R
 import org.lsposed.lspatch.config.ConfigManager
+import org.lsposed.lspatch.config.Configs
 import org.lsposed.lspatch.database.entity.Module
 import org.lsposed.lspatch.lspApp
 import org.lsposed.lspatch.share.LSPConfig
@@ -232,7 +232,7 @@ fun AppManageFab(navigator: DestinationsNavigator) {
             val uri = it.data?.data ?: throw IOException("No data")
             val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
             context.contentResolver.takePersistableUriPermission(uri, takeFlags)
-            lspApp.prefs.edit().putString(Constants.PREFS_STORAGE_DIRECTORY, uri.toString()).apply()
+            Configs.storageDirectory = uri.toString()
             Log.i(TAG, "Storage directory: ${uri.path}")
             showNewPatchDialog = true
         } catch (e: Exception) {
@@ -325,7 +325,7 @@ fun AppManageFab(navigator: DestinationsNavigator) {
     FloatingActionButton(
         content = { Icon(Icons.Filled.Add, stringResource(R.string.add)) },
         onClick = {
-            val uri = lspApp.prefs.getString(Constants.PREFS_STORAGE_DIRECTORY, null)?.toUri()
+            val uri = Configs.storageDirectory?.toUri()
             if (uri == null) {
                 shouldSelectDirectory = true
             } else {
@@ -337,7 +337,7 @@ fun AppManageFab(navigator: DestinationsNavigator) {
                     showNewPatchDialog = true
                 }.onFailure {
                     Log.w(TAG, "Failed to take persistable permission for saved uri", it)
-                    lspApp.prefs.edit().putString(Constants.PREFS_STORAGE_DIRECTORY, null).apply()
+                    Configs.storageDirectory = null
                     shouldSelectDirectory = true
                 }
             }

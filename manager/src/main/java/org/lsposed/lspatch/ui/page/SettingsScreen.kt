@@ -25,8 +25,11 @@ import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
 import org.lsposed.lspatch.R
+import org.lsposed.lspatch.config.Configs
 import org.lsposed.lspatch.config.MyKeyStore
+import org.lsposed.lspatch.ui.component.CenterTopBar
 import org.lsposed.lspatch.ui.component.settings.SettingsItem
+import org.lsposed.lspatch.ui.component.settings.SettingsSwitch
 import java.io.IOException
 import java.security.GeneralSecurityException
 import java.security.KeyStore
@@ -36,7 +39,7 @@ import java.security.KeyStore
 @Composable
 fun SettingsScreen() {
     Scaffold(
-        topBar = { TopBar() }
+        topBar = { CenterTopBar(stringResource(BottomBarDestination.Settings.label)) }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -44,15 +47,9 @@ fun SettingsScreen() {
                 .verticalScroll(rememberScrollState())
         ) {
             KeyStore()
+            DetailPatchLogs()
         }
     }
-}
-
-@Composable
-private fun TopBar() {
-    SmallTopAppBar(
-        title = { Text(stringResource(R.string.screen_settings)) }
-    )
 }
 
 @Composable
@@ -226,4 +223,13 @@ private fun KeyStore() {
             }
         )
     }
+}
+
+@Composable
+private fun DetailPatchLogs() {
+    SettingsSwitch(
+        checked = Configs.detailPatchLogs,
+        onClick = { Configs.detailPatchLogs = !Configs.detailPatchLogs },
+        title = stringResource(R.string.settings_detail_patch_logs)
+    )
 }

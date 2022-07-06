@@ -30,6 +30,7 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import kotlinx.coroutines.launch
 import org.lsposed.lspatch.R
 import org.lsposed.lspatch.share.LSPConfig
+import org.lsposed.lspatch.ui.component.CenterTopBar
 import org.lsposed.lspatch.ui.util.HtmlText
 import org.lsposed.lspatch.ui.util.LocalSnackbarHost
 import org.lsposed.lspatch.util.ShizukuApi
@@ -40,7 +41,9 @@ import rikka.shizuku.Shizuku
 @Destination
 @Composable
 fun HomeScreen() {
-    Scaffold(topBar = { TopBar() }) { innerPadding ->
+    Scaffold(
+        topBar = { CenterTopBar(stringResource(R.string.app_name)) }
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -54,22 +57,6 @@ fun HomeScreen() {
             Spacer(Modifier)
         }
     }
-}
-
-@Preview
-@Composable
-private fun TopBar() {
-    CenterAlignedTopAppBar(
-        title = {
-            Text(
-                text = stringResource(R.string.app_name),
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.Monospace,
-                style = MaterialTheme.typography.titleMedium
-            )
-        }
-    )
 }
 
 private val listener: (Int, Int) -> Unit = { _, grantResult ->

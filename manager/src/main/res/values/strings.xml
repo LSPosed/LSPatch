@@ -84,4 +84,5 @@
     <string name="settings_keystore_wrong_password">Wrong keystore password</string>
     <string name="settings_keystore_wrong_alias">Wrong alias name</string>
     <string name="settings_keystore_wrong_alias_password">Wrong alias password</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

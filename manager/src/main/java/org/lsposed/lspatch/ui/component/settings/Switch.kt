@@ -1,5 +1,6 @@
 package org.lsposed.lspatch.ui.component.settings
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material.icons.Icons
@@ -21,7 +22,7 @@ fun SettingsSwitch(
     desc: String? = null,
     extraContent: (@Composable ColumnScope.() -> Unit)? = null
 ) {
-    SettingsSlot(modifier, enabled, onClick, icon, title, desc, extraContent) {
+    SettingsSlot(modifier.clickable(onClick = onClick), enabled, onClick, icon, title, desc, extraContent) {
         Switch(checked = checked, onCheckedChange = { onClick() })
     }
 }
