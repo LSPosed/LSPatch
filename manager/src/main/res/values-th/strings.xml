@@ -5,11 +5,14 @@
     <string name="installing">กำลังติดตั้ง</string>
     <string name="uninstall">ถอนการติดตั้ง</string>
     <string name="uninstalling">กำลังถอนการติดตั้ง</string>
+    <string name="copy_error">Copy error</string>
+    <string name="apps">Apps</string>
+    <string name="modules">Modules</string>
     <string name="shizuku_available">ชิซึกุ มีบริการ</string>
     <string name="shizuku_unavailable">ไม่ได้เชื่อมต่อบริการ Shizuku</string>
-    <string name="page_repo">Repo</string>
-    <string name="page_logs">บันทึก</string>
-    <!-- Home Page -->
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Logs</string>
+    <!-- Home Screen -->
     <string name="home_shizuku_warning">ฟังก์ชั่นบางอย่างใช้งานไม่ได้</string>
     <string name="home_api_version">เวอร์ชัน API</string>
     <string name="home_lspatch_version">เวอร์ชัน LSPatch</string>
@@ -21,17 +24,21 @@
     <string name="home_support">สนับสนุน</string>
     <string name="home_description">LSPatch เป็นเฟรมเวิร์ก Xposed ที่ไม่ใช่รูทฟรีโดยอิงตามคอร์ LSPosed</string>
     <string name="home_view_source_code"><![CDATA[ดูซอร์สโค้ดได้ที่ %1$s<br/>เข้าร่วม %2$s ช่องของเรา]]></string>
-    <!-- Manage Page -->
-    <string name="page_manage">จัดการ</string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">Manage</string>
     <string name="manage_loading">กำลังโหลด</string>
     <string name="manage_no_apps">ยังไม่มีแอพแพตช์</string>
+    <string name="manage_update_loader">Update loader</string>
+    <string name="manage_update_loader_successfully">Update successfully</string>
+    <string name="manage_update_loader_failed">Update failed</string>
     <string name="manage_module_scope">ขอบเขตโมดูล</string>
     <string name="manage_optimize">เพิ่มประสิทธิภาพ</string>
     <string name="manage_optimize_successfully">เพิ่มประสิทธิภาพสำเร็จ</string>
     <string name="manage_optimize_failed">การเพิ่มประสิทธิภาพล้มเหลว</string>
     <string name="manage_uninstall_successfully">ถอนการติดตั้งสำเร็จ</string>
-    <!-- New Patch Page -->
-    <string name="page_new_patch">แพทช์ใหม่</string>
+    <string name="manage_no_modules">No modules yet</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">เลือกไดเร็กทอรีการจัดเก็บ</string>
     <string name="patch_select_dir_text">เลือกไดเร็กทอรีเพื่อจัดเก็บ apks ที่แพตช์แล้ว</string>
     <string name="patch_select_dir_error">เกิดข้อผิดพลาดเมื่อตั้งค่าไดเร็กทอรีการจัดเก็บ</string>
@@ -56,11 +63,10 @@
     <string name="patch_uninstall_text">เนื่องจากลายเซ็นต่างกัน คุณต้องถอนการติดตั้งแอปเดิมก่อนที่จะติดตั้งแอปที่แพตช์\nตรวจสอบให้แน่ใจว่าคุณได้สำรองข้อมูลส่วนบุคคลแล้ว</string>
     <string name="patch_install_successfully">ติดตั้งสำเร็จ</string>
     <string name="patch_install_failed">ติดตั้งไม่สำเร็จ</string>
-    <string name="patch_copy_error">ข้อผิดพลาดในการคัดลอก</string>
-    <!-- Select Apps Page -->
-    <string name="page_select_apps">เลือกแอพ</string>
-    <!-- Settings Page -->
-    <string name="page_settings">การตั้งค่า</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Select Apps</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">Settings</string>
     <string name="settings_keystore">ที่เก็บคีย์ลายเซ็น</string>
     <string name="settings_keystore_default">ในตัว</string>
     <string name="settings_keystore_custom">กำหนดเอง</string>
