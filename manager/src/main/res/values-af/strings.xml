@@ -5,11 +5,14 @@
     <string name="installing">Installeer tans</string>
     <string name="uninstall">Deïnstalleer</string>
     <string name="uninstalling">Deïnstalleer tans</string>
+    <string name="copy_error">Copy error</string>
+    <string name="apps">Apps</string>
+    <string name="modules">Modules</string>
     <string name="shizuku_available">Shizuku diens beskikbaar</string>
     <string name="shizuku_unavailable">Shizuku-diens nie gekoppel nie</string>
-    <string name="page_repo">Repo</string>
-    <string name="page_logs">Logs</string>
-    <!-- Home Page -->
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Logs</string>
+    <!-- Home Screen -->
     <string name="home_shizuku_warning">Sommige funksies nie beskikbaar nie</string>
     <string name="home_api_version">API weergawe</string>
     <string name="home_lspatch_version">LSPatch weergawe</string>
@@ -21,17 +24,21 @@
     <string name="home_support">Ondersteuning</string>
     <string name="home_description">LSPatch is \'n gratis nie-wortel Xposed-raamwerk gebaseer op LSPosed-kern.</string>
     <string name="home_view_source_code"><![CDATA[Bekyk bronkode by %1$s<br/>Sluit aan by ons %2$s -kanaal]]></string>
-    <!-- Manage Page -->
-    <string name="page_manage">Bestuur</string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">Manage</string>
     <string name="manage_loading">Laai tans</string>
     <string name="manage_no_apps">Nog geen reggemaakte programme nie</string>
+    <string name="manage_update_loader">Update loader</string>
+    <string name="manage_update_loader_successfully">Update successfully</string>
+    <string name="manage_update_loader_failed">Update failed</string>
     <string name="manage_module_scope">Module omvang</string>
     <string name="manage_optimize">Optimaliseer</string>
     <string name="manage_optimize_successfully">Optimaliseer suksesvol</string>
     <string name="manage_optimize_failed">Kon nie optimaliseer nie</string>
     <string name="manage_uninstall_successfully">Deïnstalleer suksesvol</string>
-    <!-- New Patch Page -->
-    <string name="page_new_patch">Nuwe Patch</string>
+    <string name="manage_no_modules">No modules yet</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Kies bergingsgids</string>
     <string name="patch_select_dir_text">Kies \'n gids om die gelapte APK te stoor</string>
     <string name="patch_select_dir_error">Fout met die opstel van berginggids</string>
@@ -56,11 +63,10 @@
     <string name="patch_uninstall_text">As gevolg van verskillende handtekeninge, moet u die oorspronklike toepassing deïnstalleer voordat u die gelapte een installeer.\nMaak seker dat jy persoonlike data gerugsteun het.</string>
     <string name="patch_install_successfully">Installeer suksesvol</string>
     <string name="patch_install_failed">Installering het misluk</string>
-    <string name="patch_copy_error">Kopieerfout</string>
-    <!-- Select Apps Page -->
-    <string name="page_select_apps">Kies Toepassings</string>
-    <!-- Settings Page -->
-    <string name="page_settings">Instellings</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Select Apps</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">Settings</string>
     <string name="settings_keystore">Armazenamento de assinatura</string>
     <string name="settings_keystore_default">Ingeboude</string>
     <string name="settings_keystore_custom">Pasgemaak</string>
