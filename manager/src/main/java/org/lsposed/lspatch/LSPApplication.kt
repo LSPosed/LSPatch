@@ -7,6 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.lsposed.hiddenapibypass.HiddenApiBypass
+import org.lsposed.lspatch.manager.AppBroadcastReceiver
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.ShizukuApi
 import java.io.File
@@ -25,10 +26,10 @@ class LSPApplication : Application() {
         HiddenApiBypass.addHiddenApiExemptions("");
         lspApp = this
         filesDir.mkdir()
-        tmpApkDir = cacheDir.resolve("apk")
-        tmpApkDir.mkdirs()
+        tmpApkDir = cacheDir.resolve("apk").also { it.mkdir() }
         prefs = lspApp.getSharedPreferences("settings", Context.MODE_PRIVATE)
         ShizukuApi.init()
+        AppBroadcastReceiver.register(this)
         globalScope.launch { LSPPackageManager.fetchAppList() }
     }
 }

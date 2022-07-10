@@ -37,7 +37,7 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
             String path = cl.getResource("assets/lspatch/so/" + arch + "/liblspatch.so").getPath().substring(5);
             System.load(path);
         } catch (Throwable e) {
-            Log.e("LSPatch", "load lspd error", e);
+            throw new ExceptionInInitializerError(e);
         }
     }
 }

@@ -9,7 +9,7 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
-import android.util.Log;
+import android.widget.Toast;
 
 import org.lsposed.lspd.models.Module;
 import org.lsposed.lspd.service.ILSPApplicationService;
@@ -22,15 +22,17 @@ public class RemoteApplicationService implements ILSPApplicationService {
 
     private static final Uri PROVIDER = Uri.parse("content://" + MANAGER_PACKAGE_NAME + ".provider");
 
-    private ILSPApplicationService service;
+    private final ILSPApplicationService service;
 
-    public RemoteApplicationService(Context context) {
+    public RemoteApplicationService(Context context) throws RemoteException {
         try {
             Bundle back = context.getContentResolver().call(PROVIDER, "getBinder", null, null);
             service = ILSPApplicationService.Stub.asInterface(back.getBinder("binder"));
-            if (service == null) throw new RemoteException("Binder is null");
-        } catch (Throwable e) {
-            Log.e("LSPatch", "Error when initializing RemoteApplicationServiceClient", e);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            Toast.makeText(context, "Manager died", Toast.LENGTH_SHORT).show();
+            var r = new RemoteException("Failed to get manager binder");
+            r.initCause(e);
+            throw r;
         }
     }
 

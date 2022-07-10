@@ -111,8 +111,8 @@ namespace lspd {
         auto stub = JNI_FindClass(env, "org/lsposed/lspatch/appstub/LSPAppComponentFactoryStub");
         auto dex_field = JNI_GetStaticFieldID(env, stub, "dex", "[B");
 
-        auto array = (jbyteArray) env->GetStaticObjectField(stub, dex_field);
-        auto dex = PreloadedDex {env->GetByteArrayElements(array, nullptr), static_cast<size_t>(JNI_GetArrayLength(env, array))};
+        ScopedLocalRef<jbyteArray> array = JNI_GetStaticObjectField(env, stub, dex_field);
+        auto dex = PreloadedDex {env->GetByteArrayElements(array.get(), nullptr), static_cast<size_t>(JNI_GetArrayLength(env, array))};
 
         InitArtHooker(env, initInfo);
         LoadDex(env, std::move(dex));

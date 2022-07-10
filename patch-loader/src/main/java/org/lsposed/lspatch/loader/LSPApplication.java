@@ -38,6 +38,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
@@ -82,15 +83,15 @@ public class LSPApplication {
             return;
         }
 
-        Log.d(TAG, "Initialize service client");
-        ILSPApplicationService service;
-        if (config.useManager) {
-            service = new RemoteApplicationService(context);
-        } else {
-            service = new LocalApplicationService(context);
-        }
-
         try {
+            Log.d(TAG, "Initialize service client");
+            ILSPApplicationService service;
+            if (config.useManager) {
+                service = new RemoteApplicationService(context);
+            } else {
+                service = new LocalApplicationService(context);
+            }
+
             disableProfile(context);
             Startup.initXposed(false, ActivityThread.currentProcessName(), service);
             Log.i(TAG, "Bootstrap Xposed");
@@ -106,7 +107,7 @@ public class LSPApplication {
             switchClassLoader("mClassLoader");
             doSigBypass(context);
         } catch (Throwable e) {
-            Log.e(TAG, "Do hook", e);
+            throw new RuntimeException("Do hook", e);
         }
         Log.i(TAG, "LSPatch bootstrap completed");
     }
@@ -130,22 +131,22 @@ public class LSPApplication {
             Log.i(TAG, "Use manager: " + config.useManager);
             Log.i(TAG, "Signature bypass level: " + config.sigBypassLevel);
 
-            String originPath = appInfo.dataDir + "/cache/lspatch/origin/";
-            String cacheApkPath;
+            Path originPath = Paths.get(appInfo.dataDir, "cache/lspatch/origin/");
+            Path cacheApkPath;
             try (ZipFile sourceFile = new ZipFile(appInfo.sourceDir)) {
-                cacheApkPath = originPath + sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc() + ".apk";
+                cacheApkPath = originPath.resolve(sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc() + ".apk");
             }
 
-            appInfo.sourceDir = cacheApkPath;
-            appInfo.publicSourceDir = cacheApkPath;
+            appInfo.sourceDir = cacheApkPath.toString();
+            appInfo.publicSourceDir = cacheApkPath.toString();
             appInfo.appComponentFactory = config.appComponentFactory;
 
-            if (!Files.exists(Paths.get(cacheApkPath))) {
+            if (!Files.exists(cacheApkPath)) {
                 Log.i(TAG, "Extract original apk");
-                FileUtils.deleteFolderIfExists(Paths.get(originPath));
-                Files.createDirectories(Paths.get(originPath));
+                FileUtils.deleteFolderIfExists(originPath);
+                Files.createDirectories(originPath);
                 try (InputStream is = baseClassLoader.getResourceAsStream(ORIGINAL_APK_ASSET_PATH)) {
-                    Files.copy(is, Paths.get(cacheApkPath));
+                    Files.copy(is, cacheApkPath);
                 }
             }
 

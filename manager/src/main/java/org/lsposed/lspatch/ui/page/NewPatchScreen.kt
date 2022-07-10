@@ -343,7 +343,6 @@ private fun DoPatchBody(modifier: Modifier, navigator: DestinationsNavigator) {
                     var installing by remember { mutableStateOf(false) }
                     if (installing) InstallDialog(viewModel.patchApp) { status, message ->
                         scope.launch {
-                            LSPPackageManager.fetchAppList()
                             installing = false
                             if (status == PackageInstaller.STATUS_SUCCESS) {
                                 lspApp.globalScope.launch { snackbarHost.showSnackbar(installSuccessfully) }

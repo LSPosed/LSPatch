@@ -35,6 +35,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
 import kotlinx.coroutines.launch
+import org.lsposed.lspatch.BuildConfig
 import org.lsposed.lspatch.R
 import org.lsposed.lspatch.config.ConfigManager
 import org.lsposed.lspatch.config.Configs
@@ -99,7 +100,6 @@ fun AppManageBody(
             val copyError = stringResource(R.string.copy_error)
             LaunchedEffect(Unit) {
                 it.onSuccess {
-                    LSPPackageManager.fetchAppList()
                     snackbarHost.showSnackbar(updateSuccessfully)
                 }.onFailure {
                     val result = snackbarHost.showSnackbar(updateFailed, copyError)
@@ -143,7 +143,7 @@ fun AppManageBody(
                     )
                     DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                         val shizukuUnavailable = stringResource(R.string.shizuku_unavailable)
-                        if (it.second.lspConfig.VERSION_CODE >= 319 && it.second.lspConfig.VERSION_CODE < LSPConfig.instance.VERSION_CODE) {
+                        if (it.second.lspConfig.VERSION_CODE < LSPConfig.instance.VERSION_CODE || BuildConfig.DEBUG) {
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.manage_update_loader)) },
                                 onClick = {
@@ -194,7 +194,6 @@ fun AppManageBody(
                         val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                             if (it.resultCode == Activity.RESULT_OK) {
                                 scope.launch {
-                                    LSPPackageManager.fetchAppList()
                                     snackbarHost.showSnackbar(uninstallSuccessfully)
                                 }
                             }
