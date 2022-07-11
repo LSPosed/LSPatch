@@ -42,6 +42,7 @@ import org.lsposed.lspatch.config.Configs
 import org.lsposed.lspatch.database.entity.Module
 import org.lsposed.lspatch.lspApp
 import org.lsposed.lspatch.share.LSPConfig
+import org.lsposed.lspatch.ui.component.AnywhereDropdown
 import org.lsposed.lspatch.ui.component.AppItem
 import org.lsposed.lspatch.ui.component.LoadingDialog
 import org.lsposed.lspatch.ui.page.SelectAppsResult
@@ -49,6 +50,7 @@ import org.lsposed.lspatch.ui.page.destinations.NewPatchScreenDestination
 import org.lsposed.lspatch.ui.page.destinations.SelectAppsScreenDestination
 import org.lsposed.lspatch.ui.util.LocalSnackbarHost
 import org.lsposed.lspatch.ui.viewmodel.manage.AppManageViewModel
+import org.lsposed.lspatch.ui.viewstate.ProcessingState
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.ShizukuApi
 import java.io.IOException
@@ -93,22 +95,39 @@ fun AppManageBody(
             }
         }
 
-        if (viewModel.processingUpdate) LoadingDialog()
-        viewModel.updateLoaderResult?.let {
-            val updateSuccessfully = stringResource(R.string.manage_update_loader_successfully)
-            val updateFailed = stringResource(R.string.manage_update_loader_failed)
-            val copyError = stringResource(R.string.copy_error)
-            LaunchedEffect(Unit) {
-                it.onSuccess {
-                    snackbarHost.showSnackbar(updateSuccessfully)
-                }.onFailure {
-                    val result = snackbarHost.showSnackbar(updateFailed, copyError)
-                    if (result == SnackbarResult.ActionPerformed) {
-                        val cm = lspApp.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        cm.setPrimaryClip(ClipData.newPlainText("LSPatch", it.toString()))
+        when (viewModel.updateLoaderState) {
+            is ProcessingState.Idle -> Unit
+            is ProcessingState.Processing -> LoadingDialog()
+            is ProcessingState.Done -> {
+                val it = viewModel.updateLoaderState as ProcessingState.Done
+                val updateSuccessfully = stringResource(R.string.manage_update_loader_successfully)
+                val updateFailed = stringResource(R.string.manage_update_loader_failed)
+                val copyError = stringResource(R.string.copy_error)
+                LaunchedEffect(Unit) {
+                    it.result.onSuccess {
+                        snackbarHost.showSnackbar(updateSuccessfully)
+                    }.onFailure {
+                        val result = snackbarHost.showSnackbar(updateFailed, copyError)
+                        if (result == SnackbarResult.ActionPerformed) {
+                            val cm = lspApp.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                            cm.setPrimaryClip(ClipData.newPlainText("LSPatch", it.toString()))
+                        }
                     }
+                    viewModel.dispatch(AppManageViewModel.ViewAction.ClearUpdateLoaderResult)
                 }
-                viewModel.dispatch(AppManageViewModel.ViewAction.ClearUpdateLoaderResult)
+            }
+        }
+        when (viewModel.optimizeState) {
+            is ProcessingState.Idle -> Unit
+            is ProcessingState.Processing -> LoadingDialog()
+            is ProcessingState.Done -> {
+                val it = viewModel.optimizeState as ProcessingState.Done
+                val optimizeSucceed = stringResource(R.string.manage_optimize_successfully)
+                val optimizeFailed = stringResource(R.string.manage_optimize_failed)
+                LaunchedEffect(Unit) {
+                    snackbarHost.showSnackbar(if (it.result) optimizeSucceed else optimizeFailed)
+                    viewModel.dispatch(AppManageViewModel.ViewAction.ClearOptimizeResult)
+                }
             }
         }
 
@@ -118,98 +137,97 @@ fun AppManageBody(
                 key = { it.first.app.packageName }
             ) {
                 var expanded by remember { mutableStateOf(false) }
-                Box {
-                    AppItem(
-                        icon = LSPPackageManager.getIcon(it.first),
-                        label = it.first.label,
-                        packageName = it.first.app.packageName,
-                        onClick = { expanded = true },
-                        onLongClick = { expanded = true },
-                        additionalContent = {
-                            Text(
-                                text = buildAnnotatedString {
-                                    val (text, color) =
-                                        if (it.second.useManager) stringResource(R.string.patch_local) to MaterialTheme.colorScheme.secondary
-                                        else stringResource(R.string.patch_portable) to MaterialTheme.colorScheme.tertiary
-                                    append(AnnotatedString(text, SpanStyle(color = color)))
-                                    append("  ")
-                                    append(it.second.lspConfig.VERSION_CODE.toString())
-                                },
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = FontFamily.Serif,
-                                style = MaterialTheme.typography.bodySmall
-                            )
-                        }
-                    )
-                    DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                        val shizukuUnavailable = stringResource(R.string.shizuku_unavailable)
-                        if (it.second.lspConfig.VERSION_CODE < LSPConfig.instance.VERSION_CODE || BuildConfig.DEBUG) {
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.manage_update_loader)) },
-                                onClick = {
-                                    expanded = false
-                                    scope.launch {
-                                        if (!ShizukuApi.isPermissionGranted) {
-                                            snackbarHost.showSnackbar(shizukuUnavailable)
-                                        } else {
-                                            viewModel.dispatch(AppManageViewModel.ViewAction.UpdateLoader(it.first, it.second))
-                                        }
-                                    }
-                                }
-                            )
-                        }
-                        if (it.second.useManager) {
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.manage_module_scope)) },
-                                onClick = {
-                                    expanded = false
-                                    scope.launch {
-                                        scopeApp = it.first.app.packageName
-                                        val activated = ConfigManager.getModulesForApp(scopeApp).map { it.pkgName }.toSet()
-                                        val initialSelected = LSPPackageManager.appList.mapNotNullTo(ArrayList()) {
-                                            if (activated.contains(it.app.packageName)) it.app.packageName else null
-                                        }
-                                        navigator.navigate(SelectAppsScreenDestination(true, initialSelected))
-                                    }
-                                }
-                            )
-                        }
-                        val optimizeSucceed = stringResource(R.string.manage_optimize_successfully)
-                        val optimizeFailed = stringResource(R.string.manage_optimize_failed)
+                AnywhereDropdown(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false },
+                    onClick = { expanded = true },
+                    surface = {
+                        AppItem(
+                            icon = LSPPackageManager.getIcon(it.first),
+                            label = it.first.label,
+                            packageName = it.first.app.packageName,
+                            additionalContent = {
+                                Text(
+                                    text = buildAnnotatedString {
+                                        val (text, color) =
+                                            if (it.second.useManager) stringResource(R.string.patch_local) to MaterialTheme.colorScheme.secondary
+                                            else stringResource(R.string.patch_portable) to MaterialTheme.colorScheme.tertiary
+                                        append(AnnotatedString(text, SpanStyle(color = color)))
+                                        append("  ")
+                                        append(it.second.lspConfig.VERSION_CODE.toString())
+                                    },
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontFamily = FontFamily.Serif,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            }
+                        )
+                    }
+                ) {
+                    val shizukuUnavailable = stringResource(R.string.shizuku_unavailable)
+                    if (it.second.lspConfig.VERSION_CODE < LSPConfig.instance.VERSION_CODE || BuildConfig.DEBUG) {
                         DropdownMenuItem(
-                            text = { Text(stringResource(R.string.manage_optimize)) },
+                            text = { Text(stringResource(R.string.manage_update_loader)) },
                             onClick = {
                                 expanded = false
                                 scope.launch {
                                     if (!ShizukuApi.isPermissionGranted) {
                                         snackbarHost.showSnackbar(shizukuUnavailable)
                                     } else {
-                                        val result = ShizukuApi.performDexOptMode(it.first.app.packageName)
-                                        snackbarHost.showSnackbar(if (result) optimizeSucceed else optimizeFailed)
+                                        viewModel.dispatch(AppManageViewModel.ViewAction.UpdateLoader(it.first, it.second))
                                     }
                                 }
                             }
                         )
-                        val uninstallSuccessfully = stringResource(R.string.manage_uninstall_successfully)
-                        val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                            if (it.resultCode == Activity.RESULT_OK) {
-                                scope.launch {
-                                    snackbarHost.showSnackbar(uninstallSuccessfully)
-                                }
-                            }
-                        }
+                    }
+                    if (it.second.useManager) {
                         DropdownMenuItem(
-                            text = { Text(stringResource(R.string.uninstall)) },
+                            text = { Text(stringResource(R.string.manage_module_scope)) },
                             onClick = {
                                 expanded = false
-                                val intent = Intent(Intent.ACTION_DELETE).apply {
-                                    data = Uri.parse("package:${it.first.app.packageName}")
-                                    putExtra(Intent.EXTRA_RETURN_RESULT, true)
+                                scope.launch {
+                                    scopeApp = it.first.app.packageName
+                                    val activated = ConfigManager.getModulesForApp(scopeApp).map { it.pkgName }.toSet()
+                                    val initialSelected = LSPPackageManager.appList.mapNotNullTo(ArrayList()) {
+                                        if (activated.contains(it.app.packageName)) it.app.packageName else null
+                                    }
+                                    navigator.navigate(SelectAppsScreenDestination(true, initialSelected))
                                 }
-                                launcher.launch(intent)
                             }
                         )
                     }
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.manage_optimize)) },
+                        onClick = {
+                            expanded = false
+                            scope.launch {
+                                if (!ShizukuApi.isPermissionGranted) {
+                                    snackbarHost.showSnackbar(shizukuUnavailable)
+                                } else {
+                                    viewModel.dispatch(AppManageViewModel.ViewAction.PerformOptimize(it.first))
+                                }
+                            }
+                        }
+                    )
+                    val uninstallSuccessfully = stringResource(R.string.manage_uninstall_successfully)
+                    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                        if (it.resultCode == Activity.RESULT_OK) {
+                            scope.launch {
+                                snackbarHost.showSnackbar(uninstallSuccessfully)
+                            }
+                        }
+                    }
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.uninstall)) },
+                        onClick = {
+                            expanded = false
+                            val intent = Intent(Intent.ACTION_DELETE).apply {
+                                data = Uri.parse("package:${it.first.app.packageName}")
+                                putExtra(Intent.EXTRA_RETURN_RESULT, true)
+                            }
+                            launcher.launch(intent)
+                        }
+                    )
                 }
             }
         }

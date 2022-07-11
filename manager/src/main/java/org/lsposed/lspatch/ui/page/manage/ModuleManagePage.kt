@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.lsposed.lspatch.R
+import org.lsposed.lspatch.ui.component.AnywhereDropdown
 import org.lsposed.lspatch.ui.component.AppItem
 import org.lsposed.lspatch.ui.viewmodel.manage.ModuleManageViewModel
 import org.lsposed.lspatch.util.LSPPackageManager
@@ -44,30 +45,36 @@ fun ModuleManageBody() {
                 key = { it.first.app.packageName }
             ) {
                 var expanded by remember { mutableStateOf(false) }
-                Box {
-                    AppItem(
-                        icon = LSPPackageManager.getIcon(it.first),
-                        label = it.first.label,
-                        packageName = it.first.app.packageName,
-                        onClick = { /* TODO: startAndSendModuleBinder */ },
-                        onLongClick = { expanded = true },
-                        additionalContent = {
-                            Text(
-                                text = it.second.description,
-                                style = MaterialTheme.typography.bodySmall
-                            )
-                            Text(
-                                text = buildAnnotatedString {
-                                    append(AnnotatedString("API", SpanStyle(color = MaterialTheme.colorScheme.secondary)))
-                                    append("  ")
-                                    append(it.second.api.toString())
-                                },
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = FontFamily.Serif,
-                                style = MaterialTheme.typography.bodySmall
-                            )
-                        }
-                    )
+                AnywhereDropdown(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false },
+                    onClick = { /* TODO: Start module */ },
+                    onLongClick = { expanded = true },
+                    surface = {
+                        AppItem(
+                            icon = LSPPackageManager.getIcon(it.first),
+                            label = it.first.label,
+                            packageName = it.first.app.packageName,
+                            additionalContent = {
+                                Text(
+                                    text = it.second.description,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                                Text(
+                                    text = buildAnnotatedString {
+                                        append(AnnotatedString("API", SpanStyle(color = MaterialTheme.colorScheme.secondary)))
+                                        append("  ")
+                                        append(it.second.api.toString())
+                                    },
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontFamily = FontFamily.Serif,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            }
+                        )
+                    }
+                ) {
+                    // TODO: Implement
                 }
             }
         }

@@ -12,6 +12,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -39,6 +40,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.lsposed.lspatch.R
 import org.lsposed.lspatch.lspApp
+import org.lsposed.lspatch.ui.component.AnywhereDropdown
 import org.lsposed.lspatch.ui.component.SelectionColumn
 import org.lsposed.lspatch.ui.component.ShimmerAnimation
 import org.lsposed.lspatch.ui.component.settings.SettingsCheckBox
@@ -219,64 +221,74 @@ private fun PatchOptionsBody(modifier: Modifier, onAddEmbed: () -> Unit) {
             )
         }
         SettingsCheckBox(
-            modifier = Modifier.padding(top = 6.dp),
+            modifier = Modifier
+                .padding(top = 6.dp)
+                .clickable { viewModel.debuggable = !viewModel.debuggable },
             checked = viewModel.debuggable,
-            onClick = { viewModel.debuggable = !viewModel.debuggable },
             icon = Icons.Outlined.BugReport,
             title = stringResource(R.string.patch_debuggable)
         )
         SettingsCheckBox(
+            modifier = Modifier.clickable { viewModel.overrideVersionCode = !viewModel.overrideVersionCode },
             checked = viewModel.overrideVersionCode,
-            onClick = { viewModel.overrideVersionCode = !viewModel.overrideVersionCode },
             icon = Icons.Outlined.Layers,
             title = stringResource(R.string.patch_override_version_code),
             desc = stringResource(R.string.patch_override_version_code_desc)
         )
-        Box {
-            var expanded by remember { mutableStateOf(false) }
-            SettingsItem(
-                onClick = { expanded = true },
-                icon = Icons.Outlined.Edit,
-                title = stringResource(R.string.patch_sign),
-                desc = viewModel.sign.mapIndexedNotNull { index, on -> if (on) "V" + (index + 1) else null }.joinToString(" + ").ifEmpty { "None" }
-            )
-            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                repeat(2) { index ->
-                    DropdownMenuItem(
-                        text = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Checkbox(checked = viewModel.sign[index], onCheckedChange = { viewModel.sign[index] = !viewModel.sign[index] })
-                                Text("V" + (index + 1))
-                            }
-                        },
-                        onClick = { viewModel.sign[index] = !viewModel.sign[index] }
-                    )
-                }
+        var signExpanded by remember { mutableStateOf(false) }
+        AnywhereDropdown(
+            expanded = signExpanded,
+            onDismissRequest = { signExpanded = false },
+            onClick = { signExpanded = true },
+            surface = {
+                SettingsItem(
+                    icon = Icons.Outlined.Edit,
+                    title = stringResource(R.string.patch_sign),
+                    desc = viewModel.sign
+                        .mapIndexedNotNull { index, on -> if (on) "V" + (index + 1) else null }
+                        .joinToString(" + ")
+                        .ifEmpty { "None" }
+                )
+            }
+        ) {
+            repeat(2) { index ->
+                DropdownMenuItem(
+                    text = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Checkbox(checked = viewModel.sign[index], onCheckedChange = { viewModel.sign[index] = !viewModel.sign[index] })
+                            Text("V" + (index + 1))
+                        }
+                    },
+                    onClick = { viewModel.sign[index] = !viewModel.sign[index] }
+                )
             }
         }
-        Box {
-            var expanded by remember { mutableStateOf(false) }
-            SettingsItem(
-                onClick = { expanded = true },
-                icon = Icons.Outlined.RemoveModerator,
-                title = stringResource(R.string.patch_sigbypass),
-                desc = sigBypassLvStr(viewModel.sigBypassLevel)
-            )
-            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                repeat(3) {
-                    DropdownMenuItem(
-                        text = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                RadioButton(selected = viewModel.sigBypassLevel == it, onClick = { viewModel.sigBypassLevel = it })
-                                Text(sigBypassLvStr(it))
-                            }
-                        },
-                        onClick = {
-                            viewModel.sigBypassLevel = it
-                            expanded = false
+        var bypassExpanded by remember { mutableStateOf(false) }
+        AnywhereDropdown(
+            expanded = bypassExpanded,
+            onDismissRequest = { bypassExpanded = false },
+            onClick = { bypassExpanded = true },
+            surface = {
+                SettingsItem(
+                    icon = Icons.Outlined.RemoveModerator,
+                    title = stringResource(R.string.patch_sigbypass),
+                    desc = sigBypassLvStr(viewModel.sigBypassLevel)
+                )
+            }
+        ) {
+            repeat(3) {
+                DropdownMenuItem(
+                    text = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            RadioButton(selected = viewModel.sigBypassLevel == it, onClick = { viewModel.sigBypassLevel = it })
+                            Text(sigBypassLvStr(it))
                         }
-                    )
-                }
+                    },
+                    onClick = {
+                        viewModel.sigBypassLevel = it
+                        bypassExpanded = false
+                    }
+                )
             }
         }
     }

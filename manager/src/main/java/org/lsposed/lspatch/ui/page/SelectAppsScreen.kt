@@ -6,6 +6,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -124,11 +125,12 @@ private fun SingleSelect(onSelect: (AppInfo) -> Unit) {
             key = { it.app.packageName }
         ) {
             AppItem(
-                modifier = Modifier.animateItemPlacement(spring(stiffness = Spring.StiffnessLow)),
+                modifier = Modifier
+                    .animateItemPlacement(spring(stiffness = Spring.StiffnessLow))
+                    .clickable { onSelect(it) },
                 icon = LSPPackageManager.getIcon(it),
                 label = it.label,
-                packageName = it.app.packageName,
-                onClick = { onSelect(it) }
+                packageName = it.app.packageName
             )
         }
     }
@@ -145,14 +147,15 @@ private fun MultiSelect() {
         ) {
             val checked = viewModel.multiSelected.contains(it)
             AppItem(
-                modifier = Modifier.animateItemPlacement(spring(stiffness = Spring.StiffnessLow)),
+                modifier = Modifier
+                    .animateItemPlacement(spring(stiffness = Spring.StiffnessLow))
+                    .clickable {
+                        if (checked) viewModel.multiSelected.remove(it)
+                        else viewModel.multiSelected.add(it)
+                    },
                 icon = LSPPackageManager.getIcon(it),
                 label = it.label,
                 packageName = it.app.packageName,
-                onClick = {
-                    if (checked) viewModel.multiSelected.remove(it)
-                    else viewModel.multiSelected.add(it)
-                },
                 checked = checked
             )
         }

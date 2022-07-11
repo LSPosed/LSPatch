@@ -2,8 +2,6 @@ package org.lsposed.lspatch.ui.component
 
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForwardIos
@@ -19,15 +17,13 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import org.lsposed.lspatch.ui.theme.LSPTheme
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppItem(
     modifier: Modifier = Modifier,
     icon: Drawable,
     label: String,
     packageName: String,
-    onClick: () -> Unit,
-    onLongClick: (() -> Unit)? = null,
     checked: Boolean? = null,
     rightIcon: (@Composable () -> Unit)? = null,
     additionalContent: (@Composable ColumnScope.() -> Unit)? = null,
@@ -37,10 +33,6 @@ fun AppItem(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .combinedClickable(
-                onClick = onClick,
-                onLongClick = onLongClick
-            )
             .padding(20.dp)
     ) {
         Row(
@@ -68,7 +60,7 @@ fun AppItem(
             if (checked != null) {
                 Checkbox(
                     checked = checked,
-                    onCheckedChange = { onClick() },
+                    onCheckedChange = null,
                     modifier = Modifier.padding(start = 20.dp)
                 )
             }
@@ -90,7 +82,6 @@ private fun AppItemPreview() {
             icon = shape,
             label = "Sample App",
             packageName = "org.lsposed.sample",
-            onClick = {},
             rightIcon = { Icon(Icons.Filled.ArrowForwardIos, null) }
         )
     }

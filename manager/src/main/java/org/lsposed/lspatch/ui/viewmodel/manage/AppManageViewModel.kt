@@ -11,14 +11,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.lsposed.lspatch.Patcher
 import org.lsposed.lspatch.lspApp
 import org.lsposed.lspatch.share.Constants
 import org.lsposed.lspatch.share.PatchConfig
+import org.lsposed.lspatch.ui.viewstate.ProcessingState
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
+import org.lsposed.lspatch.util.ShizukuApi
 import org.lsposed.patch.util.Logger
 import java.io.FileNotFoundException
 import java.util.zip.ZipFile
@@ -32,6 +33,8 @@ class AppManageViewModel : ViewModel() {
     sealed class ViewAction {
         data class UpdateLoader(val appInfo: AppInfo, val config: PatchConfig) : ViewAction()
         object ClearUpdateLoaderResult : ViewAction()
+        data class PerformOptimize(val appInfo: AppInfo) : ViewAction()
+        object ClearOptimizeResult : ViewAction()
     }
 
     val appList: List<Pair<AppInfo, PatchConfig>> by derivedStateOf {
@@ -46,9 +49,10 @@ class AppManageViewModel : ViewModel() {
         }
     }
 
-    var processingUpdate by mutableStateOf(false)
+    var updateLoaderState: ProcessingState<Result<Unit>> by mutableStateOf(ProcessingState.Idle)
         private set
-    var updateLoaderResult: Result<Unit>? by mutableStateOf(null)
+
+    var optimizeState: ProcessingState<Boolean> by mutableStateOf(ProcessingState.Idle)
         private set
 
     private val logger = object : Logger() {
@@ -65,44 +69,54 @@ class AppManageViewModel : ViewModel() {
         }
     }
 
-    fun dispatch(action: ViewAction) {
-        when (action) {
-            is ViewAction.UpdateLoader -> updateLoader(action.appInfo, action.config)
-            is ViewAction.ClearUpdateLoaderResult -> updateLoaderResult = null
+    suspend fun dispatch(action: ViewAction) {
+        withContext(viewModelScope.coroutineContext) {
+            when (action) {
+                is ViewAction.UpdateLoader -> updateLoader(action.appInfo, action.config)
+                is ViewAction.ClearUpdateLoaderResult -> updateLoaderState = ProcessingState.Idle
+                is ViewAction.PerformOptimize -> performOptimize(action.appInfo)
+                is ViewAction.ClearOptimizeResult -> optimizeState = ProcessingState.Idle
+            }
         }
     }
 
-    private fun updateLoader(appInfo: AppInfo, config: PatchConfig) {
+    private suspend fun updateLoader(appInfo: AppInfo, config: PatchConfig) {
         Log.i(TAG, "Update loader for ${appInfo.app.packageName}")
-        viewModelScope.launch {
-            processingUpdate = true
-            val result = runCatching {
-                withContext(Dispatchers.IO) {
-                    LSPPackageManager.cleanTmpApkDir()
-                    val apkPaths = listOf(appInfo.app.sourceDir) + (appInfo.app.splitSourceDirs ?: emptyArray())
-                    val patchPaths = mutableListOf<String>()
-                    val embeddedModulePaths = if (config.useManager) emptyList<String>() else null
-                    for (apk in apkPaths) {
-                        ZipFile(apk).use { zip ->
-                            var entry = zip.getEntry(Constants.ORIGINAL_APK_ASSET_PATH)
-                            if (entry == null) entry = zip.getEntry("assets/lspatch/origin_apk.bin")
-                            if (entry == null) throw FileNotFoundException("Original apk entry not found for $apk")
-                            zip.getInputStream(entry).use { input ->
-                                val dst = lspApp.tmpApkDir.resolve(apk.substringAfterLast('/'))
-                                patchPaths.add(dst.absolutePath)
-                                dst.outputStream().use { output ->
-                                    input.copyTo(output)
-                                }
+        updateLoaderState = ProcessingState.Processing
+        val result = runCatching {
+            withContext(Dispatchers.IO) {
+                LSPPackageManager.cleanTmpApkDir()
+                val apkPaths = listOf(appInfo.app.sourceDir) + (appInfo.app.splitSourceDirs ?: emptyArray())
+                val patchPaths = mutableListOf<String>()
+                val embeddedModulePaths = if (config.useManager) emptyList<String>() else null
+                for (apk in apkPaths) {
+                    ZipFile(apk).use { zip ->
+                        var entry = zip.getEntry(Constants.ORIGINAL_APK_ASSET_PATH)
+                        if (entry == null) entry = zip.getEntry("assets/lspatch/origin_apk.bin")
+                        if (entry == null) throw FileNotFoundException("Original apk entry not found for $apk")
+                        zip.getInputStream(entry).use { input ->
+                            val dst = lspApp.tmpApkDir.resolve(apk.substringAfterLast('/'))
+                            patchPaths.add(dst.absolutePath)
+                            dst.outputStream().use { output ->
+                                input.copyTo(output)
                             }
                         }
                     }
-                    Patcher.patch(logger, Patcher.Options(config, patchPaths, embeddedModulePaths))
-                    val (status, message) = LSPPackageManager.install()
-                    if (status != PackageInstaller.STATUS_SUCCESS) throw RuntimeException(message)
                 }
+                Patcher.patch(logger, Patcher.Options(config, patchPaths, embeddedModulePaths))
+                val (status, message) = LSPPackageManager.install()
+                if (status != PackageInstaller.STATUS_SUCCESS) throw RuntimeException(message)
             }
-            processingUpdate = false
-            updateLoaderResult = result
         }
+        updateLoaderState = ProcessingState.Done(result)
+    }
+
+    private suspend fun performOptimize(appInfo: AppInfo) {
+        Log.i(TAG, "Perform optimize for ${appInfo.app.packageName}")
+        optimizeState = ProcessingState.Processing
+        val result = withContext(Dispatchers.IO) {
+            ShizukuApi.performDexOptMode(appInfo.app.packageName)
+        }
+        optimizeState = ProcessingState.Done(result)
     }
 }

@@ -2,9 +2,9 @@ package org.lsposed.lspatch.ui.page
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,6 +27,7 @@ import kotlinx.coroutines.launch
 import org.lsposed.lspatch.R
 import org.lsposed.lspatch.config.Configs
 import org.lsposed.lspatch.config.MyKeyStore
+import org.lsposed.lspatch.ui.component.AnywhereDropdown
 import org.lsposed.lspatch.ui.component.CenterTopBar
 import org.lsposed.lspatch.ui.component.settings.SettingsItem
 import org.lsposed.lspatch.ui.component.settings.SettingsSwitch
@@ -56,32 +57,35 @@ fun SettingsScreen() {
 private fun KeyStore() {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    var dropdownExpanded by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
 
-    Box {
-        SettingsItem(
-            onClick = { dropdownExpanded = !dropdownExpanded },
-            icon = Icons.Outlined.Ballot,
-            title = stringResource(R.string.settings_keystore),
-            desc = stringResource(if (MyKeyStore.useDefault) R.string.settings_keystore_default else R.string.settings_keystore_custom)
-        )
-        DropdownMenu(expanded = dropdownExpanded, onDismissRequest = { dropdownExpanded = false }) {
-            DropdownMenuItem(
-                text = { Text(stringResource(R.string.settings_keystore_default)) },
-                onClick = {
-                    scope.launch { MyKeyStore.reset() }
-                    dropdownExpanded = false
-                }
-            )
-            DropdownMenuItem(
-                text = { Text(stringResource(R.string.settings_keystore_custom)) },
-                onClick = {
-                    dropdownExpanded = false
-                    showDialog = true
-                }
+    AnywhereDropdown(
+        expanded = expanded,
+        onDismissRequest = { expanded = false },
+        onClick = { expanded = true },
+        surface = {
+            SettingsItem(
+                icon = Icons.Outlined.Ballot,
+                title = stringResource(R.string.settings_keystore),
+                desc = stringResource(if (MyKeyStore.useDefault) R.string.settings_keystore_default else R.string.settings_keystore_custom)
             )
         }
+    ) {
+        DropdownMenuItem(
+            text = { Text(stringResource(R.string.settings_keystore_default)) },
+            onClick = {
+                scope.launch { MyKeyStore.reset() }
+                expanded = false
+            }
+        )
+        DropdownMenuItem(
+            text = { Text(stringResource(R.string.settings_keystore_custom)) },
+            onClick = {
+                expanded = false
+                showDialog = true
+            }
+        )
     }
 
     if (showDialog) {
@@ -106,7 +110,7 @@ private fun KeyStore() {
         }
 
         AlertDialog(
-            onDismissRequest = { dropdownExpanded = false; showDialog = false },
+            onDismissRequest = { expanded = false; showDialog = false },
             confirmButton = {
                 TextButton(
                     content = { Text(stringResource(android.R.string.ok)) },
@@ -144,14 +148,14 @@ private fun KeyStore() {
                         }
 
                         scope.launch { MyKeyStore.setCustom(password, alias, aliasPassword) }
-                        dropdownExpanded = false
+                        expanded = false
                         showDialog = false
                     })
             },
             dismissButton = {
                 TextButton(
                     content = { Text(stringResource(android.R.string.cancel)) },
-                    onClick = { dropdownExpanded = false; showDialog = false }
+                    onClick = { expanded = false; showDialog = false }
                 )
             },
             title = {
@@ -228,8 +232,8 @@ private fun KeyStore() {
 @Composable
 private fun DetailPatchLogs() {
     SettingsSwitch(
+        modifier = Modifier.clickable { Configs.detailPatchLogs = !Configs.detailPatchLogs },
         checked = Configs.detailPatchLogs,
-        onClick = { Configs.detailPatchLogs = !Configs.detailPatchLogs },
         title = stringResource(R.string.settings_detail_patch_logs)
     )
 }
