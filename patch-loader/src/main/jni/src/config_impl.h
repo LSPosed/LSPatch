@@ -24,7 +24,7 @@
 #pragma once
 
 #include <string>
-#include "ConfigBridge.h"
+#include "config_bridge.h"
 
 namespace lspd {
 

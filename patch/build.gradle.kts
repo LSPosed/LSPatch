@@ -18,5 +18,5 @@ dependencies {
 
     implementation("commons-io:commons-io:2.11.0")
     implementation("com.beust:jcommander:1.82")
-    implementation("com.google.code.gson:gson:2.9.0")
+    implementation("com.google.code.gson:gson:2.9.1")
 }

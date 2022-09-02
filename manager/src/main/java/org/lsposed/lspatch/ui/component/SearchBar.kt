@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 
 private const val TAG = "SearchBar"
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SearchAppBar(
     title: @Composable () -> Unit,

@@ -144,6 +144,7 @@ fun NewPatchScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ConfiguringTopBar(onBackClick: () -> Unit) {
     SmallTopAppBar(

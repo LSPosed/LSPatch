@@ -44,9 +44,9 @@ val coreVerName by extra(
         .split('"')[1]
 )
 val androidMinSdkVersion by extra(28)
-val androidTargetSdkVersion by extra(32)
-val androidCompileSdkVersion by extra(32)
-val androidCompileNdkVersion by extra("24.0.8215888")
+val androidTargetSdkVersion by extra(33)
+val androidCompileSdkVersion by extra(33)
+val androidCompileNdkVersion by extra("25.0.8775105")
 val androidBuildToolsVersion by extra("32.0.0")
 val androidSourceCompatibility by extra(JavaVersion.VERSION_11)
 val androidTargetCompatibility by extra(JavaVersion.VERSION_11)
