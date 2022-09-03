@@ -26,7 +26,6 @@ import java.io.File
 import java.io.IOException
 import java.text.Collator
 import java.util.*
-import java.util.concurrent.CountDownLatch
 import java.util.zip.ZipFile
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -102,15 +101,12 @@ object LSPPackageManager {
                     }
                     var result: Intent? = null
                     suspendCoroutine { cont ->
-                        val countDownLatch = CountDownLatch(1)
                         val adapter = IntentSenderHelper.IIntentSenderAdaptor { intent ->
                             result = intent
-                            countDownLatch.countDown()
+                            cont.resume(Unit)
                         }
                         val intentSender = IntentSenderHelper.newIntentSender(adapter)
                         session.commit(intentSender)
-                        countDownLatch.await()
-                        cont.resume(Unit)
                     }
                     result?.let {
                         status = it.getIntExtra(PackageInstaller.EXTRA_STATUS, PackageInstaller.STATUS_FAILURE)
@@ -132,15 +128,12 @@ object LSPPackageManager {
             runCatching {
                 var result: Intent? = null
                 suspendCoroutine { cont ->
-                    val countDownLatch = CountDownLatch(1)
                     val adapter = IntentSenderHelper.IIntentSenderAdaptor { intent ->
                         result = intent
-                        countDownLatch.countDown()
+                        cont.resume(Unit)
                     }
                     val intentSender = IntentSenderHelper.newIntentSender(adapter)
                     ShizukuApi.uninstallPackage(packageName, intentSender)
-                    countDownLatch.await()
-                    cont.resume(Unit)
                 }
                 result?.let {
                     status = it.getIntExtra(PackageInstaller.EXTRA_STATUS, PackageInstaller.STATUS_FAILURE)

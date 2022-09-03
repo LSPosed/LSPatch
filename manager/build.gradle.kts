@@ -84,7 +84,6 @@ dependencies {
     val composeDestinationsVersion = "1.7.17-beta"
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     compileOnly("dev.rikka.hidden:stub:2.3.1")
-    implementation("dev.rikka.hidden:compat:2.3.1")
     implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.activity:activity-compose:1.6.0-rc01")
     implementation("androidx.compose.material:material-icons-extended:1.3.0-beta01")
