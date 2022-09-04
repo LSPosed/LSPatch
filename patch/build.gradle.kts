@@ -8,10 +8,14 @@ plugins {
 java {
     sourceCompatibility = androidSourceCompatibility
     targetCompatibility = androidTargetCompatibility
+    sourceSets {
+        main {
+            java.srcDirs("libs/manifest-editor/lib/src/main/java")
+        }
+    }
 }
 
 dependencies {
-    implementation(fileTree("dir" to "libs", "include" to listOf("*.jar")))
     implementation(projects.apkzlib)
     implementation(projects.axmlprinter)
     implementation(projects.share.java)

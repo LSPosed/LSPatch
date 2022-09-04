@@ -39,7 +39,7 @@ include(
     ":services:manager-service",
     ":services:xposed-service:interface",
     ":share:android",
-    ":share:java"
+    ":share:java",
 )
 
 project(":core").projectDir = file("core/core")
