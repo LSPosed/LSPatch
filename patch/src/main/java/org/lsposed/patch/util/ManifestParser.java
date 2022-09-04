@@ -30,6 +30,7 @@ public class ManifestParser {
                     int attrCount = parser.getAttributeCount();
                     for (int i = 0; i < attrCount; i++) {
                         String attrName = parser.getAttributeName(i);
+                        int attrNameRes = parser.getAttributeNameResource(i);
 
                         String name = parser.getName();
 
@@ -39,7 +40,7 @@ public class ManifestParser {
                             }
                         }
 
-                        if ("appComponentFactory".equals(attrName)) {
+                        if ("appComponentFactory".equals(attrName) || attrNameRes == 0x0101057a) {
                             appComponentFactory = parser.getAttributeValue(i);
                         }
 
