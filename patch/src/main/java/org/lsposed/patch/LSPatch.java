@@ -79,12 +79,6 @@ public class LSPatch {
     @Parameter(names = {"-k", "--keystore"}, arity = 4, description = "Set custom signature keystore. Followed by 4 arguments: keystore path, keystore password, keystore alias, keystore alias password")
     private List<String> keystoreArgs = Arrays.asList(null, "123456", "key0", "123456");
 
-    @Parameter(names = {"--v1"}, arity = 1, description = "Sign with v1 signature")
-    private boolean v1 = false;
-
-    @Parameter(names = {"--v2"}, arity = 1, description = "Sign with v2 signature")
-    private boolean v2 = true;
-
     @Parameter(names = {"--manager"}, description = "Use manager (Cannot work with embedding modules)")
     private boolean useManager = false;
 
@@ -207,8 +201,7 @@ public class LSPatch {
                 var entry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(keystoreArgs.get(2), new KeyStore.PasswordProtection(keystoreArgs.get(3).toCharArray()));
                 new SigningExtension(SigningOptions.builder()
                         .setMinSdkVersion(28)
-                        .setV1SigningEnabled(v1)
-                        .setV2SigningEnabled(v2)
+                        .setV2SigningEnabled(true)
                         .setCertificates((X509Certificate[]) entry.getCertificateChain())
                         .setKey(entry.getPrivateKey())
                         .build()).register(dstZFile);
@@ -239,7 +232,7 @@ public class LSPatch {
 
             logger.i("Patching apk...");
             // modify manifest
-            final var config = new PatchConfig(useManager, debuggableFlag, overrideVersionCode, v1, v2, sigbypassLevel, originalSignature, appComponentFactory);
+            final var config = new PatchConfig(useManager, debuggableFlag, overrideVersionCode, sigbypassLevel, originalSignature, appComponentFactory);
             final var configBytes = new Gson().toJson(config).getBytes(StandardCharsets.UTF_8);
             final var metadata = Base64.getEncoder().encodeToString(configBytes);
             try (var is = new ByteArrayInputStream(modifyManifestFile(manifestEntry.open(), metadata))) {

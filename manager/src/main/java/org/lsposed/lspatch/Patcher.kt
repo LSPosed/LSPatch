@@ -25,8 +25,6 @@ object Patcher {
                 add("-o"); add(lspApp.tmpApkDir.absolutePath)
                 if (config.debuggable) add("-d")
                 add("-l"); add(config.sigBypassLevel.toString())
-                add("--v1"); add(config.v1.toString())
-                add("--v2"); add(config.v2.toString())
                 if (config.useManager) add("--manager")
                 if (config.overrideVersionCode) add("-r")
                 if (Configs.detailPatchLogs) add("-v")

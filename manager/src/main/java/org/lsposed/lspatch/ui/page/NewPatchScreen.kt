@@ -176,7 +176,6 @@ private fun sigBypassLvStr(level: Int) = when (level) {
     else -> throw IllegalArgumentException("Invalid sigBypassLv: $level")
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PatchOptionsBody(modifier: Modifier, onAddEmbed: () -> Unit) {
     val viewModel = viewModel<NewPatchViewModel>()
@@ -236,34 +235,6 @@ private fun PatchOptionsBody(modifier: Modifier, onAddEmbed: () -> Unit) {
             title = stringResource(R.string.patch_override_version_code),
             desc = stringResource(R.string.patch_override_version_code_desc)
         )
-        var signExpanded by remember { mutableStateOf(false) }
-        AnywhereDropdown(
-            expanded = signExpanded,
-            onDismissRequest = { signExpanded = false },
-            onClick = { signExpanded = true },
-            surface = {
-                SettingsItem(
-                    icon = Icons.Outlined.Edit,
-                    title = stringResource(R.string.patch_sign),
-                    desc = viewModel.sign
-                        .mapIndexedNotNull { index, on -> if (on) "V" + (index + 1) else null }
-                        .joinToString(" + ")
-                        .ifEmpty { "None" }
-                )
-            }
-        ) {
-            repeat(2) { index ->
-                DropdownMenuItem(
-                    text = {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Checkbox(checked = viewModel.sign[index], onCheckedChange = { viewModel.sign[index] = !viewModel.sign[index] })
-                            Text("V" + (index + 1))
-                        }
-                    },
-                    onClick = { viewModel.sign[index] = !viewModel.sign[index] }
-                )
-            }
-        }
         var bypassExpanded by remember { mutableStateOf(false) }
         AnywhereDropdown(
             expanded = bypassExpanded,
