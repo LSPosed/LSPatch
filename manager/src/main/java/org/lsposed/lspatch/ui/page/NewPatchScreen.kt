@@ -147,7 +147,7 @@ fun NewPatchScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ConfiguringTopBar(onBackClick: () -> Unit) {
-    SmallTopAppBar(
+    TopAppBar(
         title = { Text(stringResource(R.string.screen_new_patch)) },
         navigationIcon = {
             IconButton(

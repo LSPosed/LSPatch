@@ -51,7 +51,7 @@ fun SearchAppBar(
         }
     }
 
-    SmallTopAppBar(
+    TopAppBar(
         title = {
             Box {
                 AnimatedVisibility(

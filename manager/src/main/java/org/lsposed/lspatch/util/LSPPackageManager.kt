@@ -1,22 +1,25 @@
 package org.lsposed.lspatch.util
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInstaller
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Parcelable
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import hidden.HiddenApiBridge
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
+import me.zhanghai.android.appiconloader.AppIconLoader
 import org.lsposed.lspatch.Constants.PATCH_FILE_SUFFIX
 import org.lsposed.lspatch.config.ConfigManager
 import org.lsposed.lspatch.config.Configs
@@ -43,7 +46,9 @@ object LSPPackageManager {
     var appList by mutableStateOf(listOf<AppInfo>())
         private set
 
-    private val appIcon = mutableMapOf<String, Drawable>()
+    @SuppressLint("StaticFieldLeak")
+    private val iconLoader = AppIconLoader(lspApp.resources.getDimensionPixelSize(android.R.dimen.app_icon_size), false, lspApp)
+    private val appIcon = mutableMapOf<String, ImageBitmap>()
 
     suspend fun fetchAppList() {
         withContext(Dispatchers.IO) {
@@ -52,7 +57,7 @@ object LSPPackageManager {
             pm.getInstalledApplications(PackageManager.GET_META_DATA).forEach {
                 val label = pm.getApplicationLabel(it)
                 collection.add(AppInfo(it, label.toString()))
-                appIcon[it.packageName] = pm.getApplicationIcon(it)
+                appIcon[it.packageName] = iconLoader.loadIcon(it).asImageBitmap()
             }
             collection.sortWith(compareBy(Collator.getInstance(Locale.getDefault()), AppInfo::label))
             val modules = buildMap {
@@ -162,7 +167,10 @@ object LSPPackageManager {
                     }
                     if (primary == null) {
                         primary = lspApp.packageManager.getPackageArchiveInfo(dst.absolutePath, 0)?.applicationInfo
-                        if (primary != null) return@mapNotNull null
+                        primary?.let {
+                            it.sourceDir = dst.absolutePath
+                            return@mapNotNull null
+                        }
                     }
                     dst.absolutePath
                 }

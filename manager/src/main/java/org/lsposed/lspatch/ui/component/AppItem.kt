@@ -1,27 +1,30 @@
 package org.lsposed.lspatch.ui.component
 
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForwardIos
-import androidx.compose.material3.*
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.drawablepainter.rememberDrawablePainter
+import androidx.core.graphics.drawable.toBitmap
 import org.lsposed.lspatch.ui.theme.LSPTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppItem(
     modifier: Modifier = Modifier,
-    icon: Drawable,
+    icon: ImageBitmap,
     label: String,
     packageName: String,
     checked: Boolean? = null,
@@ -40,9 +43,8 @@ fun AppItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painter = rememberDrawablePainter(icon),
+                bitmap = icon,
                 contentDescription = label,
-                modifier = Modifier.size(32.dp),
                 tint = Color.Unspecified
             )
             Column(
@@ -79,7 +81,7 @@ private fun AppItemPreview() {
         shape.shape = GradientDrawable.RECTANGLE
         shape.setColor(MaterialTheme.colorScheme.primary.toArgb())
         AppItem(
-            icon = shape,
+            icon = shape.toBitmap().asImageBitmap(),
             label = "Sample App",
             packageName = "org.lsposed.sample",
             rightIcon = { Icon(Icons.Filled.ArrowForwardIos, null) }

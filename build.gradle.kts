@@ -16,7 +16,7 @@ buildscript {
     }
     dependencies {
         classpath("org.eclipse.jgit:org.eclipse.jgit:6.0.0.202111291000-r")
-        classpath(kotlin("gradle-plugin", version = "1.7.0"))
+        classpath(kotlin("gradle-plugin", version = "1.7.10"))
     }
 }
 
