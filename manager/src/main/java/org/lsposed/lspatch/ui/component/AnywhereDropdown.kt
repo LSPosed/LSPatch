@@ -35,6 +35,10 @@ fun AnywhereDropdown(
     }
 
     LaunchedEffect(state) {
+        if (state is PressInteraction.Press) {
+            val i = state as PressInteraction.Press
+            offset = i.pressPosition
+        }
         if (state is PressInteraction.Release) {
             val i = state as PressInteraction.Release
             offset = i.press.pressPosition

@@ -42,18 +42,20 @@ android {
     }
 
     sourceSets["main"].assets.srcDirs(rootProject.projectDir.resolve("out/assets"))
+
+    applicationVariants.all {
+        kotlin.sourceSets {
+            getByName(name) {
+                kotlin.srcDir("build/generated/ksp/$name/kotlin")
+            }
+        }
+    }
 }
 
 afterEvaluate {
     android.applicationVariants.forEach { variant ->
         val variantLowered = variant.name.toLowerCase()
         val variantCapped = variant.name.capitalize()
-
-        kotlin.sourceSets {
-            getByName(variant.name) {
-                kotlin.srcDir("build/generated/ksp/${variant.name}/kotlin")
-            }
-        }
 
         task<Copy>("copy${variantCapped}Assets") {
             dependsOn(":appstub:copy$variantCapped")
@@ -96,7 +98,6 @@ dependencies {
     implementation("androidx.preference:preference:1.2.0")
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation("androidx.room:room-runtime:$roomVersion")
-    implementation("com.google.accompanist:accompanist-drawablepainter:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-navigation-animation:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-pager:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-swiperefresh:$accompanistVersion")

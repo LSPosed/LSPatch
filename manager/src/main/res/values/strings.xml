@@ -38,6 +38,8 @@
     <string name="manage_optimize_failed">Optimize failed</string>
     <string name="manage_uninstall_successfully">Uninstall successfully</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
 
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>

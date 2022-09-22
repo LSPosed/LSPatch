@@ -141,6 +141,7 @@ fun AppManageBody(
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
                     onClick = { expanded = true },
+                    onLongClick = { expanded = true },
                     surface = {
                         AppItem(
                             icon = LSPPackageManager.getIcon(it.first),
@@ -164,6 +165,10 @@ fun AppManageBody(
                         )
                     }
                 ) {
+                    DropdownMenuItem(
+                        text = { Text(text = it.first.label, color = MaterialTheme.colorScheme.primary) },
+                        onClick = {}, enabled = false
+                    )
                     val shizukuUnavailable = stringResource(R.string.shizuku_unavailable)
                     if (it.second.lspConfig.VERSION_CODE < LSPConfig.instance.VERSION_CODE || BuildConfig.DEBUG) {
                         DropdownMenuItem(

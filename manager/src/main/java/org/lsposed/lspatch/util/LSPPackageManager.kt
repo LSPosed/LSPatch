@@ -187,4 +187,27 @@ object LSPPackageManager {
             }
         }
     }
+
+    fun getLaunchIntentForPackage(packageName: String): Intent? {
+        val intentToResolve = Intent(Intent.ACTION_MAIN)
+        intentToResolve.addCategory(Intent.CATEGORY_INFO)
+        intentToResolve.setPackage(packageName)
+        var ris = lspApp.packageManager.queryIntentActivities(intentToResolve, 0)
+
+        if (ris.size <= 0) {
+            intentToResolve.removeCategory(Intent.CATEGORY_INFO)
+            intentToResolve.addCategory(Intent.CATEGORY_LAUNCHER)
+            intentToResolve.setPackage(packageName)
+            ris = lspApp.packageManager.queryIntentActivities(intentToResolve, 0)
+        }
+
+        if (ris.size <= 0) return null
+
+        return Intent(intentToResolve)
+            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            .setClassName(
+                ris[0].activityInfo.packageName,
+                ris[0].activityInfo.name
+            )
+    }
 }

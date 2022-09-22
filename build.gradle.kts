@@ -15,7 +15,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.eclipse.jgit:org.eclipse.jgit:6.0.0.202111291000-r")
+        classpath("org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r")
         classpath(kotlin("gradle-plugin", version = "1.7.10"))
     }
 }

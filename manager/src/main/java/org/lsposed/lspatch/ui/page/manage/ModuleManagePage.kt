@@ -1,15 +1,20 @@
 package org.lsposed.lspatch.ui.page.manage
 
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -25,6 +30,7 @@ import org.lsposed.lspatch.util.LSPPackageManager
 
 @Composable
 fun ModuleManageBody() {
+    val context = LocalContext.current
     val viewModel = viewModel<ModuleManageViewModel>()
     if (viewModel.appList.isEmpty()) {
         Box(Modifier.fillMaxSize()) {
@@ -45,10 +51,11 @@ fun ModuleManageBody() {
                 key = { it.first.app.packageName }
             ) {
                 var expanded by remember { mutableStateOf(false) }
+                val launchIntent = remember { LSPPackageManager.getLaunchIntentForPackage(it.first.app.packageName) }
                 AnywhereDropdown(
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
-                    onClick = { /* TODO: Start module */ },
+                    onClick = { launchIntent?.let { context.startActivity(it) } },
                     onLongClick = { expanded = true },
                     surface = {
                         AppItem(
@@ -74,7 +81,26 @@ fun ModuleManageBody() {
                         )
                     }
                 ) {
-                    // TODO: Implement
+                    DropdownMenuItem(
+                        text = { Text(text = it.first.label, color = MaterialTheme.colorScheme.primary) },
+                        onClick = {}, enabled = false
+                    )
+                    if (launchIntent != null) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.manage_module_settings)) },
+                            onClick = { context.startActivity(launchIntent) }
+                        )
+                    }
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.manage_app_info)) },
+                        onClick = {
+                            val intent = Intent(
+                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.fromParts("package", it.first.app.packageName, null)
+                            )
+                            context.startActivity(intent)
+                        }
+                    )
                 }
             }
         }
