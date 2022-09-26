@@ -5,13 +5,13 @@
     <string name="installing">安裝中</string>
     <string name="uninstall">解除安裝</string>
     <string name="uninstalling">解除安裝中</string>
-    <string name="copy_error">Copy error</string>
-    <string name="apps">Apps</string>
-    <string name="modules">Modules</string>
+    <string name="copy_error">複製錯誤</string>
+    <string name="apps">應用程式</string>
+    <string name="modules">模組</string>
     <string name="shizuku_available">Shizuku 服務可用</string>
     <string name="shizuku_unavailable">Shizuku 服務未連線</string>
-    <string name="screen_repo">Repo</string>
-    <string name="screen_logs">Logs</string>
+    <string name="screen_repo">倉庫</string>
+    <string name="screen_logs">日誌</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">部分功能不可用</string>
     <string name="home_api_version">API 版本</string>
@@ -25,25 +25,27 @@
     <string name="home_description">LSPatch 是一款免費的基於 LSPosed 核心的免 Root Xposed 框架。</string>
     <string name="home_view_source_code"><![CDATA[查看原始碼 %1$s<br/>加入我們的 %2$s 頻道]]></string>
     <!-- Manage Screen -->
-    <string name="screen_manage">Manage</string>
+    <string name="screen_manage">管理</string>
     <string name="manage_loading">正在加載</string>
-    <string name="manage_no_apps">還沒有打包的程式</string>
-    <string name="manage_update_loader">Update loader</string>
-    <string name="manage_update_loader_successfully">Update successfully</string>
-    <string name="manage_update_loader_failed">Update failed</string>
+    <string name="manage_no_apps">還沒有打包的應用程式</string>
+    <string name="manage_update_loader">更新載入程式</string>
+    <string name="manage_update_loader_successfully">更新成功</string>
+    <string name="manage_update_loader_failed">更新失敗</string>
     <string name="manage_module_scope">模組作用域</string>
     <string name="manage_optimize">最佳化</string>
     <string name="manage_optimize_successfully">最佳化成功</string>
     <string name="manage_optimize_failed">最佳化失敗</string>
     <string name="manage_uninstall_successfully">解除安裝成功</string>
-    <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_no_modules">還沒有模組</string>
+    <string name="manage_module_settings">模組設定</string>
+    <string name="manage_app_info">程式資訊</string>
     <!-- New Patch Screen -->
-    <string name="screen_new_patch">New Patch</string>
+    <string name="screen_new_patch">新增打包程式</string>
     <string name="patch_select_dir_title">選擇儲存資料夾</string>
     <string name="patch_select_dir_text">選擇一個資料夾儲存打包好的 apk</string>
     <string name="patch_select_dir_error">設定儲存資料夾出錯</string>
-    <string name="patch_from_storage">從儲存中選擇 apk</string>
-    <string name="patch_from_applist">選擇已安裝的程式</string>
+    <string name="patch_from_storage">從儲存空間中選取 apk</string>
+    <string name="patch_from_applist">選取已安裝的應用程式</string>
     <string name="patch_mode">打包模式</string>
     <string name="patch_local">本機</string>
     <string name="patch_local_desc">打包沒有內建模組的應用程式。\n打包後的程式需要此管理器背景執行，Xposed 作用域可以動態更改而無需重新打包。\n本機打包的應用程式，只能在本機執行。</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">打包內建模組的應用程式。\n打包後的程式，可以在沒有管理器的情況下執行，但無法動態管理啟用的模組。\n可攜式打包的應用程式，可以在沒有安裝 LSPatch Manager 的裝置上使用。</string>
     <string name="patch_embed_modules">內建模組</string>
     <string name="patch_debuggable">程式可偵錯</string>
-    <string name="patch_sign">簽名</string>
     <string name="patch_sigbypass">破解簽名驗證</string>
     <string name="patch_sigbypasslv0">lv0: 關閉</string>
     <string name="patch_sigbypasslv1">lv1: 繞過 PM</string>
@@ -64,9 +65,9 @@
     <string name="patch_install_successfully">安裝成功</string>
     <string name="patch_install_failed">安裝失敗</string>
     <!-- Select Apps Screen -->
-    <string name="screen_select_apps">Select Apps</string>
+    <string name="screen_select_apps">選取應用程式</string>
     <!-- Settings Screen -->
-    <string name="screen_settings">Settings</string>
+    <string name="screen_settings">設定</string>
     <string name="settings_keystore">簽名金鑰庫</string>
     <string name="settings_keystore_default">內建</string>
     <string name="settings_keystore_custom">自訂</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">金鑰庫密碼錯誤</string>
     <string name="settings_keystore_wrong_alias">別名錯誤</string>
     <string name="settings_keystore_wrong_alias_password">別名密碼錯誤</string>
+    <string name="settings_detail_patch_logs">詳細打包日誌</string>
 </resources>
