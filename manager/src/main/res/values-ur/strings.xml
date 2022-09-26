@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">اصلاح ناکام ہوگئی</string>
     <string name="manage_uninstall_successfully">کامیابی کے ساتھ اَن انسٹال کریں۔</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">اسٹوریج ڈائرکٹری منتخب کریں۔</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">ایمبیڈڈ ماڈیولز کے ساتھ ایک ایپ پیچ کریں۔\nپیچ شدہ ایپ مینیجر کے بغیر چل سکتی ہے، لیکن اسے متحرک طور پر منظم نہیں کیا جا سکتا۔\nپورٹیبل پیچ شدہ ایپس ان آلات پر استعمال کی جا سکتی ہیں جن میں LSPatch مینیجر انسٹال نہیں ہے۔</string>
     <string name="patch_embed_modules">ایمبیڈ ماڈیولز</string>
     <string name="patch_debuggable">ڈیبگ ایبل</string>
-    <string name="patch_sign">دستخط</string>
     <string name="patch_sigbypass">دستخط بائی پاس</string>
     <string name="patch_sigbypasslv0">lv0: آف</string>
     <string name="patch_sigbypasslv1">lv1: PM کو بائی پاس کریں۔</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">کی اسٹور کا غلط پاس ورڈ</string>
     <string name="settings_keystore_wrong_alias">غلط عرفی نام</string>
     <string name="settings_keystore_wrong_alias_password">غلط عرفی پاس ورڈ</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>
