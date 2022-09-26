@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Optimera misslyckade</string>
     <string name="manage_uninstall_successfully">Avinstallera framgångsrikt</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Välj lagringskatalog</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Patcha en app med moduler inbäddade.\nDen korrigerade appen kan köras utan manager, men kan inte hanteras dynamiskt.\nPortabla patchade appar kan användas på enheter som inte har LSPatch Manager installerat.</string>
     <string name="patch_embed_modules">Bädda in moduler</string>
     <string name="patch_debuggable">Felsökningsbar</string>
-    <string name="patch_sign">Tecken</string>
     <string name="patch_sigbypass">Signatur bypass</string>
     <string name="patch_sigbypasslv0">lv0: Av</string>
     <string name="patch_sigbypasslv1">lv1: Förbi PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Fel lösenord till nyckelbanken</string>
     <string name="settings_keystore_wrong_alias">Fel aliasnamn</string>
     <string name="settings_keystore_wrong_alias_password">Fel lösenord för alias</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>
