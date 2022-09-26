@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">अनुकूलन विफल</string>
     <string name="manage_uninstall_successfully">सफलतापूर्वक अनइंस्टॉल करें</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">भंडारण निर्देशिका का चयन करें</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">एम्बेडेड मॉड्यूल के साथ एक ऐप पैच करें।\nपैच किया गया ऐप प्रबंधक के बिना चल सकता है, लेकिन गतिशील रूप से प्रबंधित नहीं किया जा सकता है।\nपोर्टेबल पैच किए गए ऐप्स का उपयोग उन उपकरणों पर किया जा सकता है जिनमें एलएसपैच प्रबंधक स्थापित नहीं है।</string>
     <string name="patch_embed_modules">मॉड्यूल एम्बेड करें</string>
     <string name="patch_debuggable">डीबग करने योग्य</string>
-    <string name="patch_sign">संकेत</string>
     <string name="patch_sigbypass">सिग्नेचर बायपास</string>
     <string name="patch_sigbypasslv0">lv0: बंद</string>
     <string name="patch_sigbypasslv1">lv1: बाईपास पीएम</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">गलत कीस्टोर पासवर्ड</string>
     <string name="settings_keystore_wrong_alias">गलत उपनाम</string>
     <string name="settings_keystore_wrong_alias_password">गलत उपनाम पासवर्ड</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>
