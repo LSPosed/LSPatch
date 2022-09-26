@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Ошибка оптимизации</string>
     <string name="manage_uninstall_successfully">Удаление завершено!</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Выберите каталог хранения</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Патч приложения со встроенными модулями.\nПатченное приложение может работать без менеджера, но не может управляться динамически.\nПортативные патченные приложения могут быть использованы на устройствах, у которых не установлен LSPatch менеджер</string>
     <string name="patch_embed_modules">Встроить модули</string>
     <string name="patch_debuggable">Отладка</string>
-    <string name="patch_sign">Подписать</string>
     <string name="patch_sigbypass">Обход подписи</string>
     <string name="patch_sigbypasslv0">lv0: Выкл.</string>
     <string name="patch_sigbypasslv1">lv1: Обход PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Неправильный пароль хранилища ключей</string>
     <string name="settings_keystore_wrong_alias">Неправильное имя псевдонима</string>
     <string name="settings_keystore_wrong_alias_password">Неправильный пароль псевдонима</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>
