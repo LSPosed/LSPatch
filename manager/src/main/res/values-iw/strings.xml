@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">האופטימיזציה נכשלה</string>
     <string name="manage_uninstall_successfully">הסר את ההתקנה בהצלחה</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">בחר ספריית אחסון</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">תקן אפליקציה עם מודולים משובצים.\nהאפליקציה המתוקנת יכולה לפעול ללא המנהל, אך לא ניתן לנהל אותה באופן דינמי. ניתן להשתמש באפליקציות ניידות מתוקנות במכשירים שלא מותקן בהם\nManager.</string>
     <string name="patch_embed_modules">הטמע מודולים</string>
     <string name="patch_debuggable">ניתן לניפוי באגים</string>
-    <string name="patch_sign">סִימָן</string>
     <string name="patch_sigbypass">עוקף חתימה</string>
     <string name="patch_sigbypasslv0">lv0: כבוי</string>
     <string name="patch_sigbypasslv1">lv1: עוקף את PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">סיסמת מאגר מפתחות שגויה</string>
     <string name="settings_keystore_wrong_alias">שם כינוי שגוי</string>
     <string name="settings_keystore_wrong_alias_password">סיסמת כינוי שגויה</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

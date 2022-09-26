@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">L\'optimització ha fallat</string>
     <string name="manage_uninstall_successfully">Desinstal·la correctament</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Seleccioneu el directori d\'emmagatzematge</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Apliqueu una aplicació amb mòduls incrustats.\nL\'aplicació pegada es pot executar sense el gestor, però no es pot gestionar de manera dinàmica.\nLes aplicacions portàtils amb pedaços es poden utilitzar en dispositius que no tinguin LSPatch Manager instal·lat.</string>
     <string name="patch_embed_modules">Incrustar mòduls</string>
     <string name="patch_debuggable">Depurable</string>
-    <string name="patch_sign">Signe</string>
     <string name="patch_sigbypass">Bypass de signatura</string>
     <string name="patch_sigbypasslv0">lv0: apagat</string>
     <string name="patch_sigbypasslv1">lv1: anul·lar PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">La contrasenya del magatzem de claus és incorrecta</string>
     <string name="settings_keystore_wrong_alias">Nom d\'àlies incorrecte</string>
     <string name="settings_keystore_wrong_alias_password">Contrasenya d\'àlies incorrecta</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Optymalizacja nie powiodła się</string>
     <string name="manage_uninstall_successfully">Odinstaluj z powodzeniem</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Wybierz katalog przechowywania</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Popraw aplikację z osadzonymi modułami.\nPoprawiona aplikacja może działać bez menedżera, ale nie można nią zarządzać dynamicznie.\nPrzenośne aplikacje łatane mogą być używane na urządzeniach, na których nie zainstalowano programu LSPatch Manager.</string>
     <string name="patch_embed_modules">Osadź moduły</string>
     <string name="patch_debuggable">Możliwość debugowania</string>
-    <string name="patch_sign">Podpisać</string>
     <string name="patch_sigbypass">Ominięcie podpisu</string>
     <string name="patch_sigbypasslv0">poziom 0: wyłączony</string>
     <string name="patch_sigbypasslv1">lv1: Pomiń PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Nieprawidłowe hasło do magazynu kluczy</string>
     <string name="settings_keystore_wrong_alias">Nieprawidłowa nazwa aliasu</string>
     <string name="settings_keystore_wrong_alias_password">Nieprawidłowe hasło aliasu</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

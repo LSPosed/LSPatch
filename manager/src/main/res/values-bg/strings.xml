@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Оптимизиране на неуспешни</string>
     <string name="manage_uninstall_successfully">Успешно деинсталиране</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Изберете директория за съхранение</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Поправка на приложение с вградени модули.\nПатчираното приложение може да работи без мениджъра, но не може да се управлява динамично.\nПреносимите закърпени приложения могат да се използват на устройства, на които не е инсталиран LSPatch Manager.</string>
     <string name="patch_embed_modules">Вграждане на модули</string>
     <string name="patch_debuggable">Отстраняване на грешки</string>
-    <string name="patch_sign">Знак</string>
     <string name="patch_sigbypass">Подписване на байпас</string>
     <string name="patch_sigbypasslv0">lv0: Изключено</string>
     <string name="patch_sigbypasslv1">1 лев: Заобикаляне на PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Грешна парола на хранилището на ключове</string>
     <string name="settings_keystore_wrong_alias">Неправилно име на псевдоним</string>
     <string name="settings_keystore_wrong_alias_password">Грешна парола за псевдоним</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">优化失败</string>
     <string name="manage_uninstall_successfully">卸载成功</string>
     <string name="manage_no_modules">尚无模块</string>
+    <string name="manage_module_settings">模块设置</string>
+    <string name="manage_app_info">应用信息</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">新建修补</string>
     <string name="patch_select_dir_title">选择存储目录</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">修补 App 并内置模块。\n经修补的应用可以在没有管理器的情况下运行，但不能动态管理配置。\n以便携模式修补的应用可在未安装 LSPatch 管理器的设备上运行。</string>
     <string name="patch_embed_modules">嵌入模块</string>
     <string name="patch_debuggable">可调试</string>
-    <string name="patch_sign">签名</string>
     <string name="patch_sigbypass">破解签名校验</string>
     <string name="patch_sigbypasslv0">lv0: 关闭</string>
     <string name="patch_sigbypasslv1">lv1: 绕过 PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">密钥库密码错误</string>
     <string name="settings_keystore_wrong_alias">别名错误</string>
     <string name="settings_keystore_wrong_alias_password">别名密码错误</string>
+    <string name="settings_detail_patch_logs">详细修补日志</string>
 </resources>

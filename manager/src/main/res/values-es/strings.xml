@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Optimización fallida</string>
     <string name="manage_uninstall_successfully">Desinstalar con éxito</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Seleccionar directorio de almacenamiento</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Parche una aplicación con módulos incrustados.\nLa aplicación parcheada se puede ejecutar sin el administrador, pero no se puede administrar dinámicamente.\nLas aplicaciones parcheadas portátiles se pueden usar en dispositivos que no tienen instalado LSPatch Manager.</string>
     <string name="patch_embed_modules">Módulos incrustados</string>
     <string name="patch_debuggable">depurable</string>
-    <string name="patch_sign">Firmar</string>
     <string name="patch_sigbypass">Omisión de firma</string>
     <string name="patch_sigbypasslv0">lv0: Desactivado</string>
     <string name="patch_sigbypasslv1">lv1: Pasar PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Contraseña incorrecta del almacén de claves</string>
     <string name="settings_keystore_wrong_alias">Nombre de alias incorrecto</string>
     <string name="settings_keystore_wrong_alias_password">Contraseña de alias incorrecta</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

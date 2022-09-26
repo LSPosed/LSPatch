@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Optimoi epäonnistunut</string>
     <string name="manage_uninstall_successfully">Poista asennus onnistuneesti</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Valitse tallennushakemisto</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Korjaa sovellus, jossa on upotettuja moduuleja.\nKorjattu sovellus voi toimia ilman hallintaa, mutta sitä ei voida hallita dynaamisesti.\nKannettavia korjattuja sovelluksia voidaan käyttää laitteissa, joihin ei ole asennettu LSPatch Manageria.</string>
     <string name="patch_embed_modules">Upota moduulit</string>
     <string name="patch_debuggable">Virheenkorjaus</string>
-    <string name="patch_sign">Merkki</string>
     <string name="patch_sigbypass">Allekirjoituksen ohitus</string>
     <string name="patch_sigbypasslv0">lv0: Pois</string>
     <string name="patch_sigbypasslv1">lv1: Ohita PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Väärä avainsäilön salasana</string>
     <string name="settings_keystore_wrong_alias">Väärä alias-nimi</string>
     <string name="settings_keystore_wrong_alias_password">Väärä alias-salasana</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

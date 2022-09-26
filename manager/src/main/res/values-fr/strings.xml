@@ -5,13 +5,13 @@
     <string name="installing">Installation de</string>
     <string name="uninstall">Désinstaller</string>
     <string name="uninstalling">Désinstallation de</string>
-    <string name="copy_error">Copy error</string>
-    <string name="apps">Apps</string>
+    <string name="copy_error">Erreur de copie</string>
+    <string name="apps">Applications</string>
     <string name="modules">Modules</string>
     <string name="shizuku_available">Service Shizuku disponible</string>
     <string name="shizuku_unavailable">Service Shizuku non connecté</string>
-    <string name="screen_repo">Repo</string>
-    <string name="screen_logs">Logs</string>
+    <string name="screen_repo">Dépôt</string>
+    <string name="screen_logs">Journaux</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Certaines fonctions seront indisponibles</string>
     <string name="home_api_version">Version de l\'API</string>
@@ -25,20 +25,22 @@
     <string name="home_description">LSPatch est un framework Xposed gratuit non root basé sur le noyau de LSPosed.</string>
     <string name="home_view_source_code"><![CDATA[Voir le code source sur %1$s<br/>Rejoignez notre %2$s canal]]></string>
     <!-- Manage Screen -->
-    <string name="screen_manage">Manage</string>
+    <string name="screen_manage">Gérer</string>
     <string name="manage_loading">Chargement</string>
     <string name="manage_no_apps">Aucune appli patchée pour le moment</string>
-    <string name="manage_update_loader">Update loader</string>
-    <string name="manage_update_loader_successfully">Update successfully</string>
-    <string name="manage_update_loader_failed">Update failed</string>
+    <string name="manage_update_loader">Mettre à jour le chargeur</string>
+    <string name="manage_update_loader_successfully">Mise à jour réussie</string>
+    <string name="manage_update_loader_failed">Échec de la mise à jour</string>
     <string name="manage_module_scope">Portée du module</string>
     <string name="manage_optimize">Optimiser</string>
     <string name="manage_optimize_successfully">Optimiser avec succès</string>
     <string name="manage_optimize_failed">Optimiser les échecs</string>
     <string name="manage_uninstall_successfully">Désinstallation réussie</string>
-    <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_no_modules">Aucun module pour le moment</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
-    <string name="screen_new_patch">New Patch</string>
+    <string name="screen_new_patch">Nouveau Patch</string>
     <string name="patch_select_dir_title">Sélectionner le répertoire de stockage</string>
     <string name="patch_select_dir_text">Sélectionnez un répertoire pour stocker les apks modifiés</string>
     <string name="patch_select_dir_error">Érreur lors de la définition du répertoire de stockage</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Patcher une application avec des modules intégrés.\nL\'application corrigée peut s\'exécuter sans le gestionnaire, mais ne peut pas être gérée de manière dynamique.\nLes applications patchées portables peuvent être utilisées sur des appareils sur lesquels LSPatch Manager n\'est pas installé.</string>
     <string name="patch_embed_modules">Intégrer des modules</string>
     <string name="patch_debuggable">Débogable</string>
-    <string name="patch_sign">Signer</string>
     <string name="patch_sigbypass">Contournement des signatures</string>
     <string name="patch_sigbypasslv0">lv0 : Désactivé</string>
     <string name="patch_sigbypasslv1">lv1 : Contourner PM</string>
@@ -64,9 +65,9 @@
     <string name="patch_install_successfully">Installation réussie</string>
     <string name="patch_install_failed">Échec de l\'installation</string>
     <!-- Select Apps Screen -->
-    <string name="screen_select_apps">Select Apps</string>
+    <string name="screen_select_apps">Sélectionner Applications</string>
     <!-- Settings Screen -->
-    <string name="screen_settings">Settings</string>
+    <string name="screen_settings">Réglages</string>
     <string name="settings_keystore">Magasin de clés de signature</string>
     <string name="settings_keystore_default">Intégré</string>
     <string name="settings_keystore_custom">Personnalisé</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Mot de passe erroné pour le keystore</string>
     <string name="settings_keystore_wrong_alias">Nom d\'alias erroné</string>
     <string name="settings_keystore_wrong_alias_password">Mot de passe d\'alias erroné</string>
+    <string name="settings_detail_patch_logs">Détails des journaux du patch</string>
 </resources>

@@ -5,7 +5,7 @@
     <string name="installing">التثبيت</string>
     <string name="uninstall">الغاء التثبيت</string>
     <string name="uninstalling">الإزالة</string>
-    <string name="copy_error">Copy error</string>
+    <string name="copy_error">خطأ في النسخ</string>
     <string name="apps">Apps</string>
     <string name="modules">Modules</string>
     <string name="shizuku_available">تتوفر خدمة شيزوكو</string>
@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">فشل التحسين</string>
     <string name="manage_uninstall_successfully">تم الإزالة بنجاح</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">حدد دليل التخزين</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">تصحيح تطبيق بوحدات مدمجة.\nيمكن تشغيل التطبيق المصحح بدون المدير ، لكن لا يمكن إدارته ديناميكيًا.\nيمكن استخدام التطبيقات المصححة المحمولة على الأجهزة التي لم يتم تثبيت LSPatch Manager عليها.</string>
     <string name="patch_embed_modules">الوحدات المُضْمَنة</string>
     <string name="patch_debuggable">قابل للتصحيح</string>
-    <string name="patch_sign">إشارة</string>
     <string name="patch_sigbypass">تجاوز التوقيع</string>
     <string name="patch_sigbypasslv0">مستوى 0: مغلق</string>
     <string name="patch_sigbypasslv1">lv1: تجاوز PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">كلمة مرور تخزين المفاتيح خاطئة</string>
     <string name="settings_keystore_wrong_alias">اسم مستعار خاطئ</string>
     <string name="settings_keystore_wrong_alias_password">كلمة مرور الاسم المستعار خاطئة</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

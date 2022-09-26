@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Kon nie optimaliseer nie</string>
     <string name="manage_uninstall_successfully">Deïnstalleer suksesvol</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Kies bergingsgids</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Plak \'n toepassing met modules ingebed.\nDie reggemaakte toepassing kan sonder die bestuurder loop, maar kan nie dinamies bestuur word nie.\nDraagbare gelapte toepassings kan gebruik word op toestelle wat nie LSPatch Manager geïnstalleer het nie.</string>
     <string name="patch_embed_modules">Sluit modules in</string>
     <string name="patch_debuggable">Ontfoutbaar</string>
-    <string name="patch_sign">Teken</string>
     <string name="patch_sigbypass">Handtekening omseil</string>
     <string name="patch_sigbypasslv0">lv0: af</string>
     <string name="patch_sigbypasslv1">lv1: Omseil PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Verkeerde sleutelstoor wagwoord</string>
     <string name="settings_keystore_wrong_alias">Verkeerde alias naam</string>
     <string name="settings_keystore_wrong_alias_password">Verkeerde alias wagwoord</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

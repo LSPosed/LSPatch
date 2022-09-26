@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Βελτιστοποίηση αποτυχημένων</string>
     <string name="manage_uninstall_successfully">Απεγκατάσταση με επιτυχία</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Επιλέξτε κατάλογο αποθήκευσης</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Επιδιορθώστε μια εφαρμογή με ενσωματωμένες λειτουργικές μονάδες.\nΗ επιδιορθωμένη εφαρμογή μπορεί να εκτελεστεί χωρίς τον διαχειριστή, αλλά δεν είναι δυνατή η δυναμική διαχείριση της.\nΟι φορητές επιδιορθωμένες εφαρμογές μπορούν να χρησιμοποιηθούν σε συσκευές που δεν έχουν εγκατεστημένο το LSPatch Manager.</string>
     <string name="patch_embed_modules">Ενσωμάτωση λειτουργικών μονάδων</string>
     <string name="patch_debuggable">Δυνατότητα εντοπισμού σφαλμάτων</string>
-    <string name="patch_sign">Σημάδι</string>
     <string name="patch_sigbypass">Παράκαμψη υπογραφής</string>
     <string name="patch_sigbypasslv0">lv0: Ανενεργό</string>
     <string name="patch_sigbypasslv1">lv1: Παράκαμψη PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Λάθος κωδικός πρόσβασης keystore</string>
     <string name="settings_keystore_wrong_alias">Λάθος όνομα ψευδώνυμου</string>
     <string name="settings_keystore_wrong_alias_password">Λάθος κωδικός πρόσβασης ψευδώνυμου</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

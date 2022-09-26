@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Optimizarea a eșuat</string>
     <string name="manage_uninstall_successfully">Dezinstalare cu succes</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Selectați directorul de stocare</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Corectați o aplicație cu module încorporate.\nAplicația corectată poate rula fără manager, dar nu poate fi gestionată dinamic.\nAplicațiile portabile cu corecții pot fi utilizate pe dispozitivele care nu au LSPatch Manager instalat.</string>
     <string name="patch_embed_modules">Încorporați module</string>
     <string name="patch_debuggable">Depanabil</string>
-    <string name="patch_sign">Semn</string>
     <string name="patch_sigbypass">Ocolire semnătură</string>
     <string name="patch_sigbypasslv0">lv0: oprit</string>
     <string name="patch_sigbypasslv1">lv1: Ocoli PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Parolă greșită pentru keystore</string>
     <string name="settings_keystore_wrong_alias">Nume alias greșit</string>
     <string name="settings_keystore_wrong_alias_password">Parolă alias greșită</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

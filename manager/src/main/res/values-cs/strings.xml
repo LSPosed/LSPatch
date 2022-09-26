@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Optimalizace selhala</string>
     <string name="manage_uninstall_successfully">Úspěšná odinstalace</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Vyberte adresář úložiště</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Opravte aplikaci s vestavěnými moduly.\nOpravená aplikace může běžet bez správce, ale nelze ji spravovat dynamicky.\nPřenosné opravené aplikace lze používat na zařízeních, která nemají nainstalovaný LSPatch Manager.</string>
     <string name="patch_embed_modules">Vložit moduly</string>
     <string name="patch_debuggable">Laditelné</string>
-    <string name="patch_sign">Podepsat</string>
     <string name="patch_sigbypass">Přemostění podpisu</string>
     <string name="patch_sigbypasslv0">lv0: Vypnuto</string>
     <string name="patch_sigbypasslv1">lv1: Obejít PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Špatné heslo úložiště klíčů</string>
     <string name="settings_keystore_wrong_alias">Špatný název aliasu</string>
     <string name="settings_keystore_wrong_alias_password">Špatné heslo aliasu</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">การเพิ่มประสิทธิภาพล้มเหลว</string>
     <string name="manage_uninstall_successfully">ถอนการติดตั้งสำเร็จ</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">เลือกไดเร็กทอรีการจัดเก็บ</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">แก้ไขแอปด้วยโมดูลที่ฝังอยู่\nแอปแพตช์สามารถทำงานโดยไม่มีตัวจัดการ แต่ไม่สามารถจัดการแบบไดนามิกได้\nแอปแพตช์แบบพกพาสามารถใช้กับอุปกรณ์ที่ไม่ได้ติดตั้ง LSPatch Manager</string>
     <string name="patch_embed_modules">โมดูลฝังตัว</string>
     <string name="patch_debuggable">แก้จุดบกพร่องได้</string>
-    <string name="patch_sign">เข้าสู่ระบบ</string>
     <string name="patch_sigbypass">บายพาสลายเซ็น</string>
     <string name="patch_sigbypasslv0">lv0: ปิด</string>
     <string name="patch_sigbypasslv1">lv1: บายพาส PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">รหัสผ่านที่เก็บคีย์ไม่ถูกต้อง</string>
     <string name="settings_keystore_wrong_alias">ชื่อนามแฝงไม่ถูกต้อง</string>
     <string name="settings_keystore_wrong_alias_password">รหัสผ่านนามแฝงไม่ถูกต้อง</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

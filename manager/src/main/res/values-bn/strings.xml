@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">অপ্টিমাইজ ব্যর্থ হয়েছে৷</string>
     <string name="manage_uninstall_successfully">সফলভাবে আনইনস্টল</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">স্টোরেজ ডিরেক্টরি নির্বাচন করুন</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">এম্বেড করা মডিউল সহ একটি অ্যাপ প্যাচ করুন।\nপ্যাচ করা অ্যাপটি ম্যানেজার ছাড়া চলতে পারে, কিন্তু গতিশীলভাবে পরিচালনা করা যায় না।\nপোর্টেবল প্যাচড অ্যাপ এমন ডিভাইসগুলিতে ব্যবহার করা যেতে পারে যেগুলিতে LSPatch ম্যানেজার ইনস্টল নেই৷</string>
     <string name="patch_embed_modules">মডিউল এম্বেড করুন</string>
     <string name="patch_debuggable">ডিবাগযোগ্য</string>
-    <string name="patch_sign">চিহ্ন</string>
     <string name="patch_sigbypass">স্বাক্ষর বাইপাস</string>
     <string name="patch_sigbypasslv0">lv0: বন্ধ</string>
     <string name="patch_sigbypasslv1">lv1: PM বাইপাস করুন</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">ভুল কীস্টোর পাসওয়ার্ড</string>
     <string name="settings_keystore_wrong_alias">ভুল উপনাম নাম</string>
     <string name="settings_keystore_wrong_alias_password">ভুল ওরফে পাসওয়ার্ড</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

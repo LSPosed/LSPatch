@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Optimering af mislykkedes</string>
     <string name="manage_uninstall_successfully">Afinstaller med succes</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Vælg lagerbibliotek</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Patch en app med indlejrede moduler.\nDen patchede app kan køre uden manageren, men kan ikke administreres dynamisk.\nBærbare patchede apps kan bruges på enheder, der ikke har LSPatch Manager installeret.</string>
     <string name="patch_embed_modules">Indlejre moduler</string>
     <string name="patch_debuggable">Debuggable</string>
-    <string name="patch_sign">Skilt</string>
     <string name="patch_sigbypass">Signatur bypass</string>
     <string name="patch_sigbypasslv0">lv0: Slukket</string>
     <string name="patch_sigbypasslv1">lv1: Omgå PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Forkert adgangskode til keystore</string>
     <string name="settings_keystore_wrong_alias">Forkert aliasnavn</string>
     <string name="settings_keystore_wrong_alias_password">Forkert adgangskode til alias</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

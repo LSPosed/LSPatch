@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Optimaliseringen mislyktes</string>
     <string name="manage_uninstall_successfully">Avinstaller vellykket</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Velg lagringskatalog</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Patch en app med innebygde moduler.\nDen lappede appen kan kjøres uten administratoren, men kan ikke administreres dynamisk.\nPortable patchede apper kan brukes på enheter som ikke har LSPatch Manager installert.</string>
     <string name="patch_embed_modules">Bygg inn moduler</string>
     <string name="patch_debuggable">Kan feilsøkes</string>
-    <string name="patch_sign">Skilt</string>
     <string name="patch_sigbypass">Signaturomkjøring</string>
     <string name="patch_sigbypasslv0">lv0: Av</string>
     <string name="patch_sigbypasslv1">lv1: Omgå PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Feil nøkkellagerpassord</string>
     <string name="settings_keystore_wrong_alias">Feil aliasnavn</string>
     <string name="settings_keystore_wrong_alias_password">Feil alias passord</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>

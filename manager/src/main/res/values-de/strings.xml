@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Optimieren fehlgeschlagen</string>
     <string name="manage_uninstall_successfully">Erfolgreiche Deinstallation</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Speicherverzeichnis auswählen</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Patchen einer App mit eingebetteten Modulen.\nDie gepatchte App kann ohne den Manager ausgeführt, aber nicht dynamisch verwaltet werden.\nPortable gepatchte Apps können auf Geräten verwendet werden, auf denen LSPatch Manager nicht installiert ist.</string>
     <string name="patch_embed_modules">Module einbetten</string>
     <string name="patch_debuggable">Debuggbar</string>
-    <string name="patch_sign">Schild</string>
     <string name="patch_sigbypass">Signaturumgehung</string>
     <string name="patch_sigbypasslv0">lv0: Aus</string>
     <string name="patch_sigbypasslv1">lv1: PM umgehen</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Falsches Keystore-Passwort</string>
     <string name="settings_keystore_wrong_alias">Falscher Alias-Name</string>
     <string name="settings_keystore_wrong_alias_password">Falsches Alias-Passwort</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>
