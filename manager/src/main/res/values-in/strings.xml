@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Pengoptimalan gagal</string>
     <string name="manage_uninstall_successfully">Copot pemasangan dengan sukses</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Pilih direktori penyimpanan</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Menambal aplikasi dengan modul yang disematkan.\nAplikasi yang ditambal dapat berjalan tanpa pengelola, tetapi tidak dapat dikelola secara dinamis.\nAplikasi tambalan portabel dapat digunakan pada perangkat yang tidak menginstal LSPatch Manager.</string>
     <string name="patch_embed_modules">Sematkan modul</string>
     <string name="patch_debuggable">Dapat di-debug</string>
-    <string name="patch_sign">Tanda</string>
     <string name="patch_sigbypass">Bypass tanda tangan</string>
     <string name="patch_sigbypasslv0">lv0: Mati</string>
     <string name="patch_sigbypasslv1">lv1: Lewati PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Kata sandi keystore salah</string>
     <string name="settings_keystore_wrong_alias">Nama alias salah</string>
     <string name="settings_keystore_wrong_alias_password">Kata sandi alias salah</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>
