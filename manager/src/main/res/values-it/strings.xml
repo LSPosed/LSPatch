@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Ottimizzare il fallimento</string>
     <string name="manage_uninstall_successfully">Disinstallazione riuscita</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Seleziona la directory di archiviazione</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Patch un\'app con moduli incorporati.\nL\'app con patch può essere eseguita senza il gestore, ma non può essere gestita in modo dinamico.\nLe app portatili con patch possono essere utilizzate su dispositivi su cui non è installato LSpatch Manager.</string>
     <string name="patch_embed_modules">Incorpora i moduli</string>
     <string name="patch_debuggable">Debugging</string>
-    <string name="patch_sign">Cartello</string>
     <string name="patch_sigbypass">Esclusione della firma</string>
     <string name="patch_sigbypasslv0">lv0: disattivato</string>
     <string name="patch_sigbypasslv1">lv1: bypassa PM</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Password errata del keystore</string>
     <string name="settings_keystore_wrong_alias">Nome alias errato</string>
     <string name="settings_keystore_wrong_alias_password">Password alias errata</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>
