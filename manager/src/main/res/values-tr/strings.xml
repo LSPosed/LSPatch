@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">Optimize başarısız oldu</string>
     <string name="manage_uninstall_successfully">başarıyla kaldır</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">Depolama dizini seçin</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">Gömülü modüller içeren bir uygulamayı yamalayın.\nYama uygulanmış uygulama yönetici olmadan çalışabilir, ancak dinamik olarak yönetilemez.\nTaşınabilir yama uygulanmış uygulamalar, LSPtch Manager\'ın kurulu olmadığı cihazlarda kullanılabilir.</string>
     <string name="patch_embed_modules">Gömülü modüller</string>
     <string name="patch_debuggable">Hata ayıklanabilir</string>
-    <string name="patch_sign">İmza</string>
     <string name="patch_sigbypass">İmza atlama</string>
     <string name="patch_sigbypasslv0">lv0: Kapalı</string>
     <string name="patch_sigbypasslv1">lv1: PM\'yi atla</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">Yanlış anahtar deposu şifresi</string>
     <string name="settings_keystore_wrong_alias">Yanlış takma ad</string>
     <string name="settings_keystore_wrong_alias_password">Yanlış takma ad şifresi</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>
