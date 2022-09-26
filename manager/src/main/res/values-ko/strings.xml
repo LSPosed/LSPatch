@@ -37,6 +37,8 @@
     <string name="manage_optimize_failed">최적화 실패</string>
     <string name="manage_uninstall_successfully">성공적으로 제거함</string>
     <string name="manage_no_modules">No modules yet</string>
+    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">New Patch</string>
     <string name="patch_select_dir_title">저장 디렉토리 선택</string>
@@ -51,7 +53,6 @@
     <string name="patch_portable_desc">모듈이 포함된 앱을 패치합니다.\n패치된 앱은 관리자 없이 실행할 수 있지만 동적으로 관리할 수는 없습니다.\n포터블 패치가 된 앱은 LSPatch Manager가 설치되지 않은 장치에서 사용할 수 있습니다.</string>
     <string name="patch_embed_modules">모듈 포함</string>
     <string name="patch_debuggable">디버깅 가능</string>
-    <string name="patch_sign">서명</string>
     <string name="patch_sigbypass">서명 우회</string>
     <string name="patch_sigbypasslv0">lv0: 꺼짐</string>
     <string name="patch_sigbypasslv1">lv1: PM 우회</string>
@@ -80,4 +81,5 @@
     <string name="settings_keystore_wrong_password">잘못된 키 저장소 비밀번호</string>
     <string name="settings_keystore_wrong_alias">잘못된 별칭 이름</string>
     <string name="settings_keystore_wrong_alias_password">잘못된 별칭 암호</string>
+    <string name="settings_detail_patch_logs">Detail patch logs</string>
 </resources>
