@@ -102,9 +102,7 @@ public class LSPApplication {
             LSPLoader.initModules(appLoadedApk);
             Log.i(TAG, "Modules initialized");
 
-            switchClassLoader("mBaseClassLoader");
-            switchClassLoader("mDefaultClassLoader");
-            switchClassLoader("mClassLoader");
+            switchAllClassLoader();
             doSigBypass(context);
         } catch (Throwable e) {
             throw new RuntimeException("Do hook", e);
@@ -324,8 +322,13 @@ public class LSPApplication {
         }
     }
 
-    private static void switchClassLoader(String fieldName) {
-        var obj = XposedHelpers.getObjectField(appLoadedApk, fieldName);
-        XposedHelpers.setObjectField(stubLoadedApk, fieldName, obj);
+    private static void switchAllClassLoader() {
+        var fields = LoadedApk.class.getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getType() == ClassLoader.class) {
+                var obj = XposedHelpers.getObjectField(appLoadedApk, field.getName());
+                XposedHelpers.setObjectField(stubLoadedApk, field.getName(), obj);
+            }
+        }
     }
 }
