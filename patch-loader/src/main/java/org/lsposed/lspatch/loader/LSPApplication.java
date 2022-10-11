@@ -4,6 +4,7 @@ import static org.lsposed.lspatch.share.Constants.CONFIG_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.ORIGINAL_APK_ASSET_PATH;
 
 import android.app.ActivityThread;
+import android.app.AppComponentFactory;
 import android.app.LoadedApk;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -14,6 +15,7 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.system.Os;
+import android.util.ArrayMap;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -21,6 +23,7 @@ import com.google.gson.Gson;
 import org.lsposed.lspatch.loader.util.FileUtils;
 import org.lsposed.lspatch.loader.util.XLog;
 import org.lsposed.lspatch.service.LocalApplicationService;
+import org.lsposed.lspatch.service.NullApplicationService;
 import org.lsposed.lspatch.service.RemoteApplicationService;
 import org.lsposed.lspatch.share.Constants;
 import org.lsposed.lspatch.share.PatchConfig;
@@ -44,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -65,51 +69,89 @@ public class LSPApplication {
     private static LoadedApk appLoadedApk;
 
     private static PatchConfig config;
+    private static Path cacheApkPath;
 
     public static boolean isIsolated() {
         return (android.os.Process.myUid() % PER_USER_RANGE) >= FIRST_APP_ZYGOTE_ISOLATED_UID;
     }
 
     public static void onLoad() {
-        if (isIsolated()) {
-            XLog.d(TAG, "Skip isolated process");
-            return;
-        }
         activityThread = ActivityThread.currentActivityThread();
-        var context = createLoadedApkWithContext();
-        if (context == null) {
-            XLog.e(TAG, "Error when creating context");
+
+        // we need a context for RemoteApplicationService or LocalApplicationService
+        var stubContext = createStubContext();
+        if (stubContext == null) {
+            XLog.e(TAG, "Error when creating stub context");
             return;
         }
-
+        loadConfig(stubContext);
         try {
             Log.d(TAG, "Initialize service client");
             ILSPApplicationService service;
-            if (config.useManager) {
-                service = new RemoteApplicationService(context);
+            if (isIsolated()) {
+                // not enable RemoteApplicationService in isolated process
+                // Caused by: java.lang.SecurityException: Isolated process not allowed to call getContentProvider
+                service = new NullApplicationService();
             } else {
-                service = new LocalApplicationService(context);
+                if (config.useManager) {
+                    service = new RemoteApplicationService(stubContext);
+                } else {
+                    service = new LocalApplicationService(stubContext);
+                }
+                disableProfile(stubContext);
             }
-
-            disableProfile(context);
             Startup.initXposed(false, ActivityThread.currentProcessName(), service);
             Log.i(TAG, "Bootstrap Xposed");
             Startup.bootstrapXposed();
-            // WARN: Since it uses `XResource`, the following class should not be initialized
-            // before forkPostCommon is invoke. Otherwise, you will get failure of XResources
-            Log.i(TAG, "Load modules");
-            LSPLoader.initModules(appLoadedApk);
-            Log.i(TAG, "Modules initialized");
+            Log.i(TAG, "Xposed initialized");
+
+            LoadedApk appLoadedApk = switchLoadedApk();
+            if (appLoadedApk == stubLoadedApk) {
+                Log.e(TAG, "appLoadedApk should diff with stubLoadedApk");
+            }
+            Log.i(TAG, "LoadedApk switched");
+
+            doSigBypass(stubContext);
+
+            // simulate instance appComponentFactory.
+            // this will give shells a chance to replace appComponentFactory again.
+            // and LoadedApkGetCLHooker will trigger Xposed modules.
+            appLoadedApk.getClassLoader();
 
             switchAllClassLoader();
-            doSigBypass(context);
         } catch (Throwable e) {
             throw new RuntimeException("Do hook", e);
         }
         Log.i(TAG, "LSPatch bootstrap completed");
     }
 
-    private static Context createLoadedApkWithContext() {
+    private static void loadConfig(Context stub) {
+        try (var is = stub.getClassLoader().getResourceAsStream(CONFIG_ASSET_PATH)) {
+            BufferedReader streamReader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+            config = new Gson().fromJson(streamReader, PatchConfig.class);
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to load config file");
+        }
+        Log.i(TAG, "Use manager: " + config.useManager);
+        Log.i(TAG, "Signature bypass level: " + config.sigBypassLevel);
+    }
+
+    private static Context createStubContext() {
+        try {
+            var mBoundApplication = XposedHelpers.getObjectField(activityThread, "mBoundApplication");
+            var stubLoadedApk = (LoadedApk) XposedHelpers.getObjectField(mBoundApplication, "info");
+            var appInfo = (ApplicationInfo) XposedHelpers.getObjectField(mBoundApplication, "appInfo");
+
+            // reset appComponentFactory to prevent loop
+            appInfo.appComponentFactory = AppComponentFactory.class.getName();
+            return (Context) XposedHelpers.callStaticMethod(Class.forName("android.app.ContextImpl"), "createAppContext", activityThread, stubLoadedApk);
+        } catch (Throwable e) {
+            Log.e(TAG, "createStubContext", e);
+            return null;
+        }
+    }
+
+    private static LoadedApk switchLoadedApk() {
         try {
             var mBoundApplication = XposedHelpers.getObjectField(activityThread, "mBoundApplication");
 
@@ -118,35 +160,48 @@ public class LSPApplication {
             var compatInfo = (CompatibilityInfo) XposedHelpers.getObjectField(mBoundApplication, "compatInfo");
             var baseClassLoader = stubLoadedApk.getClassLoader();
 
-            try (var is = baseClassLoader.getResourceAsStream(CONFIG_ASSET_PATH)) {
-                BufferedReader streamReader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-                config = new Gson().fromJson(streamReader, PatchConfig.class);
-            } catch (IOException e) {
-                Log.e(TAG, "Failed to load config file");
-                return null;
-            }
-            Log.i(TAG, "Use manager: " + config.useManager);
-            Log.i(TAG, "Signature bypass level: " + config.sigBypassLevel);
+            if (!isIsolated() && config.sigBypassLevel != Constants.SIGBYPASS_LV_DISABLE) {
+                String sourceDir = appInfo.sourceDir;
+                Path originPath = Paths.get(appInfo.dataDir, "cache/lspatch/origin/");
+                try (ZipFile sourceFile = new ZipFile(sourceDir)) {
+                    ZipEntry originalApkAsset = sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH);
+                    cacheApkPath = originPath.resolve(originalApkAsset.getCrc() + ".apk");
+                    if (!Files.exists(cacheApkPath)) {
+                        Log.i(TAG, "Extract original apk");
+                        FileUtils.deleteFolderIfExists(originPath);
+                        Files.createDirectories(originPath);
+                        try (InputStream is = sourceFile.getInputStream(originalApkAsset)) {
+                            Files.copy(is, cacheApkPath);
+                        }
+                    }
+                }
+                if (config.sigBypassLevel == Constants.SIGBYPASS_LV_PM) {
+                    appInfo.sourceDir = cacheApkPath.toString();
+                    appInfo.publicSourceDir = cacheApkPath.toString();
 
-            Path originPath = Paths.get(appInfo.dataDir, "cache/lspatch/origin/");
-            Path cacheApkPath;
-            try (ZipFile sourceFile = new ZipFile(appInfo.sourceDir)) {
-                cacheApkPath = originPath.resolve(sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc() + ".apk");
-            }
-
-            appInfo.sourceDir = cacheApkPath.toString();
-            appInfo.publicSourceDir = cacheApkPath.toString();
-            appInfo.appComponentFactory = config.appComponentFactory;
-
-            if (!Files.exists(cacheApkPath)) {
-                Log.i(TAG, "Extract original apk");
-                FileUtils.deleteFolderIfExists(originPath);
-                Files.createDirectories(originPath);
-                try (InputStream is = baseClassLoader.getResourceAsStream(ORIGINAL_APK_ASSET_PATH)) {
-                    Files.copy(is, cacheApkPath);
+                    try { // share class loader to save memory
+                        Object applicationLoaders = XposedHelpers.callStaticMethod(Class.forName("android.app.ApplicationLoaders"), "getDefault");
+                        ArrayMap<String, Object> mLoaders = (ArrayMap<String, Object>) XposedHelpers.getObjectField(applicationLoaders, "mLoaders");
+                        Object cl = mLoaders.get(sourceDir);
+                        if (cl != null) {
+                            mLoaders.put(cacheApkPath.toString(), cl);
+                        }
+                    } catch (Throwable e) {
+                        Log.w(TAG, "ApplicationLoaders.mLoaders failed", e);
+                    }
+                    // FIXME change the display name in ClassLoader?
+                    // baseClassLoader.pathList.dexElements[*].zip=cacheApkPath
                 }
             }
-
+            if (config.appComponentFactory != null && config.appComponentFactory.length() > 0) {
+                if (config.appComponentFactory.startsWith(".")) {
+                    appInfo.appComponentFactory = appInfo.packageName + config.appComponentFactory;
+                } else {
+                    appInfo.appComponentFactory = config.appComponentFactory;
+                }
+            } else {
+                appInfo.appComponentFactory = null;
+            }
             var mPackages = (Map<?, ?>) XposedHelpers.getObjectField(activityThread, "mPackages");
             mPackages.remove(appInfo.packageName);
             appLoadedApk = activityThread.getPackageInfoNoCheck(appInfo, compatInfo);
@@ -171,17 +226,7 @@ public class LSPApplication {
                 }
             } catch (Throwable ignored) {}
             Log.i(TAG, "hooked app initialized: " + appLoadedApk);
-
-            var context = (Context) XposedHelpers.callStaticMethod(Class.forName("android.app.ContextImpl"), "createAppContext", activityThread, stubLoadedApk);
-            if (config.appComponentFactory != null) {
-                try {
-                    context.getClassLoader().loadClass(config.appComponentFactory);
-                } catch (ClassNotFoundException e) { // This will happen on some strange shells like 360
-                    Log.w(TAG, "Original AppComponentFactory not found: " + config.appComponentFactory);
-                    appInfo.appComponentFactory = null;
-                }
-            }
-            return context;
+            return appLoadedApk;
         } catch (Throwable e) {
             Log.e(TAG, "createLoadedApk", e);
             return null;
@@ -250,6 +295,12 @@ public class LSPApplication {
             public PackageInfo createFromParcel(Parcel source) {
                 PackageInfo packageInfo = originalCreator.createFromParcel(source);
                 if (packageInfo.packageName.equals(packageName)) {
+                    if (cacheApkPath != null && packageInfo.applicationInfo != null) {
+                        if (config.sigBypassLevel == Constants.SIGBYPASS_LV_PM) {
+                            packageInfo.applicationInfo.sourceDir = cacheApkPath.toString();
+                            packageInfo.applicationInfo.publicSourceDir = cacheApkPath.toString();
+                        }
+                    }
                     if (packageInfo.signatures != null && packageInfo.signatures.length > 0) {
                         XLog.d(TAG, "Replace signature info (method 1)");
                         packageInfo.signatures[0] = new Signature(config.originalSignature);
@@ -294,12 +345,22 @@ public class LSPApplication {
             XLog.d(TAG, "Original signature: " + config.originalSignature.substring(0, 16) + "...");
             bypassSignature(context);
         }
-        if (config.sigBypassLevel >= Constants.SIGBYPASS_LV_PM_OPENAT) {
-            String cacheApkPath;
-            try (ZipFile sourceFile = new ZipFile(context.getPackageResourcePath())) {
-                cacheApkPath = context.getCacheDir() + "/lspatch/origin/" + sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc() + ".apk";
-            }
-            SigBypass.enableOpenatHook(context.getPackageResourcePath(), cacheApkPath);
+        if (config.sigBypassLevel >= Constants.SIGBYPASS_LV_PM_OPENAT && cacheApkPath != null) {
+            String packageResourcePath = context.getPackageResourcePath();
+            String cacheApkPath = LSPApplication.cacheApkPath.toString();
+            XLog.d(TAG, String.format("enableOpenatHook (%s, %s)", packageResourcePath, cacheApkPath));
+            SigBypass.enableOpenatHook(packageResourcePath, cacheApkPath);
+
+            // ZipFile have an internal cache, for newly create ZipFile, replace to cacheApkPath
+            XposedHelpers.findAndHookMethod(ZipFile.class, "open", String.class, int.class, long.class, boolean.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    String fn = (String) param.args[0];
+                    if (fn != null && fn.equals(packageResourcePath)) {
+                        param.args[0] = cacheApkPath;
+                    }
+                }
+            });
         }
     }
 

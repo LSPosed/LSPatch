@@ -259,7 +259,22 @@ public class LSPatch {
             logger.d("Adding dex..");
 
             try (var is = getClass().getClassLoader().getResourceAsStream("assets/dex/loader.dex")) {
-                dstZFile.add("classes.dex", is);
+                // append the loader.dex
+                int max = 0;
+                for (StoredEntry entry : srcZFile.entries()) {
+                    String name = entry.getCentralDirectoryHeader().getName();
+                    if ("classes.dex".equals(name)) {
+                        max = Integer.max(max, 1);
+                    } else if (name.startsWith("classes") && name.endsWith(".dex")) {
+                        try {
+                            String substring = name.substring("classes".length(), name.length() - 4);
+                            max = Integer.max(max, Integer.parseInt(substring));
+                        } catch (NumberFormatException ignore) {
+                        }
+                    }
+                }
+                max++;
+                dstZFile.add(max == 1 ? "classes.dex" : ("classes" + max + ".dex"), is);
             } catch (Throwable e) {
                 throw new PatchError("Error when adding dex", e);
             }
@@ -306,7 +321,8 @@ public class LSPatch {
 
             for (StoredEntry entry : srcZFile.entries()) {
                 String name = entry.getCentralDirectoryHeader().getName();
-                if (name.startsWith("classes") && name.endsWith(".dex")) continue;
+                // copy all dex to dstZFile
+                // if (name.startsWith("classes") && name.endsWith(".dex")) continue;
                 if (dstZFile.get(name) != null) continue;
                 if (name.equals("AndroidManifest.xml")) continue;
                 if (name.startsWith("META-INF") && (name.endsWith(".SF") || name.endsWith(".MF") || name.endsWith(".RSA"))) continue;
