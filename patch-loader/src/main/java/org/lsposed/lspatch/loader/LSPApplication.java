@@ -273,8 +273,20 @@ public class LSPApplication {
             }
         };
         XposedHelpers.setStaticObjectField(PackageInfo.class, "CREATOR", proxiedCreator);
-        Map<?, ?> mCreators = (Map<?, ?>) XposedHelpers.getStaticObjectField(Parcel.class, "mCreators");
-        mCreators.clear();
+        try {
+            Map<?, ?> mCreators = (Map<?, ?>) XposedHelpers.getStaticObjectField(Parcel.class, "mCreators");
+            mCreators.clear();
+        } catch (NoSuchFieldError ignore) {
+        } catch (Throwable e) {
+            Log.w(TAG, "fail to clear Parcel.mCreators", e);
+        }
+        try {
+            Map<?, ?> sPairedCreators = (Map<?, ?>) XposedHelpers.getStaticObjectField(Parcel.class, "sPairedCreators");
+            sPairedCreators.clear();
+        } catch (NoSuchFieldError ignore) {
+        } catch (Throwable e) {
+            Log.w(TAG, "fail to clear Parcel.sPairedCreators", e);
+        }
     }
 
     private static void doSigBypass(Context context) throws IllegalAccessException, ClassNotFoundException, IOException, NoSuchFieldException {
