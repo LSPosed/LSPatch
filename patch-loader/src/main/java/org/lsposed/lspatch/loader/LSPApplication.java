@@ -1,6 +1,5 @@
 package org.lsposed.lspatch.loader;
 
-import static android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE;
 import static org.lsposed.lspatch.share.Constants.CONFIG_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.ORIGINAL_APK_ASSET_PATH;
 
@@ -12,8 +11,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.Signature;
 import android.content.res.CompatibilityInfo;
 import android.os.Build;
-import android.os.IBinder;
 import android.os.Parcel;
+import android.os.Parcelable;
 import android.system.Os;
 import android.util.Log;
 
@@ -243,69 +242,39 @@ public class LSPApplication {
         return field.getInt(null);
     }
 
-    private static void bypassSignature(Context context) throws ClassNotFoundException, IllegalAccessException, NoSuchFieldException {
-        final int TRANSACTION_getPackageInfo = getTranscationId("android.content.pm.IPackageManager$Stub", "TRANSACTION_getPackageInfo");
-        XposedHelpers.findAndHookMethod("android.os.BinderProxy", null, "transact", int.class, Parcel.class, Parcel.class, int.class, new XC_MethodHook() {
+    private static void bypassSignature(Context context) {
+        String packageName = context.getPackageName();
+        Parcelable.Creator<PackageInfo> originalCreator = PackageInfo.CREATOR;
+        Parcelable.Creator<PackageInfo> proxiedCreator = new Parcelable.Creator<PackageInfo>() {
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                try {
-                    Object object = param.thisObject;
-
-                    int id = (int) param.args[0];
-                    Parcel write = (Parcel) param.args[1];
-                    Parcel out = (Parcel) param.args[2];
-
-                    // forward check
-                    if (write == null || out == null) {
-                        return;
+            public PackageInfo createFromParcel(Parcel source) {
+                PackageInfo packageInfo = originalCreator.createFromParcel(source);
+                if (packageInfo.packageName.equals(packageName)) {
+                    if (packageInfo.signatures != null && packageInfo.signatures.length > 0) {
+                        XLog.d(TAG, "Replace signature info (method 1)");
+                        packageInfo.signatures[0] = new Signature(config.originalSignature);
                     }
-
-                    // prevent recurise call
-                    if (id == IBinder.INTERFACE_TRANSACTION) {
-                        return;
-                    }
-
-                    String desc = (String) XposedHelpers.callMethod(object, "getInterfaceDescriptor");
-                    if (desc == null || desc.isEmpty() || !desc.equals("android.content.pm.IPackageManager")) {
-                        return;
-                    }
-                    if (id == TRANSACTION_getPackageInfo) {
-                        out.readException();
-                        if (0 != out.readInt()) {
-                            PackageInfo packageInfo = PackageInfo.CREATOR.createFromParcel(out);
-                            if (packageInfo.packageName.equals(context.getApplicationInfo().packageName)) {
-                                if (packageInfo.signatures != null && packageInfo.signatures.length > 0) {
-                                    XLog.d(TAG, "Replace signature info (method 1)");
-                                    packageInfo.signatures[0] = new Signature(config.originalSignature);
-                                }
-
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                    if (packageInfo.signingInfo != null) {
-                                        XLog.d(TAG, "Replace signature info (method 2)");
-                                        Signature[] signaturesArray = packageInfo.signingInfo.getApkContentsSigners();
-                                        if (signaturesArray != null && signaturesArray.length > 0) {
-                                            signaturesArray[0] = new Signature(config.originalSignature);
-                                        }
-                                    }
-                                }
-
-                                out.setDataPosition(0);
-                                out.setDataSize(0);
-                                out.writeNoException();
-                                out.writeInt(1);
-                                packageInfo.writeToParcel(out, PARCELABLE_WRITE_RETURN_VALUE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        if (packageInfo.signingInfo != null) {
+                            XLog.d(TAG, "Replace signature info (method 2)");
+                            Signature[] signaturesArray = packageInfo.signingInfo.getApkContentsSigners();
+                            if (signaturesArray != null && signaturesArray.length > 0) {
+                                signaturesArray[0] = new Signature(config.originalSignature);
                             }
                         }
-
-                        // reset pos
-                        out.setDataPosition(0);
                     }
-                } catch (Throwable err) {
-                    // should not happen, just crash app
-                    throw new IllegalStateException("lsp hook error", err);
                 }
+                return packageInfo;
             }
-        });
+
+            @Override
+            public PackageInfo[] newArray(int size) {
+                return originalCreator.newArray(size);
+            }
+        };
+        XposedHelpers.setStaticObjectField(PackageInfo.class, "CREATOR", proxiedCreator);
+        Map<?, ?> mCreators = (Map<?, ?>) XposedHelpers.getStaticObjectField(Parcel.class, "mCreators");
+        mCreators.clear();
     }
 
     private static void doSigBypass(Context context) throws IllegalAccessException, ClassNotFoundException, IOException, NoSuchFieldException {
