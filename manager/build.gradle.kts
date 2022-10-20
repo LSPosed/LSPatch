@@ -18,6 +18,10 @@ android {
         applicationId = defaultManagerPackageName
     }
 
+    androidResources {
+        noCompress.add(".so")
+    }
+
     buildTypes {
         debug {
             isMinifyEnabled = true
@@ -58,7 +62,7 @@ afterEvaluate {
         val variantCapped = variant.name.capitalize()
 
         task<Copy>("copy${variantCapped}Assets") {
-            dependsOn(":appstub:copy$variantCapped")
+            dependsOn(":meta-loader:copy$variantCapped")
             dependsOn(":patch-loader:copy$variantCapped")
             tasks["merge${variantCapped}Assets"].dependsOn(this)
 

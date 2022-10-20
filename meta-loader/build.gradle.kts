@@ -26,8 +26,8 @@ androidComponents.onVariants { variant ->
             "$buildDir/intermediates/dex/$variantLowered/minify${variantCapped}WithR8" else
             "$buildDir/intermediates/dex/$variantLowered/mergeDex$variantCapped"
         from(dexOutPath)
-        rename("classes.dex", "loader.dex")
-        into("${rootProject.projectDir}/out/assets/dex")
+        rename("classes.dex", "metaloader.dex")
+        into("${rootProject.projectDir}/out/assets/lspatch")
     }
 
     task("copy$variantCapped") {
@@ -41,4 +41,5 @@ androidComponents.onVariants { variant ->
 
 dependencies {
     compileOnly(projects.hiddenapi.stubs)
+    implementation(projects.share.java)
 }

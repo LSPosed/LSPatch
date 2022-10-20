@@ -1,7 +1,7 @@
 package org.lsposed.patch;
 
 import static org.lsposed.lspatch.share.Constants.CONFIG_ASSET_PATH;
-import static org.lsposed.lspatch.share.Constants.DEX_ASSET_PATH;
+import static org.lsposed.lspatch.share.Constants.LOADER_DEX_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.ORIGINAL_APK_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.PROXY_APP_COMPONENT_FACTORY;
 
@@ -21,6 +21,7 @@ import com.wind.meditor.property.ModificationProperty;
 import com.wind.meditor.utils.NodeValue;
 
 import org.apache.commons.io.FilenameUtils;
+import org.lsposed.lspatch.share.Constants;
 import org.lsposed.lspatch.share.LSPConfig;
 import org.lsposed.lspatch.share.PatchConfig;
 import org.lsposed.patch.util.ApkSignatureHelper;
@@ -95,12 +96,6 @@ public class LSPatch {
     private static final HashSet<String> ARCHES = new HashSet<>(Arrays.asList(
             "armeabi-v7a",
             "arm64-v8a",
-            "x86",
-            "x86_64"
-    ));
-    private static final HashSet<String> APK_LIB_PATH_ARRAY = new HashSet<>(Arrays.asList(
-            "arm",
-            "arm64",
             "x86",
             "x86_64"
     ));
@@ -244,10 +239,10 @@ public class LSPatch {
             logger.d("Adding native lib..");
 
             // copy so and dex files into the unzipped apk
-            // do not put liblspd.so into apk!lib because x86 native bridge causes crash
-            for (String arch : APK_LIB_PATH_ARRAY) {
+            // do not put liblspatch.so into apk!lib because x86 native bridge causes crash
+            for (String arch : ARCHES) {
                 String entryName = "assets/lspatch/so/" + arch + "/liblspatch.so";
-                try (var is = getClass().getClassLoader().getResourceAsStream("assets/so/" + (arch.equals("arm") ? "armeabi-v7a" : (arch.equals("arm64") ? "arm64-v8a" : arch)) + "/liblspatch.so")) {
+                try (var is = getClass().getClassLoader().getResourceAsStream(entryName)) {
                     dstZFile.add(entryName, is, false); // no compress for so
                 } catch (Throwable e) {
                     // More exception info
@@ -258,14 +253,14 @@ public class LSPatch {
 
             logger.d("Adding dex..");
 
-            try (var is = getClass().getClassLoader().getResourceAsStream("assets/dex/loader.dex")) {
+            try (var is = getClass().getClassLoader().getResourceAsStream(Constants.META_LOADER_DEX_ASSET_PATH)) {
                 dstZFile.add("classes.dex", is);
             } catch (Throwable e) {
                 throw new PatchError("Error when adding dex", e);
             }
 
-            try (var is = getClass().getClassLoader().getResourceAsStream("assets/dex/lsp.dex")) {
-                dstZFile.add(DEX_ASSET_PATH, is);
+            try (var is = getClass().getClassLoader().getResourceAsStream(LOADER_DEX_ASSET_PATH)) {
+                dstZFile.add(LOADER_DEX_ASSET_PATH, is);
             } catch (Throwable e) {
                 throw new PatchError("Error when adding assets", e);
             }

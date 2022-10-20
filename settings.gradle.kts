@@ -26,14 +26,14 @@ dependencyResolutionManagement {
 rootProject.name = "LSPatch"
 include(
     ":apkzlib",
-    ":appstub",
     ":axmlprinter",
     ":core",
     ":hiddenapi:bridge",
     ":hiddenapi:stubs",
+    ":jar",
     ":manager",
+    ":meta-loader",
     ":patch",
-    ":patch-jar",
     ":patch-loader",
     ":services:daemon-service",
     ":services:manager-service",

@@ -108,7 +108,7 @@ namespace lspd {
                 },
         };
 
-        auto stub = JNI_FindClass(env, "org/lsposed/lspatch/appstub/LSPAppComponentFactoryStub");
+        auto stub = JNI_FindClass(env, "org/lsposed/lspatch/metaloader/LSPAppComponentFactoryStub");
         auto dex_field = JNI_GetStaticFieldID(env, stub, "dex", "[B");
 
         ScopedLocalRef<jbyteArray> array = JNI_GetStaticObjectField(env, stub, dex_field);
