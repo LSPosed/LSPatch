@@ -8,15 +8,18 @@ import android.app.LoadedApk;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.content.res.CompatibilityInfo;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.system.Os;
+import android.util.Base64;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import org.lsposed.lspatch.loader.util.FileUtils;
 import org.lsposed.lspatch.loader.util.XLog;
@@ -42,11 +45,11 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.zip.ZipFile;
 
-import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 import hidden.HiddenApiBridge;
 
@@ -65,6 +68,7 @@ public class LSPApplication {
     private static LoadedApk appLoadedApk;
 
     private static PatchConfig config;
+    private static final Map<String, String> signatures = new HashMap<>();
 
     public static boolean isIsolated() {
         return (android.os.Process.myUid() % PER_USER_RANGE) >= FIRST_APP_ZYGOTE_ISOLATED_UID;
@@ -169,7 +173,8 @@ public class LSPApplication {
                     var mLaunchingActivities = (Map<?, ?>) XposedHelpers.getObjectField(activityThread, "mLaunchingActivities");
                     mLaunchingActivities.forEach(fixActivityClientRecord);
                 }
-            } catch (Throwable ignored) {}
+            } catch (Throwable ignored) {
+            }
             Log.i(TAG, "hooked app initialized: " + appLoadedApk);
 
             var context = (Context) XposedHelpers.callStaticMethod(Class.forName("android.app.ContextImpl"), "createAppContext", activityThread, stubLoadedApk);
@@ -242,24 +247,40 @@ public class LSPApplication {
         return field.getInt(null);
     }
 
-    private static void bypassSignature(Context context) {
-        String packageName = context.getPackageName();
+    private static void proxyPackageInfoCreator(Context context) {
         Parcelable.Creator<PackageInfo> originalCreator = PackageInfo.CREATOR;
-        Parcelable.Creator<PackageInfo> proxiedCreator = new Parcelable.Creator<PackageInfo>() {
+        Parcelable.Creator<PackageInfo> proxiedCreator = new Parcelable.Creator<>() {
             @Override
             public PackageInfo createFromParcel(Parcel source) {
                 PackageInfo packageInfo = originalCreator.createFromParcel(source);
-                if (packageInfo.packageName.equals(packageName)) {
-                    if (packageInfo.signatures != null && packageInfo.signatures.length > 0) {
-                        XLog.d(TAG, "Replace signature info (method 1)");
-                        packageInfo.signatures[0] = new Signature(config.originalSignature);
+                boolean hasSignature = (packageInfo.signatures != null && packageInfo.signatures.length != 0) || packageInfo.signingInfo != null;
+                if (hasSignature) {
+                    String packageName = packageInfo.packageName;
+                    String replacement = signatures.get(packageName);
+                    if (replacement == null && !signatures.containsKey(packageName)) {
+                        try {
+                            var metaData = context.getPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA).metaData;
+                            String encoded = null;
+                            if (metaData != null) encoded = metaData.getString("lspatch");
+                            if (encoded != null) {
+                                var json = new String(Base64.decode(encoded, Base64.DEFAULT), StandardCharsets.UTF_8);
+                                var patchConfig = new Gson().fromJson(json, PatchConfig.class);
+                                replacement = patchConfig.originalSignature;
+                            }
+                        } catch (PackageManager.NameNotFoundException | JsonSyntaxException ignored) {
+                        }
+                        signatures.put(packageName, replacement);
                     }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    if (replacement != null) {
+                        if (packageInfo.signatures != null && packageInfo.signatures.length > 0) {
+                            XLog.d(TAG, "Replace signature info for `" + packageName + "` (method 1)");
+                            packageInfo.signatures[0] = new Signature(replacement);
+                        }
                         if (packageInfo.signingInfo != null) {
-                            XLog.d(TAG, "Replace signature info (method 2)");
+                            XLog.d(TAG, "Replace signature info for `" + packageName + "` (method 2)");
                             Signature[] signaturesArray = packageInfo.signingInfo.getApkContentsSigners();
                             if (signaturesArray != null && signaturesArray.length > 0) {
-                                signaturesArray[0] = new Signature(config.originalSignature);
+                                signaturesArray[0] = new Signature(replacement);
                             }
                         }
                     }
@@ -289,10 +310,10 @@ public class LSPApplication {
         }
     }
 
-    private static void doSigBypass(Context context) throws IllegalAccessException, ClassNotFoundException, IOException, NoSuchFieldException {
+    private static void doSigBypass(Context context) throws IOException {
         if (config.sigBypassLevel >= Constants.SIGBYPASS_LV_PM) {
             XLog.d(TAG, "Original signature: " + config.originalSignature.substring(0, 16) + "...");
-            bypassSignature(context);
+            proxyPackageInfoCreator(context);
         }
         if (config.sigBypassLevel >= Constants.SIGBYPASS_LV_PM_OPENAT) {
             String cacheApkPath;
