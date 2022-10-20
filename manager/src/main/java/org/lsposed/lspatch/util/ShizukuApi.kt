@@ -65,7 +65,12 @@ object ShizukuApi {
     }
 
     fun isPackageInstalledWithoutPatch(packageName: String): Boolean {
-        val app = iPackageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA, 0 /* TODO: userId */)
+        // TODO: userId
+        val app = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            iPackageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA.toLong(), 0)
+        } else {
+            iPackageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA, 0)
+        }
         return (app != null) && (app.metaData?.containsKey("lspatch") != true)
     }
 
