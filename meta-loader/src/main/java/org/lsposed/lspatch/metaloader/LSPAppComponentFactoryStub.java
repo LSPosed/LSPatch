@@ -2,7 +2,9 @@ package org.lsposed.lspatch.metaloader;
 
 import android.annotation.SuppressLint;
 import android.app.AppComponentFactory;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.IPackageManager;
+import android.os.Build;
 import android.os.ServiceManager;
 import android.util.JsonReader;
 import android.util.Log;
@@ -64,7 +66,12 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
             if (useManager) {
                 Log.i(TAG, "Bootstrap loader from manager");
                 var ipm = IPackageManager.Stub.asInterface(ServiceManager.getService("package"));
-                var manager = ipm.getApplicationInfo(Constants.MANAGER_PACKAGE_NAME, 0, 0);
+                ApplicationInfo manager;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    manager = ipm.getApplicationInfo(Constants.MANAGER_PACKAGE_NAME, 0L, 0);
+                } else {
+                    manager = ipm.getApplicationInfo(Constants.MANAGER_PACKAGE_NAME, 0, 0);
+                }
                 try (var zip = new ZipFile(new File(manager.sourceDir));
                      var is = zip.getInputStream(zip.getEntry(Constants.LOADER_DEX_ASSET_PATH));
                      var os = new ByteArrayOutputStream()) {
