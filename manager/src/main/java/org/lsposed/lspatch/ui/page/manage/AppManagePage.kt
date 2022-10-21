@@ -14,12 +14,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.KeyboardCapslock
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -41,6 +43,7 @@ import org.lsposed.lspatch.config.ConfigManager
 import org.lsposed.lspatch.config.Configs
 import org.lsposed.lspatch.database.entity.Module
 import org.lsposed.lspatch.lspApp
+import org.lsposed.lspatch.share.Constants
 import org.lsposed.lspatch.share.LSPConfig
 import org.lsposed.lspatch.ui.component.AnywhereDropdown
 import org.lsposed.lspatch.ui.component.AppItem
@@ -136,6 +139,8 @@ fun AppManageBody(
                 items = viewModel.appList,
                 key = { it.first.app.packageName }
             ) {
+                val isRolling = it.second.useManager && it.second.lspConfig.VERSION_CODE >= Constants.MIN_ROLLING_VERSION_CODE
+                val canUpdateLoader = !isRolling && it.second.lspConfig.VERSION_CODE < LSPConfig.instance.VERSION_CODE
                 var expanded by remember { mutableStateOf(false) }
                 AnywhereDropdown(
                     expanded = expanded,
@@ -148,19 +153,28 @@ fun AppManageBody(
                             label = it.first.label,
                             packageName = it.first.app.packageName,
                             additionalContent = {
-                                Text(
-                                    text = buildAnnotatedString {
-                                        val (text, color) =
-                                            if (it.second.useManager) stringResource(R.string.patch_local) to MaterialTheme.colorScheme.secondary
-                                            else stringResource(R.string.patch_portable) to MaterialTheme.colorScheme.tertiary
-                                        append(AnnotatedString(text, SpanStyle(color = color)))
-                                        append("  ")
-                                        append(it.second.lspConfig.VERSION_CODE.toString())
-                                    },
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontFamily = FontFamily.Serif,
-                                    style = MaterialTheme.typography.bodySmall
-                                )
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Text(
+                                        text = buildAnnotatedString {
+                                            val (text, color) =
+                                                if (it.second.useManager) stringResource(R.string.patch_local) to MaterialTheme.colorScheme.secondary
+                                                else stringResource(R.string.patch_portable) to MaterialTheme.colorScheme.tertiary
+                                            append(AnnotatedString(text, SpanStyle(color = color)))
+                                            append("  ")
+                                            if (isRolling) append(stringResource(R.string.manage_rolling))
+                                            else append(it.second.lspConfig.VERSION_CODE.toString())
+                                        },
+                                        fontWeight = FontWeight.SemiBold,
+                                        fontFamily = FontFamily.Serif,
+                                        style = MaterialTheme.typography.bodySmall
+                                    )
+                                    if (canUpdateLoader) {
+                                        with(LocalDensity.current) {
+                                            val size = MaterialTheme.typography.bodySmall.fontSize * 1.2
+                                            Icon(Icons.Filled.KeyboardCapslock, null, Modifier.size(size.toDp()))
+                                        }
+                                    }
+                                }
                             }
                         )
                     }
@@ -170,7 +184,7 @@ fun AppManageBody(
                         onClick = {}, enabled = false
                     )
                     val shizukuUnavailable = stringResource(R.string.shizuku_unavailable)
-                    if (it.second.lspConfig.VERSION_CODE < LSPConfig.instance.VERSION_CODE || BuildConfig.DEBUG) {
+                    if (canUpdateLoader || BuildConfig.DEBUG) {
                         DropdownMenuItem(
                             text = { Text(stringResource(R.string.manage_update_loader)) },
                             onClick = {

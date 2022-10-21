@@ -20,10 +20,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
 import me.zhanghai.android.appiconloader.AppIconLoader
-import org.lsposed.lspatch.Constants.PATCH_FILE_SUFFIX
 import org.lsposed.lspatch.config.ConfigManager
 import org.lsposed.lspatch.config.Configs
 import org.lsposed.lspatch.lspApp
+import org.lsposed.lspatch.share.Constants
 import java.io.File
 import java.io.IOException
 import java.text.Collator
@@ -91,7 +91,7 @@ object LSPPackageManager {
                     val uri = Configs.storageDirectory?.toUri() ?: throw IOException("Uri is null")
                     val root = DocumentFile.fromTreeUri(lspApp, uri) ?: throw IOException("DocumentFile is null")
                     root.listFiles().forEach { file ->
-                        if (file.name?.endsWith(PATCH_FILE_SUFFIX) != true) return@forEach
+                        if (file.name?.endsWith(Constants.PATCH_FILE_SUFFIX) != true) return@forEach
                         Log.d(TAG, "Add ${file.name}")
                         val input = lspApp.contentResolver.openInputStream(file.uri)
                             ?: throw IOException("Cannot open input stream")

@@ -4,9 +4,9 @@ import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.lsposed.lspatch.Constants.PATCH_FILE_SUFFIX
 import org.lsposed.lspatch.config.Configs
 import org.lsposed.lspatch.config.MyKeyStore
+import org.lsposed.lspatch.share.Constants
 import org.lsposed.lspatch.share.PatchConfig
 import org.lsposed.patch.LSPatch
 import org.lsposed.patch.util.Logger
@@ -47,10 +47,10 @@ object Patcher {
             val root = DocumentFile.fromTreeUri(lspApp, uri)
                 ?: throw IOException("DocumentFile is null")
             root.listFiles().forEach {
-                if (it.name?.endsWith(PATCH_FILE_SUFFIX) == true) it.delete()
+                if (it.name?.endsWith(Constants.PATCH_FILE_SUFFIX) == true) it.delete()
             }
             lspApp.tmpApkDir.walk()
-                .filter { it.name.endsWith(PATCH_FILE_SUFFIX) }
+                .filter { it.name.endsWith(Constants.PATCH_FILE_SUFFIX) }
                 .forEach { apk ->
                     val file = root.createFile("application/vnd.android.package-archive", apk.name)
                         ?: throw IOException("Failed to create output file")
