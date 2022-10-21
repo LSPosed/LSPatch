@@ -34,14 +34,15 @@ import kotlin.coroutines.suspendCoroutine
 object LSPPackageManager {
 
     private const val TAG = "LSPPackageManager"
+    private const val SETTINGS_CATEGORY = "de.robv.android.xposed.category.MODULE_SETTINGS"
+
+    const val STATUS_USER_CANCELLED = -2
 
     @Parcelize
     class AppInfo(val app: ApplicationInfo, val label: String) : Parcelable {
         val isXposedModule: Boolean
             get() = app.metaData?.get("xposedminversion") != null
     }
-
-    const val STATUS_USER_CANCELLED = -2
 
     var appList by mutableStateOf(listOf<AppInfo>())
         private set
@@ -202,6 +203,22 @@ object LSPPackageManager {
         }
 
         if (ris.size <= 0) return null
+
+        return Intent(intentToResolve)
+            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            .setClassName(
+                ris[0].activityInfo.packageName,
+                ris[0].activityInfo.name
+            )
+    }
+
+    fun getSettingsIntent(packageName: String): Intent? {
+        val intentToResolve = Intent(Intent.ACTION_MAIN)
+        intentToResolve.addCategory(SETTINGS_CATEGORY)
+        intentToResolve.setPackage(packageName)
+        val ris = lspApp.packageManager.queryIntentActivities(intentToResolve, 0)
+
+        if (ris.size <= 0) return getLaunchIntentForPackage(packageName)
 
         return Intent(intentToResolve)
             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

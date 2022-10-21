@@ -51,11 +51,11 @@ fun ModuleManageBody() {
                 key = { it.first.app.packageName }
             ) {
                 var expanded by remember { mutableStateOf(false) }
-                val launchIntent = remember { LSPPackageManager.getLaunchIntentForPackage(it.first.app.packageName) }
+                val settingsIntent = remember { LSPPackageManager.getSettingsIntent(it.first.app.packageName) }
                 AnywhereDropdown(
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
-                    onClick = { launchIntent?.let { context.startActivity(it) } },
+                    onClick = { settingsIntent?.let { context.startActivity(it) } },
                     onLongClick = { expanded = true },
                     surface = {
                         AppItem(
@@ -85,10 +85,10 @@ fun ModuleManageBody() {
                         text = { Text(text = it.first.label, color = MaterialTheme.colorScheme.primary) },
                         onClick = {}, enabled = false
                     )
-                    if (launchIntent != null) {
+                    if (settingsIntent != null) {
                         DropdownMenuItem(
                             text = { Text(stringResource(R.string.manage_module_settings)) },
-                            onClick = { context.startActivity(launchIntent) }
+                            onClick = { context.startActivity(settingsIntent) }
                         )
                     }
                     DropdownMenuItem(
