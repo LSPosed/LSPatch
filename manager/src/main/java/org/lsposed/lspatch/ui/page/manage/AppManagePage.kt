@@ -229,8 +229,8 @@ fun AppManageBody(
                         }
                     )
                     val uninstallSuccessfully = stringResource(R.string.manage_uninstall_successfully)
-                    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                        if (it.resultCode == Activity.RESULT_OK) {
+                    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                        if (result.resultCode == Activity.RESULT_OK) {
                             scope.launch {
                                 snackbarHost.showSnackbar(uninstallSuccessfully)
                             }

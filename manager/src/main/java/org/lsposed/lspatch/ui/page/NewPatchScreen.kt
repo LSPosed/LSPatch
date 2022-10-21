@@ -391,7 +391,7 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
     val scope = rememberCoroutineScope()
     var uninstallFirst by remember { mutableStateOf(ShizukuApi.isPackageInstalledWithoutPatch(patchApp.app.packageName)) }
     var installing by remember { mutableStateOf(0) }
-    val doInstall = suspend {
+    suspend fun doInstall() {
         Log.i(TAG, "Installing app ${patchApp.app.packageName}")
         installing = 1
         val (status, message) = LSPPackageManager.install()

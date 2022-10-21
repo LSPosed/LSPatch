@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.lsposed.lspatch.Patcher
 import org.lsposed.lspatch.lspApp
@@ -69,8 +70,8 @@ class AppManageViewModel : ViewModel() {
         }
     }
 
-    suspend fun dispatch(action: ViewAction) {
-        withContext(viewModelScope.coroutineContext) {
+    fun dispatch(action: ViewAction) {
+        viewModelScope.launch {
             when (action) {
                 is ViewAction.UpdateLoader -> updateLoader(action.appInfo, action.config)
                 is ViewAction.ClearUpdateLoaderResult -> updateLoaderState = ProcessingState.Idle

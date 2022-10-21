@@ -5,7 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
+import org.lsposed.lspatch.lspApp
 import org.lsposed.lspatch.util.LSPPackageManager
 
 class AppBroadcastReceiver : BroadcastReceiver() {
@@ -30,7 +31,7 @@ class AppBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action in actions) {
-            runBlocking {
+            lspApp.globalScope.launch {
                 Log.i(TAG, "Received intent: $intent")
                 LSPPackageManager.fetchAppList()
             }

@@ -66,11 +66,13 @@ class NewPatchViewModel : ViewModel() {
     }
 
     fun dispatch(action: ViewAction) {
-        when (action) {
-            is ViewAction.DoneInit -> doneInit()
-            is ViewAction.ConfigurePatch -> configurePatch(action.app)
-            is ViewAction.SubmitPatch -> submitPatch()
-            is ViewAction.LaunchPatch -> launchPatch()
+        viewModelScope.launch {
+            when (action) {
+                is ViewAction.DoneInit -> doneInit()
+                is ViewAction.ConfigurePatch -> configurePatch(action.app)
+                is ViewAction.SubmitPatch -> submitPatch()
+                is ViewAction.LaunchPatch -> launchPatch()
+            }
         }
     }
 
@@ -95,19 +97,17 @@ class NewPatchViewModel : ViewModel() {
         patchState = PatchState.PATCHING
     }
 
-    private fun launchPatch() {
+    private suspend fun launchPatch() {
         logger.i("Launch patch")
-        viewModelScope.launch {
-            patchState = try {
-                Patcher.patch(logger, patchOptions)
-                PatchState.FINISHED
-            } catch (t: Throwable) {
-                logger.e(t.message.orEmpty())
-                logger.e(t.stackTraceToString())
-                PatchState.ERROR
-            } finally {
-                LSPPackageManager.cleanTmpApkDir()
-            }
+        patchState = try {
+            Patcher.patch(logger, patchOptions)
+            PatchState.FINISHED
+        } catch (t: Throwable) {
+            logger.e(t.message.orEmpty())
+            logger.e(t.stackTraceToString())
+            PatchState.ERROR
+        } finally {
+            LSPPackageManager.cleanTmpApkDir()
         }
     }
 }
