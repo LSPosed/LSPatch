@@ -34,13 +34,13 @@ fun Jar.configure(variant: String) {
 }
 
 tasks.register<Jar>("buildDebug") {
-    dependsOn(":appstub:copyDebug")
+    dependsOn(":meta-loader:copyDebug")
     dependsOn(":patch-loader:copyDebug")
     configure("debug")
 }
 
 tasks.register<Jar>("buildRelease") {
-    dependsOn(":appstub:copyRelease")
+    dependsOn(":meta-loader:copyRelease")
     dependsOn(":patch-loader:copyRelease")
     configure("release")
 }

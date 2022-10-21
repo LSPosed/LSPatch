@@ -27,8 +27,8 @@ androidComponents.onVariants { variant ->
     task<Copy>("copyDex$variantCapped") {
         dependsOn("assemble$variantCapped")
         from("$buildDir/intermediates/dex/${variant.name}/mergeDex$variantCapped/classes.dex")
-        rename("classes.dex", "lsp.dex")
-        into("${rootProject.projectDir}/out/assets/dex")
+        rename("classes.dex", "loader.dex")
+        into("${rootProject.projectDir}/out/assets/lspatch")
     }
 
     task<Copy>("copySo$variantCapped") {
@@ -39,7 +39,7 @@ androidComponents.onVariants { variant ->
                 "include" to listOf("**/liblspatch.so")
             )
         )
-        into("${rootProject.projectDir}/out/assets/so")
+        into("${rootProject.projectDir}/out/assets/lspatch/so")
     }
 
     task("copy$variantCapped") {
