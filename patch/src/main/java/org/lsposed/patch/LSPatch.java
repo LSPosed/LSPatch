@@ -236,35 +236,7 @@ public class LSPatch {
                 throw new PatchError("Error when modifying manifest", e);
             }
 
-            logger.d("Adding native lib..");
-
-            // copy so and dex files into the unzipped apk
-            // do not put liblspatch.so into apk!lib because x86 native bridge causes crash
-            for (String arch : ARCHES) {
-                String entryName = "assets/lspatch/so/" + arch + "/liblspatch.so";
-                try (var is = getClass().getClassLoader().getResourceAsStream(entryName)) {
-                    dstZFile.add(entryName, is, false); // no compress for so
-                } catch (Throwable e) {
-                    // More exception info
-                    throw new PatchError("Error when adding native lib", e);
-                }
-                logger.d("added " + entryName);
-            }
-
-            logger.d("Adding dex..");
-
-            try (var is = getClass().getClassLoader().getResourceAsStream(Constants.META_LOADER_DEX_ASSET_PATH)) {
-                dstZFile.add("classes.dex", is);
-            } catch (Throwable e) {
-                throw new PatchError("Error when adding dex", e);
-            }
-
-            try (var is = getClass().getClassLoader().getResourceAsStream(LOADER_DEX_ASSET_PATH)) {
-                dstZFile.add(LOADER_DEX_ASSET_PATH, is);
-            } catch (Throwable e) {
-                throw new PatchError("Error when adding assets", e);
-            }
-
+            logger.i("Adding config...");
             // save lspatch config to asset..
             try (var is = new ByteArrayInputStream(configBytes)) {
                 dstZFile.add(CONFIG_ASSET_PATH, is);
@@ -272,27 +244,36 @@ public class LSPatch {
                 throw new PatchError("Error when saving config");
             }
 
-            Set<String> apkArches = new HashSet<>();
-
-            logger.d("Search target apk library arch...");
-
-            for (StoredEntry storedEntry : srcZFile.entries()) {
-                var name = storedEntry.getCentralDirectoryHeader().getName();
-                if (name.startsWith("lib/") && name.length() >= 5) {
-                    var arch = name.substring(4, name.indexOf('/', 5));
-                    apkArches.add(arch);
-                }
+            logger.i("Adding metaloader dex...");
+            try (var is = getClass().getClassLoader().getResourceAsStream(Constants.META_LOADER_DEX_ASSET_PATH)) {
+                dstZFile.add("classes.dex", is);
+            } catch (Throwable e) {
+                throw new PatchError("Error when adding dex", e);
             }
-            if (apkArches.isEmpty()) apkArches.addAll(ARCHES);
-            apkArches.removeIf((arch) -> {
-                if (!ARCHES.contains(arch) && !arch.equals("armeabi")) {
-                    logger.e("Warning: unsupported arch " + arch + ". Skipping...");
-                    return true;
-                }
-                return false;
-            });
 
             if (!useManager) {
+                logger.i("Adding loader dex...");
+                try (var is = getClass().getClassLoader().getResourceAsStream(LOADER_DEX_ASSET_PATH)) {
+                    dstZFile.add(LOADER_DEX_ASSET_PATH, is);
+                } catch (Throwable e) {
+                    throw new PatchError("Error when adding assets", e);
+                }
+
+                logger.i("Adding native lib...");
+                // copy so and dex files into the unzipped apk
+                // do not put liblspatch.so into apk!lib because x86 native bridge causes crash
+                for (String arch : ARCHES) {
+                    String entryName = "assets/lspatch/so/" + arch + "/liblspatch.so";
+                    try (var is = getClass().getClassLoader().getResourceAsStream(entryName)) {
+                        dstZFile.add(entryName, is, false); // no compress for so
+                    } catch (Throwable e) {
+                        // More exception info
+                        throw new PatchError("Error when adding native lib", e);
+                    }
+                    logger.d("added " + entryName);
+                }
+
+                logger.i("Embedding modules...");
                 embedModules(dstZFile);
             }
 
@@ -316,7 +297,6 @@ public class LSPatch {
     }
 
     private void embedModules(ZFile zFile) {
-        logger.i("Embedding modules...");
         for (var module : modules) {
             File file = new File(module);
             try (var apk = ZFile.openReadOnly(new File(module));
