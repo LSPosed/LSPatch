@@ -39,6 +39,7 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+        cache: 'gradle'
 
     - name: Cache gradle dependencies
       uses: actions/cache@v3
