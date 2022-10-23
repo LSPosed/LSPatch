@@ -28,6 +28,7 @@
     <string name="screen_manage">Керування</string>
     <string name="manage_loading">Завантаження</string>
     <string name="manage_no_apps">Ще немає виправлених програм</string>
+    <string name="manage_rolling">Rolling</string>
     <string name="manage_update_loader">Оновити завантажувач</string>
     <string name="manage_update_loader_successfully">Оновлення завершено</string>
     <string name="manage_update_loader_failed">Оновлення не вдалося</string>
