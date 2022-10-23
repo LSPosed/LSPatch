@@ -28,6 +28,7 @@
     <string name="screen_manage">管理</string>
     <string name="manage_loading">読み込み中です</string>
     <string name="manage_no_apps">パッチが適用されたアプリはありません</string>
+    <string name="manage_rolling">ロール</string>
     <string name="manage_update_loader">ローダーを更新</string>
     <string name="manage_update_loader_successfully">アップデートが正常に完了しました</string>
     <string name="manage_update_loader_failed">アップデートに失敗しました</string>
@@ -37,8 +38,8 @@
     <string name="manage_optimize_failed">最適化に失敗しました</string>
     <string name="manage_uninstall_successfully">正常にアンインストールされました</string>
     <string name="manage_no_modules">モジュールはまだありません</string>
-    <string name="manage_module_settings">Module settings</string>
-    <string name="manage_app_info">App info</string>
+    <string name="manage_module_settings">モジュールの設定</string>
+    <string name="manage_app_info">アプリの情報</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">新しいパッチ</string>
     <string name="patch_select_dir_title">ディレクトリの選択</string>

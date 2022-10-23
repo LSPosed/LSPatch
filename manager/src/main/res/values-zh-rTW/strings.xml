@@ -28,6 +28,7 @@
     <string name="screen_manage">管理</string>
     <string name="manage_loading">正在加載</string>
     <string name="manage_no_apps">還沒有打包的應用程式</string>
+    <string name="manage_rolling">滾動</string>
     <string name="manage_update_loader">更新載入程式</string>
     <string name="manage_update_loader_successfully">更新成功</string>
     <string name="manage_update_loader_failed">更新失敗</string>

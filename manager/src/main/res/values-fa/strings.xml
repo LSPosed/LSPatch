@@ -28,6 +28,7 @@
     <string name="screen_manage">مدیریت</string>
     <string name="manage_loading">در حال بارگذاری ...</string>
     <string name="manage_no_apps">هنوز برنامه پچ شده ای موجود نیست</string>
+    <string name="manage_rolling">Rolling</string>
     <string name="manage_update_loader">به روز رسانی بارگذاری کننده</string>
     <string name="manage_update_loader_successfully">به روز رسانی انجام شده</string>
     <string name="manage_update_loader_failed">به روز رسانی انجام نشده</string>

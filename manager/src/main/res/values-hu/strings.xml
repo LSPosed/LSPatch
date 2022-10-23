@@ -28,6 +28,7 @@
     <string name="screen_manage">Kezelés</string>
     <string name="manage_loading">Betöltés</string>
     <string name="manage_no_apps">Még nincsenek patchelt alkalmazások</string>
+    <string name="manage_rolling">Rolling</string>
     <string name="manage_update_loader">Betöltő frissítése</string>
     <string name="manage_update_loader_successfully">A frissítés sikeres</string>
     <string name="manage_update_loader_failed">A frissítés sikertelen</string>

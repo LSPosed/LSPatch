@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Addieren</string>
-    <string name="install">Installieren Sie</string>
-    <string name="installing">Installation von</string>
-    <string name="uninstall">Deinstallieren Sie</string>
-    <string name="uninstalling">Deinstallation von</string>
-    <string name="copy_error">Copy error</string>
+    <string name="install">Installieren</string>
+    <string name="installing">Installation</string>
+    <string name="uninstall">Deinstallieren</string>
+    <string name="uninstalling">Deinstallieren</string>
+    <string name="copy_error">Kopiere Fehler</string>
     <string name="apps">Apps</string>
-    <string name="modules">Modules</string>
+    <string name="modules">Module</string>
     <string name="shizuku_available">Shizuku-Service verfügbar</string>
     <string name="shizuku_unavailable">Shizuku-Dienst nicht verbunden</string>
     <string name="screen_repo">Repo</string>
-    <string name="screen_logs">Logs</string>
+    <string name="screen_logs">Protokolle</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Einige Funktionen nicht verfügbar</string>
     <string name="home_api_version">API-Version</string>
@@ -28,19 +28,20 @@
     <string name="screen_manage">Manage</string>
     <string name="manage_loading">Wird geladen</string>
     <string name="manage_no_apps">Noch keine gepatchten Apps</string>
-    <string name="manage_update_loader">Update loader</string>
-    <string name="manage_update_loader_successfully">Update successfully</string>
-    <string name="manage_update_loader_failed">Update failed</string>
+    <string name="manage_rolling">Rolling</string>
+    <string name="manage_update_loader">Lader aktualisieren</string>
+    <string name="manage_update_loader_successfully">Update erfolgreich</string>
+    <string name="manage_update_loader_failed">Update fehlgeschlagen</string>
     <string name="manage_module_scope">Umfang des Moduls</string>
     <string name="manage_optimize">Optimieren Sie</string>
     <string name="manage_optimize_successfully">Erfolgreich optimieren</string>
     <string name="manage_optimize_failed">Optimieren fehlgeschlagen</string>
     <string name="manage_uninstall_successfully">Erfolgreiche Deinstallation</string>
-    <string name="manage_no_modules">No modules yet</string>
-    <string name="manage_module_settings">Module settings</string>
-    <string name="manage_app_info">App info</string>
+    <string name="manage_no_modules">Noch keine Module</string>
+    <string name="manage_module_settings">Modul-Einstellungen</string>
+    <string name="manage_app_info">App-Info</string>
     <!-- New Patch Screen -->
-    <string name="screen_new_patch">New Patch</string>
+    <string name="screen_new_patch">Neuer Patch</string>
     <string name="patch_select_dir_title">Speicherverzeichnis auswählen</string>
     <string name="patch_select_dir_text">Wählen Sie ein Verzeichnis aus, um die gepatchten APKs zu speichern</string>
     <string name="patch_select_dir_error">Fehler beim Festlegen des Speicherverzeichnisses</string>
@@ -65,9 +66,9 @@
     <string name="patch_install_successfully">Erfolgreich installieren</string>
     <string name="patch_install_failed">Installation fehlgeschlagen</string>
     <!-- Select Apps Screen -->
-    <string name="screen_select_apps">Select Apps</string>
+    <string name="screen_select_apps">Apps auswählen</string>
     <!-- Settings Screen -->
-    <string name="screen_settings">Settings</string>
+    <string name="screen_settings">Einstellungen</string>
     <string name="settings_keystore">Signatur-Schlüsselspeicher</string>
     <string name="settings_keystore_default">Eingebaut</string>
     <string name="settings_keystore_custom">Benutzerdefiniert</string>
@@ -81,5 +82,5 @@
     <string name="settings_keystore_wrong_password">Falsches Keystore-Passwort</string>
     <string name="settings_keystore_wrong_alias">Falscher Alias-Name</string>
     <string name="settings_keystore_wrong_alias_password">Falsches Alias-Passwort</string>
-    <string name="settings_detail_patch_logs">Detail patch logs</string>
+    <string name="settings_detail_patch_logs">Detail-Patch-Logs</string>
 </resources>

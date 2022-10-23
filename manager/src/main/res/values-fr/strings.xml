@@ -16,7 +16,7 @@
     <string name="home_shizuku_warning">Certaines fonctions seront indisponibles</string>
     <string name="home_api_version">Version de l\'API</string>
     <string name="home_lspatch_version">Version de LSPatch</string>
-    <string name="home_framework_version">Version du framework</string>
+    <string name="home_framework_version">Version du système d’injection</string>
     <string name="home_system_version">Version du système</string>
     <string name="home_device">Appareil</string>
     <string name="home_system_abi">Architecture du système</string>
@@ -28,6 +28,7 @@
     <string name="screen_manage">Gérer</string>
     <string name="manage_loading">Chargement</string>
     <string name="manage_no_apps">Aucune appli patchée pour le moment</string>
+    <string name="manage_rolling">Rolling</string>
     <string name="manage_update_loader">Mettre à jour le chargeur</string>
     <string name="manage_update_loader_successfully">Mise à jour réussie</string>
     <string name="manage_update_loader_failed">Échec de la mise à jour</string>
@@ -37,8 +38,8 @@
     <string name="manage_optimize_failed">Optimiser les échecs</string>
     <string name="manage_uninstall_successfully">Désinstallation réussie</string>
     <string name="manage_no_modules">Aucun module pour le moment</string>
-    <string name="manage_module_settings">Module settings</string>
-    <string name="manage_app_info">App info</string>
+    <string name="manage_module_settings">Réglages du module</string>
+    <string name="manage_app_info">Infos sur l’application</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">Nouveau Patch</string>
     <string name="patch_select_dir_title">Sélectionner le répertoire de stockage</string>
