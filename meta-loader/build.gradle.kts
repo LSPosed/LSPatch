@@ -42,4 +42,5 @@ androidComponents.onVariants { variant ->
 dependencies {
     compileOnly(projects.hiddenapi.stubs)
     implementation(projects.share.java)
+    implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
 }

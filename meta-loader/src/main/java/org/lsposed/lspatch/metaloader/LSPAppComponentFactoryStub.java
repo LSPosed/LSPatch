@@ -9,6 +9,7 @@ import android.os.ServiceManager;
 import android.util.JsonReader;
 import android.util.Log;
 
+import org.lsposed.hiddenapibypass.HiddenApiBypass;
 import org.lsposed.lspatch.share.Constants;
 
 import java.io.ByteArrayOutputStream;
@@ -68,7 +69,7 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
                 var ipm = IPackageManager.Stub.asInterface(ServiceManager.getService("package"));
                 ApplicationInfo manager;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    manager = ipm.getApplicationInfo(Constants.MANAGER_PACKAGE_NAME, 0L, 0);
+                    manager = (ApplicationInfo) HiddenApiBypass.invoke(IPackageManager.class, ipm, "getApplicationInfo", Constants.MANAGER_PACKAGE_NAME, 0L, 0);
                 } else {
                     manager = ipm.getApplicationInfo(Constants.MANAGER_PACKAGE_NAME, 0, 0);
                 }
