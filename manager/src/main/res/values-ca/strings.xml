@@ -5,7 +5,7 @@
     <string name="installing">Instal·lació</string>
     <string name="uninstall">Desinstal·la</string>
     <string name="uninstalling">S\'està desinstal·lant</string>
-    <string name="copy_error">Copy error</string>
+    <string name="copy_error">Error de còpia</string>
     <string name="apps">Apps</string>
     <string name="modules">Modules</string>
     <string name="shizuku_available">Servei Shizuku disponible</string>
@@ -28,6 +28,7 @@
     <string name="screen_manage">Manage</string>
     <string name="manage_loading">Carregant</string>
     <string name="manage_no_apps">Encara no hi ha cap aplicació pegada</string>
+    <string name="manage_rolling">Rolling</string>
     <string name="manage_update_loader">Update loader</string>
     <string name="manage_update_loader_successfully">Update successfully</string>
     <string name="manage_update_loader_failed">Update failed</string>
