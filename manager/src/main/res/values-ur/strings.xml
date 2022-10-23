@@ -28,6 +28,7 @@
     <string name="screen_manage">Manage</string>
     <string name="manage_loading">لوڈ ہو رہا ہے۔</string>
     <string name="manage_no_apps">ابھی تک کوئی پیچ شدہ ایپس نہیں ہیں۔</string>
+    <string name="manage_rolling">Rolling</string>
     <string name="manage_update_loader">Update loader</string>
     <string name="manage_update_loader_successfully">Update successfully</string>
     <string name="manage_update_loader_failed">Update failed</string>
