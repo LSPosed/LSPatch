@@ -28,6 +28,7 @@
     <string name="screen_manage">Manage</string>
     <string name="manage_loading">Se încarcă</string>
     <string name="manage_no_apps">Nicio aplicație corecţionată încă</string>
+    <string name="manage_rolling">Rolling</string>
     <string name="manage_update_loader">Update loader</string>
     <string name="manage_update_loader_successfully">Update successfully</string>
     <string name="manage_update_loader_failed">Update failed</string>
