@@ -7,28 +7,19 @@ import android.app.ActivityThread;
 import android.app.LoadedApk;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.content.res.CompatibilityInfo;
 import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.system.Os;
-import android.util.Base64;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import org.lsposed.lspatch.loader.util.FileUtils;
 import org.lsposed.lspatch.loader.util.XLog;
 import org.lsposed.lspatch.service.LocalApplicationService;
 import org.lsposed.lspatch.service.RemoteApplicationService;
-import org.lsposed.lspatch.share.Constants;
 import org.lsposed.lspatch.share.PatchConfig;
 import org.lsposed.lspd.core.Startup;
-import org.lsposed.lspd.nativebridge.SigBypass;
 import org.lsposed.lspd.service.ILSPApplicationService;
 
 import java.io.BufferedReader;
@@ -45,7 +36,6 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.zip.ZipFile;
@@ -59,16 +49,15 @@ import hidden.HiddenApiBridge;
 @SuppressWarnings("unused")
 public class LSPApplication {
 
-    public static final int FIRST_APP_ZYGOTE_ISOLATED_UID = 90000;
-    public static final int PER_USER_RANGE = 100000;
     private static final String TAG = "LSPatch";
+    private static final int FIRST_APP_ZYGOTE_ISOLATED_UID = 90000;
+    private static final int PER_USER_RANGE = 100000;
 
     private static ActivityThread activityThread;
     private static LoadedApk stubLoadedApk;
     private static LoadedApk appLoadedApk;
 
     private static PatchConfig config;
-    private static final Map<String, String> signatures = new HashMap<>();
 
     public static boolean isIsolated() {
         return (android.os.Process.myUid() % PER_USER_RANGE) >= FIRST_APP_ZYGOTE_ISOLATED_UID;
@@ -106,7 +95,7 @@ public class LSPApplication {
             Log.i(TAG, "Modules initialized");
 
             switchAllClassLoader();
-            doSigBypass(context);
+            SigBypass.doSigBypass(context, config.sigBypassLevel);
         } catch (Throwable e) {
             throw new RuntimeException("Do hook", e);
         }
@@ -237,90 +226,6 @@ public class LSPApplication {
             } catch (Throwable e) {
                 Log.e(TAG, "Failed to disable profile file " + curProfileFile.getAbsolutePath(), e);
             }
-        }
-
-    }
-
-    private static int getTranscationId(String clsName, String trasncationName) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
-        Field field = Class.forName(clsName).getDeclaredField(trasncationName);
-        field.setAccessible(true);
-        return field.getInt(null);
-    }
-
-    private static void proxyPackageInfoCreator(Context context) {
-        Parcelable.Creator<PackageInfo> originalCreator = PackageInfo.CREATOR;
-        Parcelable.Creator<PackageInfo> proxiedCreator = new Parcelable.Creator<>() {
-            @Override
-            public PackageInfo createFromParcel(Parcel source) {
-                PackageInfo packageInfo = originalCreator.createFromParcel(source);
-                boolean hasSignature = (packageInfo.signatures != null && packageInfo.signatures.length != 0) || packageInfo.signingInfo != null;
-                if (hasSignature) {
-                    String packageName = packageInfo.packageName;
-                    String replacement = signatures.get(packageName);
-                    if (replacement == null && !signatures.containsKey(packageName)) {
-                        try {
-                            var metaData = context.getPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA).metaData;
-                            String encoded = null;
-                            if (metaData != null) encoded = metaData.getString("lspatch");
-                            if (encoded != null) {
-                                var json = new String(Base64.decode(encoded, Base64.DEFAULT), StandardCharsets.UTF_8);
-                                var patchConfig = new Gson().fromJson(json, PatchConfig.class);
-                                replacement = patchConfig.originalSignature;
-                            }
-                        } catch (PackageManager.NameNotFoundException | JsonSyntaxException ignored) {
-                        }
-                        signatures.put(packageName, replacement);
-                    }
-                    if (replacement != null) {
-                        if (packageInfo.signatures != null && packageInfo.signatures.length > 0) {
-                            XLog.d(TAG, "Replace signature info for `" + packageName + "` (method 1)");
-                            packageInfo.signatures[0] = new Signature(replacement);
-                        }
-                        if (packageInfo.signingInfo != null) {
-                            XLog.d(TAG, "Replace signature info for `" + packageName + "` (method 2)");
-                            Signature[] signaturesArray = packageInfo.signingInfo.getApkContentsSigners();
-                            if (signaturesArray != null && signaturesArray.length > 0) {
-                                signaturesArray[0] = new Signature(replacement);
-                            }
-                        }
-                    }
-                }
-                return packageInfo;
-            }
-
-            @Override
-            public PackageInfo[] newArray(int size) {
-                return originalCreator.newArray(size);
-            }
-        };
-        XposedHelpers.setStaticObjectField(PackageInfo.class, "CREATOR", proxiedCreator);
-        try {
-            Map<?, ?> mCreators = (Map<?, ?>) XposedHelpers.getStaticObjectField(Parcel.class, "mCreators");
-            mCreators.clear();
-        } catch (NoSuchFieldError ignore) {
-        } catch (Throwable e) {
-            Log.w(TAG, "fail to clear Parcel.mCreators", e);
-        }
-        try {
-            Map<?, ?> sPairedCreators = (Map<?, ?>) XposedHelpers.getStaticObjectField(Parcel.class, "sPairedCreators");
-            sPairedCreators.clear();
-        } catch (NoSuchFieldError ignore) {
-        } catch (Throwable e) {
-            Log.w(TAG, "fail to clear Parcel.sPairedCreators", e);
-        }
-    }
-
-    private static void doSigBypass(Context context) throws IOException {
-        if (config.sigBypassLevel >= Constants.SIGBYPASS_LV_PM) {
-            XLog.d(TAG, "Original signature: " + config.originalSignature.substring(0, 16) + "...");
-            proxyPackageInfoCreator(context);
-        }
-        if (config.sigBypassLevel >= Constants.SIGBYPASS_LV_PM_OPENAT) {
-            String cacheApkPath;
-            try (ZipFile sourceFile = new ZipFile(context.getPackageResourcePath())) {
-                cacheApkPath = context.getCacheDir() + "/lspatch/origin/" + sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc() + ".apk";
-            }
-            SigBypass.enableOpenatHook(context.getPackageResourcePath(), cacheApkPath);
         }
     }
 
