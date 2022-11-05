@@ -87,26 +87,31 @@ dependencies {
     implementation(projects.share.java)
 
     val roomVersion = "2.4.3"
-    val accompanistVersion = "0.26.5-rc"
-    val composeDestinationsVersion = "1.7.22-beta"
+    val accompanistVersion = "0.27.0"
+    val composeDestinationsVersion = "1.7.25-beta"
+    implementation(platform("androidx.compose:compose-bom:2022.10.00"))
+
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     compileOnly("dev.rikka.hidden:stub:2.3.1")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.customview:customview:1.2.0-alpha02")
+    debugImplementation("androidx.customview:customview-poolingcontainer:1.0.0")
+    implementation("androidx.activity:activity-compose:1.6.1")
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.activity:activity-compose:1.6.0")
-    implementation("androidx.compose.material:material-icons-extended:1.3.0-rc01")
-    implementation("androidx.compose.material3:material3:1.0.0-rc01")
-    implementation("androidx.compose.ui:ui:1.3.0-rc01")
-    implementation("androidx.compose.ui:ui-tooling:1.3.0-rc01")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
-    implementation("androidx.navigation:navigation-compose:2.5.2")
+    implementation("androidx.navigation:navigation-compose:2.5.3")
     implementation("androidx.preference:preference:1.2.0")
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("com.google.accompanist:accompanist-navigation-animation:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-pager:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-swiperefresh:$accompanistVersion")
-    implementation("com.google.android.material:material:1.6.1")
-    implementation("com.google.code.gson:gson:2.9.1")
+    implementation("com.google.android.material:material:1.7.0")
+    implementation("com.google.code.gson:gson:2.10")
     implementation("dev.rikka.shizuku:api:12.2.0")
     implementation("dev.rikka.shizuku:provider:12.2.0")
     implementation("io.github.raamcosta.compose-destinations:core:$composeDestinationsVersion")
