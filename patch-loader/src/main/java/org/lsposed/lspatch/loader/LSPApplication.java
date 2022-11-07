@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.res.CompatibilityInfo;
 import android.os.Build;
+import android.os.RemoteException;
 import android.system.Os;
 import android.util.Log;
 
@@ -63,7 +64,7 @@ public class LSPApplication {
         return (android.os.Process.myUid() % PER_USER_RANGE) >= FIRST_APP_ZYGOTE_ISOLATED_UID;
     }
 
-    public static void onLoad() {
+    public static void onLoad() throws RemoteException, IOException {
         if (isIsolated()) {
             XLog.d(TAG, "Skip isolated process");
             return;
@@ -75,30 +76,27 @@ public class LSPApplication {
             return;
         }
 
-        try {
-            Log.d(TAG, "Initialize service client");
-            ILSPApplicationService service;
-            if (config.useManager) {
-                service = new RemoteApplicationService(context);
-            } else {
-                service = new LocalApplicationService(context);
-            }
-
-            disableProfile(context);
-            Startup.initXposed(false, ActivityThread.currentProcessName(), service);
-            Log.i(TAG, "Bootstrap Xposed");
-            Startup.bootstrapXposed();
-            // WARN: Since it uses `XResource`, the following class should not be initialized
-            // before forkPostCommon is invoke. Otherwise, you will get failure of XResources
-            Log.i(TAG, "Load modules");
-            LSPLoader.initModules(appLoadedApk);
-            Log.i(TAG, "Modules initialized");
-
-            switchAllClassLoader();
-            SigBypass.doSigBypass(context, config.sigBypassLevel);
-        } catch (Throwable e) {
-            throw new RuntimeException("Do hook", e);
+        Log.d(TAG, "Initialize service client");
+        ILSPApplicationService service;
+        if (config.useManager) {
+            service = new RemoteApplicationService(context);
+        } else {
+            service = new LocalApplicationService(context);
         }
+
+        disableProfile(context);
+        Startup.initXposed(false, ActivityThread.currentProcessName(), service);
+        Log.i(TAG, "Bootstrap Xposed");
+        Startup.bootstrapXposed();
+        // WARN: Since it uses `XResource`, the following class should not be initialized
+        // before forkPostCommon is invoke. Otherwise, you will get failure of XResources
+        Log.i(TAG, "Load modules");
+        LSPLoader.initModules(appLoadedApk);
+        Log.i(TAG, "Modules initialized");
+
+        switchAllClassLoader();
+        SigBypass.doSigBypass(context, config.sigBypassLevel);
+
         Log.i(TAG, "LSPatch bootstrap completed");
     }
 
