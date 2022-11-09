@@ -83,8 +83,7 @@ object LSPPackageManager {
         var message: String? = null
         withContext(Dispatchers.IO) {
             runCatching {
-                val params = PackageInstaller.SessionParams::class.java.getConstructor(Int::class.javaPrimitiveType)
-                    .newInstance(PackageInstaller.SessionParams.MODE_FULL_INSTALL)
+                val params = PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL)
                 var flags = HiddenApiBridge.PackageInstaller_SessionParams_installFlags(params)
                 flags = flags or 0x00000004 /* PackageManager.INSTALL_ALLOW_TEST */ or 0x00000002 /* PackageManager.INSTALL_REPLACE_EXISTING */
                 HiddenApiBridge.PackageInstaller_SessionParams_installFlags(params, flags)

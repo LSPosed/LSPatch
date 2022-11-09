@@ -11,6 +11,7 @@
     <string name="shizuku_unavailable">Shizuku service not connected</string>
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Logs</string>
+    <string name="off">Off</string>
 
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Some functions unavailable</string>
@@ -87,4 +88,7 @@
     <string name="settings_keystore_wrong_alias">Wrong alias name</string>
     <string name="settings_keystore_wrong_alias_password">Wrong alias password</string>
     <string name="settings_detail_patch_logs">Detail patch logs</string>
+    <string name="settings_keep_alive">Keep alive</string>
+    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_keep_alive_foreground_desc">Create a notification to keep manager alive</string>
 </resources>

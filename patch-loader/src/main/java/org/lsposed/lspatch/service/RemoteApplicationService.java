@@ -60,7 +60,6 @@ public class RemoteApplicationService implements ILSPApplicationService {
                 }
             };
             Log.i(TAG, "Request manager binder");
-            context.startService(intent);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 context.bindService(intent, Context.BIND_AUTO_CREATE, Executors.newSingleThreadExecutor(), conn);
             } else {
@@ -74,7 +73,7 @@ public class RemoteApplicationService implements ILSPApplicationService {
                 var userHandle = (UserHandle) getUserMethod.invoke(context);
                 bindServiceAsUserMethod.invoke(context, intent, conn, Context.BIND_AUTO_CREATE, handler, userHandle);
             }
-            boolean success = latch.await(5, TimeUnit.SECONDS);
+            boolean success = latch.await(1, TimeUnit.SECONDS);
             if (!success) throw new TimeoutException("Bind service timeout");
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InterruptedException | TimeoutException e) {
             Toast.makeText(context, "Manager died", Toast.LENGTH_SHORT).show();
