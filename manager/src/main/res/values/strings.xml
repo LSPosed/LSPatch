@@ -90,5 +90,4 @@
     <string name="settings_detail_patch_logs">Detail patch logs</string>
     <string name="settings_keep_alive">Keep alive</string>
     <string name="settings_keep_alive_foreground">Foreground</string>
-    <string name="settings_keep_alive_foreground_desc">Create a notification to keep manager alive</string>
 </resources>

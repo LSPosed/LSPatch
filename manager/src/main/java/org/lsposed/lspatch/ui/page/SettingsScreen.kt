@@ -251,24 +251,30 @@ private fun KeepAlive() {
         onDismissRequest = { expanded = false },
         onClick = { expanded = true },
         surface = {
-            val (title, desc) = when (Configs.keepAlive) {
-                Configs.KeepAlive.OFF -> R.string.settings_keep_alive to R.string.off
-                Configs.KeepAlive.FOREGROUND -> R.string.settings_keep_alive_foreground to R.string.settings_keep_alive_foreground_desc
+            val desc = when (Configs.keepAlive) {
+                Configs.KeepAlive.OFF -> R.string.off
+                Configs.KeepAlive.FOREGROUND -> R.string.settings_keep_alive_foreground
             }
             SettingsItem(
                 icon = Icons.Outlined.HourglassEmpty,
-                title = stringResource(title),
+                title = stringResource(R.string.settings_keep_alive),
                 desc = stringResource(desc)
             )
         }
     ) {
         DropdownMenuItem(
             text = { Text(stringResource(R.string.off)) },
-            onClick = { Configs.keepAlive = Configs.KeepAlive.OFF }
+            onClick = {
+                Configs.keepAlive = Configs.KeepAlive.OFF
+                expanded = false
+            }
         )
         DropdownMenuItem(
             text = { Text(stringResource(R.string.settings_keep_alive_foreground)) },
-            onClick = { Configs.keepAlive = Configs.KeepAlive.FOREGROUND }
+            onClick = {
+                Configs.keepAlive = Configs.KeepAlive.FOREGROUND
+                expanded = false
+            }
         )
     }
 }
