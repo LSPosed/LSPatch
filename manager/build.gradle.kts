@@ -80,7 +80,6 @@ afterEvaluate {
 }
 
 dependencies {
-    implementation(projects.hiddenapi.bridge)
     implementation(projects.patch)
     implementation(projects.services.daemonService)
     implementation(projects.share.android)
@@ -92,7 +91,7 @@ dependencies {
     implementation(platform("androidx.compose:compose-bom:2022.10.00"))
 
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
-    compileOnly("dev.rikka.hidden:stub:2.3.1")
+    compileOnly("dev.rikka.hidden:stub:3.4.3")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.customview:customview:1.2.0-alpha02")
     debugImplementation("androidx.customview:customview-poolingcontainer:1.0.0")
@@ -114,6 +113,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10")
     implementation("dev.rikka.shizuku:api:12.2.0")
     implementation("dev.rikka.shizuku:provider:12.2.0")
+    implementation("dev.rikka.tools.refine:runtime:3.1.1")
     implementation("io.github.raamcosta.compose-destinations:core:$composeDestinationsVersion")
     implementation("me.zhanghai.android.appiconloader:appiconloader:1.5.0")
     implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")

@@ -9,6 +9,7 @@ import android.os.SystemProperties
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import dev.rikka.tools.refine.Refine
 import rikka.shizuku.Shizuku
 import rikka.shizuku.ShizukuBinderWrapper
 import rikka.shizuku.SystemServiceHelper
@@ -28,31 +29,22 @@ object ShizukuApi {
 
     private val packageInstaller: PackageInstaller by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PackageInstaller::class.java.getConstructor(
-                IPackageInstaller::class.java,
-                String::class.java,
-                String::class.java,
-                Int::class.javaPrimitiveType
-            ).newInstance(iPackageInstaller, "com.android.shell", null, 0)
+            Refine.unsafeCast(PackageInstallerHidden(iPackageInstaller, "com.android.shell", null, 0))
         } else {
-            PackageInstaller::class.java.getConstructor(
-                IPackageInstaller::class.java,
-                String::class.java,
-                Int::class.javaPrimitiveType
-            ).newInstance(iPackageInstaller, "com.android.shell", 0)
+            Refine.unsafeCast(PackageInstallerHidden(iPackageInstaller, "com.android.shell", 0))
         }
     }
 
-    var isBinderAvalable = false
+    var isBinderAvailable = false
     var isPermissionGranted by mutableStateOf(false)
 
     fun init() {
         Shizuku.addBinderReceivedListenerSticky {
-            isBinderAvalable = true
+            isBinderAvailable = true
             isPermissionGranted = Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
         }
         Shizuku.addBinderDeadListener {
-            isBinderAvalable = false
+            isBinderAvailable = false
             isPermissionGranted = false
         }
     }
@@ -60,8 +52,7 @@ object ShizukuApi {
     fun createPackageInstallerSession(params: PackageInstaller.SessionParams): PackageInstaller.Session {
         val sessionId = packageInstaller.createSession(params)
         val iSession = IPackageInstallerSession.Stub.asInterface(iPackageInstaller.openSession(sessionId).asShizukuBinder())
-        val constructor by lazy { PackageInstaller.Session::class.java.getConstructor(IPackageInstallerSession::class.java) }
-        return constructor.newInstance(iSession)
+        return Refine.unsafeCast(PackageInstallerHidden.SessionHidden(iSession))
     }
 
     fun isPackageInstalledWithoutPatch(packageName: String): Boolean {

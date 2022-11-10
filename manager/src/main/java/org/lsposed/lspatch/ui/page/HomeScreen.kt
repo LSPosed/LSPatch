@@ -85,7 +85,7 @@ private fun ShizukuCard() {
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
-                    if (ShizukuApi.isBinderAvalable && !ShizukuApi.isPermissionGranted) {
+                    if (ShizukuApi.isBinderAvailable && !ShizukuApi.isPermissionGranted) {
                         Shizuku.requestPermission(114514)
                     }
                 }

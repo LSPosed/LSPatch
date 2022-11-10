@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInstaller
+import android.content.pm.PackageInstallerHidden.SessionParamsHidden
 import android.content.pm.PackageManager
+import android.content.pm.PackageManagerHidden
 import android.net.Uri
 import android.os.Parcelable
 import android.util.Log
@@ -15,7 +17,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
-import hidden.HiddenApiBridge
+import dev.rikka.tools.refine.Refine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.Parcelize
@@ -84,9 +86,9 @@ object LSPPackageManager {
         withContext(Dispatchers.IO) {
             runCatching {
                 val params = PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL)
-                var flags = HiddenApiBridge.PackageInstaller_SessionParams_installFlags(params)
-                flags = flags or 0x00000004 /* PackageManager.INSTALL_ALLOW_TEST */ or 0x00000002 /* PackageManager.INSTALL_REPLACE_EXISTING */
-                HiddenApiBridge.PackageInstaller_SessionParams_installFlags(params, flags)
+                var flags = Refine.unsafeCast<SessionParamsHidden>(params).installFlags
+                flags = flags or PackageManagerHidden.INSTALL_ALLOW_TEST or PackageManagerHidden.INSTALL_REPLACE_EXISTING
+                Refine.unsafeCast<SessionParamsHidden>(params).installFlags = flags
                 ShizukuApi.createPackageInstallerSession(params).use { session ->
                     val uri = Configs.storageDirectory?.toUri() ?: throw IOException("Uri is null")
                     val root = DocumentFile.fromTreeUri(lspApp, uri) ?: throw IOException("DocumentFile is null")
