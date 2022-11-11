@@ -12,6 +12,7 @@
     <string name="shizuku_unavailable">سرویس Shizuku متصل نیست</string>
     <string name="screen_repo">مخزن</string>
     <string name="screen_logs">گزارش ها</string>
+    <string name="off">Off</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">برخی از عملکردها در دسترس نیستند</string>
     <string name="home_api_version">نسخه API</string>
@@ -83,4 +84,6 @@
     <string name="settings_keystore_wrong_alias">نام مستعار اشتباه است</string>
     <string name="settings_keystore_wrong_alias_password">رمز نام مستعار اشتباه است</string>
     <string name="settings_detail_patch_logs">گزارش های اطلاعات پچ</string>
+    <string name="settings_keep_alive">Keep alive</string>
+    <string name="settings_keep_alive_foreground">Foreground</string>
 </resources>

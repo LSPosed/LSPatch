@@ -12,6 +12,7 @@
     <string name="shizuku_unavailable">A Shizuku szolgáltatás nincs csatlakoztatva</string>
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Naplók</string>
+    <string name="off">Off</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Néhány funkció nem elérhető</string>
     <string name="home_api_version">API verzió</string>
@@ -83,4 +84,6 @@
     <string name="settings_keystore_wrong_alias">Rossz alias név</string>
     <string name="settings_keystore_wrong_alias_password">Rossz alias jelszó</string>
     <string name="settings_detail_patch_logs">Részletes patch naplók</string>
+    <string name="settings_keep_alive">Keep alive</string>
+    <string name="settings_keep_alive_foreground">Foreground</string>
 </resources>

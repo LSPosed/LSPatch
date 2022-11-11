@@ -6,12 +6,13 @@
     <string name="uninstall">Deïnstalleer</string>
     <string name="uninstalling">Deïnstalleer tans</string>
     <string name="copy_error">Copy error</string>
-    <string name="apps">Apps</string>
+    <string name="apps">برنامه ها</string>
     <string name="modules">Modules</string>
     <string name="shizuku_available">Shizuku diens beskikbaar</string>
     <string name="shizuku_unavailable">Shizuku-diens nie gekoppel nie</string>
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Logs</string>
+    <string name="off">Off</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Sommige funksies nie beskikbaar nie</string>
     <string name="home_api_version">API weergawe</string>
@@ -83,4 +84,6 @@
     <string name="settings_keystore_wrong_alias">Verkeerde alias naam</string>
     <string name="settings_keystore_wrong_alias_password">Verkeerde alias wagwoord</string>
     <string name="settings_detail_patch_logs">Detail patch logs</string>
+    <string name="settings_keep_alive">Keep alive</string>
+    <string name="settings_keep_alive_foreground">Foreground</string>
 </resources>

@@ -12,6 +12,7 @@
     <string name="shizuku_unavailable">Dịch vụ Shizuku không được kết nối</string>
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Logs</string>
+    <string name="off">Off</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Một số chức năng không khả dụng</string>
     <string name="home_api_version">Phiên bản API</string>
@@ -83,4 +84,6 @@
     <string name="settings_keystore_wrong_alias">Tên bí danh sai</string>
     <string name="settings_keystore_wrong_alias_password">Mật khẩu bí danh sai</string>
     <string name="settings_detail_patch_logs">Detail patch logs</string>
+    <string name="settings_keep_alive">Keep alive</string>
+    <string name="settings_keep_alive_foreground">Foreground</string>
 </resources>

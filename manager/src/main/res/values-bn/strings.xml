@@ -12,6 +12,7 @@
     <string name="shizuku_unavailable">Shizuku পরিষেবা সংযুক্ত নেই৷</string>
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Logs</string>
+    <string name="off">Off</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">কিছু ফাংশন অনুপলব্ধ</string>
     <string name="home_api_version">API সংস্করণ</string>
@@ -83,4 +84,6 @@
     <string name="settings_keystore_wrong_alias">ভুল উপনাম নাম</string>
     <string name="settings_keystore_wrong_alias_password">ভুল ওরফে পাসওয়ার্ড</string>
     <string name="settings_detail_patch_logs">Detail patch logs</string>
+    <string name="settings_keep_alive">Keep alive</string>
+    <string name="settings_keep_alive_foreground">Foreground</string>
 </resources>
