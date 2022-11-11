@@ -2,16 +2,17 @@
 <resources>
     <string name="add">Addieren</string>
     <string name="install">Installieren</string>
-    <string name="installing">Installation</string>
+    <string name="installing">Installiert</string>
     <string name="uninstall">Deinstallieren</string>
-    <string name="uninstalling">Deinstallieren</string>
+    <string name="uninstalling">Deinstalliert</string>
     <string name="copy_error">Kopiere Fehler</string>
     <string name="apps">Apps</string>
     <string name="modules">Module</string>
-    <string name="shizuku_available">Shizuku-Service verfügbar</string>
+    <string name="shizuku_available">Shizuku-Dienst verfügbar</string>
     <string name="shizuku_unavailable">Shizuku-Dienst nicht verbunden</string>
-    <string name="screen_repo">Repo</string>
+    <string name="screen_repo">Depot</string>
     <string name="screen_logs">Protokolle</string>
+    <string name="off">Aus</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Einige Funktionen nicht verfügbar</string>
     <string name="home_api_version">API-Version</string>
@@ -22,21 +23,21 @@
     <string name="home_system_abi">System-ABI</string>
     <string name="home_info_copied">In die Zwischenablage kopiert</string>
     <string name="home_support">Unterstützung</string>
-    <string name="home_description">LSPatch ist ein kostenloses Xposed-Framework ohne Rootberechtigung, das auf dem LSPosed-Core basiert.</string>
-    <string name="home_view_source_code"><![CDATA[Quellcode anzeigen unter %1$s<br/>Treten Sie unserem %2$s -Kanal bei]]></string>
+    <string name="home_description">LSPatch ist ein kostenloses Xposed-Framework ohne Rootberechtigung, das auf den LSPosed-Kern basiert.</string>
+    <string name="home_view_source_code"><![CDATA[Quellcode unter %1$s anzeigen<br/>Treten Sie unserem %2$s -Kanal bei]]></string>
     <!-- Manage Screen -->
-    <string name="screen_manage">Manage</string>
-    <string name="manage_loading">Wird geladen</string>
+    <string name="screen_manage">Verwalten</string>
+    <string name="manage_loading">Lädt</string>
     <string name="manage_no_apps">Noch keine gepatchten Apps</string>
-    <string name="manage_rolling">Rolling</string>
+    <string name="manage_rolling">Rollen</string>
     <string name="manage_update_loader">Lader aktualisieren</string>
-    <string name="manage_update_loader_successfully">Update erfolgreich</string>
-    <string name="manage_update_loader_failed">Update fehlgeschlagen</string>
-    <string name="manage_module_scope">Umfang des Moduls</string>
-    <string name="manage_optimize">Optimieren Sie</string>
-    <string name="manage_optimize_successfully">Erfolgreich optimieren</string>
-    <string name="manage_optimize_failed">Optimieren fehlgeschlagen</string>
-    <string name="manage_uninstall_successfully">Erfolgreiche Deinstallation</string>
+    <string name="manage_update_loader_successfully">Aktualisierung erfolgreich</string>
+    <string name="manage_update_loader_failed">Aktualisierung fehlgeschlagen</string>
+    <string name="manage_module_scope">Modulumfang</string>
+    <string name="manage_optimize">Optimierung</string>
+    <string name="manage_optimize_successfully">Optimierung erfolgreich</string>
+    <string name="manage_optimize_failed">Optimierung fehlgeschlagen</string>
+    <string name="manage_uninstall_successfully">Deinstallation erfolgreich</string>
     <string name="manage_no_modules">Noch keine Module</string>
     <string name="manage_module_settings">Modul-Einstellungen</string>
     <string name="manage_app_info">App-Info</string>
@@ -53,7 +54,7 @@
     <string name="patch_portable">tragbar</string>
     <string name="patch_portable_desc">Patchen einer App mit eingebetteten Modulen.\nDie gepatchte App kann ohne den Manager ausgeführt, aber nicht dynamisch verwaltet werden.\nPortable gepatchte Apps können auf Geräten verwendet werden, auf denen LSPatch Manager nicht installiert ist.</string>
     <string name="patch_embed_modules">Module einbetten</string>
-    <string name="patch_debuggable">Debuggbar</string>
+    <string name="patch_debuggable">Debugbar</string>
     <string name="patch_sigbypass">Signaturumgehung</string>
     <string name="patch_sigbypasslv0">lv0: Aus</string>
     <string name="patch_sigbypasslv1">lv1: PM umgehen</string>
@@ -63,7 +64,7 @@
     <string name="patch_start">Patch starten</string>
     <string name="patch_return">Zurückkehren</string>
     <string name="patch_uninstall_text">Aufgrund unterschiedlicher Signaturen müssen Sie die Original-App deinstallieren, bevor Sie die gepatchte App installieren.\nStellen Sie sicher, dass Sie Ihre persönlichen Daten gesichert haben.</string>
-    <string name="patch_install_successfully">Erfolgreich installieren</string>
+    <string name="patch_install_successfully">Installation erfolgreich</string>
     <string name="patch_install_failed">Installation fehlgeschlagen</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Apps auswählen</string>
@@ -73,14 +74,16 @@
     <string name="settings_keystore_default">Eingebaut</string>
     <string name="settings_keystore_custom">Benutzerdefiniert</string>
     <string name="settings_keystore_dialog_title">Benutzerdefinierter Schlüsselspeicher</string>
-    <string name="settings_keystore_file">Keystore-Datei</string>
+    <string name="settings_keystore_file">Schlüsselspeicher-Datei</string>
     <string name="settings_keystore_password">Passwort</string>
     <string name="settings_keystore_alias">Alias</string>
     <string name="settings_keystore_alias_password">Alias-Passwort</string>
     <string name="settings_keystore_desc">Schlüsselspeicher festlegen (BKS)</string>
     <string name="settings_keystore_wrong_keystore">Falscher Typ des Schlüsselspeichers</string>
-    <string name="settings_keystore_wrong_password">Falsches Keystore-Passwort</string>
+    <string name="settings_keystore_wrong_password">Falsches Schlüsselspeicher-Passwort</string>
     <string name="settings_keystore_wrong_alias">Falscher Alias-Name</string>
     <string name="settings_keystore_wrong_alias_password">Falsches Alias-Passwort</string>
-    <string name="settings_detail_patch_logs">Detail-Patch-Logs</string>
+    <string name="settings_detail_patch_logs">Detaillierte Patch-Protokolle</string>
+    <string name="settings_keep_alive">Am Leben erhalten</string>
+    <string name="settings_keep_alive_foreground">Vordergrund</string>
 </resources>
