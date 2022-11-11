@@ -12,7 +12,7 @@
     <string name="shizuku_unavailable">Usługa Shizuku nie jest podłączona</string>
     <string name="screen_repo">Repozytoria</string>
     <string name="screen_logs">Logi</string>
-    <string name="off">Off</string>
+    <string name="off">Poza</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Niektóre funkcje niedostępne</string>
     <string name="home_api_version">Wersja API</string>
@@ -84,6 +84,6 @@
     <string name="settings_keystore_wrong_alias">Nieprawidłowa nazwa aliasu</string>
     <string name="settings_keystore_wrong_alias_password">Nieprawidłowe hasło aliasu</string>
     <string name="settings_detail_patch_logs">Szczegóły logów poprawek</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_keep_alive">Utrzymać się przy życiu</string>
+    <string name="settings_keep_alive_foreground">Pierwsza plansza</string>
 </resources>

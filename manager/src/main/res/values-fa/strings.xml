@@ -12,7 +12,7 @@
     <string name="shizuku_unavailable">سرویس Shizuku متصل نیست</string>
     <string name="screen_repo">مخزن</string>
     <string name="screen_logs">گزارش ها</string>
-    <string name="off">Off</string>
+    <string name="off">خاموش</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">برخی از عملکردها در دسترس نیستند</string>
     <string name="home_api_version">نسخه API</string>
@@ -29,7 +29,7 @@
     <string name="screen_manage">مدیریت</string>
     <string name="manage_loading">در حال بارگذاری ...</string>
     <string name="manage_no_apps">هنوز برنامه پچ شده ای موجود نیست</string>
-    <string name="manage_rolling">Rolling</string>
+    <string name="manage_rolling">متحرک</string>
     <string name="manage_update_loader">به روز رسانی بارگذاری کننده</string>
     <string name="manage_update_loader_successfully">به روز رسانی انجام شده</string>
     <string name="manage_update_loader_failed">به روز رسانی انجام نشده</string>
@@ -39,8 +39,8 @@
     <string name="manage_optimize_failed">بهینه سازی انجام نشده</string>
     <string name="manage_uninstall_successfully">حذف نصب شده</string>
     <string name="manage_no_modules">هنوز ماژولی وجود ندارد</string>
-    <string name="manage_module_settings">Module settings</string>
-    <string name="manage_app_info">App info</string>
+    <string name="manage_module_settings">تنظیمات ماژول</string>
+    <string name="manage_app_info">اطلاعات برنامه</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">پچ جدید</string>
     <string name="patch_select_dir_title">پوشه ذخیره‌سازی را انتخاب کنید</string>
@@ -84,6 +84,6 @@
     <string name="settings_keystore_wrong_alias">نام مستعار اشتباه است</string>
     <string name="settings_keystore_wrong_alias_password">رمز نام مستعار اشتباه است</string>
     <string name="settings_detail_patch_logs">گزارش های اطلاعات پچ</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_keep_alive">زنده بمان</string>
+    <string name="settings_keep_alive_foreground">پیش زمینه</string>
 </resources>

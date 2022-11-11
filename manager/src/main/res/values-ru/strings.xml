@@ -5,14 +5,14 @@
     <string name="installing">Установка</string>
     <string name="uninstall">Удалить</string>
     <string name="uninstalling">Удаление</string>
-    <string name="copy_error">Copy error</string>
-    <string name="apps">Apps</string>
-    <string name="modules">Modules</string>
+    <string name="copy_error">Ошибка копирования</string>
+    <string name="apps">Приложения</string>
+    <string name="modules">Модули</string>
     <string name="shizuku_available">Служба Shizuku доступна</string>
     <string name="shizuku_unavailable">Служба Shizuku не подключена</string>
     <string name="screen_repo">Repo</string>
-    <string name="screen_logs">Logs</string>
-    <string name="off">Off</string>
+    <string name="screen_logs">Журналы</string>
+    <string name="off">На сайте</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Некоторые функции недоступны</string>
     <string name="home_api_version">Версия API</string>
@@ -26,23 +26,23 @@
     <string name="home_description">LSPatch — это бесплатный фреймворк Xposed без полномочий root, основанный на ядре LSPosed</string>
     <string name="home_view_source_code"><![CDATA[Посмотреть исходный код на %1$s<br/>Присоединяйтесь к нашему %2$s каналу]]></string>
     <!-- Manage Screen -->
-    <string name="screen_manage">Manage</string>
+    <string name="screen_manage">Управляйте</string>
     <string name="manage_loading">Загрузка</string>
     <string name="manage_no_apps">Пропатченных приложений пока нет</string>
-    <string name="manage_rolling">Rolling</string>
-    <string name="manage_update_loader">Update loader</string>
-    <string name="manage_update_loader_successfully">Update successfully</string>
-    <string name="manage_update_loader_failed">Update failed</string>
+    <string name="manage_rolling">Прокат</string>
+    <string name="manage_update_loader">Обновление загрузчика</string>
+    <string name="manage_update_loader_successfully">Успешное обновление</string>
+    <string name="manage_update_loader_failed">Обновление не удалось</string>
     <string name="manage_module_scope">Область применения модуля</string>
     <string name="manage_optimize">Оптимизировать</string>
     <string name="manage_optimize_successfully">Оптимизация завершена!</string>
     <string name="manage_optimize_failed">Ошибка оптимизации</string>
     <string name="manage_uninstall_successfully">Удаление завершено!</string>
-    <string name="manage_no_modules">No modules yet</string>
-    <string name="manage_module_settings">Module settings</string>
-    <string name="manage_app_info">App info</string>
+    <string name="manage_no_modules">Модулей пока нет</string>
+    <string name="manage_module_settings">Настройки модуля</string>
+    <string name="manage_app_info">Информация о приложении</string>
     <!-- New Patch Screen -->
-    <string name="screen_new_patch">New Patch</string>
+    <string name="screen_new_patch">Новый патч</string>
     <string name="patch_select_dir_title">Выберите каталог хранения</string>
     <string name="patch_select_dir_text">Выберите каталог для хранения пропатченных Apk</string>
     <string name="patch_select_dir_error">Ошибка при настройке каталога хранения</string>
@@ -67,9 +67,9 @@
     <string name="patch_install_successfully">Установка завершена</string>
     <string name="patch_install_failed">Установка не удалась</string>
     <!-- Select Apps Screen -->
-    <string name="screen_select_apps">Select Apps</string>
+    <string name="screen_select_apps">Выберите приложения</string>
     <!-- Settings Screen -->
-    <string name="screen_settings">Settings</string>
+    <string name="screen_settings">Настройки</string>
     <string name="settings_keystore">Хранилище ключей подписи</string>
     <string name="settings_keystore_default">Встроенное</string>
     <string name="settings_keystore_custom">Пользовательское</string>
@@ -83,7 +83,7 @@
     <string name="settings_keystore_wrong_password">Неправильный пароль хранилища ключей</string>
     <string name="settings_keystore_wrong_alias">Неправильное имя псевдонима</string>
     <string name="settings_keystore_wrong_alias_password">Неправильный пароль псевдонима</string>
-    <string name="settings_detail_patch_logs">Detail patch logs</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_detail_patch_logs">Подробные журналы патчей</string>
+    <string name="settings_keep_alive">Сохранить жизнь</string>
+    <string name="settings_keep_alive_foreground">Передний план</string>
 </resources>

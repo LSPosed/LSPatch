@@ -5,14 +5,14 @@
     <string name="installing">Đang cài đặt</string>
     <string name="uninstall">Gỡ cài đặt</string>
     <string name="uninstalling">Gỡ cài đặt</string>
-    <string name="copy_error">Copy error</string>
-    <string name="apps">Apps</string>
-    <string name="modules">Modules</string>
+    <string name="copy_error">Sao chép lỗi</string>
+    <string name="apps">Ứng dụng</string>
+    <string name="modules">Mô-đun</string>
     <string name="shizuku_available">Có dịch vụ Shizuku</string>
     <string name="shizuku_unavailable">Dịch vụ Shizuku không được kết nối</string>
     <string name="screen_repo">Repo</string>
-    <string name="screen_logs">Logs</string>
-    <string name="off">Off</string>
+    <string name="screen_logs">Nhật ký</string>
+    <string name="off">Tắt</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Một số chức năng không khả dụng</string>
     <string name="home_api_version">Phiên bản API</string>
@@ -26,23 +26,23 @@
     <string name="home_description">LSPatch là một khung công tác Xposed không gốc miễn phí dựa trên lõi LSPosed.</string>
     <string name="home_view_source_code"><![CDATA[Xem mã nguồn tại %1$s<br/>Tham gia kênh %2$s của chúng tôi]]></string>
     <!-- Manage Screen -->
-    <string name="screen_manage">Manage</string>
+    <string name="screen_manage">Quản lý</string>
     <string name="manage_loading">Đang tải</string>
     <string name="manage_no_apps">Chưa có ứng dụng được vá</string>
-    <string name="manage_rolling">Rolling</string>
-    <string name="manage_update_loader">Update loader</string>
-    <string name="manage_update_loader_successfully">Update successfully</string>
-    <string name="manage_update_loader_failed">Update failed</string>
+    <string name="manage_rolling">Lăn</string>
+    <string name="manage_update_loader">Cập nhật trình tải</string>
+    <string name="manage_update_loader_successfully">Cập nhật thành công</string>
+    <string name="manage_update_loader_failed">Cập nhật không thành công</string>
     <string name="manage_module_scope">Phạm vi mô-đun</string>
     <string name="manage_optimize">Tối ưu hóa</string>
     <string name="manage_optimize_successfully">Tối ưu hóa thành công</string>
     <string name="manage_optimize_failed">Tối ưu hóa không thành công</string>
     <string name="manage_uninstall_successfully">Gỡ cài đặt thành công</string>
-    <string name="manage_no_modules">No modules yet</string>
-    <string name="manage_module_settings">Module settings</string>
-    <string name="manage_app_info">App info</string>
+    <string name="manage_no_modules">Chưa có mô-đun nào</string>
+    <string name="manage_module_settings">Cài đặt mô-đun</string>
+    <string name="manage_app_info">Thông tin ứng dụng</string>
     <!-- New Patch Screen -->
-    <string name="screen_new_patch">New Patch</string>
+    <string name="screen_new_patch">Bản vá mới</string>
     <string name="patch_select_dir_title">Chọn thư mục lưu trữ</string>
     <string name="patch_select_dir_text">Chọn một thư mục để lưu trữ các bản vá lỗi</string>
     <string name="patch_select_dir_error">Lỗi khi đặt thư mục lưu trữ</string>
@@ -67,9 +67,9 @@
     <string name="patch_install_successfully">Cài đặt thành công</string>
     <string name="patch_install_failed">Cài đặt không thành công</string>
     <!-- Select Apps Screen -->
-    <string name="screen_select_apps">Select Apps</string>
+    <string name="screen_select_apps">Chọn ứng dụng</string>
     <!-- Settings Screen -->
-    <string name="screen_settings">Settings</string>
+    <string name="screen_settings">Cài đặt</string>
     <string name="settings_keystore">Kho khóa chữ ký</string>
     <string name="settings_keystore_default">Được xây dựng trong</string>
     <string name="settings_keystore_custom">Tập quán</string>
@@ -83,7 +83,7 @@
     <string name="settings_keystore_wrong_password">Mật khẩu kho khóa sai</string>
     <string name="settings_keystore_wrong_alias">Tên bí danh sai</string>
     <string name="settings_keystore_wrong_alias_password">Mật khẩu bí danh sai</string>
-    <string name="settings_detail_patch_logs">Detail patch logs</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_detail_patch_logs">Nhật ký vá chi tiết</string>
+    <string name="settings_keep_alive">Cố sống đi</string>
+    <string name="settings_keep_alive_foreground">Vấn đề xung quanh</string>
 </resources>

@@ -29,7 +29,7 @@
     <string name="screen_manage">Kezelés</string>
     <string name="manage_loading">Betöltés</string>
     <string name="manage_no_apps">Még nincsenek patchelt alkalmazások</string>
-    <string name="manage_rolling">Rolling</string>
+    <string name="manage_rolling">Gördülő</string>
     <string name="manage_update_loader">Betöltő frissítése</string>
     <string name="manage_update_loader_successfully">A frissítés sikeres</string>
     <string name="manage_update_loader_failed">A frissítés sikertelen</string>
@@ -39,7 +39,7 @@
     <string name="manage_optimize_failed">Az optimalizálás nem sikerült</string>
     <string name="manage_uninstall_successfully">Az eltávolítás sikeres</string>
     <string name="manage_no_modules">Még nincsenek modulok</string>
-    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_module_settings">Modul beállítások</string>
     <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">Új Patch</string>
@@ -84,6 +84,6 @@
     <string name="settings_keystore_wrong_alias">Rossz alias név</string>
     <string name="settings_keystore_wrong_alias_password">Rossz alias jelszó</string>
     <string name="settings_detail_patch_logs">Részletes patch naplók</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_keep_alive">Tartsd életben</string>
+    <string name="settings_keep_alive_foreground">Új információk és jogok</string>
 </resources>

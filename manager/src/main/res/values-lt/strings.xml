@@ -5,14 +5,14 @@
     <string name="installing">diegimas</string>
     <string name="uninstall">Pašalinti</string>
     <string name="uninstalling">pašalinimas</string>
-    <string name="copy_error">Copy error</string>
-    <string name="apps">Apps</string>
-    <string name="modules">Modules</string>
+    <string name="copy_error">Kopijavimo klaida</string>
+    <string name="apps">Programėlės</string>
+    <string name="modules">Moduliai</string>
     <string name="shizuku_available">Galimas Shizuku servisas</string>
     <string name="shizuku_unavailable">„Shizuku“ paslauga neprijungta</string>
     <string name="screen_repo">Repo</string>
-    <string name="screen_logs">Logs</string>
-    <string name="off">Off</string>
+    <string name="screen_logs">Žurnalai</string>
+    <string name="off">Išjungta</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Kai kurios funkcijos nepasiekiamos</string>
     <string name="home_api_version">API versija</string>
@@ -26,23 +26,23 @@
     <string name="home_description">LSPatch yra nemokama ne šakninė Xposed sistema, pagrįsta LSPosed branduoliu.</string>
     <string name="home_view_source_code"><![CDATA[Peržiūrėkite šaltinio kodą %1$s<br/>Prisijunkite prie mūsų %2$s kanalo]]></string>
     <!-- Manage Screen -->
-    <string name="screen_manage">Manage</string>
+    <string name="screen_manage">Tvarkykite</string>
     <string name="manage_loading">Įkeliama</string>
     <string name="manage_no_apps">Dar nėra pataisytų programų</string>
     <string name="manage_rolling">Rolling</string>
-    <string name="manage_update_loader">Update loader</string>
-    <string name="manage_update_loader_successfully">Update successfully</string>
-    <string name="manage_update_loader_failed">Update failed</string>
+    <string name="manage_update_loader">Atnaujinti pakrovėją</string>
+    <string name="manage_update_loader_successfully">Sėkmingai atnaujinta</string>
+    <string name="manage_update_loader_failed">Atnaujinti nepavyko</string>
     <string name="manage_module_scope">Modulio taikymo sritis</string>
     <string name="manage_optimize">Optimizuokite</string>
     <string name="manage_optimize_successfully">Sėkmingai optimizuoti</string>
     <string name="manage_optimize_failed">Optimizuoti nepavyko</string>
     <string name="manage_uninstall_successfully">Sėkmingai pašalinti</string>
-    <string name="manage_no_modules">No modules yet</string>
-    <string name="manage_module_settings">Module settings</string>
-    <string name="manage_app_info">App info</string>
+    <string name="manage_no_modules">Modulių dar nėra</string>
+    <string name="manage_module_settings">Modulio nustatymai</string>
+    <string name="manage_app_info">Programėlės informacija</string>
     <!-- New Patch Screen -->
-    <string name="screen_new_patch">New Patch</string>
+    <string name="screen_new_patch">Naujas pataisymas</string>
     <string name="patch_select_dir_title">Pasirinkite saugojimo katalogą</string>
     <string name="patch_select_dir_text">Pasirinkite katalogą, kuriame bus saugomi pataisyti APK</string>
     <string name="patch_select_dir_error">Klaida nustatant saugojimo katalogą</string>
@@ -67,9 +67,9 @@
     <string name="patch_install_successfully">Įdiegti sėkmingai</string>
     <string name="patch_install_failed">Diegimas nepavyko</string>
     <!-- Select Apps Screen -->
-    <string name="screen_select_apps">Select Apps</string>
+    <string name="screen_select_apps">Pasirinkite programas</string>
     <!-- Settings Screen -->
-    <string name="screen_settings">Settings</string>
+    <string name="screen_settings">Nustatymai</string>
     <string name="settings_keystore">Parašo raktų saugykla</string>
     <string name="settings_keystore_default">Įmontuotas</string>
     <string name="settings_keystore_custom">Pasirinktinis</string>
@@ -83,7 +83,7 @@
     <string name="settings_keystore_wrong_password">Neteisingas raktų saugyklos slaptažodis</string>
     <string name="settings_keystore_wrong_alias">Neteisingas pseudonimas</string>
     <string name="settings_keystore_wrong_alias_password">Neteisingas slapyvardžio slaptažodis</string>
-    <string name="settings_detail_patch_logs">Detail patch logs</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_detail_patch_logs">Išsamūs pataisų žurnalai</string>
+    <string name="settings_keep_alive">Išlaikykite gyvybę</string>
+    <string name="settings_keep_alive_foreground">Naujos žinios</string>
 </resources>
