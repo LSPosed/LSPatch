@@ -12,7 +12,7 @@
     <string name="shizuku_unavailable">Shizukuが有効化されていません</string>
     <string name="screen_repo">リポジトリ</string>
     <string name="screen_logs">ログ</string>
-    <string name="off">Off</string>
+    <string name="off">オフ</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">一部の機能が使用できません</string>
     <string name="home_api_version">APIのバージョン</string>
@@ -84,6 +84,6 @@
     <string name="settings_keystore_wrong_alias">エイリアス名が間違っています</string>
     <string name="settings_keystore_wrong_alias_password">エイリアスのパスワードが違います</string>
     <string name="settings_detail_patch_logs">パッチログの詳細</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_keep_alive">生かす</string>
+    <string name="settings_keep_alive_foreground">フォアグラウンド</string>
 </resources>
