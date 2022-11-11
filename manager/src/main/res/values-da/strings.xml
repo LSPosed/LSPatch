@@ -12,6 +12,7 @@
     <string name="shizuku_unavailable">Shizuku-tjenesten er ikke tilsluttet</string>
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Logs</string>
+    <string name="off">Off</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Nogle funktioner er ikke tilgængelige</string>
     <string name="home_api_version">API-version</string>
@@ -83,4 +84,6 @@
     <string name="settings_keystore_wrong_alias">Forkert aliasnavn</string>
     <string name="settings_keystore_wrong_alias_password">Forkert adgangskode til alias</string>
     <string name="settings_detail_patch_logs">Detail patch logs</string>
+    <string name="settings_keep_alive">Keep alive</string>
+    <string name="settings_keep_alive_foreground">Foreground</string>
 </resources>
