@@ -5,14 +5,14 @@
     <string name="installing">Installerer</string>
     <string name="uninstall">Avinstaller</string>
     <string name="uninstalling">Avinstallerer</string>
-    <string name="copy_error">Copy error</string>
-    <string name="apps">Apps</string>
-    <string name="modules">Modules</string>
+    <string name="copy_error">Kopifeil</string>
+    <string name="apps">Apper</string>
+    <string name="modules">Moduler</string>
     <string name="shizuku_available">Shizuku-tjeneste tilgjengelig</string>
     <string name="shizuku_unavailable">Shizuku-tjenesten er ikke tilkoblet</string>
     <string name="screen_repo">Repo</string>
-    <string name="screen_logs">Logs</string>
-    <string name="off">Off</string>
+    <string name="screen_logs">Tømmerstokker</string>
+    <string name="off">Av</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Noen funksjoner er utilgjengelige</string>
     <string name="home_api_version">API-versjon</string>
@@ -26,23 +26,23 @@
     <string name="home_description">LSPatch er et gratis ikke-root Xposed-rammeverk basert på LSPosed-kjerne.</string>
     <string name="home_view_source_code"><![CDATA[Se kildekoden på %1$s<br/>Bli med i vår %2$s -kanal]]></string>
     <!-- Manage Screen -->
-    <string name="screen_manage">Manage</string>
+    <string name="screen_manage">Få til</string>
     <string name="manage_loading">Laster</string>
     <string name="manage_no_apps">Ingen lappede apper ennå</string>
-    <string name="manage_rolling">Rolling</string>
-    <string name="manage_update_loader">Update loader</string>
-    <string name="manage_update_loader_successfully">Update successfully</string>
-    <string name="manage_update_loader_failed">Update failed</string>
+    <string name="manage_rolling">Rullende</string>
+    <string name="manage_update_loader">Oppdater loader</string>
+    <string name="manage_update_loader_successfully">Oppdatering vellykket</string>
+    <string name="manage_update_loader_failed">Oppdatering mislyktes</string>
     <string name="manage_module_scope">Modulomfang</string>
     <string name="manage_optimize">Optimaliser</string>
     <string name="manage_optimize_successfully">Optimaliser vellykket</string>
     <string name="manage_optimize_failed">Optimaliseringen mislyktes</string>
     <string name="manage_uninstall_successfully">Avinstaller vellykket</string>
-    <string name="manage_no_modules">No modules yet</string>
-    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_no_modules">Ingen moduler ennå</string>
+    <string name="manage_module_settings">Modulinnstillinger</string>
     <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
-    <string name="screen_new_patch">New Patch</string>
+    <string name="screen_new_patch">Ny oppdatering</string>
     <string name="patch_select_dir_title">Velg lagringskatalog</string>
     <string name="patch_select_dir_text">Velg en katalog for å lagre de lappede APK-ene</string>
     <string name="patch_select_dir_error">Feil ved innstilling av lagringskatalog</string>
@@ -67,9 +67,9 @@
     <string name="patch_install_successfully">Installer vellykket</string>
     <string name="patch_install_failed">Installasjonen mislyktes</string>
     <!-- Select Apps Screen -->
-    <string name="screen_select_apps">Select Apps</string>
+    <string name="screen_select_apps">Velg Apper</string>
     <!-- Settings Screen -->
-    <string name="screen_settings">Settings</string>
+    <string name="screen_settings">Innstillinger</string>
     <string name="settings_keystore">Signatur nøkkellager</string>
     <string name="settings_keystore_default">Innebygd</string>
     <string name="settings_keystore_custom">Tilpasset</string>
@@ -83,7 +83,7 @@
     <string name="settings_keystore_wrong_password">Feil nøkkellagerpassord</string>
     <string name="settings_keystore_wrong_alias">Feil aliasnavn</string>
     <string name="settings_keystore_wrong_alias_password">Feil alias passord</string>
-    <string name="settings_detail_patch_logs">Detail patch logs</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_detail_patch_logs">Detalj patchlogger</string>
+    <string name="settings_keep_alive">Holde i live</string>
+    <string name="settings_keep_alive_foreground">Forgrunn</string>
 </resources>
