@@ -5,13 +5,14 @@
     <string name="installing">インストール中</string>
     <string name="uninstall">アンインストール</string>
     <string name="uninstalling">アンインストール中</string>
-    <string name="copy_error">コピーエラー</string>
+    <string name="copy_error">エラーをコピー</string>
     <string name="apps">アプリ</string>
     <string name="modules">モジュール</string>
     <string name="shizuku_available">Shizukuが有効です</string>
     <string name="shizuku_unavailable">Shizukuが有効化されていません</string>
     <string name="screen_repo">リポジトリ</string>
     <string name="screen_logs">ログ</string>
+    <string name="off">Off</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">一部の機能が使用できません</string>
     <string name="home_api_version">APIのバージョン</string>
@@ -22,11 +23,11 @@
     <string name="home_system_abi">システムABI</string>
     <string name="home_info_copied">クリップボードにコピーしました</string>
     <string name="home_support">サポート</string>
-    <string name="home_description">LSPatchは、LSPosedコアをベースとしたフリーな非root環境向けXposedフレームワークです。</string>
-    <string name="home_view_source_code"><![CDATA[%1$sでソースコードを表示する<br/>%2$sチャンネルに参加する]]></string>
+    <string name="home_description">LSPatchは、LSPosedコアに基づく無料の非root環境向けXposedフレームワークです。</string>
+    <string name="home_view_source_code"><![CDATA[%1$sでソースコードを見る<br/>%2$sチャンネルに参加する]]></string>
     <!-- Manage Screen -->
     <string name="screen_manage">管理</string>
-    <string name="manage_loading">読み込み中です</string>
+    <string name="manage_loading">読み込み中</string>
     <string name="manage_no_apps">パッチが適用されたアプリはありません</string>
     <string name="manage_rolling">ロール</string>
     <string name="manage_update_loader">ローダーを更新</string>
@@ -46,14 +47,14 @@
     <string name="patch_select_dir_text">パッチを適用したapkを保存するディレクトリを選択してください</string>
     <string name="patch_select_dir_error">ディレクトリの設定中にエラーが発生しました</string>
     <string name="patch_from_storage">ストレージからapkを選択</string>
-    <string name="patch_from_applist">インストールされているアプリから選択</string>
+    <string name="patch_from_applist">インストールされているアプリを選択</string>
     <string name="patch_mode">パッチモード</string>
     <string name="patch_local">ローカル</string>
     <string name="patch_local_desc">アプリにモジュールを埋め込まずにパッチを適用します。\nパッチが適用されたアプリを正しく実行するには、LSPatch Managerがバックグラウンドで実行されている必要があり、Xposedスコープは再パッチなしで動的に変更できます。\nローカルのパッチが適用されたアプリは、パッチを適用したデバイスでのみ実行できます。</string>
     <string name="patch_portable">ポータブル</string>
-    <string name="patch_portable_desc">モジュールを埋め込んでアプリにパッチを適用します。\nパッチが適用されたアプリは、LSPatch Managerがない状態で実行できますが、動的に管理することはできません。\nポータブルでパッチをされたアプリは、LSPatch Managerがインストールされていないデバイスでも使用ができます。</string>
+    <string name="patch_portable_desc">モジュールを埋め込んでアプリにパッチを適用します。\nパッチが適用されたアプリは、LSPatch Managerがない状態で実行できますが、動的に管理することはできません。\nポータブルでパッチが適用されたアプリは、LSPatch Managerがインストールされていないデバイスでも使用ができます。</string>
     <string name="patch_embed_modules">モジュールを埋め込む</string>
-    <string name="patch_debuggable">デバッグを有効</string>
+    <string name="patch_debuggable">デバッグを有効化</string>
     <string name="patch_sigbypass">署名のバイパス</string>
     <string name="patch_sigbypasslv0">lv0: オフ</string>
     <string name="patch_sigbypasslv1">lv1: PMをバイパス</string>
@@ -78,9 +79,11 @@
     <string name="settings_keystore_alias">エイリアス</string>
     <string name="settings_keystore_alias_password">エイリアスのパスワード</string>
     <string name="settings_keystore_desc">キーストア (BKS) の設定</string>
-    <string name="settings_keystore_wrong_keystore">キーストアの種類が違います</string>
+    <string name="settings_keystore_wrong_keystore">キーストアの種類が間違っています</string>
     <string name="settings_keystore_wrong_password">キーストアのパスワードが違います</string>
     <string name="settings_keystore_wrong_alias">エイリアス名が間違っています</string>
     <string name="settings_keystore_wrong_alias_password">エイリアスのパスワードが違います</string>
     <string name="settings_detail_patch_logs">パッチログの詳細</string>
+    <string name="settings_keep_alive">Keep alive</string>
+    <string name="settings_keep_alive_foreground">Foreground</string>
 </resources>
