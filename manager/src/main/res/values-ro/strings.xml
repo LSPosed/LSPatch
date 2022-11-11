@@ -5,13 +5,13 @@
     <string name="installing">Instalarea</string>
     <string name="uninstall">Dezinstalați</string>
     <string name="uninstalling">Dezinstalarea</string>
-    <string name="copy_error">Copy error</string>
-    <string name="apps">Apps</string>
-    <string name="modules">Modules</string>
+    <string name="copy_error">Eroare de copiere</string>
+    <string name="apps">Aplicații</string>
+    <string name="modules">Module</string>
     <string name="shizuku_available">Serviciu Shizuku disponibil</string>
     <string name="shizuku_unavailable">Serviciul Shizuku nu este conectat</string>
     <string name="screen_repo">Repo</string>
-    <string name="screen_logs">Logs</string>
+    <string name="screen_logs">Bușteni</string>
     <string name="off">Off</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Unele funcții nu sunt disponibile</string>
@@ -26,23 +26,23 @@
     <string name="home_description">LSPatch este un cadru Xposed gratuit non-root, bazat pe nucleul LSPosed.</string>
     <string name="home_view_source_code"><![CDATA[Vizualizați codul sursă la %1$s<br/>Alăturați-vă canalului nostru %2$s]]></string>
     <!-- Manage Screen -->
-    <string name="screen_manage">Manage</string>
+    <string name="screen_manage">Gestionați</string>
     <string name="manage_loading">Se încarcă</string>
     <string name="manage_no_apps">Nicio aplicație corecţionată încă</string>
-    <string name="manage_rolling">Rolling</string>
-    <string name="manage_update_loader">Update loader</string>
-    <string name="manage_update_loader_successfully">Update successfully</string>
-    <string name="manage_update_loader_failed">Update failed</string>
+    <string name="manage_rolling">Rostogolire</string>
+    <string name="manage_update_loader">Actualizarea încărcătorului</string>
+    <string name="manage_update_loader_successfully">Actualizare cu succes</string>
+    <string name="manage_update_loader_failed">Actualizarea a eșuat</string>
     <string name="manage_module_scope">Domeniul de aplicare al modulului</string>
     <string name="manage_optimize">Optimizați</string>
     <string name="manage_optimize_successfully">Optimizați cu succes</string>
     <string name="manage_optimize_failed">Optimizarea a eșuat</string>
     <string name="manage_uninstall_successfully">Dezinstalare cu succes</string>
-    <string name="manage_no_modules">No modules yet</string>
-    <string name="manage_module_settings">Module settings</string>
-    <string name="manage_app_info">App info</string>
+    <string name="manage_no_modules">Nu există încă module</string>
+    <string name="manage_module_settings">Setări ale modulelor</string>
+    <string name="manage_app_info">Informații despre aplicație</string>
     <!-- New Patch Screen -->
-    <string name="screen_new_patch">New Patch</string>
+    <string name="screen_new_patch">Patch nou</string>
     <string name="patch_select_dir_title">Selectați directorul de stocare</string>
     <string name="patch_select_dir_text">Selectați un director pentru a stoca apk-urile corectate</string>
     <string name="patch_select_dir_error">Eroare la setarea directorului de stocare</string>
@@ -67,9 +67,9 @@
     <string name="patch_install_successfully">Instalați cu succes</string>
     <string name="patch_install_failed">Instalarea a eșuat</string>
     <!-- Select Apps Screen -->
-    <string name="screen_select_apps">Select Apps</string>
+    <string name="screen_select_apps">Selectați aplicații</string>
     <!-- Settings Screen -->
-    <string name="screen_settings">Settings</string>
+    <string name="screen_settings">Setări</string>
     <string name="settings_keystore">Keystore de semnături</string>
     <string name="settings_keystore_default">Built-in</string>
     <string name="settings_keystore_custom">Personalizat</string>
@@ -83,7 +83,7 @@
     <string name="settings_keystore_wrong_password">Parolă greșită pentru keystore</string>
     <string name="settings_keystore_wrong_alias">Nume alias greșit</string>
     <string name="settings_keystore_wrong_alias_password">Parolă alias greșită</string>
-    <string name="settings_detail_patch_logs">Detail patch logs</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_detail_patch_logs">Detaliile jurnalelor de patch-uri</string>
+    <string name="settings_keep_alive">Păstrați în viață</string>
+    <string name="settings_keep_alive_foreground">Prim-plan</string>
 </resources>
