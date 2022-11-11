@@ -5,14 +5,14 @@
     <string name="installing">Installatie van</string>
     <string name="uninstall">Verwijder</string>
     <string name="uninstalling">De-installeren van</string>
-    <string name="copy_error">Copy error</string>
+    <string name="copy_error">Kopieerfout</string>
     <string name="apps">Apps</string>
     <string name="modules">Modules</string>
     <string name="shizuku_available">Shizuku-service beschikbaar</string>
     <string name="shizuku_unavailable">Shizuku-service niet verbonden</string>
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Logs</string>
-    <string name="off">Off</string>
+    <string name="off">Uit</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Sommige functies niet beschikbaar</string>
     <string name="home_api_version">API-versie</string>
@@ -26,23 +26,23 @@
     <string name="home_description">LSPatch is een gratis niet-root Xposed-framework op basis van LSPosed-kern.</string>
     <string name="home_view_source_code"><![CDATA[Bekijk de broncode op %1$s<br/>Word lid van ons %2$s -kanaal]]></string>
     <!-- Manage Screen -->
-    <string name="screen_manage">Manage</string>
+    <string name="screen_manage">Beheer</string>
     <string name="manage_loading">Bezig met laden</string>
     <string name="manage_no_apps">Nog geen gepatchte apps</string>
     <string name="manage_rolling">Rolling</string>
-    <string name="manage_update_loader">Update loader</string>
-    <string name="manage_update_loader_successfully">Update successfully</string>
-    <string name="manage_update_loader_failed">Update failed</string>
+    <string name="manage_update_loader">Update lader</string>
+    <string name="manage_update_loader_successfully">Update met succes</string>
+    <string name="manage_update_loader_failed">Update mislukt</string>
     <string name="manage_module_scope">Toepassingsgebied van de module</string>
     <string name="manage_optimize">Optimaliseren</string>
     <string name="manage_optimize_successfully">Succesvol optimaliseren</string>
     <string name="manage_optimize_failed">Optimaliseren mislukt</string>
     <string name="manage_uninstall_successfully">Installatie ongedaan maken</string>
-    <string name="manage_no_modules">No modules yet</string>
-    <string name="manage_module_settings">Module settings</string>
+    <string name="manage_no_modules">Nog geen modules</string>
+    <string name="manage_module_settings">Module-instellingen</string>
     <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
-    <string name="screen_new_patch">New Patch</string>
+    <string name="screen_new_patch">Nieuwe patch</string>
     <string name="patch_select_dir_title">Selecteer opslagmap</string>
     <string name="patch_select_dir_text">Selecteer een map om de gepatchte apks op te slaan</string>
     <string name="patch_select_dir_error">Fout bij het instellen van de opslagmap</string>
@@ -67,9 +67,9 @@
     <string name="patch_install_successfully">Succesvol installeren</string>
     <string name="patch_install_failed">Installatie mislukt</string>
     <!-- Select Apps Screen -->
-    <string name="screen_select_apps">Select Apps</string>
+    <string name="screen_select_apps">Selecteer toepassingen</string>
     <!-- Settings Screen -->
-    <string name="screen_settings">Settings</string>
+    <string name="screen_settings">Instellingen</string>
     <string name="settings_keystore">Handtekening sleutelbewaarplaats</string>
     <string name="settings_keystore_default">Ingebouwd</string>
     <string name="settings_keystore_custom">Custom</string>
@@ -84,6 +84,6 @@
     <string name="settings_keystore_wrong_alias">Verkeerde aliasnaam</string>
     <string name="settings_keystore_wrong_alias_password">Verkeerd alias wachtwoord</string>
     <string name="settings_detail_patch_logs">Detail patch logs</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_keep_alive">In leven houden</string>
+    <string name="settings_keep_alive_foreground">Voorgrond</string>
 </resources>
