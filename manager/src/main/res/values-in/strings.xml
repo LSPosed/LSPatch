@@ -5,14 +5,14 @@
     <string name="installing">Menginstal</string>
     <string name="uninstall">Copot pemasangan</string>
     <string name="uninstalling">Mencopot pemasangan</string>
-    <string name="copy_error">Copy error</string>
-    <string name="apps">Apps</string>
-    <string name="modules">Modules</string>
+    <string name="copy_error">Kesalahan penyalinan</string>
+    <string name="apps">Aplikasi</string>
+    <string name="modules">Modul</string>
     <string name="shizuku_available">Layanan Shizuku tersedia</string>
     <string name="shizuku_unavailable">Layanan Shizuku tidak terhubung</string>
     <string name="screen_repo">Repo</string>
-    <string name="screen_logs">Logs</string>
-    <string name="off">Off</string>
+    <string name="screen_logs">Log</string>
+    <string name="off">Mati</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Beberapa fungsi tidak tersedia</string>
     <string name="home_api_version">Versi API</string>
@@ -26,23 +26,23 @@
     <string name="home_description">LSPatch adalah kerangka kerja Xposed non-root gratis berdasarkan inti LSPosed.</string>
     <string name="home_view_source_code"><![CDATA[Lihat kode sumber di %1$s<br/>Bergabunglah dengan %2$s saluran kami]]></string>
     <!-- Manage Screen -->
-    <string name="screen_manage">Manage</string>
+    <string name="screen_manage">Kelola</string>
     <string name="manage_loading">Memuat</string>
     <string name="manage_no_apps">Belum ada aplikasi yang ditambal</string>
-    <string name="manage_rolling">Rolling</string>
-    <string name="manage_update_loader">Update loader</string>
-    <string name="manage_update_loader_successfully">Update successfully</string>
-    <string name="manage_update_loader_failed">Update failed</string>
+    <string name="manage_rolling">Bergulir</string>
+    <string name="manage_update_loader">Perbarui pemuat</string>
+    <string name="manage_update_loader_successfully">Pembaruan berhasil</string>
+    <string name="manage_update_loader_failed">Pembaruan gagal</string>
     <string name="manage_module_scope">Lingkup modul</string>
     <string name="manage_optimize">Optimalkan</string>
     <string name="manage_optimize_successfully">Optimalkan berhasil</string>
     <string name="manage_optimize_failed">Pengoptimalan gagal</string>
     <string name="manage_uninstall_successfully">Copot pemasangan dengan sukses</string>
-    <string name="manage_no_modules">No modules yet</string>
-    <string name="manage_module_settings">Module settings</string>
-    <string name="manage_app_info">App info</string>
+    <string name="manage_no_modules">Belum ada modul</string>
+    <string name="manage_module_settings">Pengaturan modul</string>
+    <string name="manage_app_info">Info aplikasi</string>
     <!-- New Patch Screen -->
-    <string name="screen_new_patch">New Patch</string>
+    <string name="screen_new_patch">Tambalan Baru</string>
     <string name="patch_select_dir_title">Pilih direktori penyimpanan</string>
     <string name="patch_select_dir_text">Pilih direktori untuk menyimpan apk yang ditambal</string>
     <string name="patch_select_dir_error">Kesalahan saat mengatur direktori penyimpanan</string>
@@ -67,9 +67,9 @@
     <string name="patch_install_successfully">Instal berhasil</string>
     <string name="patch_install_failed">Instal gagal</string>
     <!-- Select Apps Screen -->
-    <string name="screen_select_apps">Select Apps</string>
+    <string name="screen_select_apps">Pilih Aplikasi</string>
     <!-- Settings Screen -->
-    <string name="screen_settings">Settings</string>
+    <string name="screen_settings">Pengaturan</string>
     <string name="settings_keystore">Toko kunci tanda tangan</string>
     <string name="settings_keystore_default">Built-in</string>
     <string name="settings_keystore_custom">Kebiasaan</string>
@@ -83,7 +83,7 @@
     <string name="settings_keystore_wrong_password">Kata sandi keystore salah</string>
     <string name="settings_keystore_wrong_alias">Nama alias salah</string>
     <string name="settings_keystore_wrong_alias_password">Kata sandi alias salah</string>
-    <string name="settings_detail_patch_logs">Detail patch logs</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_detail_patch_logs">Detail log tambalan</string>
+    <string name="settings_keep_alive">Tetap hidup</string>
+    <string name="settings_keep_alive_foreground">Latar Depan</string>
 </resources>
