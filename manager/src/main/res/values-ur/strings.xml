@@ -5,14 +5,14 @@
     <string name="installing">انسٹال کرنا</string>
     <string name="uninstall">ان انسٹال کریں۔</string>
     <string name="uninstalling">ان انسٹال کرنا</string>
-    <string name="copy_error">Copy error</string>
-    <string name="apps">Apps</string>
-    <string name="modules">Modules</string>
+    <string name="copy_error">کاپی کی غلطی</string>
+    <string name="apps">ایپس</string>
+    <string name="modules">ماڈیولز</string>
     <string name="shizuku_available">شیزوکو سروس دستیاب ہے۔</string>
     <string name="shizuku_unavailable">شیزوکو سروس منسلک نہیں ہے۔</string>
-    <string name="screen_repo">Repo</string>
-    <string name="screen_logs">Logs</string>
-    <string name="off">Off</string>
+    <string name="screen_repo">ریپو</string>
+    <string name="screen_logs">نوشتہ جات</string>
+    <string name="off">بند</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">کچھ فنکشنز دستیاب نہیں ہیں۔</string>
     <string name="home_api_version">API ورژن</string>
@@ -26,23 +26,23 @@
     <string name="home_description">LSPatch LSPosed کور پر مبنی ایک مفت نان روٹ Xposed فریم ورک ہے۔</string>
     <string name="home_view_source_code"><![CDATA[%1$s<br/>پر سورس کوڈ دیکھیں ہمارے %2$s چینل میں شامل ہوں۔]]></string>
     <!-- Manage Screen -->
-    <string name="screen_manage">Manage</string>
+    <string name="screen_manage">انتظام کریں۔</string>
     <string name="manage_loading">لوڈ ہو رہا ہے۔</string>
     <string name="manage_no_apps">ابھی تک کوئی پیچ شدہ ایپس نہیں ہیں۔</string>
-    <string name="manage_rolling">Rolling</string>
-    <string name="manage_update_loader">Update loader</string>
-    <string name="manage_update_loader_successfully">Update successfully</string>
-    <string name="manage_update_loader_failed">Update failed</string>
+    <string name="manage_rolling">رولنگ</string>
+    <string name="manage_update_loader">لوڈر کو اپ ڈیٹ کریں۔</string>
+    <string name="manage_update_loader_successfully">کامیابی سے اپ ڈیٹ ہو گیا۔</string>
+    <string name="manage_update_loader_failed">اپ ڈیٹ ناکام</string>
     <string name="manage_module_scope">ماڈیول دائرہ کار</string>
     <string name="manage_optimize">بہتر بنائیں</string>
     <string name="manage_optimize_successfully">کامیابی کے ساتھ اصلاح کریں۔</string>
     <string name="manage_optimize_failed">اصلاح ناکام ہوگئی</string>
     <string name="manage_uninstall_successfully">کامیابی کے ساتھ اَن انسٹال کریں۔</string>
-    <string name="manage_no_modules">No modules yet</string>
-    <string name="manage_module_settings">Module settings</string>
-    <string name="manage_app_info">App info</string>
+    <string name="manage_no_modules">ابھی تک کوئی ماڈیولز نہیں ہیں۔</string>
+    <string name="manage_module_settings">ماڈیول کی ترتیبات</string>
+    <string name="manage_app_info">ایپ کی معلومات</string>
     <!-- New Patch Screen -->
-    <string name="screen_new_patch">New Patch</string>
+    <string name="screen_new_patch">نیا پیچ</string>
     <string name="patch_select_dir_title">اسٹوریج ڈائرکٹری منتخب کریں۔</string>
     <string name="patch_select_dir_text">پیچ شدہ apks کو ذخیرہ کرنے کے لیے ایک ڈائریکٹری منتخب کریں۔</string>
     <string name="patch_select_dir_error">اسٹوریج ڈائرکٹری ترتیب دیتے وقت خرابی</string>
@@ -67,9 +67,9 @@
     <string name="patch_install_successfully">کامیابی سے انسٹال کریں۔</string>
     <string name="patch_install_failed">انسٹال ناکام ہو گیا۔</string>
     <!-- Select Apps Screen -->
-    <string name="screen_select_apps">Select Apps</string>
+    <string name="screen_select_apps">ایپس کو منتخب کریں۔</string>
     <!-- Settings Screen -->
-    <string name="screen_settings">Settings</string>
+    <string name="screen_settings">ترتیبات</string>
     <string name="settings_keystore">دستخطی کی اسٹور</string>
     <string name="settings_keystore_default">بلٹ ان</string>
     <string name="settings_keystore_custom">اپنی مرضی کے مطابق</string>
@@ -83,7 +83,7 @@
     <string name="settings_keystore_wrong_password">کی اسٹور کا غلط پاس ورڈ</string>
     <string name="settings_keystore_wrong_alias">غلط عرفی نام</string>
     <string name="settings_keystore_wrong_alias_password">غلط عرفی پاس ورڈ</string>
-    <string name="settings_detail_patch_logs">Detail patch logs</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_detail_patch_logs">تفصیلی پیچ لاگز</string>
+    <string name="settings_keep_alive">زندہ رہو</string>
+    <string name="settings_keep_alive_foreground">پیش منظر</string>
 </resources>
