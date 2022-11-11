@@ -5,14 +5,14 @@
     <string name="installing">स्थापित कर रहा है</string>
     <string name="uninstall">स्थापना रद्द करें</string>
     <string name="uninstalling">की स्थापना रद्द</string>
-    <string name="copy_error">Copy error</string>
-    <string name="apps">Apps</string>
-    <string name="modules">Modules</string>
+    <string name="copy_error">कॉपी एरर</string>
+    <string name="apps">ऐप्स</string>
+    <string name="modules">मॉड्यूल</string>
     <string name="shizuku_available">शिज़ुकु सेवा उपलब्ध</string>
     <string name="shizuku_unavailable">शिज़ुकु सेवा कनेक्ट नहीं है</string>
-    <string name="screen_repo">Repo</string>
-    <string name="screen_logs">Logs</string>
-    <string name="off">Off</string>
+    <string name="screen_repo">रेपो</string>
+    <string name="screen_logs">लॉग्स</string>
+    <string name="off">बंद</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">कुछ फ़ंक्शन अनुपलब्ध</string>
     <string name="home_api_version">एपीआई संस्करण</string>
@@ -26,23 +26,23 @@
     <string name="home_description">LSPatch LSPosed कोर पर आधारित एक निःशुल्क गैर-रूट Xposed ढांचा है।</string>
     <string name="home_view_source_code"><![CDATA[%1$s<br/>पर सोर्स कोड देखें हमारे %2$s चैनल से जुड़ें]]></string>
     <!-- Manage Screen -->
-    <string name="screen_manage">Manage</string>
+    <string name="screen_manage">प्रबंधित करना</string>
     <string name="manage_loading">लोड हो रहा है</string>
     <string name="manage_no_apps">अभी तक कोई पैच किया गया ऐप्स नहीं</string>
-    <string name="manage_rolling">Rolling</string>
-    <string name="manage_update_loader">Update loader</string>
-    <string name="manage_update_loader_successfully">Update successfully</string>
-    <string name="manage_update_loader_failed">Update failed</string>
+    <string name="manage_rolling">रोलिंग</string>
+    <string name="manage_update_loader">लोडर अपडेट करें</string>
+    <string name="manage_update_loader_successfully">सफलतापूर्वक अपडेट करें</string>
+    <string name="manage_update_loader_failed">अपडेट विफल हुआ</string>
     <string name="manage_module_scope">मॉड्यूल स्कोप</string>
     <string name="manage_optimize">अनुकूलन</string>
     <string name="manage_optimize_successfully">सफलतापूर्वक अनुकूलित करें</string>
     <string name="manage_optimize_failed">अनुकूलन विफल</string>
     <string name="manage_uninstall_successfully">सफलतापूर्वक अनइंस्टॉल करें</string>
-    <string name="manage_no_modules">No modules yet</string>
-    <string name="manage_module_settings">Module settings</string>
-    <string name="manage_app_info">App info</string>
+    <string name="manage_no_modules">अभी तक कोई मॉड्यूल नहीं</string>
+    <string name="manage_module_settings">मॉड्यूल सेटिंग्स</string>
+    <string name="manage_app_info">अनुप्रयोग की जानकारी</string>
     <!-- New Patch Screen -->
-    <string name="screen_new_patch">New Patch</string>
+    <string name="screen_new_patch">नया पैच</string>
     <string name="patch_select_dir_title">भंडारण निर्देशिका का चयन करें</string>
     <string name="patch_select_dir_text">पैच किए गए एपीके को स्टोर करने के लिए एक निर्देशिका का चयन करें</string>
     <string name="patch_select_dir_error">संग्रहण निर्देशिका सेट करते समय त्रुटि</string>
@@ -67,9 +67,9 @@
     <string name="patch_install_successfully">सफलतापूर्वक स्थापित करें</string>
     <string name="patch_install_failed">स्थापित करना विफल</string>
     <!-- Select Apps Screen -->
-    <string name="screen_select_apps">Select Apps</string>
+    <string name="screen_select_apps">ऐप्स चुनें</string>
     <!-- Settings Screen -->
-    <string name="screen_settings">Settings</string>
+    <string name="screen_settings">समायोजन</string>
     <string name="settings_keystore">सिग्नेचर कीस्टोर</string>
     <string name="settings_keystore_default">में निर्मित</string>
     <string name="settings_keystore_custom">रिवाज़</string>
@@ -83,7 +83,7 @@
     <string name="settings_keystore_wrong_password">गलत कीस्टोर पासवर्ड</string>
     <string name="settings_keystore_wrong_alias">गलत उपनाम</string>
     <string name="settings_keystore_wrong_alias_password">गलत उपनाम पासवर्ड</string>
-    <string name="settings_detail_patch_logs">Detail patch logs</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_detail_patch_logs">विस्तार पैच लॉग</string>
+    <string name="settings_keep_alive">जिंदा रहो</string>
+    <string name="settings_keep_alive_foreground">अग्रभूमि</string>
 </resources>
