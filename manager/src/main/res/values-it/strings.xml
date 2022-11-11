@@ -5,14 +5,14 @@
     <string name="installing">Installazione</string>
     <string name="uninstall">Disinstallare</string>
     <string name="uninstalling">Disinstallazione</string>
-    <string name="copy_error">Copy error</string>
-    <string name="apps">Apps</string>
-    <string name="modules">Modules</string>
+    <string name="copy_error">Errore di copia</string>
+    <string name="apps">Applicazioni</string>
+    <string name="modules">Moduli</string>
     <string name="shizuku_available">Servizio Shizuku disponibile</string>
     <string name="shizuku_unavailable">Servizio Shizuku non connesso</string>
     <string name="screen_repo">Repo</string>
-    <string name="screen_logs">Logs</string>
-    <string name="off">Off</string>
+    <string name="screen_logs">Registri</string>
+    <string name="off">Spento</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Alcune funzioni non disponibili</string>
     <string name="home_api_version">Versione API</string>
@@ -26,23 +26,23 @@
     <string name="home_description">LSPatch è un framework Xposed gratuito non root basato sul core LPOSed.</string>
     <string name="home_view_source_code"><![CDATA[Visualizza il codice sorgente su %1$s<br/>Unisciti al nostro canale %2$s]]></string>
     <!-- Manage Screen -->
-    <string name="screen_manage">Manage</string>
+    <string name="screen_manage">Gestire</string>
     <string name="manage_loading">Caricamento in corso</string>
     <string name="manage_no_apps">Ancora nessuna app patchata</string>
-    <string name="manage_rolling">Rolling</string>
-    <string name="manage_update_loader">Update loader</string>
-    <string name="manage_update_loader_successfully">Update successfully</string>
-    <string name="manage_update_loader_failed">Update failed</string>
+    <string name="manage_rolling">Rotolamento</string>
+    <string name="manage_update_loader">Aggiornamento del caricatore</string>
+    <string name="manage_update_loader_successfully">Aggiornamento riuscito</string>
+    <string name="manage_update_loader_failed">Aggiornamento fallito</string>
     <string name="manage_module_scope">Ambito del modulo</string>
     <string name="manage_optimize">Ottimizzare</string>
     <string name="manage_optimize_successfully">Ottimizzare con successo</string>
     <string name="manage_optimize_failed">Ottimizzare il fallimento</string>
     <string name="manage_uninstall_successfully">Disinstallazione riuscita</string>
-    <string name="manage_no_modules">No modules yet</string>
-    <string name="manage_module_settings">Module settings</string>
-    <string name="manage_app_info">App info</string>
+    <string name="manage_no_modules">Non ci sono ancora moduli</string>
+    <string name="manage_module_settings">Impostazioni del modulo</string>
+    <string name="manage_app_info">Info sull\'app</string>
     <!-- New Patch Screen -->
-    <string name="screen_new_patch">New Patch</string>
+    <string name="screen_new_patch">Nuova patch</string>
     <string name="patch_select_dir_title">Seleziona la directory di archiviazione</string>
     <string name="patch_select_dir_text">Seleziona una directory in cui archiviare gli apk corretti</string>
     <string name="patch_select_dir_error">Errore durante l\'impostazione della directory di archiviazione</string>
@@ -67,9 +67,9 @@
     <string name="patch_install_successfully">Installa con successo</string>
     <string name="patch_install_failed">Installazione non riuscita</string>
     <!-- Select Apps Screen -->
-    <string name="screen_select_apps">Select Apps</string>
+    <string name="screen_select_apps">Selezionare le applicazioni</string>
     <!-- Settings Screen -->
-    <string name="screen_settings">Settings</string>
+    <string name="screen_settings">Impostazioni</string>
     <string name="settings_keystore">Firma keystore</string>
     <string name="settings_keystore_default">Costruito in</string>
     <string name="settings_keystore_custom">Personalizzato</string>
@@ -83,7 +83,7 @@
     <string name="settings_keystore_wrong_password">Password errata del keystore</string>
     <string name="settings_keystore_wrong_alias">Nome alias errato</string>
     <string name="settings_keystore_wrong_alias_password">Password alias errata</string>
-    <string name="settings_detail_patch_logs">Detail patch logs</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_detail_patch_logs">Registri dettagliati delle patch</string>
+    <string name="settings_keep_alive">Mantenere in vita</string>
+    <string name="settings_keep_alive_foreground">Primo piano</string>
 </resources>
