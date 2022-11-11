@@ -12,6 +12,7 @@
     <string name="shizuku_unavailable">Shizuku 服務未連線</string>
     <string name="screen_repo">倉庫</string>
     <string name="screen_logs">日誌</string>
+    <string name="off">關閉</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">部分功能不可用</string>
     <string name="home_api_version">API 版本</string>
@@ -83,4 +84,6 @@
     <string name="settings_keystore_wrong_alias">別名錯誤</string>
     <string name="settings_keystore_wrong_alias_password">別名密碼錯誤</string>
     <string name="settings_detail_patch_logs">詳細打包日誌</string>
+    <string name="settings_keep_alive">保活</string>
+    <string name="settings_keep_alive_foreground">前臺</string>
 </resources>
