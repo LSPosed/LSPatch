@@ -29,7 +29,7 @@
     <string name="screen_manage">Gérer</string>
     <string name="manage_loading">Chargement</string>
     <string name="manage_no_apps">Aucune appli patchée pour le moment</string>
-    <string name="manage_rolling">Rolling</string>
+    <string name="manage_rolling">Rouler</string>
     <string name="manage_update_loader">Mettre à jour le chargeur</string>
     <string name="manage_update_loader_successfully">Mise à jour réussie</string>
     <string name="manage_update_loader_failed">Échec de la mise à jour</string>
@@ -84,6 +84,6 @@
     <string name="settings_keystore_wrong_alias">Nom d\'alias erroné</string>
     <string name="settings_keystore_wrong_alias_password">Mot de passe d\'alias erroné</string>
     <string name="settings_detail_patch_logs">Détails des journaux du patch</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
+    <string name="settings_keep_alive">Garder la vie sauve</string>
+    <string name="settings_keep_alive_foreground">Premier plan</string>
 </resources>
