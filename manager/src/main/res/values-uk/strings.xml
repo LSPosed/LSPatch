@@ -12,6 +12,7 @@
     <string name="shizuku_unavailable">Служба Shizuku не підключена</string>
     <string name="screen_repo">Репо</string>
     <string name="screen_logs">Журнали</string>
+    <string name="off">Off</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Деякі функції недоступні</string>
     <string name="home_api_version">Версія API</string>
@@ -83,4 +84,6 @@
     <string name="settings_keystore_wrong_alias">Неправильний псевдонім</string>
     <string name="settings_keystore_wrong_alias_password">Неправильний пароль псевдоніма</string>
     <string name="settings_detail_patch_logs">Детальні журнали патчів</string>
+    <string name="settings_keep_alive">Keep alive</string>
+    <string name="settings_keep_alive_foreground">Foreground</string>
 </resources>
