@@ -12,6 +12,7 @@
     <string name="shizuku_unavailable">시즈쿠 서비스가 연결되지 않았습니다</string>
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Logs</string>
+    <string name="off">Off</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">일부 기능을 사용할 수 없음</string>
     <string name="home_api_version">API 버전</string>
@@ -83,4 +84,6 @@
     <string name="settings_keystore_wrong_alias">잘못된 별칭 이름</string>
     <string name="settings_keystore_wrong_alias_password">잘못된 별칭 암호</string>
     <string name="settings_detail_patch_logs">Detail patch logs</string>
+    <string name="settings_keep_alive">Keep alive</string>
+    <string name="settings_keep_alive_foreground">Foreground</string>
 </resources>
