@@ -210,8 +210,8 @@ private fun PatchOptionsBody(modifier: Modifier, onAddEmbed: () -> Unit) {
                 selected = !viewModel.useManager,
                 onClick = { viewModel.useManager = false },
                 icon = Icons.Outlined.WorkOutline,
-                title = stringResource(R.string.patch_portable),
-                desc = stringResource(R.string.patch_portable_desc),
+                title = stringResource(R.string.patch_integrated),
+                desc = stringResource(R.string.patch_integrated_desc),
                 extraContent = {
                     TextButton(
                         onClick = onAddEmbed,

@@ -8,6 +8,7 @@ import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
 import org.lsposed.lspatch.loader.util.FileUtils;
+import org.lsposed.lspatch.share.Constants;
 import org.lsposed.lspatch.util.ModuleLoader;
 import org.lsposed.lspd.models.Module;
 import org.lsposed.lspd.service.ILSPApplicationService;
@@ -33,7 +34,7 @@ public class LocalApplicationService extends ILSPApplicationService.Stub {
                 String modulePath = context.getCacheDir() + "/lspatch/" + packageName + "/";
                 String cacheApkPath;
                 try (ZipFile sourceFile = new ZipFile(context.getPackageResourcePath())) {
-                    cacheApkPath = modulePath + sourceFile.getEntry("assets/lspatch/modules/" + name).getCrc() + ".apk";
+                    cacheApkPath = modulePath + sourceFile.getEntry(Constants.EMBEDDED_MODULES_ASSET_PATH + name).getCrc() + ".apk";
                 }
 
                 if (!Files.exists(Paths.get(cacheApkPath))) {

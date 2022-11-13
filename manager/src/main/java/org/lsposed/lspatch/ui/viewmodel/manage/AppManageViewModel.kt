@@ -89,7 +89,7 @@ class AppManageViewModel : ViewModel() {
                 LSPPackageManager.cleanTmpApkDir()
                 val apkPaths = listOf(appInfo.app.sourceDir) + (appInfo.app.splitSourceDirs ?: emptyArray())
                 val patchPaths = mutableListOf<String>()
-                val embeddedModulePaths = if (config.useManager) emptyList<String>() else null
+                val embeddedModulePaths = mutableListOf<String>()
                 for (apk in apkPaths) {
                     ZipFile(apk).use { zip ->
                         var entry = zip.getEntry(Constants.ORIGINAL_APK_ASSET_PATH)
@@ -100,6 +100,19 @@ class AppManageViewModel : ViewModel() {
                             patchPaths.add(dst.absolutePath)
                             dst.outputStream().use { output ->
                                 input.copyTo(output)
+                            }
+                        }
+                    }
+                }
+                ZipFile(appInfo.app.sourceDir).use { zip ->
+                    zip.entries().iterator().forEach { entry ->
+                        if (entry.name.startsWith(Constants.EMBEDDED_MODULES_ASSET_PATH)) {
+                            val dst = lspApp.tmpApkDir.resolve(entry.name.substringAfterLast('/'))
+                            embeddedModulePaths.add(dst.absolutePath)
+                            zip.getInputStream(entry).use { input ->
+                                dst.outputStream().use { output ->
+                                    input.copyTo(output)
+                                }
                             }
                         }
                     }

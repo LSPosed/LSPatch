@@ -1,6 +1,7 @@
 package org.lsposed.patch;
 
 import static org.lsposed.lspatch.share.Constants.CONFIG_ASSET_PATH;
+import static org.lsposed.lspatch.share.Constants.EMBEDDED_MODULES_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.LOADER_DEX_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.ORIGINAL_APK_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.PROXY_APP_COMPONENT_FACTORY;
@@ -306,7 +307,7 @@ public class LSPatch {
                 var manifest = Objects.requireNonNull(ManifestParser.parseManifestFile(xmlIs));
                 var packageName = manifest.packageName;
                 logger.i("  - " + packageName);
-                zFile.add("assets/lspatch/modules/" + packageName + ".apk", fileIs);
+                zFile.add(EMBEDDED_MODULES_ASSET_PATH + packageName + ".apk", fileIs);
             } catch (NullPointerException | IOException e) {
                 logger.e(module + " does not exist or is not a valid apk file.");
             }
