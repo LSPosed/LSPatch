@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.lsposed.lspatch.Patcher
 import org.lsposed.lspatch.share.PatchConfig
+import org.lsposed.lspatch.ui.page.ManagerLogs
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 import org.lsposed.patch.util.Logger
@@ -49,18 +50,18 @@ class NewPatchViewModel : ViewModel() {
     private val logger = object : Logger() {
         override fun d(msg: String) {
             if (verbose) {
-                Log.d(TAG, msg)
+                ManagerLogs.d(TAG, msg)
                 logs += Log.DEBUG to msg
             }
         }
 
         override fun i(msg: String) {
-            Log.i(TAG, msg)
+            ManagerLogs.i(TAG, msg)
             logs += Log.INFO to msg
         }
 
         override fun e(msg: String) {
-            Log.e(TAG, msg)
+            ManagerLogs.e(TAG, msg)
             logs += Log.ERROR to msg
         }
     }
@@ -81,13 +82,13 @@ class NewPatchViewModel : ViewModel() {
     }
 
     private fun configurePatch(app: AppInfo) {
-        Log.d(TAG, "Configuring patch for ${app.app.packageName}")
+        logger.d("Configuring patch for ${app.app.packageName}")
         patchApp = app
         patchState = PatchState.CONFIGURING
     }
 
     private fun submitPatch() {
-        Log.d(TAG, "Submit patch")
+        logger.d( "Submit patch")
         if (useManager) embeddedModules = emptyList()
         patchOptions = Patcher.Options(
             config = PatchConfig(useManager, debuggable, overrideVersionCode, sigBypassLevel, null, null),

@@ -2,7 +2,6 @@ package org.lsposed.lspatch.ui.viewmodel.manage
 
 import android.content.pm.PackageInstaller
 import android.util.Base64
-import android.util.Log
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,6 +16,7 @@ import org.lsposed.lspatch.Patcher
 import org.lsposed.lspatch.lspApp
 import org.lsposed.lspatch.share.Constants
 import org.lsposed.lspatch.share.PatchConfig
+import org.lsposed.lspatch.ui.page.ManagerLogs
 import org.lsposed.lspatch.ui.viewstate.ProcessingState
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
@@ -42,11 +42,11 @@ class AppManageViewModel : ViewModel() {
         LSPPackageManager.appList.mapNotNull { appInfo ->
             appInfo.app.metaData?.getString("lspatch")?.let {
                 val json = Base64.decode(it, Base64.DEFAULT).toString(Charsets.UTF_8)
-                Log.d(TAG, "Read patched config: $json")
+                logger.d( "Read patched config: $json")
                 appInfo to Gson().fromJson(json, PatchConfig::class.java)
             }
         }.also {
-            Log.d(TAG, "Loaded ${it.size} patched apps")
+            logger.d( "Loaded ${it.size} patched apps")
         }
     }
 
@@ -58,15 +58,16 @@ class AppManageViewModel : ViewModel() {
 
     private val logger = object : Logger() {
         override fun d(msg: String) {
-            if (verbose) Log.d(TAG, msg)
+            if (verbose)
+                ManagerLogs.d(TAG, msg)
         }
 
         override fun i(msg: String) {
-            Log.i(TAG, msg)
+            ManagerLogs.i(TAG, msg)
         }
 
         override fun e(msg: String) {
-            Log.e(TAG, msg)
+            ManagerLogs.e(TAG, msg)
         }
     }
 
@@ -82,7 +83,7 @@ class AppManageViewModel : ViewModel() {
     }
 
     private suspend fun updateLoader(appInfo: AppInfo, config: PatchConfig) {
-        Log.i(TAG, "Update loader for ${appInfo.app.packageName}")
+        logger.i("Update loader for ${appInfo.app.packageName}")
         updateLoaderState = ProcessingState.Processing
         val result = runCatching {
             withContext(Dispatchers.IO) {
@@ -126,7 +127,7 @@ class AppManageViewModel : ViewModel() {
     }
 
     private suspend fun performOptimize(appInfo: AppInfo) {
-        Log.i(TAG, "Perform optimize for ${appInfo.app.packageName}")
+        logger.i("Perform optimize for ${appInfo.app.packageName}")
         optimizeState = ProcessingState.Processing
         val result = withContext(Dispatchers.IO) {
             ShizukuApi.performDexOptMode(appInfo.app.packageName)
