@@ -10,7 +10,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -20,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ramcosta.composedestinations.annotation.Destination
 import org.lsposed.lspatch.ui.component.CenterTopBar
+import org.lsposed.lspatch.ui.util.ManagerLogging
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
@@ -41,14 +41,14 @@ fun LogsScreen() {
                     .fillMaxHeight()
                     .padding(start = 14.dp, end = 14.dp, top = 2.dp, bottom = 2.dp)
             ) {
-                items(ManagerLogs.logs) {
+                items(ManagerLogging.logs) { log ->
                     Text(
-                        text = it.second,
+                        text = log.second,
                         style = TextStyle(
-                            fontSize = 12.sp, // TODO: make configurable
-                            lineHeight = 14.5.sp,
+                            fontSize = 14.sp, // TODO: make configurable
+                            lineHeight = 15.sp,
                             textAlign = TextAlign.Start,
-                            color = when (it.first) {
+                            color = when (log.first) {
                                 Log.ERROR -> MaterialTheme.colorScheme.error
                                 else -> MaterialTheme.colorScheme.onBackground
                             },
@@ -59,93 +59,6 @@ fun LogsScreen() {
                         overflow = TextOverflow.Visible
                     )
                 }
-            }
-        }
-    }
-}
-
-class ManagerLogs {
-    companion object {
-        @JvmStatic
-        val logs = mutableStateListOf<Pair<Int, String>>()
-
-        @JvmStatic
-        fun d(
-            tag: String,
-            msg: String
-        ) {
-            logs += Log.DEBUG to "$tag: $msg"
-            Log.d(tag, msg)
-            preventOverflow()
-        }
-
-        @JvmStatic
-        fun i(
-            tag: String,
-            msg: String
-        ) {
-            logs += Log.INFO to "$tag: $msg"
-            Log.i(tag, msg)
-            preventOverflow()
-        }
-
-        @JvmStatic
-        fun w(
-            tag: String,
-            msg: String,
-            throwable: Throwable
-        ) {
-            logs += Log.WARN to "$tag: $msg ${throwable.message}"
-            Log.w(tag, msg, throwable)
-            preventOverflow()
-        }
-
-        @JvmStatic
-        fun w(
-            tag: String,
-            msg: String
-        ) {
-            logs += Log.WARN to "$tag: $msg"
-            Log.e(tag, msg)
-            preventOverflow()
-        }
-
-        @JvmStatic
-        fun e(
-            tag: String,
-            msg: String
-        ) {
-            logs += Log.ERROR to "$tag: $msg"
-            Log.e(tag, msg)
-            preventOverflow()
-        }
-
-        @JvmStatic
-        fun e(
-            tag: String,
-            throwable: Throwable
-        ) {
-            val msg = throwable.message ?: "null"
-            logs += Log.ERROR to "$tag: $msg"
-            Log.e(tag, msg)
-            preventOverflow()
-        }
-
-
-        @JvmStatic
-        fun e(
-            tag: String,
-            msg: String,
-            throwable: Throwable
-        ) {
-            logs += Log.ERROR to "$tag: $msg -- ${throwable.message}"
-            Log.e(tag, msg, throwable)
-            preventOverflow()
-        }
-
-        private fun preventOverflow() {
-            if (logs.size > 300 /* limit to 300 logs*/ /* TODO: make configurable */) {
-                logs.removeAt(0) // prevent memory leak
             }
         }
     }

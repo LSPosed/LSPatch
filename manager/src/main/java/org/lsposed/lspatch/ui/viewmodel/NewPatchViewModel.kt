@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.lsposed.lspatch.Patcher
 import org.lsposed.lspatch.share.PatchConfig
-import org.lsposed.lspatch.ui.page.ManagerLogs
+import org.lsposed.lspatch.ui.util.ManagerLogging
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 import org.lsposed.patch.util.Logger
@@ -50,18 +50,18 @@ class NewPatchViewModel : ViewModel() {
     private val logger = object : Logger() {
         override fun d(msg: String) {
             if (verbose) {
-                ManagerLogs.d(TAG, msg)
+                ManagerLogging.d(TAG, msg)
                 logs += Log.DEBUG to msg
             }
         }
 
         override fun i(msg: String) {
-            ManagerLogs.i(TAG, msg)
+            ManagerLogging.i(TAG, msg)
             logs += Log.INFO to msg
         }
 
         override fun e(msg: String) {
-            ManagerLogs.e(TAG, msg)
+            ManagerLogging.e(TAG, msg)
             logs += Log.ERROR to msg
         }
     }

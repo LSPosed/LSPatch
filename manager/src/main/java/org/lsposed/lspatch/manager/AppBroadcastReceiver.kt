@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import kotlinx.coroutines.launch
 import org.lsposed.lspatch.lspApp
-import org.lsposed.lspatch.ui.page.ManagerLogs
+import org.lsposed.lspatch.ui.util.ManagerLogging
 import org.lsposed.lspatch.util.LSPPackageManager
 
 class AppBroadcastReceiver : BroadcastReceiver() {
@@ -32,7 +32,7 @@ class AppBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action in actions) {
             lspApp.globalScope.launch {
-                ManagerLogs.i(TAG, "Received intent: $intent")
+                ManagerLogging.i(TAG, "Received intent: $intent")
                 LSPPackageManager.fetchAppList()
             }
         }

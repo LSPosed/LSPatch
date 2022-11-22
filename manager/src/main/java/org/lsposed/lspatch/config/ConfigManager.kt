@@ -9,7 +9,7 @@ import org.lsposed.lspatch.database.LSPDatabase
 import org.lsposed.lspatch.database.entity.Module
 import org.lsposed.lspatch.database.entity.Scope
 import org.lsposed.lspatch.lspApp
-import org.lsposed.lspatch.ui.page.ManagerLogs
+import org.lsposed.lspatch.ui.util.ManagerLogging
 import org.lsposed.lspatch.util.ModuleLoader
 import java.io.File
 
@@ -71,10 +71,10 @@ object ConfigManager {
                         it.apkPath = lspApp.packageManager.getApplicationInfo(it.pkgName, 0).sourceDir
                     } catch (e: PackageManager.NameNotFoundException) {
                         moduleDao.delete(moduleDao.getModule(it.pkgName))
-                        ManagerLogs.w(TAG, "Module may be uninstalled: ${it.pkgName}")
+                        ManagerLogging.w(TAG, "Module may be uninstalled: ${it.pkgName}")
                         return@mapNotNull null
                     }
-                    ManagerLogs.i(TAG, "Module apk path updated: ${it.pkgName}")
+                    ManagerLogging.i(TAG, "Module apk path updated: ${it.pkgName}")
                 }
                 loadedModules.getOrPut(it) {
                     org.lsposed.lspd.models.Module().apply {

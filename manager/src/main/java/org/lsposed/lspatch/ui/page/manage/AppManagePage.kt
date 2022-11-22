@@ -47,7 +47,7 @@ import org.lsposed.lspatch.share.LSPConfig
 import org.lsposed.lspatch.ui.component.AnywhereDropdown
 import org.lsposed.lspatch.ui.component.AppItem
 import org.lsposed.lspatch.ui.component.LoadingDialog
-import org.lsposed.lspatch.ui.page.ManagerLogs
+import org.lsposed.lspatch.ui.util.ManagerLogging
 import org.lsposed.lspatch.ui.page.SelectAppsResult
 import org.lsposed.lspatch.ui.page.destinations.NewPatchScreenDestination
 import org.lsposed.lspatch.ui.page.destinations.SelectAppsScreenDestination
@@ -91,7 +91,7 @@ fun AppManageBody(
                         ConfigManager.deactivateModule(scopeApp, it)
                     }
                     result.selected.forEach {
-                        ManagerLogs.d(TAG, "Activate ${it.app.packageName} for $scopeApp")
+                        ManagerLogging.d(TAG, "Activate ${it.app.packageName} for $scopeApp")
                         ConfigManager.activateModule(scopeApp, Module(it.app.packageName, it.app.sourceDir))
                     }
                 }
@@ -269,10 +269,10 @@ fun AppManageFab(navigator: DestinationsNavigator) {
             val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
             context.contentResolver.takePersistableUriPermission(uri, takeFlags)
             Configs.storageDirectory = uri.toString()
-            ManagerLogs.i(TAG, "Storage directory: ${uri.path}")
+            ManagerLogging.i(TAG, "Storage directory: ${uri.path}")
             showNewPatchDialog = true
         } catch (e: Exception) {
-            ManagerLogs.e(TAG, "Error when requesting saving directory", e)
+            ManagerLogging.e(TAG, "Error when requesting saving directory", e)
             scope.launch { snackbarHost.showSnackbar(errorText) }
         }
     }
@@ -372,7 +372,7 @@ fun AppManageFab(navigator: DestinationsNavigator) {
                 }.onSuccess {
                     showNewPatchDialog = true
                 }.onFailure {
-                    ManagerLogs.w(TAG, "Failed to take persistable permission for saved uri", it)
+                    ManagerLogging.w(TAG, "Failed to take persistable permission for saved uri", it)
                     Configs.storageDirectory = null
                     shouldSelectDirectory = true
                 }

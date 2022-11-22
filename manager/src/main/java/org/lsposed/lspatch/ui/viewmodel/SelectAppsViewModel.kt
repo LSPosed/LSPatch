@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import org.lsposed.lspatch.ui.page.ManagerLogs
+import org.lsposed.lspatch.ui.util.ManagerLogging
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
 
@@ -18,7 +18,7 @@ class SelectAppsViewModel : ViewModel() {
     }
 
     init {
-        ManagerLogs.d(TAG, "SelectAppsViewModel ${toString().substringAfterLast('@')} construct")
+        ManagerLogging.d(TAG, "SelectAppsViewModel ${toString().substringAfterLast('@')} construct")
     }
 
     var isRefreshing by mutableStateOf(false)
@@ -37,7 +37,7 @@ class SelectAppsViewModel : ViewModel() {
                 isRefreshing = false
             }
             filteredList = LSPPackageManager.appList.filter(filter)
-            ManagerLogs.d(TAG, "Filtered ${filteredList.size} apps")
+            ManagerLogging.d(TAG, "Filtered ${filteredList.size} apps")
         }
     }
 }

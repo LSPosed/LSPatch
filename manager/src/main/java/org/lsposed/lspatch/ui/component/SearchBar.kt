@@ -24,7 +24,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.lsposed.lspatch.ui.page.ManagerLogs
+import org.lsposed.lspatch.ui.util.ManagerLogging
 
 private const val TAG = "SearchBar"
 
@@ -74,7 +74,7 @@ fun SearchAppBar(
                             .focusRequester(focusRequester)
                             .onFocusChanged { focusState ->
                                 if (focusState.isFocused) onSearch = true
-                                ManagerLogs.d(TAG, "onFocusChanged: $focusState")
+                                ManagerLogging.d(TAG, "onFocusChanged: $focusState")
                             },
                         value = searchText,
                         onValueChange = onSearchTextChange,

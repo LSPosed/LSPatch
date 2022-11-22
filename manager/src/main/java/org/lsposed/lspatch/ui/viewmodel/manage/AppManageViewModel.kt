@@ -16,7 +16,7 @@ import org.lsposed.lspatch.Patcher
 import org.lsposed.lspatch.lspApp
 import org.lsposed.lspatch.share.Constants
 import org.lsposed.lspatch.share.PatchConfig
-import org.lsposed.lspatch.ui.page.ManagerLogs
+import org.lsposed.lspatch.ui.util.ManagerLogging
 import org.lsposed.lspatch.ui.viewstate.ProcessingState
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
@@ -59,15 +59,15 @@ class AppManageViewModel : ViewModel() {
     private val logger = object : Logger() {
         override fun d(msg: String) {
             if (verbose)
-                ManagerLogs.d(TAG, msg)
+                ManagerLogging.d(TAG, msg)
         }
 
         override fun i(msg: String) {
-            ManagerLogs.i(TAG, msg)
+            ManagerLogging.i(TAG, msg)
         }
 
         override fun e(msg: String) {
-            ManagerLogs.e(TAG, msg)
+            ManagerLogging.e(TAG, msg)
         }
     }
 

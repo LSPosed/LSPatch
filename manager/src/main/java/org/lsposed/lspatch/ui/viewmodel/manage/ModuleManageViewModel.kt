@@ -3,7 +3,7 @@ package org.lsposed.lspatch.ui.viewmodel.manage
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
-import org.lsposed.lspatch.ui.page.ManagerLogs
+import org.lsposed.lspatch.ui.util.ManagerLogging
 import org.lsposed.lspatch.util.LSPPackageManager
 
 class ModuleManageViewModel : ViewModel() {
@@ -27,7 +27,7 @@ class ModuleManageViewModel : ViewModel() {
                 emptyList() // TODO: scope
             )
         }.also {
-            ManagerLogs.d(TAG, "Loaded ${it.size} Xposed modules")
+            ManagerLogging.d(TAG, "Loaded ${it.size} Xposed modules")
         }
     }
 }
