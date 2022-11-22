@@ -43,12 +43,20 @@ fun LogsScreen() {
             ) {
                 items(ManagerLogging.logs) { log ->
                     Text(
-                        text = log.second,
+                        text = "(${log.number}) ${
+                            when(log.level) {
+                                Log.ERROR -> "E"
+                                Log.WARN -> "W"
+                                Log.INFO -> "I"
+                                Log.DEBUG -> "D"
+                                else -> "V"
+                            }
+                        }/${log.str}",
                         style = TextStyle(
                             fontSize = 14.sp, // TODO: make configurable
                             lineHeight = 15.sp,
                             textAlign = TextAlign.Start,
-                            color = when (log.first) {
+                            color = when (log.level) {
                                 Log.ERROR -> MaterialTheme.colorScheme.error
                                 else -> MaterialTheme.colorScheme.onBackground
                             },

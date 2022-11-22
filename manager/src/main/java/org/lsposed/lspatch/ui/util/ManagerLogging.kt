@@ -4,18 +4,40 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 
 class ManagerLogging {
+    class LogEntry(val level: Int, val str: String, var number: Int)
+
     companion object {
         @JvmStatic
-        val logs = mutableStateListOf<Pair<Int, String>>()
+        val logs = mutableStateListOf<LogEntry>()
+
+
+        private fun addLog(
+            level: Int,
+            str: String
+        ) {
+            val logEntry: LogEntry? = if (logs.size > 0) logs[logs.size - 1] else null
+            if (
+                logEntry != null &&
+                logEntry.level == level &&
+                logEntry.str == str
+            ) {
+                logEntry.number++
+            } else {
+                logs += LogEntry(level, str, 1)
+                preventOverflow()
+            }
+        }
 
         @JvmStatic
         fun d(
             tag: String,
             msg: String
         ) {
-            logs += Log.DEBUG to "$tag: $msg"
+            addLog(
+                Log.DEBUG,
+                "$tag: $msg"
+            )
             Log.d(tag, msg)
-            preventOverflow()
         }
 
         @JvmStatic
@@ -23,9 +45,11 @@ class ManagerLogging {
             tag: String,
             msg: String
         ) {
-            logs += Log.INFO to "$tag: $msg"
+            addLog(
+                Log.INFO,
+                "$tag: $msg"
+            )
             Log.i(tag, msg)
-            preventOverflow()
         }
 
         @JvmStatic
@@ -34,9 +58,11 @@ class ManagerLogging {
             msg: String,
             throwable: Throwable
         ) {
-            logs += Log.WARN to "$tag: $msg ${throwable.message}"
+            addLog(
+                Log.DEBUG,
+                "$tag: $msg -- ${throwable.message}"
+            )
             Log.w(tag, msg, throwable)
-            preventOverflow()
         }
 
         @JvmStatic
@@ -44,9 +70,11 @@ class ManagerLogging {
             tag: String,
             msg: String
         ) {
-            logs += Log.WARN to "$tag: $msg"
+            addLog(
+                Log.WARN,
+                "$tag: $msg"
+            )
             Log.e(tag, msg)
-            preventOverflow()
         }
 
         @JvmStatic
@@ -54,9 +82,11 @@ class ManagerLogging {
             tag: String,
             msg: String
         ) {
-            logs += Log.ERROR to "$tag: $msg"
+            addLog(
+                Log.ERROR,
+                "$tag: $msg"
+            )
             Log.e(tag, msg)
-            preventOverflow()
         }
 
         @JvmStatic
@@ -65,9 +95,11 @@ class ManagerLogging {
             throwable: Throwable
         ) {
             val msg = throwable.message ?: "null"
-            logs += Log.ERROR to "$tag: $msg"
+            addLog(
+                Log.ERROR,
+                "$tag: $msg"
+            )
             Log.e(tag, msg)
-            preventOverflow()
         }
 
 
@@ -77,9 +109,11 @@ class ManagerLogging {
             msg: String,
             throwable: Throwable
         ) {
-            logs += Log.ERROR to "$tag: $msg -- ${throwable.message}"
+            addLog(
+                Log.ERROR,
+                "$tag: $msg -- ${throwable.message}"
+            )
             Log.e(tag, msg, throwable)
-            preventOverflow()
         }
 
         private fun preventOverflow() {
