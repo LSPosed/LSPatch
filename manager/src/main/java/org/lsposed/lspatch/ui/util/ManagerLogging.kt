@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 
 class ManagerLogging {
-    class LogEntry(val level: Int, val str: String, var number: Int)
+    class LogEntry(val level: Int, val tag: String, val str: String)
 
     companion object {
         @JvmStatic
@@ -13,19 +13,11 @@ class ManagerLogging {
 
         private fun addLog(
             level: Int,
+            tag: String,
             str: String
         ) {
-            val logEntry: LogEntry? = if (logs.size > 0) logs[logs.size - 1] else null
-            if (
-                logEntry != null &&
-                logEntry.level == level &&
-                logEntry.str == str
-            ) {
-                logEntry.number++
-            } else {
-                logs += LogEntry(level, str, 1)
-                preventOverflow()
-            }
+            logs += LogEntry(level, tag, str)
+            preventOverflow()
         }
 
         @JvmStatic
@@ -35,7 +27,8 @@ class ManagerLogging {
         ) {
             addLog(
                 Log.DEBUG,
-                "$tag: $msg"
+                tag,
+                msg
             )
             Log.d(tag, msg)
         }
@@ -47,7 +40,8 @@ class ManagerLogging {
         ) {
             addLog(
                 Log.INFO,
-                "$tag: $msg"
+                tag,
+                msg
             )
             Log.i(tag, msg)
         }
@@ -59,8 +53,9 @@ class ManagerLogging {
             throwable: Throwable
         ) {
             addLog(
-                Log.DEBUG,
-                "$tag: $msg -- ${throwable.message}"
+                Log.WARN,
+                tag,
+                "$msg -- ${throwable.message}"
             )
             Log.w(tag, msg, throwable)
         }
@@ -72,7 +67,8 @@ class ManagerLogging {
         ) {
             addLog(
                 Log.WARN,
-                "$tag: $msg"
+                tag,
+                msg
             )
             Log.e(tag, msg)
         }
@@ -84,7 +80,8 @@ class ManagerLogging {
         ) {
             addLog(
                 Log.ERROR,
-                "$tag: $msg"
+                tag,
+                msg
             )
             Log.e(tag, msg)
         }
@@ -94,12 +91,7 @@ class ManagerLogging {
             tag: String,
             throwable: Throwable
         ) {
-            val msg = throwable.message ?: "null"
-            addLog(
-                Log.ERROR,
-                "$tag: $msg"
-            )
-            Log.e(tag, msg)
+            e(tag, throwable.message ?: "Unknown error")
         }
 
 
@@ -109,11 +101,7 @@ class ManagerLogging {
             msg: String,
             throwable: Throwable
         ) {
-            addLog(
-                Log.ERROR,
-                "$tag: $msg -- ${throwable.message}"
-            )
-            Log.e(tag, msg, throwable)
+            e(tag, "$msg -- ${throwable.message ?: "Unknown error"}")
         }
 
         private fun preventOverflow() {

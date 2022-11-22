@@ -43,15 +43,7 @@ fun LogsScreen() {
             ) {
                 items(ManagerLogging.logs) { log ->
                     Text(
-                        text = "(${log.number}) ${
-                            when(log.level) {
-                                Log.ERROR -> "E"
-                                Log.WARN -> "W"
-                                Log.INFO -> "I"
-                                Log.DEBUG -> "D"
-                                else -> "V"
-                            }
-                        }/${log.str}",
+                        text = log.str,
                         style = TextStyle(
                             fontSize = 14.sp, // TODO: make configurable
                             lineHeight = 15.sp,
