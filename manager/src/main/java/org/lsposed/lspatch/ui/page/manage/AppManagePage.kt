@@ -6,7 +6,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
@@ -48,6 +47,7 @@ import org.lsposed.lspatch.share.LSPConfig
 import org.lsposed.lspatch.ui.component.AnywhereDropdown
 import org.lsposed.lspatch.ui.component.AppItem
 import org.lsposed.lspatch.ui.component.LoadingDialog
+import org.lsposed.lspatch.ui.page.ManagerLogs
 import org.lsposed.lspatch.ui.page.SelectAppsResult
 import org.lsposed.lspatch.ui.page.destinations.NewPatchScreenDestination
 import org.lsposed.lspatch.ui.page.destinations.SelectAppsScreenDestination
@@ -91,7 +91,7 @@ fun AppManageBody(
                         ConfigManager.deactivateModule(scopeApp, it)
                     }
                     result.selected.forEach {
-                        Log.d(TAG, "Activate ${it.app.packageName} for $scopeApp")
+                        ManagerLogs.d(TAG, "Activate ${it.app.packageName} for $scopeApp")
                         ConfigManager.activateModule(scopeApp, Module(it.app.packageName, it.app.sourceDir))
                     }
                 }
@@ -269,10 +269,10 @@ fun AppManageFab(navigator: DestinationsNavigator) {
             val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
             context.contentResolver.takePersistableUriPermission(uri, takeFlags)
             Configs.storageDirectory = uri.toString()
-            Log.i(TAG, "Storage directory: ${uri.path}")
+            ManagerLogs.i(TAG, "Storage directory: ${uri.path}")
             showNewPatchDialog = true
         } catch (e: Exception) {
-            Log.e(TAG, "Error when requesting saving directory", e)
+            ManagerLogs.e(TAG, "Error when requesting saving directory", e)
             scope.launch { snackbarHost.showSnackbar(errorText) }
         }
     }
@@ -372,7 +372,7 @@ fun AppManageFab(navigator: DestinationsNavigator) {
                 }.onSuccess {
                     showNewPatchDialog = true
                 }.onFailure {
-                    Log.w(TAG, "Failed to take persistable permission for saved uri", it)
+                    ManagerLogs.w(TAG, "Failed to take persistable permission for saved uri", it)
                     Configs.storageDirectory = null
                     shouldSelectDirectory = true
                 }

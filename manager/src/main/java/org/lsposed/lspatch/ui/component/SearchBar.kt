@@ -1,6 +1,5 @@
 package org.lsposed.lspatch.ui.component
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -25,6 +24,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.lsposed.lspatch.ui.page.ManagerLogs
 
 private const val TAG = "SearchBar"
 
@@ -74,7 +74,7 @@ fun SearchAppBar(
                             .focusRequester(focusRequester)
                             .onFocusChanged { focusState ->
                                 if (focusState.isFocused) onSearch = true
-                                Log.d(TAG, "onFocusChanged: $focusState")
+                                ManagerLogs.d(TAG, "onFocusChanged: $focusState")
                             },
                         value = searchText,
                         onValueChange = onSearchTextChange,

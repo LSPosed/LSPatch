@@ -92,6 +92,17 @@ class ManagerLogs {
         @JvmStatic
         fun w(
             tag: String,
+            msg: String,
+            throwable: Throwable
+        ) {
+            logs += Log.WARN to "$tag: $msg ${throwable.message}"
+            Log.w(tag, msg, throwable)
+            preventOverflow()
+        }
+
+        @JvmStatic
+        fun w(
+            tag: String,
             msg: String
         ) {
             logs += Log.WARN to "$tag: $msg"
@@ -106,6 +117,29 @@ class ManagerLogs {
         ) {
             logs += Log.ERROR to "$tag: $msg"
             Log.e(tag, msg)
+            preventOverflow()
+        }
+
+        @JvmStatic
+        fun e(
+            tag: String,
+            throwable: Throwable
+        ) {
+            val msg = throwable.message ?: "null"
+            logs += Log.ERROR to "$tag: $msg"
+            Log.e(tag, msg)
+            preventOverflow()
+        }
+
+
+        @JvmStatic
+        fun e(
+            tag: String,
+            msg: String,
+            throwable: Throwable
+        ) {
+            logs += Log.ERROR to "$tag: $msg -- ${throwable.message}"
+            Log.e(tag, msg, throwable)
             preventOverflow()
         }
 

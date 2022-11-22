@@ -5,10 +5,10 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import org.lsposed.lspatch.config.Configs
 import org.lsposed.lspatch.share.Constants
+import org.lsposed.lspatch.ui.page.ManagerLogs
 
 
 class ModuleService : Service() {
@@ -33,7 +33,7 @@ class ModuleService : Service() {
     override fun onBind(intent: Intent): IBinder? {
         val packageName = intent.getStringExtra("packageName") ?: return null
         // TODO: Authentication
-        Log.i(TAG, "$packageName requests binder")
+        ManagerLogs.i(TAG, "$packageName requests binder")
         return ManagerService.asBinder()
     }
 }

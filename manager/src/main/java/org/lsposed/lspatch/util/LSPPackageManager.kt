@@ -9,7 +9,6 @@ import android.content.pm.PackageManager
 import android.content.pm.PackageManagerHidden
 import android.net.Uri
 import android.os.Parcelable
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -26,6 +25,7 @@ import org.lsposed.lspatch.config.ConfigManager
 import org.lsposed.lspatch.config.Configs
 import org.lsposed.lspatch.lspApp
 import org.lsposed.lspatch.share.Constants
+import org.lsposed.lspatch.ui.page.ManagerLogs
 import java.io.File
 import java.io.IOException
 import java.text.Collator
@@ -80,7 +80,7 @@ object LSPPackageManager {
     }
 
     suspend fun install(): Pair<Int, String?> {
-        Log.i(TAG, "Perform install patched apks")
+        ManagerLogs.i(TAG, "Perform install patched apks")
         var status = PackageInstaller.STATUS_FAILURE
         var message: String? = null
         withContext(Dispatchers.IO) {
@@ -94,7 +94,7 @@ object LSPPackageManager {
                     val root = DocumentFile.fromTreeUri(lspApp, uri) ?: throw IOException("DocumentFile is null")
                     root.listFiles().forEach { file ->
                         if (file.name?.endsWith(Constants.PATCH_FILE_SUFFIX) != true) return@forEach
-                        Log.d(TAG, "Add ${file.name}")
+                        ManagerLogs.d(TAG, "Add ${file.name}")
                         val input = lspApp.contentResolver.openInputStream(file.uri)
                             ?: throw IOException("Cannot open input stream")
                         input.use {
@@ -184,7 +184,7 @@ object LSPPackageManager {
                 AppInfo(primary!!, label)
             }.recoverCatching { t ->
                 cleanTmpApkDir()
-                Log.e(TAG, "Failed to load apks", t)
+                ManagerLogs.e(TAG, "Failed to load apks", t)
                 throw t
             }
         }

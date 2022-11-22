@@ -85,7 +85,7 @@ fun NewPatchScreen(
         }
     }
 
-    Log.d(TAG, "PatchState: ${viewModel.patchState}")
+    ManagerLogs.d(TAG, "PatchState: ${viewModel.patchState}")
     when (viewModel.patchState) {
         PatchState.INIT -> {
             LaunchedEffect(Unit) {
@@ -99,7 +99,7 @@ fun NewPatchScreen(
         }
         PatchState.SELECTING -> {
             resultRecipient.onNavResult {
-                Log.d(TAG, "onNavResult: $it")
+                ManagerLogs.d(TAG, "onNavResult: $it")
                 when (it) {
                     is NavResult.Canceled -> navigator.navigateUp()
                     is NavResult.Value -> {
@@ -392,11 +392,11 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
     var uninstallFirst by remember { mutableStateOf(ShizukuApi.isPackageInstalledWithoutPatch(patchApp.app.packageName)) }
     var installing by remember { mutableStateOf(0) }
     suspend fun doInstall() {
-        Log.i(TAG, "Installing app ${patchApp.app.packageName}")
+        ManagerLogs.i(TAG, "Installing app ${patchApp.app.packageName}")
         installing = 1
         val (status, message) = LSPPackageManager.install()
         installing = 0
-        Log.i(TAG, "Installation end: $status, $message")
+        ManagerLogs.i(TAG, "Installation end: $status, $message")
         onFinish(status, message)
     }
 
@@ -413,12 +413,12 @@ private fun InstallDialog(patchApp: AppInfo, onFinish: (Int, String?) -> Unit) {
                 TextButton(
                     onClick = {
                         scope.launch {
-                            Log.i(TAG, "Uninstalling app ${patchApp.app.packageName}")
+                            ManagerLogs.i(TAG, "Uninstalling app ${patchApp.app.packageName}")
                             uninstallFirst = false
                             installing = 2
                             val (status, message) = LSPPackageManager.uninstall(patchApp.app.packageName)
                             installing = 0
-                            Log.i(TAG, "Uninstallation end: $status, $message")
+                            ManagerLogs.i(TAG, "Uninstallation end: $status, $message")
                             if (status == PackageInstaller.STATUS_SUCCESS) {
                                 doInstall()
                             } else {
