@@ -62,17 +62,22 @@ public class StringBlock {
         if (styleOffsetCount != 0) {
             block.m_styleOffsets = reader.readIntArray(styleOffsetCount);
         }
-        {
-            int size = ((stylesOffset == 0) ? chunkSize : stylesOffset) - stringsOffset;
-            block.m_strings = new byte[size];
-            reader.readFully(block.m_strings);
-        }
+
+        int size = ((stylesOffset == 0) ? chunkSize : stylesOffset) - stringsOffset;
+        block.m_strings = new byte[size];
+        reader.readFully(block.m_strings);
+
         if (stylesOffset != 0) {
-            int size = (chunkSize - stylesOffset);
-            if ((size % 4) != 0) {
-                throw new IOException("Style data size is not multiple of 4 (" + size + ").");
+            size = (chunkSize - stylesOffset);
+			block.m_styles = reader.readIntArray(size / 4);
+
+			int remaining = size % 4;
+            if (remaining >= 1) {
+                while (remaining-- > 0) {
+                    reader.readByte();
+                }
             }
-            block.m_styles = reader.readIntArray(size / 4);
+            
         }
 
         return block;
