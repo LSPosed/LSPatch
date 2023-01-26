@@ -46,6 +46,7 @@ android {
     }
 
     sourceSets["main"].assets.srcDirs(rootProject.projectDir.resolve("out/assets"))
+    namespace = "org.lsposed.lspatch"
 
     applicationVariants.all {
         kotlin.sourceSets {

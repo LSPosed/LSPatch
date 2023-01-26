@@ -3,6 +3,7 @@ import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.internal.storage.file.FileRepository
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 
 plugins {
     id("com.android.application") apply false
@@ -26,28 +27,33 @@ val commitCount = run {
     Git(repo).log().add(refId).call().count()
 }
 
-val coreCommitCount = run {
-    val repo = FileRepository(rootProject.file(".git/modules/core"))
-    val refId = repo.refDatabase.exactRef("HEAD").objectId!!
-    Git(repo).log().add(refId).call().count()
-}
+val (coreCommitCount, coreLatestTag) = FileRepositoryBuilder().setGitDir(rootProject.file(".git/modules/core"))
+    .runCatching {
+        build().use { repo ->
+            val git = Git(repo)
+            val coreCommitCount =
+                git.log()
+                    .add(repo.refDatabase.exactRef("refs/remotes/origin/master").objectId)
+                    .call().count() + 4200
+            val ver = git.describe()
+                .setTags(true)
+                .setAbbrev(0).call().removePrefix("v")
+            coreCommitCount to ver
+        }
+    }.getOrNull() ?: (1 to "1.0")
 
 // sync from https://github.com/LSPosed/LSPosed/blob/master/build.gradle.kts
 val defaultManagerPackageName by extra("org.lsposed.lspatch")
 val apiCode by extra(93)
 val verCode by extra(commitCount)
 val verName by extra("0.5.1")
-val coreVerCode by extra(coreCommitCount + 4200)
-val coreVerName by extra(
-    file("$rootDir/core/build.gradle.kts").readLines()
-        .find { it.startsWith("val verName by extra") }!!
-        .split('"')[1]
-)
+val coreVerCode by extra(coreCommitCount)
+val coreVerName by extra(coreLatestTag)
 val androidMinSdkVersion by extra(28)
 val androidTargetSdkVersion by extra(33)
 val androidCompileSdkVersion by extra(33)
 val androidCompileNdkVersion by extra("25.1.8937393")
-val androidBuildToolsVersion by extra("32.0.0")
+val androidBuildToolsVersion by extra("33.0.1")
 val androidSourceCompatibility by extra(JavaVersion.VERSION_11)
 val androidTargetCompatibility by extra(JavaVersion.VERSION_11)
 
