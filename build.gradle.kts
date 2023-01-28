@@ -33,7 +33,7 @@ val (coreCommitCount, coreLatestTag) = FileRepositoryBuilder().setGitDir(rootPro
             val git = Git(repo)
             val coreCommitCount =
                 git.log()
-                    .add(repo.refDatabase.exactRef("refs/remotes/origin/master").objectId)
+                    .add(repo.refDatabase.exactRef("HEAD").objectId)
                     .call().count() + 4200
             val ver = git.describe()
                 .setTags(true)
