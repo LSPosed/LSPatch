@@ -51,7 +51,10 @@ public class ManifestParser {
                             appComponentFactory = parser.getAttributeValue(i);
                         }
 
-                        if (packageName != null && packageName.length() > 0 && appComponentFactory != null && appComponentFactory.length() > 0 && minSdkVersion > 0) {
+                        if (packageName != null && packageName.length() > 0 &&
+                                appComponentFactory != null && appComponentFactory.length() > 0 &&
+                                minSdkVersion > 0
+                        ) {
                             return new Pair(packageName, appComponentFactory, minSdkVersion);
                         }
                     }
