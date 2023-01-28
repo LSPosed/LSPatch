@@ -16,10 +16,6 @@ body:
   - type: textarea
     attributes:
       label: Steps to reproduce/复现步骤
-      placeholder: |
-        1. 
-        2. 
-        3. 
       value: |
         1. 
         1. 
@@ -72,12 +68,13 @@ body:
     attributes:
       label: Apk file/Apk 文件
       description: The apk file if patching failed / 修复失败的 apk 文件（如有）
-      placeholder: Upload apks by clicking the bar on the bottom. /点击文本框底栏上传安装包文件。
+      placeholder: Drag and drop the installation package into this text box to upload the file. / 拖放安装包到此文本框内以上传文件。
   - type: textarea
     attributes:
       label: Logs/日志
       description: For usage issues, please provide the log zip saved from manager; for activation issues, please provide [bugreport](https://developer.android.com/studio/debug/bug-report). Without log, the issue will be closed. /使用问题请提供从管理器保存的日志压缩包；激活问题请提供 [bugreport](https://developer.android.google.cn/studio/debug/bug-report?hl=zh-cn) 日志。无日志提交会被关闭。
       value: |
+        Drag and drop the log into this text box to upload the file. / 拖放日志到此文本框内以上传文件。
         <details>
         
         ```
