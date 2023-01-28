@@ -18,6 +18,7 @@ public class ManifestParser {
         AXmlResourceParser parser = new AXmlResourceParser();
         String packageName = null;
         String appComponentFactory = null;
+        int minSdkVersion = 0;
         try {
             parser.open(is);
 
@@ -40,13 +41,21 @@ public class ManifestParser {
                             }
                         }
 
+                        if ("uses-sdk".equals(name)) {
+                            if ("android:minSdkVersion".equals(attrName)) {
+                                minSdkVersion = Integer.parseInt(parser.getAttributeValue(i));
+                            }
+                        }
+
                         if ("appComponentFactory".equals(attrName) || attrNameRes == 0x0101057a) {
                             appComponentFactory = parser.getAttributeValue(i);
                         }
 
                         if (packageName != null && packageName.length() > 0 &&
-                                appComponentFactory != null && appComponentFactory.length() > 0) {
-                            return new Pair(packageName, appComponentFactory);
+                                appComponentFactory != null && appComponentFactory.length() > 0 &&
+                                minSdkVersion > 0
+                        ) {
+                            return new Pair(packageName, appComponentFactory, minSdkVersion);
                         }
                     }
                 } else if (type == XmlPullParser.END_TAG) {
@@ -56,7 +65,7 @@ public class ManifestParser {
         } catch (XmlPullParserException | IOException e) {
             return null;
         }
-        return new Pair(packageName, appComponentFactory);
+        return new Pair(packageName, appComponentFactory, minSdkVersion);
     }
 
     /**
@@ -73,9 +82,12 @@ public class ManifestParser {
         public String packageName;
         public String appComponentFactory;
 
-        public Pair(String packageName, String appComponentFactory) {
+        public int minSdkVersion;
+
+        public Pair(String packageName, String appComponentFactory, int minSdkVersion) {
             this.packageName = packageName;
             this.appComponentFactory = appComponentFactory;
+            this.minSdkVersion = minSdkVersion;
         }
     }
 
