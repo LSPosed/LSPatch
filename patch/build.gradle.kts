@@ -18,7 +18,6 @@ java {
 
 dependencies {
     implementation(projects.apkzlib)
-    implementation(projects.axmlprinter)
     implementation(projects.share.java)
 
     implementation("commons-io:commons-io:2.11.0")
