@@ -205,7 +205,7 @@ public class LSPatch {
                 throw new PatchError("Failed to register signer", e);
             }
 
-            String originalSignature = "";
+            String originalSignature = null;
             if (sigbypassLevel > 0) {
                 originalSignature  = ApkSignatureHelper.getApkSignInfo(srcApkFile.getAbsolutePath());
                 if (originalSignature == null || originalSignature.isEmpty()) {
