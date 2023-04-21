@@ -205,11 +205,14 @@ public class LSPatch {
                 throw new PatchError("Failed to register signer", e);
             }
 
-            final String originalSignature = ApkSignatureHelper.getApkSignInfo(srcApkFile.getAbsolutePath());
-            if (originalSignature == null || originalSignature.isEmpty()) {
-                throw new PatchError("get original signature failed");
+            String originalSignature = "";
+            if (sigbypassLevel > 0) {
+                originalSignature  = ApkSignatureHelper.getApkSignInfo(srcApkFile.getAbsolutePath());
+                if (originalSignature == null || originalSignature.isEmpty()) {
+                    throw new PatchError("get original signature failed");
+                }
+                logger.d("Original signature\n" + originalSignature);
             }
-            logger.d("Original signature\n" + originalSignature);
 
             // copy out manifest file from zlib
             var manifestEntry = srcZFile.get(ANDROID_MANIFEST_XML);
