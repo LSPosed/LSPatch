@@ -33,6 +33,7 @@ import org.lsposed.patch.util.ManifestParser;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.nio.file.Files;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -154,7 +155,13 @@ public class LSPatch {
             outputDir.mkdirs();
 
             File outputFile = new File(outputDir, String.format(
-                    Locale.getDefault(), "%s-%d-lspatched.apk",
+                    Locale.getDefault(), "%s-%d-split.apk",
+                    FilenameUtils.getBaseName(apkFileName),
+                    LSPConfig.instance.VERSION_CODE)
+            ).getAbsoluteFile();
+
+            File baseApkFile = new File(outputDir, String.format(
+                    Locale.getDefault(), "%s-%d-base.apk",
                     FilenameUtils.getBaseName(apkFileName),
                     LSPConfig.instance.VERSION_CODE)
             ).getAbsoluteFile();
@@ -163,22 +170,26 @@ public class LSPatch {
                 throw new PatchError(outputPath + " exists. Use --force to overwrite");
             logger.i("Processing " + srcApkFile + " -> " + outputFile);
 
-            patch(srcApkFile, outputFile);
+            patch(srcApkFile, outputFile, baseApkFile);
         }
     }
 
-    public void patch(File srcApkFile, File outputFile) throws PatchError, IOException {
+    public void patch(File srcApkFile, File outputFile, File baseApkFile) throws PatchError, IOException {
         if (!srcApkFile.exists())
             throw new PatchError("The source apk file does not exit. Please provide a correct path.");
 
+        baseApkFile.delete();
         outputFile.delete();
+        Files.copy(srcApkFile.toPath(), outputFile.toPath());
 
         logger.d("apk path: " + srcApkFile);
 
         logger.i("Parsing original apk...");
 
-        try (var dstZFile = ZFile.openReadWrite(outputFile, Z_FILE_OPTIONS);
-             var srcZFile = dstZFile.addNestedZip((ignore) -> ORIGINAL_APK_ASSET_PATH, srcApkFile, false)) {
+        try (var srcZFile = ZFile.openReadWrite(srcApkFile, Z_FILE_OPTIONS);
+             var dstZFile = ZFile.openReadWrite(outputFile, Z_FILE_OPTIONS);
+             var baseZFile = ZFile.openReadWrite(baseApkFile, Z_FILE_OPTIONS);
+             ) {
 
             // sign apk
             try {
@@ -195,12 +206,14 @@ public class LSPatch {
                     }
                 }
                 var entry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(keystoreArgs.get(2), new KeyStore.PasswordProtection(keystoreArgs.get(3).toCharArray()));
-                new SigningExtension(SigningOptions.builder()
+                var signer = SigningOptions.builder()
                         .setMinSdkVersion(28)
                         .setV2SigningEnabled(true)
                         .setCertificates((X509Certificate[]) entry.getCertificateChain())
                         .setKey(entry.getPrivateKey())
-                        .build()).register(dstZFile);
+                        .build();
+                new SigningExtension(signer).register(baseZFile);
+                new SigningExtension(signer).register(dstZFile);
             } catch (Exception e) {
                 throw new PatchError("Failed to register signer", e);
             }
@@ -237,8 +250,11 @@ public class LSPatch {
             final var config = new PatchConfig(useManager, debuggableFlag, overrideVersionCode, sigbypassLevel, originalSignature, appComponentFactory);
             final var configBytes = new Gson().toJson(config).getBytes(StandardCharsets.UTF_8);
             final var metadata = Base64.getEncoder().encodeToString(configBytes);
-            try (var is = new ByteArrayInputStream(modifyManifestFile(manifestEntry.open(), metadata, minSdkVersion))) {
-                dstZFile.add(ANDROID_MANIFEST_XML, is);
+            try (var baseIs = new ByteArrayInputStream(modifyManifestFile(manifestEntry.open(), metadata, minSdkVersion, false));
+                 var splitIs = new ByteArrayInputStream(modifyManifestFile(manifestEntry.open(), metadata, minSdkVersion, true));
+                    ) {
+                baseZFile.add(ANDROID_MANIFEST_XML, baseIs);
+                dstZFile.add(ANDROID_MANIFEST_XML, splitIs);
             } catch (Throwable e) {
                 throw new PatchError("Error when modifying manifest", e);
             }
@@ -246,14 +262,14 @@ public class LSPatch {
             logger.i("Adding config...");
             // save lspatch config to asset..
             try (var is = new ByteArrayInputStream(configBytes)) {
-                dstZFile.add(CONFIG_ASSET_PATH, is);
+                baseZFile.add(CONFIG_ASSET_PATH, is);
             } catch (Throwable e) {
                 throw new PatchError("Error when saving config");
             }
 
             logger.i("Adding metaloader dex...");
             try (var is = getClass().getClassLoader().getResourceAsStream(Constants.META_LOADER_DEX_ASSET_PATH)) {
-                dstZFile.add("classes.dex", is);
+                baseZFile.add("classes.dex", is);
             } catch (Throwable e) {
                 throw new PatchError("Error when adding dex", e);
             }
@@ -261,7 +277,7 @@ public class LSPatch {
             if (!useManager) {
                 logger.i("Adding loader dex...");
                 try (var is = getClass().getClassLoader().getResourceAsStream(LOADER_DEX_ASSET_PATH)) {
-                    dstZFile.add(LOADER_DEX_ASSET_PATH, is);
+                    baseZFile.add(LOADER_DEX_ASSET_PATH, is);
                 } catch (Throwable e) {
                     throw new PatchError("Error when adding assets", e);
                 }
@@ -272,7 +288,7 @@ public class LSPatch {
                 for (String arch : ARCHES) {
                     String entryName = "assets/lspatch/so/" + arch + "/liblspatch.so";
                     try (var is = getClass().getClassLoader().getResourceAsStream(entryName)) {
-                        dstZFile.add(entryName, is, false); // no compress for so
+                        baseZFile.add(entryName, is, false); // no compress for so
                     } catch (Throwable e) {
                         // More exception info
                         throw new PatchError("Error when adding native lib", e);
@@ -281,26 +297,14 @@ public class LSPatch {
                 }
 
                 logger.i("Embedding modules...");
-                embedModules(dstZFile);
+                embedModules(baseZFile);
             }
 
-            // create zip link
-            logger.d("Creating nested apk link...");
-
-            for (StoredEntry entry : srcZFile.entries()) {
-                String name = entry.getCentralDirectoryHeader().getName();
-                if (name.startsWith("classes") && name.endsWith(".dex")) continue;
-                if (dstZFile.get(name) != null) continue;
-                if (name.equals("AndroidManifest.xml")) continue;
-                if (name.startsWith("META-INF") && (name.endsWith(".SF") || name.endsWith(".MF") || name.endsWith(".RSA"))) continue;
-                srcZFile.addFileLink(name, name);
-            }
-
-            dstZFile.realign();
+            baseZFile.realign();
 
             logger.i("Writing apk...");
         }
-        logger.i("Done. Output APK: " + outputFile.getAbsolutePath());
+        logger.i("Done. Install APKs using command: adb install-multiple " + outputFile + " " + baseApkFile);
     }
 
     private void embedModules(ZFile zFile) {
@@ -320,16 +324,22 @@ public class LSPatch {
         }
     }
 
-    private byte[] modifyManifestFile(InputStream is, String metadata, int minSdkVersion) throws IOException {
+    private byte[] modifyManifestFile(InputStream is, String metadata, int minSdkVersion, Boolean split) throws IOException {
         ModificationProperty property = new ModificationProperty();
 
         if (overrideVersionCode)
             property.addManifestAttribute(new AttributeItem(NodeValue.Manifest.VERSION_CODE, 1));
         if (minSdkVersion < 28)
             property.addUsesSdkAttribute(new AttributeItem(NodeValue.UsesSDK.MIN_SDK_VERSION, "28"));
-        property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag));
-        property.addApplicationAttribute(new AttributeItem("appComponentFactory", PROXY_APP_COMPONENT_FACTORY));
-        property.addMetaData(new ModificationProperty.MetaData("lspatch", metadata));
+        if (split) {
+            var splitProperty = new AttributeItem("split", "original");
+            splitProperty.setNamespace(null);
+            property.addManifestAttribute(splitProperty);
+        } else {
+            property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag));
+            property.addApplicationAttribute(new AttributeItem("appComponentFactory", PROXY_APP_COMPONENT_FACTORY));
+            property.addMetaData(new ModificationProperty.MetaData("lspatch", metadata));
+        }
         // TODO: replace query_all with queries -> manager
         if (useManager)
             property.addUsesPermission("android.permission.QUERY_ALL_PACKAGES");

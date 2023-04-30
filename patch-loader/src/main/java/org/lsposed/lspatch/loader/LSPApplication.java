@@ -65,16 +65,15 @@ public class LSPApplication {
     }
 
     public static void onLoad() throws RemoteException, IOException {
-        if (isIsolated()) {
-            XLog.d(TAG, "Skip isolated process");
-            return;
-        }
         activityThread = ActivityThread.currentActivityThread();
         var context = createLoadedApkWithContext();
-        if (context == null) {
-            XLog.e(TAG, "Error when creating context");
+
+        if (isIsolated()) {
+			XLog.d(TAG, "Skip isolated process");
             return;
-        }
+        } else if (context == null) {
+            XLog.e(TAG, "Error when creating context");
+		}
 
         Log.d(TAG, "Initialize service client");
         ILSPApplicationService service;
@@ -119,24 +118,11 @@ public class LSPApplication {
             Log.i(TAG, "Use manager: " + config.useManager);
             Log.i(TAG, "Signature bypass level: " + config.sigBypassLevel);
 
-            Path originPath = Paths.get(appInfo.dataDir, "cache/lspatch/origin/");
-            Path cacheApkPath;
-            try (ZipFile sourceFile = new ZipFile(appInfo.sourceDir)) {
-                cacheApkPath = originPath.resolve(sourceFile.getEntry(ORIGINAL_APK_ASSET_PATH).getCrc() + ".apk");
-            }
+            String originApkPath = Paths.get(appInfo.sourceDir).getParent().toString() + "/split_original.apk";
 
-            appInfo.sourceDir = cacheApkPath.toString();
-            appInfo.publicSourceDir = cacheApkPath.toString();
+            appInfo.sourceDir = originApkPath;
+            appInfo.publicSourceDir = originApkPath;
             appInfo.appComponentFactory = config.appComponentFactory;
-
-            if (!Files.exists(cacheApkPath)) {
-                Log.i(TAG, "Extract original apk");
-                FileUtils.deleteFolderIfExists(originPath);
-                Files.createDirectories(originPath);
-                try (InputStream is = baseClassLoader.getResourceAsStream(ORIGINAL_APK_ASSET_PATH)) {
-                    Files.copy(is, cacheApkPath);
-                }
-            }
 
             var mPackages = (Map<?, ?>) XposedHelpers.getObjectField(activityThread, "mPackages");
             mPackages.remove(appInfo.packageName);
