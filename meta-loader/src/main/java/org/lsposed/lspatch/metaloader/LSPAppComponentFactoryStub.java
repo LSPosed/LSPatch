@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.zip.ZipFile;
@@ -27,17 +28,17 @@ import java.util.zip.ZipFile;
 public class LSPAppComponentFactoryStub extends AppComponentFactory {
 
     private static final String TAG = "LSPatch-MetaLoader";
-    private static final Map<String, String> archToLib = Map.of(
-            "arm", "armeabi-v7a",
-            "arm64", "arm64-v8a",
-            "x86", "x86",
-            "x86_64", "x86_64"
-    );
+    private static final Map<String, String> archToLib = new HashMap<String, String>(4);
 
     public static byte[] dex;
 
     static {
         try {
+            archToLib.put("arm", "armeabi-v7a");
+            archToLib.put("arm64", "arm64-v8a");
+            archToLib.put("x86", "x86");
+            archToLib.put("x86_64", "x86_64");
+
             var cl = Objects.requireNonNull(LSPAppComponentFactoryStub.class.getClassLoader());
             Class<?> VMRuntime = Class.forName("dalvik.system.VMRuntime");
             Method getRuntime = VMRuntime.getDeclaredMethod("getRuntime");
