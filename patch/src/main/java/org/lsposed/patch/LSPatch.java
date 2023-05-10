@@ -331,7 +331,8 @@ public class LSPatch {
         property.addApplicationAttribute(new AttributeItem("appComponentFactory", PROXY_APP_COMPONENT_FACTORY));
         property.addMetaData(new ModificationProperty.MetaData("lspatch", metadata));
         // TODO: replace query_all with queries -> manager
-        property.addUsesPermission("android.permission.QUERY_ALL_PACKAGES");
+        if (useManager)
+            property.addUsesPermission("android.permission.QUERY_ALL_PACKAGES");
 
         var os = new ByteArrayOutputStream();
         (new ManifestEditor(is, os, property)).processManifest();
