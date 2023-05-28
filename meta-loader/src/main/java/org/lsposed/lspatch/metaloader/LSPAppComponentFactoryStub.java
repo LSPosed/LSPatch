@@ -20,7 +20,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -96,7 +95,7 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
                 Log.d(TAG, "LSPAppComponentFactoryStub for process: " + ActivityThread.currentProcessName());
                 System.load(soPath);
             } else {
-                Log.d(TAG, "ActivityThread.currentActivityThread is null, dumping stack trace\n" + Arrays.toString(Thread.currentThread().getStackTrace()).replace( ',', '\n' ));
+                Log.d(TAG, "Skip LSPAppComponentFactoryStub since AppZygoteInit is running");
             }
         } catch (Throwable e) {
             throw new ExceptionInInitializerError(e);

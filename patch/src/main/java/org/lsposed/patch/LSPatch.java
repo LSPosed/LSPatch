@@ -5,6 +5,7 @@ import static org.lsposed.lspatch.share.Constants.EMBEDDED_MODULES_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.LOADER_DEX_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.ORIGINAL_APK_ASSET_PATH;
 import static org.lsposed.lspatch.share.Constants.PROXY_APP_COMPONENT_FACTORY;
+import static org.lsposed.lspatch.share.Constants.PROXY_ZYGOTE_PRELOAD;
 
 import com.android.tools.build.apkzlib.sign.SigningExtension;
 import com.android.tools.build.apkzlib.sign.SigningOptions;
@@ -338,6 +339,7 @@ public class LSPatch {
         } else {
             property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag));
             property.addApplicationAttribute(new AttributeItem("appComponentFactory", PROXY_APP_COMPONENT_FACTORY));
+		    property.addApplicationAttribute(new AttributeItem("zygotePreloadName", PROXY_ZYGOTE_PRELOAD));
             property.addMetaData(new ModificationProperty.MetaData("lspatch", metadata));
         }
         // TODO: replace query_all with queries -> manager

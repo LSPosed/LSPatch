@@ -10,6 +10,7 @@ public class Constants {
 
     final static public String PATCH_FILE_SUFFIX = "-lspatched.apk";
     final static public String PROXY_APP_COMPONENT_FACTORY = "org.lsposed.lspatch.metaloader.LSPAppComponentFactoryStub";
+    final static public String PROXY_ZYGOTE_PRELOAD = "org.lsposed.lspatch.metaloader.LSPZygotePreloadStub";
     final static public String MANAGER_PACKAGE_NAME = "org.lsposed.lspatch";
     final static public int MIN_ROLLING_VERSION_CODE = 348;
 
