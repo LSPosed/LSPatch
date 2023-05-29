@@ -2,6 +2,7 @@ package org.lsposed.lspatch.metaloader;
 
 import android.annotation.SuppressLint;
 import android.app.AppComponentFactory;
+import android.app.ActivityThread;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.IPackageManager;
 import android.os.Build;
@@ -19,6 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -90,8 +92,12 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
                 }
                 soPath = cl.getResource("assets/lspatch/so/" + libName + "/liblspatch.so").getPath().substring(5);
             }
-
-            System.load(soPath);
+            if (ActivityThread.currentActivityThread() != null) {
+                Log.d(TAG, "LSPAppComponentFactoryStub for process: " + ActivityThread.currentProcessName());
+                System.load(soPath);
+            } else {
+                Log.d(TAG, "ActivityThread.currentActivityThread is null, dumping stack trace\n" + Arrays.toString(Thread.currentThread().getStackTrace()).replace( ',', '\n' ));
+            }
         } catch (Throwable e) {
             throw new ExceptionInInitializerError(e);
         }
