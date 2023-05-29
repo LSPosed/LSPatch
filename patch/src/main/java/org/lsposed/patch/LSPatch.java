@@ -235,20 +235,23 @@ public class LSPatch {
 
             // parse the app appComponentFactory full name from the manifest file
             final String appComponentFactory;
+			final String zygotePreloadName;
             int minSdkVersion;
             try (var is = manifestEntry.open()) {
                 var pair = ManifestParser.parseManifestFile(is);
                 if (pair == null)
                     throw new PatchError("Failed to parse AndroidManifest.xml");
                 appComponentFactory = pair.appComponentFactory;
+				zygotePreloadName = pair.zygotePreloadName;
                 minSdkVersion = pair.minSdkVersion;
                 logger.d("original appComponentFactory class: " + appComponentFactory);
+                logger.d("original zygotePreloadName class: " + zygotePreloadName);
                 logger.d("original minSdkVersion: " + minSdkVersion);
             }
 
             logger.i("Patching apk...");
             // modify manifest
-            final var config = new PatchConfig(useManager, debuggableFlag, overrideVersionCode, sigbypassLevel, originalSignature, appComponentFactory);
+            final var config = new PatchConfig(useManager, debuggableFlag, overrideVersionCode, sigbypassLevel, originalSignature, appComponentFactory, zygotePreloadName);
             final var configBytes = new Gson().toJson(config).getBytes(StandardCharsets.UTF_8);
             final var metadata = Base64.getEncoder().encodeToString(configBytes);
             try (var baseIs = new ByteArrayInputStream(modifyManifestFile(manifestEntry.open(), metadata, minSdkVersion, false));

@@ -24,6 +24,7 @@ import org.lsposed.lspatch.share.PatchConfig;
  */
 public class LSPZygotePreloadStub implements android.app.ZygotePreload {
     private static final String TAG = "LSPatch-MetaLoader";
+	private static PatchConfig config;
 
     @Override
     public void doPreload(ApplicationInfo appInfo) {
@@ -32,15 +33,17 @@ public class LSPZygotePreloadStub implements android.app.ZygotePreload {
 		var cl = LSPZygotePreloadStub.class.getClassLoader();
 		try (var is = cl.getResourceAsStream(CONFIG_ASSET_PATH)) {
 			BufferedReader streamReader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-			PatchConfig config = new Gson().fromJson(streamReader, PatchConfig.class);
+			config = new Gson().fromJson(streamReader, PatchConfig.class);
             appInfo.appComponentFactory = config.appComponentFactory;
+			Log.d(TAG, "appComponentFactory should be " + config.appComponentFactory);
+			Log.d(TAG, "zygotePreloadName should be " + config.zygotePreloadName);
 		} catch (IOException e) {
 			Log.e(TAG, "Failed to load config file");
 			return;
 		}
 
 		try {
-			Class<?> originalPreload = cl.loadClass("org.chromium.content_public.app.ZygotePreload");
+			Class<?> originalPreload = cl.loadClass(config.zygotePreloadName);
 			Method originalDoPreload = originalPreload.getDeclaredMethod("doPreload", ApplicationInfo.class);
 			originalDoPreload.invoke(originalPreload.getDeclaredConstructor().newInstance(), appInfo);
 		} catch (Throwable e) {

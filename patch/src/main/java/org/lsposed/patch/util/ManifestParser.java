@@ -18,6 +18,7 @@ public class ManifestParser {
         AxmlParser parser = new AxmlParser(Utils.getBytesFromInputStream(is));
         String packageName = null;
         String appComponentFactory = null;
+		String zygotePreloadName = null;
         int minSdkVersion = 0;
         try {
 
@@ -50,11 +51,16 @@ public class ManifestParser {
                             appComponentFactory = parser.getAttrValue(i).toString();
                         }
 
+                        if ("zygotePreloadName".equals(attrName)) {
+                            zygotePreloadName = parser.getAttrValue(i).toString();
+                        }
+
                         if (packageName != null && packageName.length() > 0 &&
                                 appComponentFactory != null && appComponentFactory.length() > 0 &&
+                                zygotePreloadName != null && zygotePreloadName.length() > 0 &&
                                 minSdkVersion > 0
                         ) {
-                            return new Pair(packageName, appComponentFactory, minSdkVersion);
+                            return new Pair(packageName, appComponentFactory, zygotePreloadName, minSdkVersion);
                         }
                     }
                 } else if (type == AxmlParser.END_TAG) {
@@ -65,7 +71,7 @@ public class ManifestParser {
             return null;
         }
 
-        return new Pair(packageName, appComponentFactory, minSdkVersion);
+        return new Pair(packageName, appComponentFactory, zygotePreloadName, minSdkVersion);
     }
 
     /**
@@ -81,12 +87,14 @@ public class ManifestParser {
     public static class Pair {
         public String packageName;
         public String appComponentFactory;
+		public String zygotePreloadName;
 
         public int minSdkVersion;
 
-        public Pair(String packageName, String appComponentFactory, int minSdkVersion) {
+        public Pair(String packageName, String appComponentFactory, String zygotePreloadName, int minSdkVersion) {
             this.packageName = packageName;
             this.appComponentFactory = appComponentFactory;
+			this.zygotePreloadName = zygotePreloadName;
             this.minSdkVersion = minSdkVersion;
         }
     }
