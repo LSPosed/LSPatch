@@ -18,7 +18,7 @@ public class ManifestParser {
         AxmlParser parser = new AxmlParser(Utils.getBytesFromInputStream(is));
         String packageName = null;
         String appComponentFactory = null;
-		String zygotePreloadName = null;
+        String zygotePreloadName = null;
         int minSdkVersion = 0;
         try {
 
@@ -87,14 +87,14 @@ public class ManifestParser {
     public static class Pair {
         public String packageName;
         public String appComponentFactory;
-		public String zygotePreloadName;
+        public String zygotePreloadName;
 
         public int minSdkVersion;
 
         public Pair(String packageName, String appComponentFactory, String zygotePreloadName, int minSdkVersion) {
             this.packageName = packageName;
             this.appComponentFactory = appComponentFactory;
-			this.zygotePreloadName = zygotePreloadName;
+            this.zygotePreloadName = zygotePreloadName;
             this.minSdkVersion = minSdkVersion;
         }
     }

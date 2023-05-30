@@ -69,11 +69,11 @@ public class LSPApplication {
         var context = createLoadedApkWithContext();
 
         if (isIsolated()) {
-			XLog.d(TAG, "Skip isolated process");
+            XLog.d(TAG, "Skip isolated process");
             return;
         } else if (context == null) {
             XLog.e(TAG, "Error when creating context");
-		}
+        }
 
         Log.d(TAG, "Initialize service client");
         ILSPApplicationService service;
@@ -118,10 +118,10 @@ public class LSPApplication {
             Log.i(TAG, "Use manager: " + config.useManager);
             Log.i(TAG, "Signature bypass level: " + config.sigBypassLevel);
 
-            String originApkPath = Paths.get(appInfo.sourceDir).getParent().toString() + "/split_original.apk";
+            String originalApkPath = Paths.get(appInfo.sourceDir).getParent().toString() + "/split_original.apk";
 
-            appInfo.sourceDir = originApkPath;
-            appInfo.publicSourceDir = originApkPath;
+            appInfo.sourceDir = originalApkPath;
+            appInfo.publicSourceDir = originalApkPath;
             appInfo.appComponentFactory = config.appComponentFactory;
 
             var mPackages = (Map<?, ?>) XposedHelpers.getObjectField(activityThread, "mPackages");

@@ -18,7 +18,7 @@ public class PatchConfig {
             int sigBypassLevel,
             String originalSignature,
             String appComponentFactory,
-			String zygotePreloadName
+            String zygotePreloadName
     ) {
         this.useManager = useManager;
         this.debuggable = debuggable;
@@ -26,7 +26,7 @@ public class PatchConfig {
         this.sigBypassLevel = sigBypassLevel;
         this.originalSignature = originalSignature;
         this.appComponentFactory = appComponentFactory;
-		this.zygotePreloadName = zygotePreloadName;
+        this.zygotePreloadName = zygotePreloadName;
         this.lspConfig = LSPConfig.instance;
     }
 }

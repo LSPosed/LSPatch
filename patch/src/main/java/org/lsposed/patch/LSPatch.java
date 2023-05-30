@@ -235,14 +235,14 @@ public class LSPatch {
 
             // parse the app appComponentFactory full name from the manifest file
             final String appComponentFactory;
-			final String zygotePreloadName;
+            final String zygotePreloadName;
             int minSdkVersion;
             try (var is = manifestEntry.open()) {
                 var pair = ManifestParser.parseManifestFile(is);
                 if (pair == null)
                     throw new PatchError("Failed to parse AndroidManifest.xml");
                 appComponentFactory = pair.appComponentFactory;
-				zygotePreloadName = pair.zygotePreloadName;
+                zygotePreloadName = pair.zygotePreloadName;
                 minSdkVersion = pair.minSdkVersion;
                 logger.d("original appComponentFactory class: " + appComponentFactory);
                 logger.d("original zygotePreloadName class: " + zygotePreloadName);
@@ -342,7 +342,7 @@ public class LSPatch {
         } else {
             property.addApplicationAttribute(new AttributeItem(NodeValue.Application.DEBUGGABLE, debuggableFlag));
             property.addApplicationAttribute(new AttributeItem("appComponentFactory", PROXY_APP_COMPONENT_FACTORY));
-		    property.addApplicationAttribute(new AttributeItem("zygotePreloadName", PROXY_ZYGOTE_PRELOAD));
+            property.addApplicationAttribute(new AttributeItem("zygotePreloadName", PROXY_ZYGOTE_PRELOAD));
             property.addMetaData(new ModificationProperty.MetaData("lspatch", metadata));
         }
         // TODO: replace query_all with queries -> manager
