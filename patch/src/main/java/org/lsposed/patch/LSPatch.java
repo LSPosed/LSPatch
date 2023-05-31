@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class LSPatch {
 
@@ -253,7 +254,11 @@ public class LSPatch {
 
             logger.i("Adding metaloader dex...");
             try (var is = getClass().getClassLoader().getResourceAsStream(Constants.META_LOADER_DEX_ASSET_PATH)) {
-                dstZFile.add("classes.dex", is);
+                var dexCount = srcZFile.entries().stream().filter(entry -> {
+                    var name = entry.getCentralDirectoryHeader().getName();
+                    return name.startsWith("classes") && name.endsWith(".dex");
+                }).collect(Collectors.toList()).size() + 1;
+                dstZFile.add("classes" + dexCount + ".dex", is);
             } catch (Throwable e) {
                 throw new PatchError("Error when adding dex", e);
             }
@@ -289,7 +294,6 @@ public class LSPatch {
 
             for (StoredEntry entry : srcZFile.entries()) {
                 String name = entry.getCentralDirectoryHeader().getName();
-                if (name.startsWith("classes") && name.endsWith(".dex")) continue;
                 if (dstZFile.get(name) != null) continue;
                 if (name.equals("AndroidManifest.xml")) continue;
                 if (name.startsWith("META-INF") && (name.endsWith(".SF") || name.endsWith(".MF") || name.endsWith(".RSA"))) continue;

@@ -2,6 +2,7 @@ package org.lsposed.lspatch.metaloader;
 
 import android.annotation.SuppressLint;
 import android.app.AppComponentFactory;
+import android.app.ActivityThread;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.IPackageManager;
 import android.os.Build;
@@ -91,7 +92,9 @@ public class LSPAppComponentFactoryStub extends AppComponentFactory {
                 soPath = cl.getResource("assets/lspatch/so/" + libName + "/liblspatch.so").getPath().substring(5);
             }
 
-            System.load(soPath);
+            if (ActivityThread.currentActivityThread() != null) {
+                System.load(soPath);
+            }
         } catch (Throwable e) {
             throw new ExceptionInInitializerError(e);
         }
