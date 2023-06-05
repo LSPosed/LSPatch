@@ -158,7 +158,7 @@ fun AppManageBody(
                                         text = buildAnnotatedString {
                                             val (text, color) =
                                                 if (it.second.useManager) stringResource(R.string.patch_local) to MaterialTheme.colorScheme.secondary
-                                                else stringResource(R.string.patch_integrated) to MaterialTheme.colorScheme.tertiary
+                                                else stringResource(R.string.patch_portable) to MaterialTheme.colorScheme.tertiary
                                             append(AnnotatedString(text, SpanStyle(color = color)))
                                             append("  ")
                                             if (isRolling) append(stringResource(R.string.manage_rolling))
