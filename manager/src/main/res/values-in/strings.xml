@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add">Menambahkan</string>
+    <string name="add">Tambah</string>
     <string name="install">Install</string>
     <string name="installing">Menginstal</string>
     <string name="uninstall">Copot pemasangan</string>
@@ -51,19 +51,19 @@
     <string name="patch_mode">Modus Patch</string>
     <string name="patch_local">Lokal</string>
     <string name="patch_local_desc">Menambal aplikasi tanpa modul yang disematkan.\nAplikasi yang ditambal membutuhkan pengelola yang berjalan di latar belakang, dan cakupan Xposed dapat diubah secara dinamis tanpa tambalan ulang.\nAplikasi yang ditambal lokal hanya dapat berjalan di perangkat lokal.</string>
-    <string name="patch_portable">portabel</string>
-    <string name="patch_portable_desc">Menambal aplikasi dengan modul yang disematkan.\nAplikasi yang ditambal dapat berjalan tanpa pengelola, tetapi tidak dapat dikelola secara dinamis.\nAplikasi tambalan portabel dapat digunakan pada perangkat yang tidak menginstal LSPatch Manager.</string>
+    <string name="patch_integrated">Terintegrasi</string>
+    <string name="patch_integrated_desc">Patch aplikasi dengan modul yang disematkan.\nAplikasi yang di-patch dapat berjalan tanpa manajer, tetapi tidak dapat dikelola secara dinamis.\nAplikasi yang di-patch terintegrasi dapat digunakan pada perangkat yang tidak memasang LSPatch Manager.</string>
     <string name="patch_embed_modules">Sematkan modul</string>
     <string name="patch_debuggable">Dapat di-debug</string>
     <string name="patch_sigbypass">Bypass tanda tangan</string>
     <string name="patch_sigbypasslv0">lv0: Mati</string>
-    <string name="patch_sigbypasslv1">lv1: Lewati PM</string>
-    <string name="patch_sigbypasslv2">lv2: Lewati PM + buka (libc)</string>
+    <string name="patch_sigbypasslv1">lv1: Bypass PM</string>
+    <string name="patch_sigbypasslv2">lv2: Bypass PM + openat (libc)</string>
     <string name="patch_override_version_code">Ganti kode versi</string>
     <string name="patch_override_version_code_desc">Ganti kode versi aplikasi yang ditambal ke 1\nIni memungkinkan penginstalan downgrade di masa mendatang, dan umumnya ini tidak akan memengaruhi kode versi yang sebenarnya dirasakan oleh aplikasi</string>
     <string name="patch_start">Mulai Patch</string>
     <string name="patch_return">Kembali</string>
-    <string name="patch_uninstall_text">Karena tanda tangan yang berbeda, Anda perlu mencopot pemasangan aplikasi asli sebelum memasang yang ditambal.\nPastikan Anda telah mencadangkan data pribadi.</string>
+    <string name="patch_uninstall_text">Dikarenakan adanya perbedaan tanda tangan, Anda perlu menghapus aplikasi asli sebelum menginstal aplikasi yang telah di-patch.\nPastikan Anda telah mencadangkan data personal.</string>
     <string name="patch_install_successfully">Instal berhasil</string>
     <string name="patch_install_failed">Instal gagal</string>
     <!-- Select Apps Screen -->
