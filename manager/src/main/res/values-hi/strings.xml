@@ -51,8 +51,8 @@
     <string name="patch_mode">पैच मोड</string>
     <string name="patch_local">स्थानीय</string>
     <string name="patch_local_desc">एम्बेडेड मॉड्यूल के बिना एक ऐप पैच करें।\nपैच किए गए ऐप को बैकग्राउंड में चलने वाले मैनेजर की आवश्यकता होती है, और Xposed स्कोप को बिना री-पैच के गतिशील रूप से बदला जा सकता है।\nस्थानीय पैच किए गए ऐप्स केवल स्थानीय डिवाइस पर चल सकते हैं।</string>
-    <string name="patch_portable">पोर्टेबल</string>
-    <string name="patch_portable_desc">एम्बेडेड मॉड्यूल के साथ एक ऐप पैच करें।\nपैच किया गया ऐप प्रबंधक के बिना चल सकता है, लेकिन गतिशील रूप से प्रबंधित नहीं किया जा सकता है।\nपोर्टेबल पैच किए गए ऐप्स का उपयोग उन उपकरणों पर किया जा सकता है जिनमें एलएसपैच प्रबंधक स्थापित नहीं है।</string>
+    <string name="patch_integrated">Integrated</string>
+    <string name="patch_integrated_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nIntegrated patched apps can be used on devices that do not have LSPatch Manager installed.</string>
     <string name="patch_embed_modules">मॉड्यूल एम्बेड करें</string>
     <string name="patch_debuggable">डीबग करने योग्य</string>
     <string name="patch_sigbypass">सिग्नेचर बायपास</string>
