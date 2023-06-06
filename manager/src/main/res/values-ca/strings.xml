@@ -51,8 +51,8 @@
     <string name="patch_mode">Mode de pegat</string>
     <string name="patch_local">Local</string>
     <string name="patch_local_desc">Apliqueu una aplicació sense mòduls incrustats.\nL\'aplicació pegada necessita que el gestor s\'executi en segon pla, i l\'àmbit Xposed es pot canviar de forma dinàmica sense tornar a aplicar el pedaç.\nLes aplicacions localitzades només es poden executar al dispositiu local.</string>
-    <string name="patch_portable">Portàtil</string>
-    <string name="patch_portable_desc">Apliqueu una aplicació amb mòduls incrustats.\nL\'aplicació pegada es pot executar sense el gestor, però no es pot gestionar de manera dinàmica.\nLes aplicacions portàtils amb pedaços es poden utilitzar en dispositius que no tinguin LSPatch Manager instal·lat.</string>
+    <string name="patch_integrated">Integrated</string>
+    <string name="patch_integrated_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nIntegrated patched apps can be used on devices that do not have LSPatch Manager installed.</string>
     <string name="patch_embed_modules">Incrustar mòduls</string>
     <string name="patch_debuggable">Depurable</string>
     <string name="patch_sigbypass">Bypass de signatura</string>
