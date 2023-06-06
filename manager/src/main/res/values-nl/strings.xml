@@ -51,8 +51,8 @@
     <string name="patch_mode">Patch-modus</string>
     <string name="patch_local">lokaal</string>
     <string name="patch_local_desc">Patch een app zonder ingebouwde modules.\nDe gepatchte app heeft de manager nodig die op de achtergrond draait, en het Xposed-bereik kan dynamisch worden gewijzigd zonder opnieuw te patchen.\nLokale gepatchte apps kunnen alleen op het lokale apparaat worden uitgevoerd.</string>
-    <string name="patch_portable">draagbaar</string>
-    <string name="patch_portable_desc">Patch een app met ingebouwde modules.\nDe gepatchte app kan draaien zonder de manager, maar kan niet dynamisch worden beheerd.\nDraagbare gepatchte apps kunnen worden gebruikt op apparaten waarop LSPatch Manager niet is geïnstalleerd.</string>
+    <string name="patch_integrated">Integrated</string>
+    <string name="patch_integrated_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nIntegrated patched apps can be used on devices that do not have LSPatch Manager installed.</string>
     <string name="patch_embed_modules">Modules insluiten</string>
     <string name="patch_debuggable">Foutopsporing</string>
     <string name="patch_sigbypass">Handtekening bypass</string>
