@@ -52,7 +52,7 @@
     <string name="patch_local">Local</string>
     <string name="patch_local_desc">Patcher une application sans modules intégrés.\nL\'application modifiée nécessite que le gestionnaire s\'exécute en arrière-plan et les modules Xposed activés peuvent être modifiés dynamiquement sans re-modification.\nLes applications locales patchées ne peuvent s\'exécuter que sur l\'appareil actuel.</string>
     <string name="patch_integrated">Intégré</string>
-    <string name="patch_integrated_desc">Corrige une application en intégrant des modules.\nL\'application corrigée peut fonctionner sans le gestionnaire, mais ne peut pas être gérée dynamiquement.\nLes applications patchées intégrées peuvent être utilisées sur des appareils sur lesquels LSPatch Manager n\'est pas installé.</string>
+    <string name="patch_integrated_desc">Patcher une application avec des modules intégrés.\nL\'application corrigée peut fonctionner sans le gestionnaire mais ne peut pas être gérée dynamiquement.\nLes applications patchées intégrées peuvent être utilisées sur des appareils sur lesquels LSPatch Manager n\'est pas installé.</string>
     <string name="patch_embed_modules">Intégrer des modules</string>
     <string name="patch_debuggable">Débogable</string>
     <string name="patch_sigbypass">Contournement des signatures</string>
