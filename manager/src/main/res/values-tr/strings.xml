@@ -51,8 +51,8 @@
     <string name="patch_mode">Yama Modu</string>
     <string name="patch_local">Yerel</string>
     <string name="patch_local_desc">Gömülü modüller olmadan bir uygulamayı yamalayın.\nYama uygulanmış uygulamanın arka planda çalışan yöneticiye ihtiyacı vardır ve Xposed kapsamı, yeniden yama yapılmadan dinamik olarak değiştirilebilir.\nYerel yamalı uygulamalar yalnızca yerel cihazda çalışabilir.</string>
-    <string name="patch_portable">Taşınabilir</string>
-    <string name="patch_portable_desc">Gömülü modüller içeren bir uygulamayı yamalayın.\nYama uygulanmış uygulama yönetici olmadan çalışabilir, ancak dinamik olarak yönetilemez.\nTaşınabilir yama uygulanmış uygulamalar, LSPtch Manager\'ın kurulu olmadığı cihazlarda kullanılabilir.</string>
+    <string name="patch_integrated">Birleşik</string>
+    <string name="patch_integrated_desc">Gömülü modüller içeren bir uygulamaya yama yapın.\nYamalı uygulama, yönetici olmadan çalışabilir ancak dinamik olarak yönetilemez.\nTümleşik yamalı uygulamalar, LSPatch Yöneticisi yüklü olmayan cihazlarda kullanılabilir.</string>
     <string name="patch_embed_modules">Gömülü modüller</string>
     <string name="patch_debuggable">Hata ayıklanabilir</string>
     <string name="patch_sigbypass">İmza atlama</string>
