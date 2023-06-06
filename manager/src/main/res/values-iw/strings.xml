@@ -51,8 +51,8 @@
     <string name="patch_mode">מצב תיקון</string>
     <string name="patch_local">מְקוֹמִי</string>
     <string name="patch_local_desc">תקן אפליקציה ללא מודולים מוטבעים.\nהאפליקציה המתוקנת צריכה שהמנהל יפעל ברקע, וניתן לשנות את היקף Xposed באופן דינמי ללא תיקון מחדש.\nאפליקציות מקומיות מתוקנות יכולות לפעול רק במכשיר המקומי.</string>
-    <string name="patch_portable">נייד</string>
-    <string name="patch_portable_desc">תקן אפליקציה עם מודולים משובצים.\nהאפליקציה המתוקנת יכולה לפעול ללא המנהל, אך לא ניתן לנהל אותה באופן דינמי. ניתן להשתמש באפליקציות ניידות מתוקנות במכשירים שלא מותקן בהם\nManager.</string>
+    <string name="patch_integrated">Integrated</string>
+    <string name="patch_integrated_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nIntegrated patched apps can be used on devices that do not have LSPatch Manager installed.</string>
     <string name="patch_embed_modules">הטמע מודולים</string>
     <string name="patch_debuggable">ניתן לניפוי באגים</string>
     <string name="patch_sigbypass">עוקף חתימה</string>
