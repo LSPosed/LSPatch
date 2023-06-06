@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add">එකතු කරන්න</string>
+    <string name="install">ස්ථාපනය කරන්න</string>
+    <string name="installing">ස්ථාපනය කිරීම</string>
+    <string name="uninstall">අස්ථාපනය කරන්න</string>
+    <string name="uninstalling">අස්ථාපනය කිරීම</string>
+    <string name="copy_error">පිටපත් කිරීමේ දෝෂයකි</string>
+    <string name="apps">යෙදුම්</string>
+    <string name="modules">මොඩියුල</string>
+    <string name="shizuku_available">Shizku සේවාව ඇත</string>
+    <string name="shizuku_unavailable">Shizku සේවාව සම්බන්ධ නොවේ</string>
+    <string name="screen_repo">රෙපෝ</string>
+    <string name="screen_logs">සටහන්</string>
+    <string name="off">අක්රියයි</string>
+    <!-- Home Screen -->
+    <string name="home_shizuku_warning">සමහර කාර්යයන් නොමැත</string>
+    <string name="home_api_version">API අනුවාදය</string>
+    <string name="home_lspatch_version">LSPatch අනුවාදය</string>
+    <string name="home_framework_version">රාමු අනුවාදය</string>
+    <string name="home_system_version">පද්ධති අනුවාදය</string>
+    <string name="home_device">උපාංගය</string>
+    <string name="home_system_abi">පද්ධතිය ABI</string>
+    <string name="home_info_copied">පසුරු පුවරුවට පිටපත් කර ඇත</string>
+    <string name="home_support">සහාය</string>
+    <string name="home_description">LSPatch යනු LSPosed core මත පදනම් වූ නොමිලේ Root නොවන Xposed රාමුවකි.</string>
+    <string name="home_view_source_code"><![CDATA[මූල කේතය %1$s<br/>ට බලන්න අපගේ %2$s නාලිකාවට සම්බන්ධ වන්න]]></string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">කළමනාකරණය කරන්න</string>
+    <string name="manage_loading">පැටවීම</string>
+    <string name="manage_no_apps">තවම පැච් කළ යෙදුම් නැත</string>
+    <string name="manage_rolling">පෙරළීම</string>
+    <string name="manage_update_loader">යාවත්කාලීන ලෝඩරය</string>
+    <string name="manage_update_loader_successfully">සාර්ථකව යාවත්කාලීන කරන්න</string>
+    <string name="manage_update_loader_failed">යාවත්කාලීන කිරීම අසාර්ථක විය</string>
+    <string name="manage_module_scope">මොඩියුලය විෂය පථය</string>
+    <string name="manage_optimize">ප්‍රශස්ත කරන්න</string>
+    <string name="manage_optimize_successfully">සාර්ථකව ප්‍රශස්ත කරන්න</string>
+    <string name="manage_optimize_failed">ප්‍රශස්ත කිරීම අසාර්ථක විය</string>
+    <string name="manage_uninstall_successfully">සාර්ථකව අස්ථාපනය කරන්න</string>
+    <string name="manage_no_modules">තවම මොඩියුල නැත</string>
+    <string name="manage_module_settings">මොඩියුල සැකසුම්</string>
+    <string name="manage_app_info">යෙදුම් තොරතුරු</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">නව පැච්</string>
+    <string name="patch_select_dir_title">ගබඩා නාමාවලිය තෝරන්න</string>
+    <string name="patch_select_dir_text">පැච් කරන ලද apks ගබඩා කිරීමට නාමාවලියක් තෝරන්න</string>
+    <string name="patch_select_dir_error">ගබඩා නාමාවලිය සැකසීමේදී දෝෂයකි</string>
+    <string name="patch_from_storage">ගබඩාවෙන් apk(s) තෝරන්න</string>
+    <string name="patch_from_applist">ස්ථාපිත යෙදුමක් තෝරන්න</string>
+    <string name="patch_mode">පැච් මාදිලිය</string>
+    <string name="patch_local">දේශීය</string>
+    <string name="patch_local_desc">කාවැද්දූ මොඩියුල නොමැති යෙදුමක් පැච් කරන්න.\nපැච් කරන ලද යෙදුමට පසුබිමේ ක්‍රියාත්මක වන කළමනාකරු අවශ්‍ය වන අතර, නැවත පැච් කිරීමකින් තොරව Xposed විෂය පථය ගතිකව වෙනස් කළ හැක.\nදේශීය පැච් කළ යෙදුම් ධාවනය කළ හැක්කේ දේශීය උපාංගයේ පමණි.</string>
+    <string name="patch_integrated">ඒකාබද්ධ</string>
+    <string name="patch_integrated_desc">කාවැද්දූ මොඩියුල සහිත යෙදුමක් පැච් කරන්න.\nපැච් කළ යෙදුම කළමනාකරු නොමැතිව ධාවනය කළ හැකි නමුත් ගතිකව කළමනාකරණය කළ නොහැක.\nLSPatch Manager ස්ථාපනය කර නොමැති උපාංග මත ඒකාබද්ධ පැච් යෙදුම් භාවිතා කළ හැක.</string>
+    <string name="patch_embed_modules">මොඩියුල තැන්පත් කරන්න</string>
+    <string name="patch_debuggable">නිදොස් කළ හැකි</string>
+    <string name="patch_sigbypass">අත්සන බයිපාස්</string>
+    <string name="patch_sigbypasslv0">lv0: අක්‍රියයි</string>
+    <string name="patch_sigbypasslv1">lv1: PM බයිපාස් කරන්න</string>
+    <string name="patch_sigbypasslv2">lv2: බයිපාස් PM + openat (libc)</string>
+    <string name="patch_override_version_code">අනුවාද කේතය අභිබවා යන්න</string>
+    <string name="patch_override_version_code_desc">පැච් කරන ලද යෙදුමේ අනුවාද කේතය 1\nවෙත ප්‍රතික්‍ෂේප කරන්න මෙය අනාගතයේදී ස්ථාපනය පහත හෙලීමට ඉඩ සලසයි, සාමාන්‍යයෙන් මෙය යෙදුමට සත්‍ය වශයෙන්ම පෙනෙන අනුවාද කේතයට බලපාන්නේ නැත.</string>
+    <string name="patch_start">පැච් ආරම්භ කරන්න</string>
+    <string name="patch_return">ආපසු</string>
+    <string name="patch_uninstall_text">විවිධ අත්සන් හේතුවෙන්, පැච් කළ එක ස්ථාපනය කිරීමට පෙර ඔබට මුල් යෙදුම අස්ථාපනය කිරීමට අවශ්‍ය වේ.\nඔබ පුද්ගලික දත්ත උපස්ථ කර ඇති බවට වග බලා ගන්න.</string>
+    <string name="patch_install_successfully">සාර්ථකව ස්ථාපනය කරන්න</string>
+    <string name="patch_install_failed">ස්ථාපනය අසාර්ථක විය</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">යෙදුම් තෝරන්න</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">සැකසුම්</string>
+    <string name="settings_keystore">අත්සන යතුරු ගබඩාව</string>
+    <string name="settings_keystore_default">බිල්ට්-ඉන්</string>
+    <string name="settings_keystore_custom">අභිරුචි</string>
+    <string name="settings_keystore_dialog_title">අභිරුචි යතුරු ගබඩාව</string>
+    <string name="settings_keystore_file">යතුරු ගබඩා ගොනුව</string>
+    <string name="settings_keystore_password">මුරපදය</string>
+    <string name="settings_keystore_alias">අන්වර්ථ නාමය</string>
+    <string name="settings_keystore_alias_password">අන්වර්ථ මුරපදය</string>
+    <string name="settings_keystore_desc">යතුරු ගබඩාව සකසන්න (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">වැරදි ආකාරයේ යතුරු ගබඩාවක්</string>
+    <string name="settings_keystore_wrong_password">වැරදි යතුරු ගබඩා මුරපදය</string>
+    <string name="settings_keystore_wrong_alias">වැරදි අන්වර්ථ නාමයක්</string>
+    <string name="settings_keystore_wrong_alias_password">වැරදි අන්වර්ථ මුරපදය</string>
+    <string name="settings_detail_patch_logs">විස්තර පැච් ලොග</string>
+    <string name="settings_keep_alive">ජීවත් කරවන්න</string>
+    <string name="settings_keep_alive_foreground">පෙරබිම</string>
+</resources>
