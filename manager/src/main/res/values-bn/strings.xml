@@ -2,7 +2,7 @@
 <resources>
     <string name="add">যোগ করুন</string>
     <string name="install">ইনস্টল করুন</string>
-    <string name="installing">ইনস্টল করা হচ্ছে</string>
+    <string name="installing">Installing</string>
     <string name="uninstall">আনইনস্টল করুন</string>
     <string name="uninstalling">আনইনস্টল হচ্ছে</string>
     <string name="copy_error">কপি ত্রুটি</string>
@@ -51,9 +51,9 @@
     <string name="patch_mode">প্যাচ মোড</string>
     <string name="patch_local">স্থানীয়</string>
     <string name="patch_local_desc">এম্বেড করা মডিউল ছাড়াই একটি অ্যাপ প্যাচ করুন।\nপ্যাচ করা অ্যাপটির ব্যাকগ্রাউন্ডে চলমান ম্যানেজার প্রয়োজন, এবং এক্সপোজড স্কোপ রি-প্যাচ ছাড়াই গতিশীলভাবে পরিবর্তন করা যেতে পারে।\nস্থানীয় প্যাচ করা অ্যাপ শুধুমাত্র স্থানীয় ডিভাইসে চলতে পারে।</string>
-    <string name="patch_portable">সুবহ</string>
-    <string name="patch_portable_desc">এম্বেড করা মডিউল সহ একটি অ্যাপ প্যাচ করুন।\nপ্যাচ করা অ্যাপটি ম্যানেজার ছাড়া চলতে পারে, কিন্তু গতিশীলভাবে পরিচালনা করা যায় না।\nপোর্টেবল প্যাচড অ্যাপ এমন ডিভাইসগুলিতে ব্যবহার করা যেতে পারে যেগুলিতে LSPatch ম্যানেজার ইনস্টল নেই৷</string>
-    <string name="patch_embed_modules">মডিউল এম্বেড করুন</string>
+    <string name="patch_integrated">কই তুমি</string>
+    <string name="patch_integrated_desc">কি নাই.</string>
+    <string name="patch_embed_modules">করছি</string>
     <string name="patch_debuggable">ডিবাগযোগ্য</string>
     <string name="patch_sigbypass">স্বাক্ষর বাইপাস</string>
     <string name="patch_sigbypasslv0">lv0: বন্ধ</string>
