@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add">Lisama</string>
+    <string name="install">Installige</string>
+    <string name="installing">Paigaldamine</string>
+    <string name="uninstall">Desinstallige</string>
+    <string name="uninstalling">Desinstallimine</string>
+    <string name="copy_error">Kopeerimise viga</string>
+    <string name="apps">Rakendused</string>
+    <string name="modules">Moodulid</string>
+    <string name="shizuku_available">Shizuku teenus saadaval</string>
+    <string name="shizuku_unavailable">Shizuku teenus pole ühendatud</string>
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Palgid</string>
+    <string name="off">Väljas</string>
+    <!-- Home Screen -->
+    <string name="home_shizuku_warning">Mõned funktsioonid pole saadaval</string>
+    <string name="home_api_version">API versioon</string>
+    <string name="home_lspatch_version">LSPatchi versioon</string>
+    <string name="home_framework_version">Raamversioon</string>
+    <string name="home_system_version">Süsteemi versioon</string>
+    <string name="home_device">Seade</string>
+    <string name="home_system_abi">Süsteemi ABI</string>
+    <string name="home_info_copied">Kopeeriti lõikelauale</string>
+    <string name="home_support">Toetus</string>
+    <string name="home_description">LSPatch on tasuta mittejuur-Xposedi raamistik, mis põhineb LSPosedi tuumal.</string>
+    <string name="home_view_source_code"><![CDATA[Vaadake lähtekoodi aadressil %1$s<br/>Liituge meie %2$s kanaliga]]></string>
+    <!-- Manage Screen -->
+    <string name="screen_manage">Halda</string>
+    <string name="manage_loading">Laadimine</string>
+    <string name="manage_no_apps">Paigutatud rakendusi pole veel</string>
+    <string name="manage_rolling">Veeremine</string>
+    <string name="manage_update_loader">Värskenda laadurit</string>
+    <string name="manage_update_loader_successfully">Värskendamine õnnestus</string>
+    <string name="manage_update_loader_failed">Uuendus ebaõnnestus</string>
+    <string name="manage_module_scope">Mooduli ulatus</string>
+    <string name="manage_optimize">Optimeerige</string>
+    <string name="manage_optimize_successfully">Optimeerimine õnnestus</string>
+    <string name="manage_optimize_failed">Optimeerimine ebaõnnestus</string>
+    <string name="manage_uninstall_successfully">Desinstallimine õnnestus</string>
+    <string name="manage_no_modules">Mooduleid veel pole</string>
+    <string name="manage_module_settings">Mooduli seaded</string>
+    <string name="manage_app_info">Rakenduse teave</string>
+    <!-- New Patch Screen -->
+    <string name="screen_new_patch">Uus plaaster</string>
+    <string name="patch_select_dir_title">Valige salvestuskataloog</string>
+    <string name="patch_select_dir_text">Valige kataloog, kuhu paigatud APK-d salvestada</string>
+    <string name="patch_select_dir_error">Viga salvestuskataloogi seadistamisel</string>
+    <string name="patch_from_storage">Valige mälust apk(id).</string>
+    <string name="patch_from_applist">Valige installitud rakendus</string>
+    <string name="patch_mode">Paigutuse režiim</string>
+    <string name="patch_local">Kohalik</string>
+    <string name="patch_local_desc">Paigutage rakendus, kus pole manustatud mooduleid.\nPaigutatud rakendus vajab taustal töötavat haldurit ja Xposedi ulatust saab dünaamiliselt muuta ilma uuesti paigata.\nKohalikud paigatud rakendused saavad töötada ainult kohalikus seadmes.</string>
+    <string name="patch_integrated">Integreeritud</string>
+    <string name="patch_integrated_desc">Paigutage manustatud moodulitega rakendust.\nPaigutatud rakendus võib töötada ilma haldurita, kuid seda ei saa dünaamiliselt hallata.\nIntegreeritud paigatud rakendusi saab kasutada seadmetes, kuhu pole installitud LSPatch Manager.</string>
+    <string name="patch_embed_modules">Manustage moodulid</string>
+    <string name="patch_debuggable">Silutav</string>
+    <string name="patch_sigbypass">Allkirjast möödasõit</string>
+    <string name="patch_sigbypasslv0">lv0: väljas</string>
+    <string name="patch_sigbypasslv1">lv1: PM ümbersõit</string>
+    <string name="patch_sigbypasslv2">lv2: PM + openat (libc) ümbersõit</string>
+    <string name="patch_override_version_code">Alista versioonikood</string>
+    <string name="patch_override_version_code_desc">Paigutatud rakenduse versioonikoodi alistamine väärtusele 1\nSee võimaldab edaspidi installida madalamale versioonile ja üldiselt ei mõjuta see rakenduse poolt tegelikult tajutavat versioonikoodi</string>
+    <string name="patch_start">Käivitage patch</string>
+    <string name="patch_return">Tagasi</string>
+    <string name="patch_uninstall_text">Erinevate allkirjade tõttu peate enne paigatud rakenduse installimist algse rakenduse desinstallima.\nVeenduge, et olete isikuandmed varundanud.</string>
+    <string name="patch_install_successfully">Installimine õnnestus</string>
+    <string name="patch_install_failed">Install ebaõnnestus</string>
+    <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Valige Rakendused</string>
+    <!-- Settings Screen -->
+    <string name="screen_settings">Seaded</string>
+    <string name="settings_keystore">Allkirja võtmehoidla</string>
+    <string name="settings_keystore_default">Sisseehitatud</string>
+    <string name="settings_keystore_custom">Kohandatud</string>
+    <string name="settings_keystore_dialog_title">Kohandatud võtmehoidla</string>
+    <string name="settings_keystore_file">Võtmehoidla fail</string>
+    <string name="settings_keystore_password">Parool</string>
+    <string name="settings_keystore_alias">Teise nimega</string>
+    <string name="settings_keystore_alias_password">Alias parool</string>
+    <string name="settings_keystore_desc">Määra võtmehoidja (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Vale võtmehoidja tüüp</string>
+    <string name="settings_keystore_wrong_password">Vale võtmehoidla parool</string>
+    <string name="settings_keystore_wrong_alias">Vale pseudonüümi nimi</string>
+    <string name="settings_keystore_wrong_alias_password">Vale aliase parool</string>
+    <string name="settings_detail_patch_logs">Üksikasjade paikade logid</string>
+    <string name="settings_keep_alive">Elus hoidma</string>
+    <string name="settings_keep_alive_foreground">Esiplaan</string>
+</resources>

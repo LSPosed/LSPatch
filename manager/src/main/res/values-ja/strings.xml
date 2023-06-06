@@ -51,8 +51,8 @@
     <string name="patch_mode">パッチモード</string>
     <string name="patch_local">ローカル</string>
     <string name="patch_local_desc">アプリにモジュールを埋め込まずにパッチを適用します。\nパッチが適用されたアプリを正しく実行するには、LSPatch Managerがバックグラウンドで実行されている必要があり、Xposedスコープは再パッチなしで動的に変更できます。\nローカルのパッチが適用されたアプリは、パッチを適用したデバイスでのみ実行できます。</string>
-    <string name="patch_portable">ポータブル</string>
-    <string name="patch_portable_desc">モジュールを埋め込んでアプリにパッチを適用します。\nパッチが適用されたアプリは、LSPatch Managerがない状態で実行できますが、動的に管理することはできません。\nポータブルでパッチが適用されたアプリは、LSPatch Managerがインストールされていないデバイスでも使用ができます。</string>
+    <string name="patch_integrated">統合された</string>
+    <string name="patch_integrated_desc">モジュールが埋め込まれたアプリにパッチを適用します。\nパッチ適用されたアプリはマネージャーなしで実行できますが、動的に管理することはできません。\n統合されたパッチ適用済みアプリは、LSPatch Manager がインストールされていないデバイスでも使用できます。</string>
     <string name="patch_embed_modules">モジュールを埋め込む</string>
     <string name="patch_debuggable">デバッグを有効化</string>
     <string name="patch_sigbypass">署名のバイパス</string>

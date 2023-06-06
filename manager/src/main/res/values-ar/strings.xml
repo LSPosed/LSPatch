@@ -51,8 +51,8 @@
     <string name="patch_mode">وضع التصحيح</string>
     <string name="patch_local">محلي</string>
     <string name="patch_local_desc">تصحيح تطبيق بدون وحدات مدمجة.\nيحتاج التطبيق المصحح إلى تشغيل المدير في الخلفية ، ويمكن تغيير نطاق Xposed ديناميكيًا دون إعادة التصحيح.\nلا يمكن تشغيل التطبيقات المحلية المصححة إلا على الجهاز المحلي.</string>
-    <string name="patch_portable">محمول</string>
-    <string name="patch_portable_desc">تصحيح تطبيق بوحدات مدمجة.\nيمكن تشغيل التطبيق المصحح بدون المدير ، لكن لا يمكن إدارته ديناميكيًا.\nيمكن استخدام التطبيقات المصححة المحمولة على الأجهزة التي لم يتم تثبيت LSPatch Manager عليها.</string>
+    <string name="patch_integrated">مدمج</string>
+    <string name="patch_integrated_desc">تصحيح تطبيق بوحدات مدمجة.\nيمكن تشغيل التطبيق المصحح بدون المدير ، لكن لا يمكن إدارته ديناميكيًا.\nيمكن استخدام التطبيقات المصححة المدمجة على الأجهزة التي لم يتم تثبيت LSPatch Manager عليها.</string>
     <string name="patch_embed_modules">الوحدات المُضْمَنة</string>
     <string name="patch_debuggable">قابل للتصحيح</string>
     <string name="patch_sigbypass">تجاوز التوقيع</string>

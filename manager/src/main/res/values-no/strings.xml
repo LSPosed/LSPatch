@@ -51,8 +51,8 @@
     <string name="patch_mode">Patch-modus</string>
     <string name="patch_local">Lokalt</string>
     <string name="patch_local_desc">Patch en app uten innebygde moduler.\nDen lappede appen trenger at manageren kjører i bakgrunnen, og Xposed-omfanget kan endres dynamisk uten re-patch.\nLokale lappede apper kan bare kjøres på den lokale enheten.</string>
-    <string name="patch_portable">Bærbar</string>
-    <string name="patch_portable_desc">Patch en app med innebygde moduler.\nDen lappede appen kan kjøres uten administratoren, men kan ikke administreres dynamisk.\nPortable patchede apper kan brukes på enheter som ikke har LSPatch Manager installert.</string>
+    <string name="patch_integrated">Integrert</string>
+    <string name="patch_integrated_desc">Patch en app med innebygde moduler.\nDen lappede appen kan kjøres uten administratoren, men kan ikke administreres dynamisk.\nIntegrerte lappede apper kan brukes på enheter som ikke har LSPatch Manager installert.</string>
     <string name="patch_embed_modules">Bygg inn moduler</string>
     <string name="patch_debuggable">Kan feilsøkes</string>
     <string name="patch_sigbypass">Signaturomkjøring</string>

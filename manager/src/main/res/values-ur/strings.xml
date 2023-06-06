@@ -51,8 +51,8 @@
     <string name="patch_mode">پیچ موڈ</string>
     <string name="patch_local">مقامی</string>
     <string name="patch_local_desc">ایمبیڈڈ ماڈیولز کے بغیر ایپ کو پیچ کریں۔\nپیچ شدہ ایپ کو پس منظر میں چلنے والے مینیجر کی ضرورت ہے، اور Xposed اسکوپ کو دوبارہ پیچ کے بغیر متحرک طور پر تبدیل کیا جا سکتا ہے۔\nمقامی پیچ والی ایپس صرف مقامی ڈیوائس پر چل سکتی ہیں۔</string>
-    <string name="patch_portable">پورٹیبل</string>
-    <string name="patch_portable_desc">ایمبیڈڈ ماڈیولز کے ساتھ ایک ایپ پیچ کریں۔\nپیچ شدہ ایپ مینیجر کے بغیر چل سکتی ہے، لیکن اسے متحرک طور پر منظم نہیں کیا جا سکتا۔\nپورٹیبل پیچ شدہ ایپس ان آلات پر استعمال کی جا سکتی ہیں جن میں LSPatch مینیجر انسٹال نہیں ہے۔</string>
+    <string name="patch_integrated">ضم</string>
+    <string name="patch_integrated_desc">ایمبیڈڈ ماڈیولز کے ساتھ ایک ایپ پیچ کریں۔\nپیچ شدہ ایپ مینیجر کے بغیر چل سکتی ہے، لیکن اسے متحرک طور پر منظم نہیں کیا جا سکتا۔\nانٹیگریٹڈ پیچ شدہ ایپس ان آلات پر استعمال کی جا سکتی ہیں جن میں LSPatch مینیجر انسٹال نہیں ہے۔</string>
     <string name="patch_embed_modules">ایمبیڈ ماڈیولز</string>
     <string name="patch_debuggable">ڈیبگ ایبل</string>
     <string name="patch_sigbypass">دستخط بائی پاس</string>

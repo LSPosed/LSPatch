@@ -51,8 +51,8 @@
     <string name="patch_mode">修补模式</string>
     <string name="patch_local">本地模式</string>
     <string name="patch_local_desc">修补 App 并无需内置模块。\n经修补的应用需要管理器保持后台运行才能正常启动，而 Xposed 作用域可以动态更改，无需重新修补安装。\n以本地模式修补的应用只能在本机上运行。</string>
-    <string name="patch_portable">便携模式</string>
-    <string name="patch_portable_desc">修补 App 并内置模块。\n经修补的应用可以在没有管理器的情况下运行，但不能动态管理配置。\n以便携模式修补的应用可在未安装 LSPatch 管理器的设备上运行。</string>
+    <string name="patch_integrated">集成模式</string>
+    <string name="patch_integrated_desc">修补 App 并内置模块。\n经修补的应用可以在没有管理器的情况下运行，但不能动态管理配置。\n以集成模式修补的应用可在未安装 LSPatch 管理器的设备上运行。</string>
     <string name="patch_embed_modules">嵌入模块</string>
     <string name="patch_debuggable">可调试</string>
     <string name="patch_sigbypass">破解签名校验</string>

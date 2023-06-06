@@ -36,7 +36,7 @@
     <string name="manage_module_scope">Portée du module</string>
     <string name="manage_optimize">Optimiser</string>
     <string name="manage_optimize_successfully">Optimiser avec succès</string>
-    <string name="manage_optimize_failed">Optimiser les échecs</string>
+    <string name="manage_optimize_failed">Échec de l\'optimisation</string>
     <string name="manage_uninstall_successfully">Désinstallation réussie</string>
     <string name="manage_no_modules">Aucun module pour le moment</string>
     <string name="manage_module_settings">Réglages du module</string>
@@ -51,8 +51,8 @@
     <string name="patch_mode">Mode de patch</string>
     <string name="patch_local">Local</string>
     <string name="patch_local_desc">Patcher une application sans modules intégrés.\nL\'application modifiée nécessite que le gestionnaire s\'exécute en arrière-plan et les modules Xposed activés peuvent être modifiés dynamiquement sans re-modification.\nLes applications locales patchées ne peuvent s\'exécuter que sur l\'appareil actuel.</string>
-    <string name="patch_portable">Portable</string>
-    <string name="patch_portable_desc">Patcher une application avec des modules intégrés.\nL\'application corrigée peut s\'exécuter sans le gestionnaire, mais ne peut pas être gérée de manière dynamique.\nLes applications patchées portables peuvent être utilisées sur des appareils sur lesquels LSPatch Manager n\'est pas installé.</string>
+    <string name="patch_integrated">Intégré</string>
+    <string name="patch_integrated_desc">Patcher une application avec des modules intégrés.\nL\'application corrigée peut fonctionner sans le gestionnaire mais ne peut pas être gérée dynamiquement.\nLes applications patchées intégrées peuvent être utilisées sur des appareils sur lesquels LSPatch Manager n\'est pas installé.</string>
     <string name="patch_embed_modules">Intégrer des modules</string>
     <string name="patch_debuggable">Débogable</string>
     <string name="patch_sigbypass">Contournement des signatures</string>
