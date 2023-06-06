@@ -52,7 +52,7 @@
     <string name="patch_local">Herêmî</string>
     <string name="patch_local_desc">Serlêdanek bêyî modulên pêvekirî paqij bikin.\nPêdiviya serîlêdana paçkirî bi rêveberê ku di paşerojê de dixebite hewce dike, û qada Xposed dikare bi dînamîk bêyî nûvekirin were guheztin.\nSerlêdanên paçkirî yên herêmî tenê dikarin li ser cîhaza herêmî bixebitin.</string>
     <string name="patch_integrated">Integrated</string>
-    <string name="patch_integrated_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nIntegrated patched apps can be used on devices that do not have LSPatch Manager installed.</string>
+    <string name="patch_integrated_desc">Serlêdanek bi modulên pêvekirî veqetînin.\nSerlêdana paçkirî dikare bêyî rêveberê bixebite, lê bi dînamîk nayê rêvebirin.\nSerlêdanên pejirandî yên yekbûyî dikarin li ser cîhazên ku Rêvebirê LSPatch-ê sazkirî ne têne bikar anîn.</string>
     <string name="patch_embed_modules">Modulên tevde bikin</string>
     <string name="patch_debuggable">Debuggable</string>
     <string name="patch_sigbypass">Îmzeya bipass</string>
