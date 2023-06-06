@@ -51,8 +51,8 @@
     <string name="patch_mode">패치 모드</string>
     <string name="patch_local">로컬</string>
     <string name="patch_local_desc">모듈이 포함되지 않은 앱을 패치합니다.\n패치된 앱은 백그라운드에서 실행되는 관리자가 필요하며 Xposed 범위는 다시 패치하지 않고도 동적으로 변경할 수 있습니다.\n로컬 패치 앱은 로컬 장치에서만 실행할 수 있습니다.</string>
-    <string name="patch_portable">포터블</string>
-    <string name="patch_portable_desc">모듈이 포함된 앱을 패치합니다.\n패치된 앱은 관리자 없이 실행할 수 있지만 동적으로 관리할 수는 없습니다.\n포터블 패치가 된 앱은 LSPatch Manager가 설치되지 않은 장치에서 사용할 수 있습니다.</string>
+    <string name="patch_integrated">Integrated</string>
+    <string name="patch_integrated_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nIntegrated patched apps can be used on devices that do not have LSPatch Manager installed.</string>
     <string name="patch_embed_modules">모듈 포함</string>
     <string name="patch_debuggable">디버깅 가능</string>
     <string name="patch_sigbypass">서명 우회</string>
