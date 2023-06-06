@@ -5,7 +5,7 @@
     <string name="installing">در حال نصب ...</string>
     <string name="uninstall">حذف نصب</string>
     <string name="uninstalling">در حال حذف نصب ...</string>
-    <string name="copy_error">کپی خطا</string>
+    <string name="copy_error">خطا کپی شود</string>
     <string name="apps">برنامه ها</string>
     <string name="modules">ماژول ها</string>
     <string name="shizuku_available">سرویس Shizuku در دسترس‌ است</string>
@@ -18,9 +18,9 @@
     <string name="home_api_version">نسخه API</string>
     <string name="home_lspatch_version">نسخه LSPatch</string>
     <string name="home_framework_version">نسخه فریمورک</string>
-    <string name="home_system_version">نسخه سیستم</string>
-    <string name="home_device">دستگاه</string>
-    <string name="home_system_abi">سیستم ABI</string>
+    <string name="home_system_version">نسخه اندروید</string>
+    <string name="home_device">مدل دستگاه</string>
+    <string name="home_system_abi">نوع پردازنده</string>
     <string name="home_info_copied">در کلیپ بورد کپی شده</string>
     <string name="home_support">حمایت</string>
     <string name="home_description">LSPatch یک فریمورک Xposed بدون نیاز به روت رایگان بر اساس هسته LSPosed است</string>
@@ -28,7 +28,7 @@
     <!-- Manage Screen -->
     <string name="screen_manage">مدیریت</string>
     <string name="manage_loading">در حال بارگذاری ...</string>
-    <string name="manage_no_apps">هنوز برنامه پچ شده ای موجود نیست</string>
+    <string name="manage_no_apps">هنوز هیچ برنامه ای پچ نشده</string>
     <string name="manage_rolling">متحرک</string>
     <string name="manage_update_loader">به روز رسانی بارگذاری کننده</string>
     <string name="manage_update_loader_successfully">به روز رسانی انجام شده</string>
@@ -43,27 +43,27 @@
     <string name="manage_app_info">اطلاعات برنامه</string>
     <!-- New Patch Screen -->
     <string name="screen_new_patch">پچ جدید</string>
-    <string name="patch_select_dir_title">پوشه ذخیره‌سازی را انتخاب کنید</string>
-    <string name="patch_select_dir_text">پوشه ای را برای ذخیره apk های ویرایش شده انتخاب کنید</string>
+    <string name="patch_select_dir_title">پوشه ذخیره سازی را انتخاب کنید</string>
+    <string name="patch_select_dir_text">یک پوشه را برای ذخیره apk های پچ شده انتخاب کنید</string>
     <string name="patch_select_dir_error">خطا در هنگام تنظیم پوشه ذخیره سازی</string>
     <string name="patch_from_storage">انتخاب فایل (های) apk از حافظه </string>
     <string name="patch_from_applist">انتخاب یک برنامه نصب شده</string>
     <string name="patch_mode">حالت پچ</string>
     <string name="patch_local">محلی</string>
-    <string name="patch_local_desc">یک برنامه را بدون ماژول های تعبیه شده پچ کنید \n برنامه پچ شده برای اجرا در پس زمینه به LSPatch Manager نیاز دارد شما می توانید محدوده Xposed را به صورت پویا و بدون نیاز به پچ دوباره تغییر دهید \n برنامه‌ های پچ شده محلی فقط می‌توانند در دستگاه شما اجرا شوند</string>
-    <string name="patch_portable">نسخه قابل حمل</string>
-    <string name="patch_portable_desc">یک برنامه را با ماژول‌های تعبیه‌ شده پچ کنید \n برنامه پچ شده می تواند بدون نیاز به LSPatch Manager اجرا شود اما نمی‌توان آن را به صورت پویا مدیریت کرد \n شما می توانید از برنامه‌ های پچ شده قابل حمل در دستگاه‌هایی که LSPatch Manager را نصب نکرده‌اند استفاده کنید</string>
+    <string name="patch_local_desc">یک برنامه را بدون ماژول های تعبیه شده پچ کنید برنامه پچ شده به مدیر در حال اجرا در پس‌زمینه نیاز دارد و محدوده Xposed را می‌توان به صورت پویا و بدون نیاز به پچ دوباره تغییر داد برنامه‌های پچ شده محلی فقط می‌ توانند در دستگاه شما اجرا شوند</string>
+    <string name="patch_integrated">یکپارچه</string>
+    <string name="patch_integrated_desc">یک برنامه را با ماژول های تعبیه شده پچ کنید برنامه پچ شده می‌تواند بدون نیاز مدیر اجرا شود اما نمی توان آن را به‌ صورت پویا مدیریت کرد برنامه‌های پچ شده را می‌توان در دستگاه‌ هایی که مدیر LSPatch در آن نصب نشده استفاده کرد</string>
     <string name="patch_embed_modules">جاسازی ماژول ها</string>
     <string name="patch_debuggable">قابل اشکال زدایی</string>
     <string name="patch_sigbypass">دور زدن امضا</string>
-    <string name="patch_sigbypasslv0">lv0: خاموش</string>
+    <string name="patch_sigbypasslv0">سطح 0 : خاموش</string>
     <string name="patch_sigbypasslv1">سطح ۱ : دور زدن PM</string>
     <string name="patch_sigbypasslv2">سطح ۲ : دور زدن PM + openat (libc)</string>
     <string name="patch_override_version_code">لغو کد نسخه</string>
-    <string name="patch_override_version_code_desc">کد نسخه برنامه پچ شده را به ۱ تغییر دهید \n این کار امکان بازگردانی نسخه قبلی را در آینده فراهم می کند به طور کلی این کار روی کد نسخه ای که توسط برنامه درک می شود تاثیر نمی گذارد</string>
+    <string name="patch_override_version_code_desc">کد نسخه برنامه پچ شده را به ۱ تغییر می دهد این کار امکان بازگردانی نسخه قبلی را فراهم می کند به طور کلی این کار روی کد نسخه ای که توسط برنامه درک می شود تاثیر نمی گذارد</string>
     <string name="patch_start">شروع پچ</string>
-    <string name="patch_return">برگشت</string>
-    <string name="patch_uninstall_text">به دلیل امضاهای مختلف باید قبل از نصب برنامه پچ شده برنامه اصلی را حذف نصب کنید \n اطمینان حاصل کنید که از اطلاعات شخصی خود نسخه پشتیبان تهیه کرده اید</string>
+    <string name="patch_return">بازیابی</string>
+    <string name="patch_uninstall_text">به دلیل انجام امضاهای مختلف باید قبل از نصب برنامه پچ شده برنامه اصلی را حذف نصب کنید لطفا قبل از انجام این کار از اطلاعات خود پشتیبان گیری کنید</string>
     <string name="patch_install_successfully">نصب شده</string>
     <string name="patch_install_failed">نصب نشده</string>
     <!-- Select Apps Screen -->
@@ -80,9 +80,9 @@
     <string name="settings_keystore_alias_password">رمز مستعار</string>
     <string name="settings_keystore_desc">تنظیم فروشگاه کلید (BKS)</string>
     <string name="settings_keystore_wrong_keystore">نوع اشتباه ذخیره کلید</string>
-    <string name="settings_keystore_wrong_password">پسورد فروشگاه کلید اشتباه است</string>
+    <string name="settings_keystore_wrong_password">رمز فروشگاه کلید اشتباه است</string>
     <string name="settings_keystore_wrong_alias">نام مستعار اشتباه است</string>
-    <string name="settings_keystore_wrong_alias_password">رمز نام مستعار اشتباه است</string>
+    <string name="settings_keystore_wrong_alias_password">رمز یا نام مستعار اشتباه است</string>
     <string name="settings_detail_patch_logs">گزارش های اطلاعات پچ</string>
     <string name="settings_keep_alive">زنده بمان</string>
     <string name="settings_keep_alive_foreground">پیش زمینه</string>
