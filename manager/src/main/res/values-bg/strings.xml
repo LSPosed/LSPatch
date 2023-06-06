@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add">Добавяне на</string>
-    <string name="install">Инсталиране на</string>
+    <string name="add">Add</string>
+    <string name="install">Install</string>
     <string name="installing">Инсталиране на</string>
     <string name="uninstall">Деинсталиране на</string>
     <string name="uninstalling">Деинсталиране на</string>
@@ -51,8 +51,8 @@
     <string name="patch_mode">Режим Patch</string>
     <string name="patch_local">Местни</string>
     <string name="patch_local_desc">Поправка на приложение без вградени модули.\nПатчираното приложение се нуждае от мениджър, работещ във фонов режим, и обхватът на Xposed може да се променя динамично, без да се налага повторно патчване.\nЛокалните патирани приложения могат да се изпълняват само на локалното устройство.</string>
-    <string name="patch_portable">Преносим</string>
-    <string name="patch_portable_desc">Поправка на приложение с вградени модули.\nПатчираното приложение може да работи без мениджъра, но не може да се управлява динамично.\nПреносимите закърпени приложения могат да се използват на устройства, на които не е инсталиран LSPatch Manager.</string>
+    <string name="patch_integrated">Integrated</string>
+    <string name="patch_integrated_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nIntegrated patched apps can be used on devices that do not have LSPatch Manager installed.</string>
     <string name="patch_embed_modules">Вграждане на модули</string>
     <string name="patch_debuggable">Отстраняване на грешки</string>
     <string name="patch_sigbypass">Подписване на байпас</string>
