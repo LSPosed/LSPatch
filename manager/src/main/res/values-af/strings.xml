@@ -51,8 +51,8 @@
     <string name="patch_mode">Patch Mode</string>
     <string name="patch_local">Plaaslik</string>
     <string name="patch_local_desc">Plak \'n toepassing sonder modules ingebed.\nDie gelapte toepassing moet die bestuurder in die agtergrond laat loop, en Xposed-omvang kan dinamies verander word sonder om te herpleister.\nPlaaslike gelapte toepassings kan slegs op die plaaslike toestel loop.</string>
-    <string name="patch_portable">Draagbaar</string>
-    <string name="patch_portable_desc">Plak \'n toepassing met modules ingebed.\nDie reggemaakte toepassing kan sonder die bestuurder loop, maar kan nie dinamies bestuur word nie.\nDraagbare gelapte toepassings kan gebruik word op toestelle wat nie LSPatch Manager geïnstalleer het nie.</string>
+    <string name="patch_integrated">Geïntegreerde</string>
+    <string name="patch_integrated_desc">Patcher une application avec des modules intégrés.\nL\'application corrigée peut fonctionner sans le gestionnaire mais ne peut pas être gérée dynamiquement.\nLes applications patchées intégrées peuvent être utilisées sur des appareils sur lesquels LSPatch Manager n\'est pas installé.</string>
     <string name="patch_embed_modules">Sluit modules in</string>
     <string name="patch_debuggable">Ontfoutbaar</string>
     <string name="patch_sigbypass">Handtekening omseil</string>
