@@ -51,8 +51,8 @@
     <string name="patch_mode">Modul Patch</string>
     <string name="patch_local">Local</string>
     <string name="patch_local_desc">Corectează o aplicație fără module încorporate.\nAplicația corecţionată necesită ca managerul să ruleze în fundal, iar domeniul de aplicare Xposed poate fi modificat dinamic fără re-patch.\nAplicațiile locale corectate pot rula numai pe dispozitivul local.</string>
-    <string name="patch_integrated">Integrated</string>
-    <string name="patch_integrated_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nIntegrated patched apps can be used on devices that do not have LSPatch Manager installed.</string>
+    <string name="patch_integrated">Integrat</string>
+    <string name="patch_integrated_desc">Corectați o aplicație cu module încorporate.\nAplicația corectată poate rula fără manager, dar nu poate fi gestionată dinamic.\nAplicațiile integrate cu corecții pot fi utilizate pe dispozitivele care nu au LSPatch Manager instalat.</string>
     <string name="patch_embed_modules">Încorporați module</string>
     <string name="patch_debuggable">Depanabil</string>
     <string name="patch_sigbypass">Ocolire semnătură</string>
