@@ -51,8 +51,8 @@
     <string name="patch_mode">Modo Patch</string>
     <string name="patch_local">Local</string>
     <string name="patch_local_desc">Corrija um aplicativo sem módulos incorporados.\nO aplicativo corrigido precisa do gerenciador em execução em segundo plano, e o escopo Xposed pode ser alterado dinamicamente sem refazer o patch.\nAplicativos com patch local só podem ser executados no dispositivo local.</string>
-    <string name="patch_portable">Portátil</string>
-    <string name="patch_portable_desc">Corrija um aplicativo com módulos incorporados.\nO aplicativo corrigido pode ser executado sem o gerenciador, mas não pode ser gerenciado dinamicamente.\nAplicativos com patches portáteis podem ser usados em dispositivos que não possuem o LSPatch Manager instalado.</string>
+    <string name="patch_integrated">Integrated</string>
+    <string name="patch_integrated_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nIntegrated patched apps can be used on devices that do not have LSPatch Manager installed.</string>
     <string name="patch_embed_modules">Incorporar módulos</string>
     <string name="patch_debuggable">Depurável</string>
     <string name="patch_sigbypass">Bypass de assinatura</string>
