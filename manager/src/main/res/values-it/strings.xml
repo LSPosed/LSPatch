@@ -51,8 +51,8 @@
     <string name="patch_mode">Modalità patch</string>
     <string name="patch_local">Locale</string>
     <string name="patch_local_desc">Patch un\'app senza moduli incorporati.\nL\'app con patch richiede che il gestore sia in esecuzione in background e l\'ambito Xposed può essere modificato in modo dinamico senza applicare nuovamente la patch.\nLe app locali con patch possono essere eseguite solo sul dispositivo locale.</string>
-    <string name="patch_integrated">Integrated</string>
-    <string name="patch_integrated_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nIntegrated patched apps can be used on devices that do not have LSPatch Manager installed.</string>
+    <string name="patch_integrated">Integrato</string>
+    <string name="patch_integrated_desc">Applica patch a un\'app con moduli incorporati.\nL\'app con patch può essere eseguita senza il gestore, ma non può essere gestita dinamicamente.\nLe app con patch integrate possono essere utilizzate su dispositivi su cui non è installato LSPatch Manager.</string>
     <string name="patch_embed_modules">Incorpora i moduli</string>
     <string name="patch_debuggable">Debugging</string>
     <string name="patch_sigbypass">Esclusione della firma</string>
