@@ -51,8 +51,8 @@
     <string name="patch_mode">Patch režimas</string>
     <string name="patch_local">Vietinis</string>
     <string name="patch_local_desc">Pataisykite programą be įterptų modulių.\nPataisytai programai reikia, kad tvarkyklė veiktų fone, o Xposed taikymo sritį galima dinamiškai keisti be pakartotinio pataisymo.\nVietinės pataisytos programos gali veikti tik vietiniame įrenginyje.</string>
-    <string name="patch_portable">Nešiojami</string>
-    <string name="patch_portable_desc">Pataisykite programą su įterptais moduliais.\nPataisyta programa gali veikti be tvarkyklės, bet negali būti valdoma dinamiškai.\nNešiojamos pataisytos programos gali būti naudojamos įrenginiuose, kuriuose neįdiegta LSPatch Manager.</string>
+    <string name="patch_integrated">Integrated</string>
+    <string name="patch_integrated_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nIntegrated patched apps can be used on devices that do not have LSPatch Manager installed.</string>
     <string name="patch_embed_modules">Įterpti modulius</string>
     <string name="patch_debuggable">Derinamas</string>
     <string name="patch_sigbypass">Parašo apėjimas</string>
