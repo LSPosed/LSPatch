@@ -2,7 +2,7 @@
 <resources>
     <string name="add">যোগ করুন</string>
     <string name="install">ইনস্টল করুন</string>
-    <string name="installing">Installing</string>
+    <string name="installing">ইনস্টল করা হচ্ছে</string>
     <string name="uninstall">আনইনস্টল করুন</string>
     <string name="uninstalling">আনইনস্টল হচ্ছে</string>
     <string name="copy_error">কপি ত্রুটি</string>
