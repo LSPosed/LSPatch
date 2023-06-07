@@ -137,7 +137,7 @@ public class LSPApplication {
                     Files.copy(is, cacheApkPath);
                 }
             }
-            new File(appInfo.sourceDir).setWritable(false);
+            cacheApkPath.toFile().setWritable(false);
 
             var mPackages = (Map<?, ?>) XposedHelpers.getObjectField(activityThread, "mPackages");
             mPackages.remove(appInfo.packageName);
