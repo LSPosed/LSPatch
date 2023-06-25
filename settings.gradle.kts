@@ -11,7 +11,7 @@ pluginManagement {
         id("com.android.library") version agpVersion
         id("com.android.application") version agpVersion
         id("com.google.devtools.ksp") version "1.7.20-1.0.7"
-        id("dev.rikka.tools.refine") version "3.1.1"
+        id("dev.rikka.tools.refine") version "4.3.0"
     }
 }
 
@@ -31,6 +31,15 @@ dependencyResolutionManagement {
                 branch = "master"
             }
         }
+    }
+}
+
+sourceControl {
+    gitRepository(java.net.URI.create("https://github.com/libxposed/api.git")) {
+        producesModule("io.github.libxposed:api")
+    }
+    gitRepository(java.net.URI.create("https://github.com/libxposed/service.git")) {
+        producesModule("io.github.libxposed:interface")
     }
 }
 

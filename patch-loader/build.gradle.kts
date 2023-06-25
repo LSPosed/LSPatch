@@ -7,6 +7,10 @@ android {
         multiDexEnabled = false
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -61,5 +65,5 @@ dependencies {
     implementation(projects.share.android)
     implementation(projects.share.java)
 
-    implementation("com.google.code.gson:gson:2.10")
+    implementation("com.google.code.gson:gson:2.10.1")
 }
