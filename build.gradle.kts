@@ -6,8 +6,8 @@ import org.eclipse.jgit.internal.storage.file.FileRepository
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 
 plugins {
-    id("com.android.application") apply false
-    id("com.android.library") apply false
+    alias(libs.plugins.agp.lib) apply false
+    alias(libs.plugins.agp.app) apply false
 }
 
 buildscript {

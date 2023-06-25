@@ -21,6 +21,17 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+    versionCatalogs {
+        create("libs") {
+            from(files("core/gradle/libs.versions.toml"))
+            library("libxposed-api", "io.github.libxposed", "api").version {
+                branch = "master"
+            }
+            library("libxposed-interface", "io.github.libxposed", "interface").version {
+                branch = "master"
+            }
+        }
+    }
 }
 
 rootProject.name = "LSPatch"
