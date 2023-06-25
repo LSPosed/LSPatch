@@ -10,7 +10,7 @@ pluginManagement {
     plugins {
         id("com.android.library") version agpVersion
         id("com.android.application") version agpVersion
-        id("com.google.devtools.ksp") version "1.7.20-1.0.7"
+        id("com.google.devtools.ksp") version "1.8.22-1.0.11"
         id("dev.rikka.tools.refine") version "4.3.0"
     }
 }
