@@ -24,22 +24,10 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             from(files("core/gradle/libs.versions.toml"))
-            library("libxposed-api", "io.github.libxposed", "api").version {
-                branch = "master"
-            }
-            library("libxposed-interface", "io.github.libxposed", "interface").version {
-                branch = "master"
-            }
+            val libxposedVersion = version("libxposed", "100")
+            library("libxposed-api", "io.github.libxposed", "api").versionRef(libxposedVersion)
+            library("libxposed-service-interface", "io.github.libxposed", "service-interface").versionRef(libxposedVersion)
         }
-    }
-}
-
-sourceControl {
-    gitRepository(java.net.URI.create("https://github.com/libxposed/api.git")) {
-        producesModule("io.github.libxposed:api")
-    }
-    gitRepository(java.net.URI.create("https://github.com/libxposed/service.git")) {
-        producesModule("io.github.libxposed:interface")
     }
 }
 
