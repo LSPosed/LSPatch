@@ -5,7 +5,7 @@
 [submodule "core"]
 	path = core
 	url = https://github.com/LSPosed/LSPosed.git
-	branch = lspatch
+	branch = master
 [submodule "patch/libs/manifest-editor"]
 	path = patch/libs/manifest-editor
 	url = https://github.com/WindySha/ManifestEditor.git
