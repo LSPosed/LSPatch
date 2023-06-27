@@ -25,7 +25,7 @@ import org.lsposed.lspatch.ui.util.LocalSnackbarHost
 
 class MainActivity : ComponentActivity() {
 
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -55,7 +55,7 @@ private fun BottomBar(navController: NavHostController) {
         ?: NavGraphs.root.startAppDestination
     var topDestination by rememberSaveable { mutableStateOf(currentDestination.route) }
     LaunchedEffect(currentDestination) {
-        val queue = navController.backQueue
+        val queue = navController.currentBackStack.value
         if (queue.size == 2) topDestination = queue[1].destination.route!!
         else if (queue.size > 2) topDestination = queue[2].destination.route!!
     }
