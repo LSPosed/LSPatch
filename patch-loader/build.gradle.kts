@@ -1,7 +1,7 @@
 import java.util.Locale
 
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.agp.app)
 }
 
 android {
@@ -67,5 +67,5 @@ dependencies {
     implementation(projects.share.android)
     implementation(projects.share.java)
 
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation(libs.gson)
 }

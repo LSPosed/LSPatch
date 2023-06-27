@@ -1,15 +1,12 @@
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
-    val agpVersion: String by settings
     repositories {
         gradlePluginPortal()
         google()
         mavenCentral()
     }
     plugins {
-        id("com.android.library") version agpVersion
-        id("com.android.application") version agpVersion
         id("com.google.devtools.ksp") version "1.8.22-1.0.11"
         id("dev.rikka.tools.refine") version "4.3.0"
     }

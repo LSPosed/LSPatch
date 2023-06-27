@@ -8,7 +8,7 @@ val coreVerCode: Int by rootProject.extra
 val coreVerName: String by rootProject.extra
 
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.agp.app)
     id("com.google.devtools.ksp")
     id("dev.rikka.tools.refine")
     id("kotlin-parcelize")
