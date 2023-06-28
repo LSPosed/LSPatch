@@ -1,3 +1,5 @@
+import java.util.Locale
+
 val defaultManagerPackageName: String by rootProject.extra
 val apiCode: Int by rootProject.extra
 val verCode: Int by rootProject.extra
@@ -6,7 +8,7 @@ val coreVerCode: Int by rootProject.extra
 val coreVerName: String by rootProject.extra
 
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.agp.app)
     id("com.google.devtools.ksp")
     id("dev.rikka.tools.refine")
     id("kotlin-parcelize")
@@ -29,23 +31,33 @@ android {
         }
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        all {
+            sourceSets[name].assets.srcDirs(rootProject.projectDir.resolve("out/assets/$name"))
         }
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
+    }
+
+    kotlin {
+        jvmToolchain(17)
     }
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = "1.4.7"
     }
 
-    sourceSets["main"].assets.srcDirs(rootProject.projectDir.resolve("out/assets"))
     namespace = "org.lsposed.lspatch"
 
     applicationVariants.all {
@@ -59,8 +71,8 @@ android {
 
 afterEvaluate {
     android.applicationVariants.forEach { variant ->
-        val variantLowered = variant.name.toLowerCase()
-        val variantCapped = variant.name.capitalize()
+        val variantLowered = variant.name.lowercase()
+        val variantCapped = variant.name.replaceFirstChar { it.uppercase() }
 
         task<Copy>("copy${variantCapped}Assets") {
             dependsOn(":meta-loader:copy$variantCapped")
@@ -68,7 +80,7 @@ afterEvaluate {
             tasks["merge${variantCapped}Assets"].dependsOn(this)
 
             into("$buildDir/intermediates/assets/$variantLowered/merge${variantCapped}Assets")
-            from("${rootProject.projectDir}/out/assets")
+            from("${rootProject.projectDir}/out/assets/${variant.name}")
         }
 
         task<Copy>("build$variantCapped") {
@@ -86,38 +98,38 @@ dependencies {
     implementation(projects.share.android)
     implementation(projects.share.java)
 
-    val roomVersion = "2.4.3"
+    val roomVersion = "2.5.2"
     val accompanistVersion = "0.27.0"
-    val composeDestinationsVersion = "1.7.25-beta"
-    implementation(platform("androidx.compose:compose-bom:2022.10.00"))
+    val composeDestinationsVersion = "1.9.42-beta"
+    implementation(platform("androidx.compose:compose-bom:2023.06.01"))
 
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
-    compileOnly("dev.rikka.hidden:stub:3.4.3")
+    compileOnly("dev.rikka.hidden:stub:4.2.0")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.customview:customview:1.2.0-alpha02")
     debugImplementation("androidx.customview:customview-poolingcontainer:1.0.0")
-    implementation("androidx.activity:activity-compose:1.6.1")
+    implementation("androidx.activity:activity-compose:1.7.2")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
-    implementation("androidx.navigation:navigation-compose:2.5.3")
-    implementation("androidx.preference:preference:1.2.0")
+    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation("androidx.navigation:navigation-compose:2.6.0")
+    implementation(libs.androidx.preference)
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("com.google.accompanist:accompanist-navigation-animation:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-pager:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-swiperefresh:$accompanistVersion")
-    implementation("com.google.android.material:material:1.7.0")
-    implementation("com.google.code.gson:gson:2.10")
-    implementation("dev.rikka.shizuku:api:12.2.0")
-    implementation("dev.rikka.shizuku:provider:12.2.0")
-    implementation("dev.rikka.tools.refine:runtime:3.1.1")
+    implementation(libs.material)
+    implementation(libs.gson)
+    implementation("dev.rikka.shizuku:api:13.1.2")
+    implementation("dev.rikka.shizuku:provider:13.1.2")
+    implementation("dev.rikka.tools.refine:runtime:4.3.0")
     implementation("io.github.raamcosta.compose-destinations:core:$composeDestinationsVersion")
-    implementation("me.zhanghai.android.appiconloader:appiconloader:1.5.0")
-    implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
+    implementation(libs.appiconloader)
+    implementation(libs.hiddenapibypass)
     ksp("androidx.room:room-compiler:$roomVersion")
     ksp("io.github.raamcosta.compose-destinations:ksp:$composeDestinationsVersion")
 }

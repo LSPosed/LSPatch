@@ -15,7 +15,7 @@ object ManagerService : ILSPApplicationService.Stub() {
 
     private const val TAG = "ManagerService"
 
-    override fun requestModuleBinder(name: String): IBinder {
+    override fun getLegacyModulesList(): MutableList<Module> {
         TODO("Not yet implemented")
     }
 
@@ -29,10 +29,6 @@ object ManagerService : ILSPApplicationService.Stub() {
     }
 
     override fun getPrefsPath(packageName: String): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun requestRemotePreference(packageName: String, userId: Int, callback: IBinder?): Bundle {
         TODO("Not yet implemented")
     }
 

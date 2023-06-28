@@ -6,8 +6,8 @@ import org.eclipse.jgit.internal.storage.file.FileRepository
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 
 plugins {
-    id("com.android.application") apply false
-    id("com.android.library") apply false
+    alias(libs.plugins.agp.lib) apply false
+    alias(libs.plugins.agp.app) apply false
 }
 
 buildscript {
@@ -17,7 +17,7 @@ buildscript {
     }
     dependencies {
         classpath("org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r")
-        classpath(kotlin("gradle-plugin", version = "1.7.20"))
+        classpath(kotlin("gradle-plugin", version = "1.8.21"))
     }
 }
 
@@ -54,8 +54,8 @@ val androidTargetSdkVersion by extra(33)
 val androidCompileSdkVersion by extra(33)
 val androidCompileNdkVersion by extra("25.1.8937393")
 val androidBuildToolsVersion by extra("33.0.1")
-val androidSourceCompatibility by extra(JavaVersion.VERSION_11)
-val androidTargetCompatibility by extra(JavaVersion.VERSION_11)
+val androidSourceCompatibility by extra(JavaVersion.VERSION_17)
+val androidTargetCompatibility by extra(JavaVersion.VERSION_17)
 
 tasks.register<Delete>("clean") {
     delete(rootProject.buildDir)

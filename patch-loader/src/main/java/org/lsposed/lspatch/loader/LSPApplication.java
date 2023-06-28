@@ -85,7 +85,7 @@ public class LSPApplication {
         }
 
         disableProfile(context);
-        Startup.initXposed(false, ActivityThread.currentProcessName(), service);
+        Startup.initXposed(false, ActivityThread.currentProcessName(), ActivityThread.currentApplication().getPackageCodePath(), service);
         Log.i(TAG, "Bootstrap Xposed");
         Startup.bootstrapXposed();
         // WARN: Since it uses `XResource`, the following class should not be initialized

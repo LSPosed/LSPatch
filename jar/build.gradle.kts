@@ -27,7 +27,7 @@ fun Jar.configure(variant: String) {
 
     into("assets") {
         from("src/main/assets")
-        from("${rootProject.projectDir}/out/assets")
+        from("${rootProject.projectDir}/out/assets/$variant")
     }
 
     exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA", "META-INF/*.MF", "META-INF/*.txt", "META-INF/versions/**")

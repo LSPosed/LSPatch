@@ -5,7 +5,7 @@ on:
   push:
     branches: [ master ]
     paths:
-      - manager/src/main/res/values/strings.xml
+    - manager/src/main/res/values/strings.xml
 
 jobs:
   synchronize-with-crowdin:

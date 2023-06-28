@@ -1,17 +1,14 @@
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
-    val agpVersion: String by settings
     repositories {
         gradlePluginPortal()
         google()
         mavenCentral()
     }
     plugins {
-        id("com.android.library") version agpVersion
-        id("com.android.application") version agpVersion
-        id("com.google.devtools.ksp") version "1.7.20-1.0.7"
-        id("dev.rikka.tools.refine") version "3.1.1"
+        id("com.google.devtools.ksp") version "1.8.21-1.0.11"
+        id("dev.rikka.tools.refine") version "4.3.0"
     }
 }
 
@@ -20,6 +17,16 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        mavenLocal {
+            content {
+                includeGroup("io.github.libxposed")
+            }
+        }
+    }
+    versionCatalogs {
+        create("libs") {
+            from(files("core/gradle/libs.versions.toml"))
+        }
     }
 }
 
