@@ -29,7 +29,7 @@ androidComponents.onVariants { variant ->
             "$buildDir/intermediates/dex/$variantLowered/mergeDex$variantCapped"
         from(dexOutPath)
         rename("classes.dex", "metaloader.dex")
-        into("${rootProject.projectDir}/out/assets/lspatch")
+        into("${rootProject.projectDir}/out/assets/${variant.name}/lspatch")
     }
 
     task("copy$variantCapped") {

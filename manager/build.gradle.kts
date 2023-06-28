@@ -36,6 +36,9 @@ android {
                 "proguard-rules.pro"
             )
         }
+        all {
+            sourceSets[name].assets.srcDirs(rootProject.projectDir.resolve("out/assets/$name"))
+        }
     }
 
     kotlinOptions {
@@ -55,7 +58,6 @@ android {
         kotlinCompilerExtensionVersion = "1.4.7"
     }
 
-    sourceSets["main"].assets.srcDirs(rootProject.projectDir.resolve("out/assets"))
     namespace = "org.lsposed.lspatch"
 
     applicationVariants.all {
@@ -78,7 +80,7 @@ afterEvaluate {
             tasks["merge${variantCapped}Assets"].dependsOn(this)
 
             into("$buildDir/intermediates/assets/$variantLowered/merge${variantCapped}Assets")
-            from("${rootProject.projectDir}/out/assets")
+            from("${rootProject.projectDir}/out/assets/${variant.name}")
         }
 
         task<Copy>("build$variantCapped") {
