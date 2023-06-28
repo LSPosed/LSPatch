@@ -6,3 +6,5 @@
 -keepclassmembers class org.lsposed.patch.LSPatch {
     private <fields>;
 }
+-dontwarn com.google.auto.value.AutoValue$Builder
+-dontwarn com.google.auto.value.AutoValue
