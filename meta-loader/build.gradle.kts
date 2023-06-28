@@ -1,7 +1,7 @@
 import java.util.Locale
 
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.agp.app)
 }
 
 android {
@@ -20,7 +20,7 @@ android {
 }
 
 androidComponents.onVariants { variant ->
-    val variantCapped = variant.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+    val variantCapped = variant.name.replaceFirstChar { it.uppercase() }
     val variantLowered = variant.name.lowercase(Locale.getDefault())
 
     task<Copy>("copyDex$variantCapped") {
@@ -45,5 +45,5 @@ androidComponents.onVariants { variant ->
 dependencies {
     compileOnly(projects.hiddenapi.stubs)
     implementation(projects.share.java)
-    implementation("org.lsposed.hiddenapibypass:hiddenapibypass:4.3")
+    implementation(libs.hiddenapibypass)
 }

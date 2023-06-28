@@ -7,7 +7,7 @@ pluginManagement {
         mavenCentral()
     }
     plugins {
-        id("com.google.devtools.ksp") version "1.8.22-1.0.11"
+        id("com.google.devtools.ksp") version "1.8.0-1.0.8"
         id("dev.rikka.tools.refine") version "4.3.0"
     }
 }

@@ -29,7 +29,7 @@ android {
 }
 
 androidComponents.onVariants { variant ->
-    val variantCapped = variant.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+    val variantCapped = variant.name.replaceFirstChar { it.uppercase() }
 
     task<Copy>("copyDex$variantCapped") {
         dependsOn("assemble$variantCapped")
