@@ -17,13 +17,15 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        mavenLocal {
+            content {
+                includeGroup("io.github.libxposed")
+            }
+        }
     }
     versionCatalogs {
         create("libs") {
             from(files("core/gradle/libs.versions.toml"))
-            val libxposedVersion = version("libxposed", "100")
-            library("libxposed-api", "io.github.libxposed", "api").versionRef(libxposedVersion)
-            library("libxposed-service-interface", "io.github.libxposed", "service-interface").versionRef(libxposedVersion)
         }
     }
 }
