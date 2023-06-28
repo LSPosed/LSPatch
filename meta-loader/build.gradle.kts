@@ -5,7 +5,6 @@ plugins {
 }
 
 android {
-
     defaultConfig {
         multiDexEnabled = false
     }
@@ -21,7 +20,7 @@ android {
 
 androidComponents.onVariants { variant ->
     val variantCapped = variant.name.replaceFirstChar { it.uppercase() }
-    val variantLowered = variant.name.lowercase(Locale.getDefault())
+    val variantLowered = variant.name.lowercase()
 
     task<Copy>("copyDex$variantCapped") {
         dependsOn("assemble$variantCapped")

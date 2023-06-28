@@ -31,12 +31,19 @@ android {
         }
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
+    }
+
+    kotlin {
+        jvmToolchain(17)
     }
 
     buildFeatures {
@@ -45,7 +52,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.0"
+        kotlinCompilerExtensionVersion = "1.4.7"
     }
 
     sourceSets["main"].assets.srcDirs(rootProject.projectDir.resolve("out/assets"))
@@ -62,7 +69,7 @@ android {
 
 afterEvaluate {
     android.applicationVariants.forEach { variant ->
-        val variantLowered = variant.name.lowercase(Locale.getDefault())
+        val variantLowered = variant.name.lowercase()
         val variantCapped = variant.name.replaceFirstChar { it.uppercase() }
 
         task<Copy>("copy${variantCapped}Assets") {
