@@ -15,17 +15,17 @@ object ManagerService : ILSPApplicationService.Stub() {
 
     private const val TAG = "ManagerService"
 
-    override fun getLegacyModulesList(): MutableList<Module> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getModulesList(): List<Module> {
+    override fun getLegacyModulesList(): List<Module> {
         val app = lspApp.packageManager.getNameForUid(Binder.getCallingUid())
         val list = app?.let {
             runBlocking { ConfigManager.getModuleFilesForApp(it) }
         }.orEmpty()
-        Log.d(TAG, "$app calls getModulesList: $list")
+        Log.d(TAG, "$app calls getLegacyModulesList: $list")
         return list
+    }
+
+    override fun getModulesList(): List<Module> {
+        return emptyList()
     }
 
     override fun getPrefsPath(packageName: String): String {

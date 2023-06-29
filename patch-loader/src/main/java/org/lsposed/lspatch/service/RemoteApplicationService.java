@@ -34,7 +34,7 @@ public class RemoteApplicationService implements ILSPApplicationService {
     private static final String TAG = "LSPatch";
     private static final String MODULE_SERVICE = Constants.MANAGER_PACKAGE_NAME + ".manager.ModuleService";
 
-    private ILSPApplicationService service;
+    private volatile ILSPApplicationService service;
 
     @SuppressLint("DiscouragedPrivateApi")
     public RemoteApplicationService(Context context) throws RemoteException {
@@ -48,8 +48,8 @@ public class RemoteApplicationService implements ILSPApplicationService {
                 @Override
                 public void onServiceConnected(ComponentName name, IBinder binder) {
                     Log.i(TAG, "Manager binder received");
-                    latch.countDown();
                     service = Stub.asInterface(binder);
+                    latch.countDown();
                 }
 
                 @Override

@@ -58,13 +58,13 @@ public class LocalApplicationService extends ILSPApplicationService.Stub {
     }
 
     @Override
-    public List<Module> getLegacyModulesList() throws RemoteException {
-        return null;
+    public List<Module> getLegacyModulesList() {
+        return modules;
     }
 
     @Override
     public List<Module> getModulesList() {
-        return modules;
+        return new ArrayList<>();
     }
 
     @Override
@@ -75,5 +75,10 @@ public class LocalApplicationService extends ILSPApplicationService.Stub {
     @Override
     public ParcelFileDescriptor requestInjectedManagerBinder(List<IBinder> binder) {
         return null;
+    }
+
+    @Override
+    public IBinder asBinder() {
+        return this;
     }
 }
