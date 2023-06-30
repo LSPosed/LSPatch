@@ -10,9 +10,7 @@ jobs:
   build:
     name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    if: ${{ !startsWith(github.event.head_commit.message, '[skip ci]') }}
     strategy:
-      fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
     env:
@@ -83,7 +81,6 @@ jobs:
 
     - name: Build with Gradle
       run: |
-        echo 'org.gradle.caching=true' >> gradle.properties
         echo 'org.gradle.parallel=true' >> gradle.properties
         echo 'org.gradle.jvmargs=-Xmx2048m' >> gradle.properties
         echo 'android.native.buildOutput=verbose' >> gradle.properties
