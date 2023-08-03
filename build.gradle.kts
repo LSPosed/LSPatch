@@ -220,7 +220,7 @@ fun Project.configureBaseExtension() {
             }
         }
 
-        tasks.whenTaskAdded {
+        tasks.configureEach {
             if (name == "optimizeReleaseResources") {
                 finalizedBy(optimizeReleaseRes)
             }
