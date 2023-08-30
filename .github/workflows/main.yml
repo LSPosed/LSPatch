@@ -42,14 +42,12 @@ jobs:
       with:
         repository: libxposed/api
         path: libxposed/api
-        ref: b581d269a34bdf0f7d2d209ea550b7208de71794
 
     - name: Checkout libxposed/service
       uses: actions/checkout@v3
       with:
         repository: libxposed/service
         path: libxposed/service
-        ref: 0d63ce21a82dee9b9cdf051e381b6cf4b8b81380
 
     - name: Setup Java
       uses: actions/setup-java@v3
