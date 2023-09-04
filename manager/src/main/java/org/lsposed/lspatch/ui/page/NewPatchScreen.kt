@@ -68,6 +68,7 @@ fun NewPatchScreen(
 ) {
     val viewModel = viewModel<NewPatchViewModel>()
     val snackbarHost = LocalSnackbarHost.current
+    val errorUnknown = stringResource(R.string.error_unknown)
     val storageLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { apks ->
         if (apks.isEmpty()) {
             navigator.navigateUp()
@@ -76,14 +77,39 @@ fun NewPatchScreen(
         runBlocking {
             LSPPackageManager.getAppInfoFromApks(apks)
                 .onSuccess {
-                    viewModel.dispatch(ViewAction.ConfigurePatch(it))
+                    viewModel.dispatch(ViewAction.ConfigurePatch(it.first()))
                 }
                 .onFailure {
-                    lspApp.globalScope.launch { snackbarHost.showSnackbar(it.message ?: "Unknown error") }
+                    lspApp.globalScope.launch { snackbarHost.showSnackbar(it.message ?: errorUnknown) }
                     navigator.navigateUp()
                 }
         }
     }
+
+    var showSelectModuleDialog by remember { mutableStateOf(false) }
+    val noXposedModules = stringResource(R.string.patch_no_xposed_module)
+    val storageModuleLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { apks ->
+            if (apks.isEmpty()) {
+                return@rememberLauncherForActivityResult
+            }
+            runBlocking {
+                LSPPackageManager.getAppInfoFromApks(apks).onSuccess { it ->
+                    viewModel.embeddedModules = it.filter { it.isXposedModule }.ifEmpty {
+                        lspApp.globalScope.launch {
+                            snackbarHost.showSnackbar(noXposedModules)
+                        }
+                        return@onSuccess
+                    }
+                }.onFailure {
+                    lspApp.globalScope.launch {
+                        snackbarHost.showSnackbar(
+                            it.message ?: errorUnknown
+                        )
+                    }
+                }
+            }
+        }
 
     Log.d(TAG, "PatchState: ${viewModel.patchState}")
     when (viewModel.patchState) {
@@ -128,7 +154,7 @@ fun NewPatchScreen(
             ) { innerPadding ->
                 if (viewModel.patchState == PatchState.CONFIGURING) {
                     PatchOptionsBody(Modifier.padding(innerPadding)) {
-                        navigator.navigate(SelectAppsScreenDestination(true, viewModel.embeddedModules.mapTo(ArrayList()) { it.app.packageName }))
+                        showSelectModuleDialog = true
                     }
                     resultRecipient.onNavResult {
                         if (it is NavResult.Value) {
@@ -139,6 +165,53 @@ fun NewPatchScreen(
                 } else {
                     DoPatchBody(Modifier.padding(innerPadding), navigator)
                 }
+            }
+
+            if (showSelectModuleDialog) {
+                AlertDialog(onDismissRequest = { showSelectModuleDialog = false },
+                    confirmButton = {},
+                    dismissButton = {
+                        TextButton(content = { Text(stringResource(android.R.string.cancel)) },
+                            onClick = { showSelectModuleDialog = false })
+                    },
+                    title = {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = stringResource(R.string.patch_embed_modules),
+                            textAlign = TextAlign.Center
+                        )
+                    },
+                    text = {
+                        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                            TextButton(modifier = Modifier.fillMaxWidth(),
+                                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.secondary),
+                                onClick = {
+                                    storageModuleLauncher.launch(arrayOf("application/vnd.android.package-archive"))
+                                    showSelectModuleDialog = false
+                                }) {
+                                Text(
+                                    modifier = Modifier.padding(vertical = 8.dp),
+                                    text = stringResource(R.string.patch_from_storage),
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                            }
+                            TextButton(modifier = Modifier.fillMaxWidth(),
+                                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.secondary),
+                                onClick = {
+                                    navigator.navigate(
+                                        SelectAppsScreenDestination(true,
+                                            viewModel.embeddedModules.mapTo(ArrayList()) { it.app.packageName })
+                                    )
+                                    showSelectModuleDialog = false
+                                }) {
+                                Text(
+                                    modifier = Modifier.padding(vertical = 8.dp),
+                                    text = stringResource(R.string.patch_from_applist),
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                            }
+                        }
+                    })
             }
         }
     }
