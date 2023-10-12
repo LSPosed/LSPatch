@@ -152,11 +152,12 @@ object LSPPackageManager {
         return Pair(status, message)
     }
 
-    suspend fun getAppInfoFromApks(apks: List<Uri>): Result<AppInfo> {
+    suspend fun getAppInfoFromApks(apks: List<Uri>): Result<List<AppInfo>> {
         return withContext(Dispatchers.IO) {
             runCatching {
                 var primary: ApplicationInfo? = null
-                val splits = apks.mapNotNull { uri ->
+                val splits = mutableListOf<String>()
+                val appInfos = apks.mapNotNull { uri ->
                     val src = DocumentFile.fromSingleUri(lspApp, uri)
                         ?: throw IOException("DocumentFile is null")
                     val dst = lspApp.tmpApkDir.resolve(src.name!!)
@@ -167,21 +168,25 @@ object LSPPackageManager {
                             input.copyTo(output)
                         }
                     }
-                    if (primary == null) {
-                        primary = lspApp.packageManager.getPackageArchiveInfo(dst.absolutePath, 0)?.applicationInfo
-                        primary?.let {
-                            it.sourceDir = dst.absolutePath
-                            return@mapNotNull null
-                        }
-                    }
-                    dst.absolutePath
-                }
 
+                    val appInfo = lspApp.packageManager.getPackageArchiveInfo(
+                        dst.absolutePath, PackageManager.GET_META_DATA
+                    )?.applicationInfo
+                    appInfo?.sourceDir = dst.absolutePath
+                    if (appInfo == null) {
+                        splits.add(dst.absolutePath)
+                        return@mapNotNull null
+                    }
+                    if (primary == null) {
+                        primary = appInfo
+                    }
+                    val label = lspApp.packageManager.getApplicationLabel(appInfo).toString()
+                    AppInfo(appInfo, label)
+                }
                 // TODO: Check selected apks are from the same app
-                if (primary == null) throw IllegalArgumentException("No primary apk")
-                val label = lspApp.packageManager.getApplicationLabel(primary!!).toString()
-                if (splits.isNotEmpty()) primary!!.splitSourceDirs = splits.toTypedArray()
-                AppInfo(primary!!, label)
+                primary?.splitSourceDirs = splits.toTypedArray()
+                if (appInfos.isEmpty()) throw IOException("No apks")
+                appInfos
             }.recoverCatching { t ->
                 cleanTmpApkDir()
                 Log.e(TAG, "Failed to load apks", t)

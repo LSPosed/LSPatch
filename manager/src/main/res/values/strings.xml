@@ -12,6 +12,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Logs</string>
     <string name="off">Off</string>
+    <string name="error_unknown">Unknown error</string>
 
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Some functions unavailable</string>
@@ -68,6 +69,7 @@
     <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
     <string name="patch_install_successfully">Install successfully</string>
     <string name="patch_install_failed">Install failed</string>
+    <string name="patch_no_xposed_module">No Xposed module(s) were found</string>
 
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Select Apps</string>
