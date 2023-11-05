@@ -8,6 +8,7 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 plugins {
     alias(libs.plugins.agp.lib) apply false
     alias(libs.plugins.agp.app) apply false
+    alias(lspatch.plugins.kotlin.android) apply false
 }
 
 buildscript {
@@ -17,7 +18,6 @@ buildscript {
     }
     dependencies {
         classpath("org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r")
-        classpath(kotlin("gradle-plugin", version = "1.8.21"))
     }
 }
 

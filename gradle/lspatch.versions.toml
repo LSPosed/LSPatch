@@ -1,0 +1,61 @@
+[versions]
+room = "2.5.2"
+accompanist = "0.27.0"
+compose-destinations = "1.9.42-beta"
+shizuku = "13.1.2"
+hiddenapi-refine = "4.3.0"
+hiddenapi-stub = "4.2.0"
+compose-bom = "2023.06.01"
+kotlin = "1.8.21"
+ksp = "1.8.21-1.0.11"
+commons-io = "2.13.0"
+beust-jcommander = "1.82"
+google-gson = "2.10.1"
+
+[plugins]
+google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+rikka-tools-refine = { id = "dev.rikka.tools.refine", version.ref = "hiddenapi-refine" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
+[libraries]
+androidx-customview = "androidx.customview:customview:1.2.0-alpha02"
+androidx-customview-poolingcontainer = "androidx.customview:customview-poolingcontainer:1.0.0"
+
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
+
+androidx-navigation-compose = "androidx.navigation:navigation-compose:2.6.0"
+
+androidx-lifecycle-viewmodel-compose = "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
+
+androidx-activity-compose = "androidx.activity:activity-compose:1.7.2"
+
+androidx-core-ktx = "androidx.core:core-ktx:1.10.1"
+
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+google-accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
+google-accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
+google-accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
+
+rikka-shizuku-api = { module = "dev.rikka.shizuku:api", version.ref = "shizuku" }
+rikka-shizuku-provider = { module = "dev.rikka.shizuku:provider", version.ref = "shizuku" }
+
+rikka-refine = { module = "dev.rikka.tools.refine:runtime", version.ref = "hiddenapi-refine" }
+
+rikka-hidden-stub = { module = "dev.rikka.hidden:stub", version.ref = "hiddenapi-stub" }
+
+raamcosta-compose-destinations = { module = "io.github.raamcosta.compose-destinations:core", version.ref = "compose-destinations" }
+raamcosta-compose-destinations-ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "compose-destinations" }
+
+commons-io = { module = "commons-io:commons-io", version.ref = "commons-io" }
+
+beust-jcommander = { module = "com.beust:jcommander", version.ref = "beust-jcommander" }
+
+google-gson = { module = "com.google.code.gson:gson", version.ref = "google-gson" }
