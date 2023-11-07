@@ -6,10 +6,6 @@ pluginManagement {
         google()
         mavenCentral()
     }
-    plugins {
-        id("com.google.devtools.ksp") version "1.8.21-1.0.11"
-        id("dev.rikka.tools.refine") version "4.3.0"
-    }
 }
 
 dependencyResolutionManagement {
@@ -26,6 +22,9 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             from(files("core/gradle/libs.versions.toml"))
+        }
+        create("lspatch") {
+            from(files("gradle/lspatch.versions.toml"))
         }
     }
 }
