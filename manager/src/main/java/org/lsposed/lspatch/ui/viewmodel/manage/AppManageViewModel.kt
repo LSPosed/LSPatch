@@ -93,7 +93,7 @@ class AppManageViewModel : ViewModel() {
                 for (apk in apkPaths) {
                     ZipFile(apk).use { zip ->
                         var entry = zip.getEntry(Constants.ORIGINAL_APK_ASSET_PATH)
-                        if (entry == null) entry = zip.getEntry("assets/lspatch/origin.apk")
+                        if (entry == null) entry = zip.getEntry("assets/lspatch/origin_apk.bin")
                         if (entry == null) throw FileNotFoundException("Original apk entry not found for $apk")
                         zip.getInputStream(entry).use { input ->
                             val dst = lspApp.tmpApkDir.resolve(apk.substringAfterLast('/'))
