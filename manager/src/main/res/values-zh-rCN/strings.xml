@@ -84,6 +84,4 @@
     <string name="settings_keystore_wrong_alias">别名错误</string>
     <string name="settings_keystore_wrong_alias_password">别名密码错误</string>
     <string name="settings_detail_patch_logs">详细修补日志</string>
-    <string name="settings_keep_alive">保活</string>
-    <string name="settings_keep_alive_foreground">前台</string>
 </resources>

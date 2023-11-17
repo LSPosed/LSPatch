@@ -84,6 +84,4 @@
     <string name="settings_keystore_wrong_alias">ชื่อนามแฝงไม่ถูกต้อง</string>
     <string name="settings_keystore_wrong_alias_password">รหัสผ่านนามแฝงไม่ถูกต้อง</string>
     <string name="settings_detail_patch_logs">บันทึกการแก้ไขรายละเอียด</string>
-    <string name="settings_keep_alive">ให้มีชีวิตอยู่</string>
-    <string name="settings_keep_alive_foreground">เบื้องหน้า</string>
 </resources>

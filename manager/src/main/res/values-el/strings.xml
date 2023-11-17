@@ -84,6 +84,4 @@
     <string name="settings_keystore_wrong_alias">Λάθος όνομα ψευδώνυμου</string>
     <string name="settings_keystore_wrong_alias_password">Λάθος κωδικός πρόσβασης ψευδώνυμου</string>
     <string name="settings_detail_patch_logs">Λεπτομερή αρχεία καταγραφής επιδιορθώσεων</string>
-    <string name="settings_keep_alive">Κρατηθείτε ζωντανοί</string>
-    <string name="settings_keep_alive_foreground">Πρόσφατα στοιχεία</string>
 </resources>

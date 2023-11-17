@@ -84,6 +84,4 @@
     <string name="settings_keystore_wrong_alias">Nom d\'alias erroné</string>
     <string name="settings_keystore_wrong_alias_password">Mot de passe d\'alias erroné</string>
     <string name="settings_detail_patch_logs">Détails des journaux du patch</string>
-    <string name="settings_keep_alive">Garder la vie sauve</string>
-    <string name="settings_keep_alive_foreground">Premier plan</string>
 </resources>

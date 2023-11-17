@@ -84,6 +84,4 @@
     <string name="settings_keystore_wrong_alias">エイリアス名が間違っています</string>
     <string name="settings_keystore_wrong_alias_password">エイリアスのパスワードが違います</string>
     <string name="settings_detail_patch_logs">パッチログの詳細</string>
-    <string name="settings_keep_alive">生かす</string>
-    <string name="settings_keep_alive_foreground">フォアグラウンド</string>
 </resources>
