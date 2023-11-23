@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Tømmerstokker</string>
     <string name="off">Av</string>
+    <string name="error_unknown">Ukjent feil</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Noen funksjoner er utilgjengelige</string>
     <string name="home_api_version">API-versjon</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">På grunn av forskjellige signaturer, må du avinstallere den originale appen før du installerer den lappede.\nSørg for at du har sikkerhetskopiert personlige data.</string>
     <string name="patch_install_successfully">Installer vellykket</string>
     <string name="patch_install_failed">Installasjonen mislyktes</string>
+    <string name="patch_no_xposed_module">Ingen Xposed-modul(er) ble funnet</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Velg Apper</string>
     <!-- Settings Screen -->
