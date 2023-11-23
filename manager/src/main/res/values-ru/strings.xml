@@ -13,7 +13,6 @@
     <string name="screen_repo">Репозиторий</string>
     <string name="screen_logs">Логи</string>
     <string name="off">Выкл.</string>
-    <string name="error_unknown">Неизвестная ошибка</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Некоторые функции недоступны</string>
     <string name="home_api_version">Версия API</string>
@@ -67,7 +66,6 @@
     <string name="patch_uninstall_text">Из-за разных сигнатур вам необходимо удалить оригинальное приложение перед установкой исправленного.\nУбедитесь, что у вас есть резервная копия личных данных.</string>
     <string name="patch_install_successfully">Установка завершена</string>
     <string name="patch_install_failed">Установка не удалась</string>
-    <string name="patch_no_xposed_module">Не найдено ни одного модуля Xposed</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Выберите приложения</string>
     <!-- Settings Screen -->
