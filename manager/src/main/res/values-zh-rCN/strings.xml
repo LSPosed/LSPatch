@@ -13,7 +13,6 @@
     <string name="screen_repo">仓库</string>
     <string name="screen_logs">日志</string>
     <string name="off">关闭</string>
-    <string name="error_unknown">未知错误</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">部分功能不可用</string>
     <string name="home_api_version">API 版本</string>
@@ -67,7 +66,6 @@
     <string name="patch_uninstall_text">由于签名不同，安装修补的应用前需要先卸载原应用。\n确保您已备份好个人数据。</string>
     <string name="patch_install_successfully">安装成功</string>
     <string name="patch_install_failed">安装失败</string>
-    <string name="patch_no_xposed_module">未找到 Xposed 模块</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">选择应用程序</string>
     <!-- Settings Screen -->
