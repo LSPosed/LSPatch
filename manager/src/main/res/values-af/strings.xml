@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Logs</string>
     <string name="off">Af</string>
+    <string name="error_unknown">Onbekende fout</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Sommige funksies nie beskikbaar nie</string>
     <string name="home_api_version">API weergawe</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">As gevolg van verskillende handtekeninge, moet u die oorspronklike toepassing deïnstalleer voordat u die gelapte een installeer.\nMaak seker dat jy persoonlike data gerugsteun het.</string>
     <string name="patch_install_successfully">Installeer suksesvol</string>
     <string name="patch_install_failed">Installering het misluk</string>
+    <string name="patch_no_xposed_module">Geen Xposed-module(s) is gevind nie</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Kies Toepassings</string>
     <!-- Settings Screen -->

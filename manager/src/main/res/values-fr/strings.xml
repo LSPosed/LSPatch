@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Ajouter</string>
-    <string name="install">Installer</string>
+    <string name="install">Install</string>
     <string name="installing">Installation de</string>
     <string name="uninstall">Désinstaller</string>
     <string name="uninstalling">Désinstallation de</string>
@@ -12,12 +12,13 @@
     <string name="shizuku_unavailable">Service Shizuku non connecté</string>
     <string name="screen_repo">Dépôt</string>
     <string name="screen_logs">Journaux</string>
-    <string name="off">Off</string>
+    <string name="off">Arrêt</string>
+    <string name="error_unknown">Erreur inconnue</string>
     <!-- Home Screen -->
-    <string name="home_shizuku_warning">Certaines fonctions seront indisponibles</string>
+    <string name="home_shizuku_warning">Certaines fonctionnalités seront indisponibles</string>
     <string name="home_api_version">Version de l\'API</string>
     <string name="home_lspatch_version">Version de LSPatch</string>
-    <string name="home_framework_version">Version du système d’injection</string>
+    <string name="home_framework_version">Version du Framework</string>
     <string name="home_system_version">Version du système</string>
     <string name="home_device">Appareil</string>
     <string name="home_system_abi">Architecture du système</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">En raison de signatures différentes, vous devez désinstaller l\'appli originale avant d\'installer celle modifiée.\nAssurez-vous d\'avoir sauvegardé vos données personnelles.</string>
     <string name="patch_install_successfully">Installation réussie</string>
     <string name="patch_install_failed">Échec de l\'installation</string>
+    <string name="patch_no_xposed_module">Aucun module Xposed n\'a été trouvé</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Sélectionner Applications</string>
     <!-- Settings Screen -->

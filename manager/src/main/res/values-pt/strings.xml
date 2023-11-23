@@ -3,8 +3,8 @@
     <string name="add">Adicionar</string>
     <string name="install">Instalar</string>
     <string name="installing">Instalando</string>
-    <string name="uninstall">Desinstalar</string>
-    <string name="uninstalling">Desinstalar</string>
+    <string name="uninstall">Desinstalaroi</string>
+    <string name="uninstalling">Desinstalarou</string>
     <string name="copy_error">Erro de cópia</string>
     <string name="apps">Apps</string>
     <string name="modules">Módulos</string>
@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Registos</string>
     <string name="off">Desligado</string>
+    <string name="error_unknown">Erro desconhecido</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Algumas funções indisponíveis</string>
     <string name="home_api_version">Versão da API</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Devido a assinaturas diferentes, você precisa desinstalar o aplicativo original antes de instalar o corrigido.\nCertifique-se de ter feito backup dos dados pessoais.</string>
     <string name="patch_install_successfully">Instalar com sucesso</string>
     <string name="patch_install_failed">Falha na instalação</string>
+    <string name="patch_no_xposed_module">Nenhum módulo Xposed foi encontrado</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Seleccionar aplicações</string>
     <!-- Settings Screen -->

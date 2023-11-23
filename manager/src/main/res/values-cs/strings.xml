@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Protokoly</string>
     <string name="off">Vypnuto</string>
+    <string name="error_unknown">Neznámá chyba</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Některé funkce nejsou k dispozici</string>
     <string name="home_api_version">Verze API</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Kvůli různým podpisům musíte před instalací opravené odinstalovat původní aplikaci.\nUjistěte se, že máte zálohovaná osobní data.</string>
     <string name="patch_install_successfully">Nainstalujte úspěšně</string>
     <string name="patch_install_failed">Instalace se nezdařila</string>
+    <string name="patch_no_xposed_module">Nebyly nalezeny žádné moduly Xposed</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Vybrané aplikace</string>
     <!-- Settings Screen -->

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add">شامل کریں۔</string>
-    <string name="install">انسٹال کریں۔</string>
-    <string name="installing">انسٹال کرنا</string>
+    <string name="add">شامل کریں۔ </string>
+    <string name="install">Install</string>
+    <string name="installing">Installال</string>
     <string name="uninstall">ان انسٹال کریں۔</string>
     <string name="uninstalling">ان انسٹال کرنا</string>
     <string name="copy_error">کاپی کی غلطی</string>
@@ -13,6 +13,7 @@
     <string name="screen_repo">ریپو</string>
     <string name="screen_logs">نوشتہ جات</string>
     <string name="off">بند</string>
+    <string name="error_unknown">نامعلوم خامی</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">کچھ فنکشنز دستیاب نہیں ہیں۔</string>
     <string name="home_api_version">API ورژن</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">مختلف دستخطوں کی وجہ سے، آپ کو پیچ شدہ ایپ کو انسٹال کرنے سے پہلے اصل ایپ کو ان انسٹال کرنے کی ضرورت ہے۔\nیقینی بنائیں کہ آپ نے ذاتی ڈیٹا کا بیک اپ لیا ہے۔</string>
     <string name="patch_install_successfully">کامیابی سے انسٹال کریں۔</string>
     <string name="patch_install_failed">انسٹال ناکام ہو گیا۔</string>
+    <string name="patch_no_xposed_module">کوئی ایکس پوز ماڈیول نہیں ملا</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">ایپس کو منتخب کریں۔</string>
     <!-- Settings Screen -->

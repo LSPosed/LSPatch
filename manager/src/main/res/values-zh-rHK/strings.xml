@@ -1,89 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Add</string>
-    <string name="install">Install</string>
-    <string name="installing">Installing</string>
-    <string name="uninstall">Uninstall</string>
-    <string name="uninstalling">Uninstalling</string>
-    <string name="copy_error">Copy error</string>
-    <string name="apps">Apps</string>
-    <string name="modules">Modules</string>
+    <string name="install">安裝</string>
+    <string name="installing">安裝中</string>
+    <string name="uninstall">卸载</string>
+    <string name="uninstalling"></string>
     <string name="shizuku_available">Shizuku 服務可用</string>
     <string name="shizuku_unavailable">Shizuku 服務未連接</string>
-    <string name="screen_repo">Repo</string>
     <string name="screen_logs">日誌</string>
-    <string name="off">Off</string>
     <!-- Home Screen -->
-    <string name="home_shizuku_warning">Some functions unavailable</string>
-    <string name="home_api_version">API Version</string>
-    <string name="home_lspatch_version">LSPatch Version</string>
-    <string name="home_framework_version">Framework Version</string>
-    <string name="home_system_version">System Version</string>
-    <string name="home_device">Device</string>
-    <string name="home_system_abi">System ABI</string>
-    <string name="home_info_copied">Copied to clipboard</string>
-    <string name="home_support">Support</string>
-    <string name="home_description">LSPatch is a free non-root Xposed framework based on LSPosed core.</string>
-    <string name="home_view_source_code"><![CDATA[View source code at %1$s<br/>Join our %2$s channel]]></string>
     <!-- Manage Screen -->
-    <string name="screen_manage">Manage</string>
-    <string name="manage_loading">Loading</string>
-    <string name="manage_no_apps">No patched apps yet</string>
-    <string name="manage_rolling">Rolling</string>
-    <string name="manage_update_loader">Update loader</string>
-    <string name="manage_update_loader_successfully">Update successfully</string>
-    <string name="manage_update_loader_failed">Update failed</string>
-    <string name="manage_module_scope">Module scope</string>
-    <string name="manage_optimize">Optimize</string>
-    <string name="manage_optimize_successfully">Optimize successfully</string>
-    <string name="manage_optimize_failed">Optimize failed</string>
-    <string name="manage_uninstall_successfully">Uninstall successfully</string>
-    <string name="manage_no_modules">No modules yet</string>
-    <string name="manage_module_settings">Module settings</string>
-    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
-    <string name="screen_new_patch">New Patch</string>
-    <string name="patch_select_dir_title">Select storage directory</string>
-    <string name="patch_select_dir_text">Select a directory to store the patched apks</string>
-    <string name="patch_select_dir_error">Error when setting storage directory</string>
-    <string name="patch_from_storage">Select apk(s) from storage</string>
-    <string name="patch_from_applist">Select an installed app</string>
-    <string name="patch_mode">Patch Mode</string>
-    <string name="patch_local">Local</string>
-    <string name="patch_local_desc">Patch an app without modules embedded.\nThe patched app need the manager running in background, and Xposed scope can be changed dynamically without re-patch.\nLocal patched apps can only run on the local device.</string>
-    <string name="patch_integrated">Integrated</string>
-    <string name="patch_integrated_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nIntegrated patched apps can be used on devices that do not have LSPatch Manager installed.</string>
-    <string name="patch_embed_modules">Embed modules</string>
-    <string name="patch_debuggable">Debuggable</string>
-    <string name="patch_sigbypass">Signature bypass</string>
-    <string name="patch_sigbypasslv0">lv0: Off</string>
-    <string name="patch_sigbypasslv1">lv1: Bypass PM</string>
-    <string name="patch_sigbypasslv2">lv2: Bypass PM + openat (libc)</string>
-    <string name="patch_override_version_code">Override version code</string>
-    <string name="patch_override_version_code_desc">Override the patched app\'s version code to 1\nThis allows downgrade installation in the future, and generally this will not affect the version code actually perceived by the application</string>
-    <string name="patch_start">Start Patch</string>
-    <string name="patch_return">Return</string>
-    <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
-    <string name="patch_install_successfully">Install successfully</string>
-    <string name="patch_install_failed">Install failed</string>
     <!-- Select Apps Screen -->
-    <string name="screen_select_apps">Select Apps</string>
     <!-- Settings Screen -->
-    <string name="screen_settings">Settings</string>
-    <string name="settings_keystore">Signature keystore</string>
-    <string name="settings_keystore_default">Built-in</string>
-    <string name="settings_keystore_custom">Custom</string>
-    <string name="settings_keystore_dialog_title">Custom keystore</string>
-    <string name="settings_keystore_file">Keystore file</string>
-    <string name="settings_keystore_password">Password</string>
-    <string name="settings_keystore_alias">Alias</string>
-    <string name="settings_keystore_alias_password">Alias password</string>
-    <string name="settings_keystore_desc">Set keystore (BKS)</string>
-    <string name="settings_keystore_wrong_keystore">Wrong type of keystore</string>
-    <string name="settings_keystore_wrong_password">Wrong keystore password</string>
-    <string name="settings_keystore_wrong_alias">Wrong alias name</string>
-    <string name="settings_keystore_wrong_alias_password">Wrong alias password</string>
-    <string name="settings_detail_patch_logs">Detail patch logs</string>
-    <string name="settings_keep_alive">Keep alive</string>
-    <string name="settings_keep_alive_foreground">Foreground</string>
 </resources>
