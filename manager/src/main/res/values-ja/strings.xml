@@ -13,6 +13,7 @@
     <string name="screen_repo">リポジトリ</string>
     <string name="screen_logs">ログ</string>
     <string name="off">オフ</string>
+    <string name="error_unknown">不明なエラー</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">一部の機能が使用できません</string>
     <string name="home_api_version">APIのバージョン</string>
@@ -51,7 +52,7 @@
     <string name="patch_mode">パッチモード</string>
     <string name="patch_local">ローカル</string>
     <string name="patch_local_desc">アプリにモジュールを埋め込まずにパッチを適用します。\nパッチが適用されたアプリを正しく実行するには、LSPatch Managerがバックグラウンドで実行されている必要があり、Xposedスコープは再パッチなしで動的に変更できます。\nローカルのパッチが適用されたアプリは、パッチを適用したデバイスでのみ実行できます。</string>
-    <string name="patch_integrated">統合された</string>
+    <string name="patch_integrated">統合</string>
     <string name="patch_integrated_desc">モジュールが埋め込まれたアプリにパッチを適用します。\nパッチ適用されたアプリはマネージャーなしで実行できますが、動的に管理することはできません。\n統合されたパッチ適用済みアプリは、LSPatch Manager がインストールされていないデバイスでも使用できます。</string>
     <string name="patch_embed_modules">モジュールを埋め込む</string>
     <string name="patch_debuggable">デバッグを有効化</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">署名が異なるため、パッチを適用したアプリをインストールする前に、元のアプリをアンインストールする必要があります。\nデータは必要に応じてバックアップしてください。</string>
     <string name="patch_install_successfully">正常にインストールされました</string>
     <string name="patch_install_failed">インストールに失敗しました</string>
+    <string name="patch_no_xposed_module">Xposedモジュールが見つかりませんでした</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">アプリを選択</string>
     <!-- Settings Screen -->
@@ -83,7 +85,7 @@
     <string name="settings_keystore_wrong_password">キーストアのパスワードが違います</string>
     <string name="settings_keystore_wrong_alias">エイリアス名が間違っています</string>
     <string name="settings_keystore_wrong_alias_password">エイリアスのパスワードが違います</string>
-    <string name="settings_detail_patch_logs">パッチログの詳細</string>
-    <string name="settings_keep_alive">生かす</string>
+    <string name="settings_detail_patch_logs">詳細なパッチログ</string>
+    <string name="settings_keep_alive">Keep Alive</string>
     <string name="settings_keep_alive_foreground">フォアグラウンド</string>
 </resources>
