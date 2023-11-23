@@ -51,7 +51,7 @@
     <string name="patch_from_applist">Válasszon ki egy telepített alkalmazást</string>
     <string name="patch_mode">Patch mód</string>
     <string name="patch_local">Helyi</string>
-    <string name="patch_local_desc">Patcheljen egy alkalmazást beágyazott modulok nélkül.\nA patchelt alkalmazásnak szükséges, hogy a Manager a háttérben fusson, és az Xposed hatóköre dinamikusan módosítható legyen újra patchelés nélkül.\nA helyileg patchelt alkalmazások csak a helyi eszközön futhatnak.</string>
+    <string name="patch_local_desc">Beágyazott modulok nélküli alkalmazás foltozása.\nAz Xposed hatókör dinamikusan megváltoztatható újrapatchelés nélkül.\nA helyi javított alkalmazások csak a helyi eszközön futhatnak.</string>
     <string name="patch_integrated">Integrált</string>
     <string name="patch_integrated_desc">Patcheljen egy alkalmazást beágyazott modulokkal.\nA patchelt alkalmazás futhat a Manager nélkül, de nem kezelhető dinamikusan.\nAz integrált\nhordozható, patchelt alkalmazások olyan eszközökön használhatók, amelyeken nincs telepítve az LSPatch Manager.</string>
     <string name="patch_embed_modules">Modulok beágyazása</string>
