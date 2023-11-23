@@ -7,12 +7,12 @@
     <string name="uninstalling">আনইনস্টল হচ্ছে</string>
     <string name="copy_error">কপি ত্রুটি</string>
     <string name="apps">অ্যাপস</string>
-    <string name="modules">Modules</string>
+    <string name="modules">মডিউল</string>
     <string name="shizuku_available">শিজুকু পরিষেবা উপলব্ধ</string>
     <string name="shizuku_unavailable">Shizuku পরিষেবা সংযুক্ত নেই৷</string>
-    <string name="screen_repo">Repo</string>
-    <string name="screen_logs">Logs</string>
-    <string name="off">Off</string>
+    <string name="screen_repo">রেপো</string>
+    <string name="screen_logs">লগ</string>
+    <string name="off">বন্ধ</string>
     <string name="error_unknown">অজানা ত্রুটি</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">কিছু ফাংশন অনুপলব্ধ</string>
