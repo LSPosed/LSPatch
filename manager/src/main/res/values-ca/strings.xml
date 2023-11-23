@@ -1,8 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="add">Afegeix</string>
+    <string name="install">Instal·lar</string>
+    <string name="installing">Instal·lació</string>
+    <string name="uninstall">Desinstal·la</string>
+    <string name="uninstalling">S\'està desinstal·lant</string>
+    <string name="copy_error">Error de còpia</string>
+    <string name="apps">Aplicacions</string>
+    <string name="modules">Mòduls</string>
+    <string name="shizuku_available">Servei Shizuku disponible</string>
+    <string name="shizuku_unavailable">El servei Shizuku no està connectat</string>
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Registres</string>
+    <string name="off">Apagat</string>
+    <string name="error_unknown">Error desconegut</string>
     <!-- Home Screen -->
+    <string name="home_shizuku_warning">Algunes funcions no estan disponibles</string>
+    <string name="home_api_version">Versió de l\'API</string>
+    <string name="home_lspatch_version">Versió LSPatch</string>
+    <string name="home_framework_version">Versió del marc</string>
+    <string name="home_system_version">Versió del sistema</string>
+    <string name="home_device">Dispositiu</string>
+    <string name="home_system_abi">Sistema ABI</string>
+    <string name="home_info_copied">S\'ha copiat al porta-retalls</string>
+    <string name="home_support">Suport</string>
+    <string name="home_description">LSPatch és un marc Xposed gratuït no root basat en el nucli LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Veure el codi font a %1$s<br/>Uneix-te al nostre canal %2$s]]></string>
     <!-- Manage Screen -->
+    <string name="screen_manage">Gestionar</string>
+    <string name="manage_loading">Carregant</string>
+    <string name="manage_no_apps">Encara no hi ha cap aplicació pegada</string>
+    <string name="manage_rolling">Rodant</string>
+    <string name="manage_update_loader">Actualitza el carregador</string>
+    <string name="manage_update_loader_successfully">Actualitza correctament</string>
+    <string name="manage_update_loader_failed">No s\'ha pogut actualitzar</string>
+    <string name="manage_module_scope">Àmbit del mòdul</string>
+    <string name="manage_optimize">Optimitzar</string>
+    <string name="manage_optimize_successfully">Optimitzar amb èxit</string>
+    <string name="manage_optimize_failed">L\'optimització ha fallat</string>
+    <string name="manage_uninstall_successfully">Desinstal·la correctament</string>
+    <string name="manage_no_modules">Encara no hi ha mòduls</string>
+    <string name="manage_module_settings">Configuració del mòdul</string>
+    <string name="manage_app_info">Informació de l\'aplicació</string>
     <!-- New Patch Screen -->
+    <string name="screen_new_patch">Nou Pegat</string>
+    <string name="patch_select_dir_title">Seleccioneu el directori d\'emmagatzematge</string>
+    <string name="patch_select_dir_text">Seleccioneu un directori per emmagatzemar els apks pegats</string>
+    <string name="patch_select_dir_error">Error en configurar el directori d\'emmagatzematge</string>
+    <string name="patch_from_storage">Seleccioneu apk(s) de l\'emmagatzematge</string>
+    <string name="patch_from_applist">Seleccioneu una aplicació instal·lada</string>
+    <string name="patch_mode">Mode de pegat</string>
+    <string name="patch_local">Local</string>
+    <string name="patch_local_desc">Apliqueu una aplicació sense mòduls incrustats.\nL\'aplicació pegada necessita que el gestor s\'executi en segon pla, i l\'àmbit Xposed es pot canviar de forma dinàmica sense tornar a aplicar el pedaç.\nLes aplicacions localitzades només es poden executar al dispositiu local.</string>
+    <string name="patch_integrated">Integrat</string>
+    <string name="patch_integrated_desc">Apliqueu una aplicació amb mòduls incrustats.\nL\'aplicació pegada es pot executar sense el gestor, però no es pot gestionar de manera dinàmica.\nLes aplicacions amb pedaços integrades es poden utilitzar en dispositius que no tinguin LSPatch Manager instal·lat.</string>
+    <string name="patch_embed_modules">Incrustar mòduls</string>
+    <string name="patch_debuggable">Depurable</string>
+    <string name="patch_sigbypass">Bypass de signatura</string>
+    <string name="patch_sigbypasslv0">lv0: apagat</string>
+    <string name="patch_sigbypasslv1">lv1: anul·lar PM</string>
+    <string name="patch_sigbypasslv2">lv2: ometre PM + openat (libc)</string>
+    <string name="patch_override_version_code">Anul·la el codi de versió</string>
+    <string name="patch_override_version_code_desc">Substituïu el codi de versió de l\'aplicació aplicada a 1\nAixò permetrà la instal·lació de baixada en el futur i, en general, això no afectarà el codi de versió realment percebut per l\'aplicació.</string>
+    <string name="patch_start">Inicia el pegat</string>
+    <string name="patch_return">Tornar</string>
+    <string name="patch_uninstall_text">A causa de les diferents signatures, heu de desinstal·lar l\'aplicació original abans d\'instal·lar la pegada.\nAssegureu-vos que heu fet una còpia de seguretat de les dades personals.</string>
+    <string name="patch_install_successfully">Instal·la correctament</string>
+    <string name="patch_install_failed">La instal·lació ha fallat</string>
+    <string name="patch_no_xposed_module">No s\'han trobat mòduls Xposed</string>
     <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Seleccioneu Aplicacions</string>
     <!-- Settings Screen -->
+    <string name="screen_settings">Configuració</string>
+    <string name="settings_keystore">Botiga de claus de signatures</string>
+    <string name="settings_keystore_default">Integrat</string>
+    <string name="settings_keystore_custom">Personalitzat</string>
+    <string name="settings_keystore_dialog_title">Magatzem de claus personalitzat</string>
+    <string name="settings_keystore_file">Fitxer de magatzem de claus</string>
+    <string name="settings_keystore_password">Contrasenya</string>
+    <string name="settings_keystore_alias">Àlies</string>
+    <string name="settings_keystore_alias_password">Contrasenya d\'àlies</string>
+    <string name="settings_keystore_desc">Estableix el magatzem de claus (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Tipus de magatzem de claus incorrecte</string>
+    <string name="settings_keystore_wrong_password">La contrasenya del magatzem de claus és incorrecta</string>
+    <string name="settings_keystore_wrong_alias">Nom d\'àlies incorrecte</string>
+    <string name="settings_keystore_wrong_alias_password">Contrasenya d\'àlies incorrecta</string>
+    <string name="settings_detail_patch_logs">Registres de pedaços detallats</string>
+    <string name="settings_keep_alive">Mantenir amb vida</string>
+    <string name="settings_keep_alive_foreground">Primer pla</string>
 </resources>
