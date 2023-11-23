@@ -51,7 +51,7 @@
     <string name="patch_from_applist">選取已安裝的應用程式</string>
     <string name="patch_mode">打包模式</string>
     <string name="patch_local">本機</string>
-    <string name="patch_local_desc">打包沒有內建模組的應用程式。\n打包後的程式需要此管理器背景執行，Xposed 作用域可以動態更改而無需重新打包。\n本機打包的應用程式，只能在本機執行。</string>
+    <string name="patch_local_desc">修補未嵌入模組的應用程式。\nXpose 範圍可以動態更改，無需重新修補。\n本地修補的應用程式只能在本機裝置上運作。</string>
     <string name="patch_integrated">集成模式</string>
     <string name="patch_integrated_desc">打包內建模組的應用程式。\n打包後的程式，可以在沒有管理器的情況下執行，但無法動態管理啟用的模組。\n以集成模式打包的應用程式，可以在沒有安裝 LSPatch Manager 的裝置上使用。</string>
     <string name="patch_embed_modules">內建模組</string>
