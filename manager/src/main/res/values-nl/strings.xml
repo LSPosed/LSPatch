@@ -51,7 +51,7 @@
     <string name="patch_from_applist">Selecteer een geïnstalleerde app</string>
     <string name="patch_mode">Patch-modus</string>
     <string name="patch_local">lokaal</string>
-    <string name="patch_local_desc">Patch een app zonder ingebouwde modules.\nDe gepatchte app heeft de manager nodig die op de achtergrond draait, en het Xposed-bereik kan dynamisch worden gewijzigd zonder opnieuw te patchen.\nLokale gepatchte apps kunnen alleen op het lokale apparaat worden uitgevoerd.</string>
+    <string name="patch_local_desc">Een app patchen zonder geïntegreerde modules.\nXposed scope kan dynamisch worden gewijzigd zonder opnieuw te patchen.\nLokaal gepatchte apps kunnen alleen draaien op het lokale apparaat.</string>
     <string name="patch_integrated">Geïntegreerd</string>
     <string name="patch_integrated_desc">Patch een app met ingesloten modules.\nDe gepatchte app kan zonder de manager worden uitgevoerd, maar kan niet dynamisch worden beheerd.\nGeïntegreerde gepatchte apps kunnen worden gebruikt op apparaten waarop LSPatch Manager niet is geïnstalleerd.</string>
     <string name="patch_embed_modules">Modules insluiten</string>

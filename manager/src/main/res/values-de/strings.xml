@@ -51,7 +51,7 @@
     <string name="patch_from_applist">Wählen Sie eine installierte App aus</string>
     <string name="patch_mode">Patch-Modus</string>
     <string name="patch_local">Lokal</string>
-    <string name="patch_local_desc">Patchen Sie eine App ohne eingebettete Module.\nFür die gepatchte App muss der Manager im Hintergrund ausgeführt werden, und der Xposed-Bereich kann ohne erneutes Patchen dynamisch geändert werden.\nLokal gepatchte Apps können nur auf dem lokalen Gerät ausgeführt werden.</string>
+    <string name="patch_local_desc">Patchen Sie eine App ohne eingebettete Module.\nDer Xposed-Bereich kann dynamisch geändert werden, ohne dass ein neuer Patch erforderlich ist.\nLokal gepatchte Apps können nur auf dem lokalen Gerät ausgeführt werden.</string>
     <string name="patch_integrated">Integriert</string>
     <string name="patch_integrated_desc">Patche eine App mit eingebetteten Modulen.\nDie gepatchte App kann ohne den Manager ausgeführt, aber nicht dynamisch verwaltet werden.\nIntegrierte gepatchte Apps können auf Geräten verwendet werden, auf denen der LSPatch Manager nicht installiert ist.</string>
     <string name="patch_embed_modules">Module einbetten</string>

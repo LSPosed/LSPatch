@@ -51,7 +51,7 @@
     <string name="patch_from_applist">Valitse asennettu sovellus</string>
     <string name="patch_mode">Patch-tila</string>
     <string name="patch_local">Paikallinen</string>
-    <string name="patch_local_desc">Korjaa sovellus ilman upotettuja moduuleja.\nKorjattu sovellus tarvitsee taustalla toimivan hallinnan, ja Xposed-aluetta voidaan muuttaa dynaamisesti ilman korjausta.\nPaikalliset korjatut sovellukset voivat toimia vain paikallisessa laitteessa.</string>
+    <string name="patch_local_desc">Korjaa sovellus ilman upotettuja moduuleja.\nXposedin laajuutta voidaan muuttaa dynaamisesti ilman uudelleenpatchausta.\nPaikalliset paikallistetut sovellukset voivat toimia vain paikallisella laitteella.</string>
     <string name="patch_integrated">Integroitu</string>
     <string name="patch_integrated_desc">Korjaa sovellus, jossa on upotettuja moduuleja.\nKorjattu sovellus voi toimia ilman hallintaa, mutta sitä ei voida hallita dynaamisesti.\nIntegroituja korjattuja sovelluksia voidaan käyttää laitteissa, joihin ei ole asennettu LSPatch Manageria.</string>
     <string name="patch_embed_modules">Upota moduulit</string>

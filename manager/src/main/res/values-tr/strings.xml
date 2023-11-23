@@ -51,7 +51,7 @@
     <string name="patch_from_applist">Yüklü bir uygulama seçin</string>
     <string name="patch_mode">Yama Modu</string>
     <string name="patch_local">Yerel</string>
-    <string name="patch_local_desc">Gömülü modüller olmadan bir uygulamayı yamalayın.\nYama uygulanmış uygulamanın arka planda çalışan yöneticiye ihtiyacı vardır ve Xposed kapsamı, yeniden yama yapılmadan dinamik olarak değiştirilebilir.\nYerel yamalı uygulamalar yalnızca yerel cihazda çalışabilir.</string>
+    <string name="patch_local_desc">Gömülü modüller olmadan bir uygulamayı yamalayın.\nXposed kapsamı yeniden yama yapılmadan dinamik olarak değiştirilebilir.\nYerel yamalı uygulamalar yalnızca yerel cihazda çalışabilir.</string>
     <string name="patch_integrated">Birleşik</string>
     <string name="patch_integrated_desc">Gömülü modüller içeren bir uygulamaya yama yapın.\nYamalı uygulama, yönetici olmadan çalışabilir ancak dinamik olarak yönetilemez.\nTümleşik yamalı uygulamalar, LSPatch Yöneticisi yüklü olmayan cihazlarda kullanılabilir.</string>
     <string name="patch_embed_modules">Gömülü modüller</string>

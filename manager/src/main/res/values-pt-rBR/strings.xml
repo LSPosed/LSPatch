@@ -51,7 +51,7 @@
     <string name="patch_from_applist">Selecione um app instalado</string>
     <string name="patch_mode">Modo Patch</string>
     <string name="patch_local">Local</string>
-    <string name="patch_local_desc">Corrija um app sem módulos incorporados.\nO app corrigido precisa que o gerenciador seja executado em segundo plano, e o escopo do Xposed pode ser alterado dinamicamente sem re-patch.\nApps locais corrigidos só podem ser executados no dispositivo local.</string>
+    <string name="patch_local_desc">Faça o patch de um aplicativo sem módulos incorporados.\nO escopo do Xposed pode ser alterado dinamicamente sem nova correção.\nAplicativos com patches locais só podem ser executados no dispositivo local.</string>
     <string name="patch_integrated">Integrado</string>
     <string name="patch_integrated_desc">Corrija um app com módulos incorporados.\nO app corrigido pode ser executado sem o gerenciador, mas não pode ser gerenciado dinamicamente.\nApps corrigidos integrados podem ser usados ​​em dispositivos que não têm o LSPatch Manager instalado.</string>
     <string name="patch_embed_modules">Incorporar módulos</string>

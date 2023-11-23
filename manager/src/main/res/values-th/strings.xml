@@ -51,7 +51,7 @@
     <string name="patch_from_applist">เลือกแอพที่ติดตั้ง</string>
     <string name="patch_mode">โหมดแพทช์</string>
     <string name="patch_local">ท้องถิ่น</string>
-    <string name="patch_local_desc">แก้ไขแอปโดยไม่ต้องฝังโมดูล\nแอปแพตช์ต้องการให้ผู้จัดการทำงานในเบื้องหลัง และขอบเขต Xposed สามารถเปลี่ยนแปลงไดนามิกโดยไม่ต้องแพตช์ใหม่\nแอพที่แพตช์ในเครื่องสามารถทำงานบนอุปกรณ์ท้องถิ่นเท่านั้น</string>
+    <string name="patch_local_desc">แพทช์แอปที่ไม่มีโมดูลฝังอยู่\nขอบเขต Xposed สามารถเปลี่ยนแปลงได้แบบไดนามิกโดยไม่ต้องแพตช์ใหม่\nแอพที่ได้รับการติดตั้งในเครื่องสามารถทำงานได้บนอุปกรณ์ในเครื่องเท่านั้น</string>
     <string name="patch_integrated">แบบบูรณาการ</string>
     <string name="patch_integrated_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nIntegrated patched apps can be used on devices that do not have LSPatch Manager installed.</string>
     <string name="patch_embed_modules">โมดูลฝังตัว</string>

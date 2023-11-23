@@ -51,7 +51,7 @@
     <string name="patch_from_applist">Pilih aplikasi yang diinstal</string>
     <string name="patch_mode">Modus Patch</string>
     <string name="patch_local">Lokal</string>
-    <string name="patch_local_desc">Menambal aplikasi tanpa modul yang disematkan.\nAplikasi yang ditambal membutuhkan pengelola yang berjalan di latar belakang, dan cakupan Xposed dapat diubah secara dinamis tanpa tambalan ulang.\nAplikasi yang ditambal lokal hanya dapat berjalan di perangkat lokal.</string>
+    <string name="patch_local_desc">Menambal aplikasi tanpa modul yang tertanam.\nCakupan Xposed dapat diubah secara dinamis tanpa menambal ulang.\nAplikasi yang ditambal lokal hanya dapat berjalan di perangkat lokal.</string>
     <string name="patch_integrated">Terintegrasi</string>
     <string name="patch_integrated_desc">Patch aplikasi dengan modul yang disematkan.\nAplikasi yang di-patch dapat berjalan tanpa manajer, tetapi tidak dapat dikelola secara dinamis.\nAplikasi yang di-patch terintegrasi dapat digunakan pada perangkat yang tidak memasang LSPatch Manager.</string>
     <string name="patch_embed_modules">Sematkan modul</string>

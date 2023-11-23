@@ -51,7 +51,7 @@
     <string name="patch_from_applist">Chọn một ứng dụng đã cài đặt</string>
     <string name="patch_mode">Chế độ vá lỗi</string>
     <string name="patch_local">Địa phương</string>
-    <string name="patch_local_desc">Vá một ứng dụng không nhúng mô-đun.\nỨng dụng đã vá cần trình quản lý chạy trong nền và phạm vi Xposed có thể được thay đổi động mà không cần vá lại.\nCác ứng dụng được vá cục bộ chỉ có thể chạy trên thiết bị cục bộ.</string>
+    <string name="patch_local_desc">Vá một ứng dụng không có mô-đun được nhúng.\nXpose có thể được thay đổi linh hoạt mà không cần vá lại.\nCác ứng dụng được vá cục bộ chỉ có thể chạy trên thiết bị cục bộ.</string>
     <string name="patch_integrated">tích hợp</string>
     <string name="patch_integrated_desc">Vá một ứng dụng với các mô-đun được nhúng.\nỨng dụng đã vá có thể chạy mà không cần trình quản lý, nhưng không thể quản lý động.\nCác ứng dụng được vá tích hợp có thể được sử dụng trên các thiết bị chưa cài đặt LSPatch Manager.</string>
     <string name="patch_embed_modules">Nhúng mô-đun</string>

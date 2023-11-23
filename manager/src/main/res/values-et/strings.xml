@@ -51,7 +51,7 @@
     <string name="patch_from_applist">Valige installitud rakendus</string>
     <string name="patch_mode">Paigutuse režiim</string>
     <string name="patch_local">Kohalik</string>
-    <string name="patch_local_desc">Paigutage rakendus, kus pole manustatud mooduleid.\nPaigutatud rakendus vajab taustal töötavat haldurit ja Xposedi ulatust saab dünaamiliselt muuta ilma uuesti paigata.\nKohalikud paigatud rakendused saavad töötada ainult kohalikus seadmes.</string>
+    <string name="patch_local_desc">Paigaldage rakendus ilma mooduliteta sisseehitatud.\nXposed ulatust saab dünaamiliselt muuta ilma uuesti paranduseta.\nKohalikud parandatud rakendused saavad töötada ainult kohalikus seadmes.</string>
     <string name="patch_integrated">Integreeritud</string>
     <string name="patch_integrated_desc">Paigutage manustatud moodulitega rakendust.\nPaigutatud rakendus võib töötada ilma haldurita, kuid seda ei saa dünaamiliselt hallata.\nIntegreeritud paigatud rakendusi saab kasutada seadmetes, kuhu pole installitud LSPatch Manager.</string>
     <string name="patch_embed_modules">Manustage moodulid</string>
