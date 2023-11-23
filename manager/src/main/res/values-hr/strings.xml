@@ -51,7 +51,7 @@
     <string name="patch_from_applist">Odaberite instaliranu aplikaciju</string>
     <string name="patch_mode">Način zakrpe</string>
     <string name="patch_local">Lokalni</string>
-    <string name="patch_local_desc">Zakrpite aplikaciju bez ugrađenih modula.\nZakrpanoj aplikaciji potreban je upravitelj koji radi u pozadini, a opseg Xposed može se mijenjati dinamički bez ponovnog zakrpa.\nLokalno zakrpane aplikacije mogu se izvoditi samo na lokalnom uređaju.</string>
+    <string name="patch_local_desc">Zakrpite aplikaciju bez ugrađenih modula.\nXposed opseg može se mijenjati dinamički bez ponovnog zakrpa.\nLokalno zakrpane aplikacije mogu se izvoditi samo na lokalnom uređaju.</string>
     <string name="patch_integrated">Integriran</string>
     <string name="patch_integrated_desc">Zakrpite aplikaciju s ugrađenim modulima.\nZakrpana aplikacija može raditi bez upravitelja, ali se njome ne može upravljati dinamički.\nIntegrirane zakrpane aplikacije mogu se koristiti na uređajima koji nemaju instaliran LSPatch Manager.</string>
     <string name="patch_embed_modules">Ugradite module</string>
