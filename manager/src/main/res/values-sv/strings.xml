@@ -86,6 +86,4 @@
     <string name="settings_keystore_wrong_alias">Fel aliasnamn</string>
     <string name="settings_keystore_wrong_alias_password">Fel lösenord för alias</string>
     <string name="settings_detail_patch_logs">Detaljerade patchloggar</string>
-    <string name="settings_keep_alive">Håll vid liv</string>
-    <string name="settings_keep_alive_foreground">Förgrund</string>
 </resources>

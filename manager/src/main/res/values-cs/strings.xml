@@ -86,6 +86,4 @@
     <string name="settings_keystore_wrong_alias">Špatný název aliasu</string>
     <string name="settings_keystore_wrong_alias_password">Špatné heslo aliasu</string>
     <string name="settings_detail_patch_logs">Podrobné protokoly oprav</string>
-    <string name="settings_keep_alive">Udržovat při životě</string>
-    <string name="settings_keep_alive_foreground">Přední stránka</string>
 </resources>

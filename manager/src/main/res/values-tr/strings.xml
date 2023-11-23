@@ -86,6 +86,4 @@
     <string name="settings_keystore_wrong_alias">Yanlış takma ad</string>
     <string name="settings_keystore_wrong_alias_password">Yanlış takma ad şifresi</string>
     <string name="settings_detail_patch_logs">Ayrıntılı yama günlükleri</string>
-    <string name="settings_keep_alive">Canlı tutun</string>
-    <string name="settings_keep_alive_foreground">Ön Plan</string>
 </resources>

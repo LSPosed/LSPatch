@@ -86,6 +86,4 @@
     <string name="settings_keystore_wrong_alias">Tên bí danh sai</string>
     <string name="settings_keystore_wrong_alias_password">Mật khẩu bí danh sai</string>
     <string name="settings_detail_patch_logs">Nhật ký vá chi tiết</string>
-    <string name="settings_keep_alive">Cố sống đi</string>
-    <string name="settings_keep_alive_foreground">Vấn đề xung quanh</string>
 </resources>

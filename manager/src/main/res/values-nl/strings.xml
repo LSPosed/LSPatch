@@ -86,6 +86,4 @@
     <string name="settings_keystore_wrong_alias">Verkeerde aliasnaam</string>
     <string name="settings_keystore_wrong_alias_password">Verkeerd alias wachtwoord</string>
     <string name="settings_detail_patch_logs">Detail patch logs</string>
-    <string name="settings_keep_alive">In leven houden</string>
-    <string name="settings_keep_alive_foreground">Voorgrond</string>
 </resources>

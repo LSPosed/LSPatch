@@ -86,6 +86,4 @@
     <string name="settings_keystore_wrong_alias">Nume alias greșit</string>
     <string name="settings_keystore_wrong_alias_password">Parolă alias greșită</string>
     <string name="settings_detail_patch_logs">Detaliile jurnalelor de patch-uri</string>
-    <string name="settings_keep_alive">Păstrați în viață</string>
-    <string name="settings_keep_alive_foreground">Prim-plan</string>
 </resources>

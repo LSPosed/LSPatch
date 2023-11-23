@@ -86,6 +86,4 @@
     <string name="settings_keystore_wrong_alias">잘못된 별칭 이름</string>
     <string name="settings_keystore_wrong_alias_password">잘못된 별칭 암호</string>
     <string name="settings_detail_patch_logs">세부 패치 로그</string>
-    <string name="settings_keep_alive">살아 유지</string>
-    <string name="settings_keep_alive_foreground">전경</string>
 </resources>

@@ -86,6 +86,4 @@
     <string name="settings_keystore_wrong_alias">වැරදි අන්වර්ථ නාමයක්</string>
     <string name="settings_keystore_wrong_alias_password">වැරදි අන්වර්ථ මුරපදය</string>
     <string name="settings_detail_patch_logs">විස්තර පැච් ලොග</string>
-    <string name="settings_keep_alive">ජීවත් කරවන්න</string>
-    <string name="settings_keep_alive_foreground">පෙරබිම</string>
 </resources>

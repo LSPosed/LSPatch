@@ -86,6 +86,4 @@
     <string name="settings_keystore_wrong_alias">نام مستعار اشتباه است</string>
     <string name="settings_keystore_wrong_alias_password">رمز یا نام مستعار اشتباه است</string>
     <string name="settings_detail_patch_logs">گزارش های اطلاعات پچ</string>
-    <string name="settings_keep_alive">زنده بمان</string>
-    <string name="settings_keep_alive_foreground">پیش زمینه</string>
 </resources>

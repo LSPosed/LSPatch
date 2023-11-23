@@ -86,6 +86,4 @@
     <string name="settings_keystore_wrong_alias">Pogrešno pseudonim</string>
     <string name="settings_keystore_wrong_alias_password">Pogrešna lozinka za alias</string>
     <string name="settings_detail_patch_logs">Dnevnici zakrpa detalja</string>
-    <string name="settings_keep_alive">Držati na životu</string>
-    <string name="settings_keep_alive_foreground">Prednji plan</string>
 </resources>

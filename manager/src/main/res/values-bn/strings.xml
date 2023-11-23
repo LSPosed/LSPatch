@@ -86,6 +86,4 @@
     <string name="settings_keystore_wrong_alias">ভুল উপনাম নাম</string>
     <string name="settings_keystore_wrong_alias_password">ভুল ওরফে পাসওয়ার্ড</string>
     <string name="settings_detail_patch_logs">বিস্তারিত প্যাচ লগ</string>
-    <string name="settings_keep_alive">জিবন্ত রাখ</string>
-    <string name="settings_keep_alive_foreground">ফোরগ্রাউন্ড</string>
 </resources>

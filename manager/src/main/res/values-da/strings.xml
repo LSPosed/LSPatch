@@ -86,6 +86,4 @@
     <string name="settings_keystore_wrong_alias">Forkert aliasnavn</string>
     <string name="settings_keystore_wrong_alias_password">Forkert adgangskode til alias</string>
     <string name="settings_detail_patch_logs">Detaljerede patch-logfiler</string>
-    <string name="settings_keep_alive">Hold i live</string>
-    <string name="settings_keep_alive_foreground">Forgrund</string>
 </resources>

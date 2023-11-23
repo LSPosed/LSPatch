@@ -13,7 +13,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Ballot
 import androidx.compose.material.icons.outlined.BugReport
-import androidx.compose.material.icons.outlined.HourglassEmpty
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -51,7 +50,6 @@ fun SettingsScreen() {
         ) {
             KeyStore()
             DetailPatchLogs()
-            KeepAlive()
         }
     }
 }
@@ -241,40 +239,4 @@ private fun DetailPatchLogs() {
         icon = Icons.Outlined.BugReport,
         title = stringResource(R.string.settings_detail_patch_logs)
     )
-}
-
-@Composable
-private fun KeepAlive() {
-    var expanded by remember { mutableStateOf(false) }
-    AnywhereDropdown(
-        expanded = expanded,
-        onDismissRequest = { expanded = false },
-        onClick = { expanded = true },
-        surface = {
-            val desc = when (Configs.keepAlive) {
-                Configs.KeepAlive.OFF -> R.string.off
-                Configs.KeepAlive.FOREGROUND -> R.string.settings_keep_alive_foreground
-            }
-            SettingsItem(
-                icon = Icons.Outlined.HourglassEmpty,
-                title = stringResource(R.string.settings_keep_alive),
-                desc = stringResource(desc)
-            )
-        }
-    ) {
-        DropdownMenuItem(
-            text = { Text(stringResource(R.string.off)) },
-            onClick = {
-                Configs.keepAlive = Configs.KeepAlive.OFF
-                expanded = false
-            }
-        )
-        DropdownMenuItem(
-            text = { Text(stringResource(R.string.settings_keep_alive_foreground)) },
-            onClick = {
-                Configs.keepAlive = Configs.KeepAlive.FOREGROUND
-                expanded = false
-            }
-        )
-    }
 }
