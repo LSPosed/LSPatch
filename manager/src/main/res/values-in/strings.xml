@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Log</string>
     <string name="off">Mati</string>
+    <string name="error_unknown"></string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Beberapa fungsi tidak tersedia</string>
     <string name="home_api_version">Versi API</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Dikarenakan adanya perbedaan tanda tangan, Anda perlu menghapus aplikasi asli sebelum menginstal aplikasi yang telah di-patch.\nPastikan Anda telah mencadangkan data personal.</string>
     <string name="patch_install_successfully">Instal berhasil</string>
     <string name="patch_install_failed">Instal gagal</string>
+    <string name="patch_no_xposed_module"></string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Pilih Aplikasi</string>
     <!-- Settings Screen -->
