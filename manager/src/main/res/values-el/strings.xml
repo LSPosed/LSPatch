@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Ημερολόγια</string>
     <string name="off">Off</string>
+    <string name="error_unknown">Άγνωστο σφάλμα</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Ορισμένες λειτουργίες δεν είναι διαθέσιμες</string>
     <string name="home_api_version">Έκδοση API</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Λόγω διαφορετικών υπογραφών, πρέπει να απεγκαταστήσετε την αρχική εφαρμογή πριν εγκαταστήσετε την επιδιορθωμένη.\nΒεβαιωθείτε ότι έχετε δημιουργήσει αντίγραφα ασφαλείας προσωπικών δεδομένων.</string>
     <string name="patch_install_successfully">Εγκατάσταση με επιτυχία</string>
     <string name="patch_install_failed">Η εγκατάσταση απέτυχε</string>
+    <string name="patch_no_xposed_module">Δεν βρέθηκαν μονάδες Xposed</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Επιλέξτε εφαρμογές</string>
     <!-- Settings Screen -->
