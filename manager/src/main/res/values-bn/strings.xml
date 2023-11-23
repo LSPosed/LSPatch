@@ -51,7 +51,7 @@
     <string name="patch_from_applist">একটি ইনস্টল করা অ্যাপ্লিকেশন নির্বাচন করুন</string>
     <string name="patch_mode">প্যাচ মোড</string>
     <string name="patch_local">স্থানীয়</string>
-    <string name="patch_local_desc">এম্বেড করা মডিউল ছাড়াই একটি অ্যাপ প্যাচ করুন।\nপ্যাচ করা অ্যাপটির ব্যাকগ্রাউন্ডে চলমান ম্যানেজার প্রয়োজন, এবং এক্সপোজড স্কোপ রি-প্যাচ ছাড়াই গতিশীলভাবে পরিবর্তন করা যেতে পারে।\nস্থানীয় প্যাচ করা অ্যাপ শুধুমাত্র স্থানীয় ডিভাইসে চলতে পারে।</string>
+    <string name="patch_local_desc">এম্বেড করা মডিউল ছাড়াই একটি অ্যাপ প্যাচ করুন।\nএক্সপোজড স্কোপ রি-প্যাচ ছাড়াই গতিশীলভাবে পরিবর্তন করা যেতে পারে।\nস্থানীয় প্যাচ করা অ্যাপ শুধুমাত্র স্থানীয় ডিভাইসে চলতে পারে।</string>
     <string name="patch_integrated">কই তুমি</string>
     <string name="patch_integrated_desc">কি নাই.</string>
     <string name="patch_embed_modules">করছি</string>
