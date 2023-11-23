@@ -13,6 +13,7 @@
     <string name="screen_repo">레포</string>
     <string name="screen_logs">로그</string>
     <string name="off">끄다</string>
+    <string name="error_unknown">알 수 없는 오류</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">일부 기능을 사용할 수 없음</string>
     <string name="home_api_version">API 버전</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">서명이 다르기 때문에 패치된 앱을 설치하기 전에 기존 앱을 제거해야 합니다.\n개인 데이터를 백업했는지 확인하십시오.</string>
     <string name="patch_install_successfully">성공적으로 설치함</string>
     <string name="patch_install_failed">설치 실패함</string>
+    <string name="patch_no_xposed_module">X포지드 모듈을 찾을 수 없습니다.</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">앱 선택</string>
     <!-- Settings Screen -->

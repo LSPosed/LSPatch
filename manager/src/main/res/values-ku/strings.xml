@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Logs</string>
     <string name="off">Ji</string>
+    <string name="error_unknown">Çewtiya nenas</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Hin fonksiyon ne berdest in</string>
     <string name="home_api_version">Guhertoya API</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Ji ber îmzeyên cihêreng, hûn hewce ne ku berî ku ya patched saz bikin sepana orîjînal rakin.\nPiştrast bike ku we daneya kesane piştguh kiriye.</string>
     <string name="patch_install_successfully">Bi serkeftî saz bike</string>
     <string name="patch_install_failed">Sazkirin têk çû</string>
+    <string name="patch_no_xposed_module">Modul(ên) Xposed nehatin dîtin</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Serlêdan hilbijêrin</string>
     <!-- Settings Screen -->

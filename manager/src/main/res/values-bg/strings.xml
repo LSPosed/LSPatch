@@ -13,6 +13,7 @@
     <string name="screen_repo">Репо</string>
     <string name="screen_logs">Дневници</string>
     <string name="off">Изключено</string>
+    <string name="error_unknown">Неизвестна грешка</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Някои функции са недостъпни</string>
     <string name="home_api_version">Версия на API</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Поради различните сигнатури е необходимо да деинсталирате оригиналното приложение, преди да инсталирате коригираното.\nУверете се, че сте направили резервно копие на личните си данни.</string>
     <string name="patch_install_successfully">Инсталирайте успешно</string>
     <string name="patch_install_failed">Инсталацията е неуспешна</string>
+    <string name="patch_no_xposed_module">Не са открити модул(и) Xposed</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Изберете приложения</string>
     <!-- Settings Screen -->

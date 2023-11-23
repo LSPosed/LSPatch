@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Žurnalai</string>
     <string name="off">Išjungta</string>
+    <string name="error_unknown">Nežinoma klaida</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Kai kurios funkcijos nepasiekiamos</string>
     <string name="home_api_version">API versija</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Dėl skirtingų parašų prieš įdiegdami pataisytą programą turite pašalinti originalią programą.\nĮsitikinkite, kad turite atsargines asmens duomenų kopijas.</string>
     <string name="patch_install_successfully">Įdiegti sėkmingai</string>
     <string name="patch_install_failed">Diegimas nepavyko</string>
+    <string name="patch_no_xposed_module">Nerastas (-i) nė vienas (-i) \"Xposed\" modulis (-iai)</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Pasirinkite programas</string>
     <!-- Settings Screen -->

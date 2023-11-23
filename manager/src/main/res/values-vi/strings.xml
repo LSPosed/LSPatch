@@ -13,10 +13,11 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Nhật ký</string>
     <string name="off">Tắt</string>
+    <string name="error_unknown">Lỗi không rõ</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Một số chức năng không khả dụng</string>
     <string name="home_api_version">Phiên bản API</string>
-    <string name="home_lspatch_version">Phiên bản LSPatch</string>
+    <string name="home_lspatch_version">LSPatch Version</string>
     <string name="home_framework_version">Phiên bản khung</string>
     <string name="home_system_version">Phiên bản hệ thống</string>
     <string name="home_device">Thiết bị</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Do các chữ ký khác nhau, bạn cần gỡ cài đặt ứng dụng gốc trước khi cài đặt bản vá.\nĐảm bảo rằng bạn đã sao lưu dữ liệu cá nhân.</string>
     <string name="patch_install_successfully">Cài đặt thành công</string>
     <string name="patch_install_failed">Cài đặt không thành công</string>
+    <string name="patch_no_xposed_module">Không tìm thấy (các) mô-đun Xpose nào</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Chọn ứng dụng</string>
     <!-- Settings Screen -->

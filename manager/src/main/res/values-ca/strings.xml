@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Registres</string>
     <string name="off">Apagat</string>
+    <string name="error_unknown">Error desconegut</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Algunes funcions no estan disponibles</string>
     <string name="home_api_version">Versió de l\'API</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">A causa de les diferents signatures, heu de desinstal·lar l\'aplicació original abans d\'instal·lar la pegada.\nAssegureu-vos que heu fet una còpia de seguretat de les dades personals.</string>
     <string name="patch_install_successfully">Instal·la correctament</string>
     <string name="patch_install_failed">La instal·lació ha fallat</string>
+    <string name="patch_no_xposed_module">No s\'han trobat mòduls Xposed</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Seleccioneu Aplicacions</string>
     <!-- Settings Screen -->

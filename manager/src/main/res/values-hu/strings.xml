@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Naplók</string>
     <string name="off">Off</string>
+    <string name="error_unknown">Ismeretlen hiba</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Néhány funkció nem elérhető</string>
     <string name="home_api_version">API verzió</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Az eltérő aláírások miatt a javított alkalmazás telepítése előtt el kell távolítania az eredeti alkalmazást.\nGyőződjön meg arról, hogy biztonsági másolatot készített a személyes adatokról.</string>
     <string name="patch_install_successfully">Sikeres telepítés</string>
     <string name="patch_install_failed">A telepítés sikertelen</string>
+    <string name="patch_no_xposed_module">Nem találtak Xposed modul(ok)at</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Alkalmazások kiválasztása</string>
     <!-- Settings Screen -->

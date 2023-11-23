@@ -13,6 +13,7 @@
     <string name="screen_repo">රෙපෝ</string>
     <string name="screen_logs">සටහන්</string>
     <string name="off">අක්රියයි</string>
+    <string name="error_unknown">නොදන්නා දෝෂයකි</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">සමහර කාර්යයන් නොමැත</string>
     <string name="home_api_version">API අනුවාදය</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">විවිධ අත්සන් හේතුවෙන්, පැච් කළ එක ස්ථාපනය කිරීමට පෙර ඔබට මුල් යෙදුම අස්ථාපනය කිරීමට අවශ්‍ය වේ.\nඔබ පුද්ගලික දත්ත උපස්ථ කර ඇති බවට වග බලා ගන්න.</string>
     <string name="patch_install_successfully">සාර්ථකව ස්ථාපනය කරන්න</string>
     <string name="patch_install_failed">ස්ථාපනය අසාර්ථක විය</string>
+    <string name="patch_no_xposed_module">Xposed මොඩියුල(ය) හමු නොවිණි</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">යෙදුම් තෝරන්න</string>
     <!-- Settings Screen -->

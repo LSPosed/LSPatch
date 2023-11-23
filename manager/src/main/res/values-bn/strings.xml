@@ -13,6 +13,7 @@
     <string name="screen_repo">রেপো</string>
     <string name="screen_logs">লগ</string>
     <string name="off">বন্ধ</string>
+    <string name="error_unknown">অজানা ত্রুটি</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">কিছু ফাংশন অনুপলব্ধ</string>
     <string name="home_api_version">API সংস্করণ</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">বিভিন্ন স্বাক্ষরের কারণে, প্যাচ করা একটি ইনস্টল করার আগে আপনাকে আসল অ্যাপটি আনইনস্টল করতে হবে।\nআপনি ব্যক্তিগত ডেটা ব্যাক আপ করেছেন তা নিশ্চিত করুন৷</string>
     <string name="patch_install_successfully">সফলভাবে ইনস্টল করুন</string>
     <string name="patch_install_failed">ইনস্টল ব্যর্থ হয়েছে</string>
+    <string name="patch_no_xposed_module">No Xposed module(s) were found</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">অ্যাপস নির্বাচন করুন</string>
     <!-- Settings Screen -->

@@ -13,6 +13,7 @@
     <string name="screen_repo">Repozytorium</string>
     <string name="screen_logs">Logi</string>
     <string name="off">Wyłącz</string>
+    <string name="error_unknown">Nieznany błąd</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Niektóre funkcje niedostępne</string>
     <string name="home_api_version">Wersja API</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Ze względu na różne sygnatury musisz odinstalować oryginalną aplikację przed zainstalowaniem poprawionej.\nUpewnij się, że wykonałeś kopię zapasową danych osobowych.</string>
     <string name="patch_install_successfully">Zainstaluj pomyślnie</string>
     <string name="patch_install_failed">Instalacja nie powiodła się</string>
+    <string name="patch_no_xposed_module">Nie znaleziono modułów Xposed</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Wybierz aplikacje</string>
     <!-- Settings Screen -->

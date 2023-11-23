@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add">जोड़ें</string>
-    <string name="install">स्थापित करना</string>
-    <string name="installing">स्थापित कर रहा है</string>
-    <string name="uninstall">स्थापना रद्द करें</string>
-    <string name="uninstalling">की स्थापना रद्द</string>
-    <string name="copy_error">कॉपी एरर</string>
+    <string name="add">जोड़ना</string>
+    <string name="install">इंस्टॉल</string>
+    <string name="installing">इंस्टॉल हो रहा है</string>
+    <string name="uninstall">अनइंस्टॉल</string>
+    <string name="uninstalling">अनइंस्टॉल हो रहा है</string>
+    <string name="copy_error">कॉपी मैं त्रुटि है</string>
     <string name="apps">ऐप्स</string>
-    <string name="modules">मॉड्यूल</string>
+    <string name="modules">मॉड्यूलस</string>
     <string name="shizuku_available">शिज़ुकु सेवा उपलब्ध</string>
     <string name="shizuku_unavailable">शिज़ुकु सेवा कनेक्ट नहीं है</string>
     <string name="screen_repo">रेपो</string>
     <string name="screen_logs">लॉग्स</string>
     <string name="off">बंद</string>
+    <string name="error_unknown"></string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">कुछ फ़ंक्शन अनुपलब्ध</string>
     <string name="home_api_version">एपीआई संस्करण</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">अलग-अलग हस्ताक्षरों के कारण, आपको पैच किए गए ऐप को इंस्टॉल करने से पहले मूल ऐप को अनइंस्टॉल करना होगा।\nसुनिश्चित करें कि आपने व्यक्तिगत डेटा का बैकअप लिया है।</string>
     <string name="patch_install_successfully">सफलतापूर्वक स्थापित करें</string>
     <string name="patch_install_failed">स्थापित करना विफल</string>
+    <string name="patch_no_xposed_module"></string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">ऐप्स चुनें</string>
     <!-- Settings Screen -->

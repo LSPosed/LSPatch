@@ -13,6 +13,7 @@
     <string name="screen_repo">ריפו</string>
     <string name="screen_logs">יומנים</string>
     <string name="off">כבוי</string>
+    <string name="error_unknown">שגיאה לא ידועה</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">חלק מהפונקציות אינן זמינות</string>
     <string name="home_api_version">גרסת API</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">עקב חתימות שונות, עליך להסיר את ההתקנה של האפליקציה המקורית לפני התקנת האפליקציה המתוקנת.\nודא שגיבית את הנתונים האישיים.</string>
     <string name="patch_install_successfully">התקן בהצלחה</string>
     <string name="patch_install_failed">ההתקנה נכשלה</string>
+    <string name="patch_no_xposed_module">לא נמצאו מודולי Xposed</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">בחר אפליקציות</string>
     <!-- Settings Screen -->

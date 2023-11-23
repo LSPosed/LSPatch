@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Logfiler</string>
     <string name="off">Off</string>
+    <string name="error_unknown">Ukendt fejl</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Nogle funktioner er ikke tilgængelige</string>
     <string name="home_api_version">API-version</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">På grund af forskellige signaturer skal du afinstallere den originale app, før du installerer den patchede.\nSørg for, at du har sikkerhedskopieret personlige data.</string>
     <string name="patch_install_successfully">Installer med succes</string>
     <string name="patch_install_failed">Installationen mislykkedes</string>
+    <string name="patch_no_xposed_module">Ingen Xposed-modul(er) blev fundet</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Vælg apps</string>
     <!-- Settings Screen -->

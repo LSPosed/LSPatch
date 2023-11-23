@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Protokolle</string>
     <string name="off">Aus</string>
+    <string name="error_unknown">Unbekannter Fehler</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Einige Funktionen nicht verfügbar</string>
     <string name="home_api_version">API-Version</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Aufgrund unterschiedlicher Signaturen müssen Sie die Original-App deinstallieren, bevor Sie die gepatchte App installieren.\nStellen Sie sicher, dass Sie Ihre persönlichen Daten gesichert haben.</string>
     <string name="patch_install_successfully">Installation erfolgreich</string>
     <string name="patch_install_failed">Installation fehlgeschlagen</string>
+    <string name="patch_no_xposed_module">Es wurde(n) kein(e) Xposed-Modul(e) gefunden</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Apps auswählen</string>
     <!-- Settings Screen -->

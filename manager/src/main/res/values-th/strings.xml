@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">บันทึก</string>
     <string name="off">ปิด</string>
+    <string name="error_unknown">Unknown error</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">ฟังก์ชั่นบางอย่างใช้งานไม่ได้</string>
     <string name="home_api_version">เวอร์ชัน API</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">เนื่องจากลายเซ็นต่างกัน คุณต้องถอนการติดตั้งแอปเดิมก่อนที่จะติดตั้งแอปที่แพตช์\nตรวจสอบให้แน่ใจว่าคุณได้สำรองข้อมูลส่วนบุคคลแล้ว</string>
     <string name="patch_install_successfully">ติดตั้งสำเร็จ</string>
     <string name="patch_install_failed">ติดตั้งไม่สำเร็จ</string>
+    <string name="patch_no_xposed_module"></string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">เลือกแอพ</string>
     <!-- Settings Screen -->

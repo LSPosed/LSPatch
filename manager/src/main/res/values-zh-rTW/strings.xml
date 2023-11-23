@@ -13,6 +13,7 @@
     <string name="screen_repo">倉庫</string>
     <string name="screen_logs">日誌</string>
     <string name="off">關閉</string>
+    <string name="error_unknown">未知錯誤</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">部分功能不可用</string>
     <string name="home_api_version">API 版本</string>
@@ -51,8 +52,8 @@
     <string name="patch_mode">打包模式</string>
     <string name="patch_local">本機</string>
     <string name="patch_local_desc">打包沒有內建模組的應用程式。\n打包後的程式需要此管理器背景執行，Xposed 作用域可以動態更改而無需重新打包。\n本機打包的應用程式，只能在本機執行。</string>
-    <string name="patch_integrated">融合的</string>
-    <string name="patch_integrated_desc">為嵌入了模塊的應用程序打補丁。\n打過補丁的應用程序可以在沒有管理器的情況下運行，但不能動態管理。\n集成補丁應用程序可以在沒有安裝 LSPatch Manager 的設備上使用。</string>
+    <string name="patch_integrated">集成模式</string>
+    <string name="patch_integrated_desc">打包內建模組的應用程式。\n打包後的程式，可以在沒有管理器的情況下執行，但無法動態管理啟用的模組。\n以集成模式打包的應用程式，可以在沒有安裝 LSPatch Manager 的裝置上使用。</string>
     <string name="patch_embed_modules">內建模組</string>
     <string name="patch_debuggable">程式可偵錯</string>
     <string name="patch_sigbypass">破解簽名驗證</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">由於簽名不同，安裝前需要先解除安裝原程式。\n確保您已備份好個人資料。</string>
     <string name="patch_install_successfully">安裝成功</string>
     <string name="patch_install_failed">安裝失敗</string>
+    <string name="patch_no_xposed_module">未找到 Xpose 模組</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">選取應用程式</string>
     <!-- Settings Screen -->

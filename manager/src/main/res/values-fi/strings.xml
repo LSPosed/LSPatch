@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Lokit</string>
     <string name="off">Off</string>
+    <string name="error_unknown">Tuntematon virhe</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Jotkut toiminnot eivät ole käytettävissä</string>
     <string name="home_api_version">API-versio</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Erilaisten allekirjoitusten vuoksi sinun on poistettava alkuperäinen sovellus ennen korjatun sovelluksen asentamista.\nVarmista, että olet varmuuskopioinut henkilökohtaiset tiedot.</string>
     <string name="patch_install_successfully">Asennus onnistui</string>
     <string name="patch_install_failed">Asennus epäonnistui</string>
+    <string name="patch_no_xposed_module">Xposed-moduulia (-moduulia) ei löytynyt</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Valitse sovellukset</string>
     <!-- Settings Screen -->
