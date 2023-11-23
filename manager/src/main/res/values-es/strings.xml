@@ -51,7 +51,7 @@
     <string name="patch_from_applist">Seleccione una aplicación instalada</string>
     <string name="patch_mode">Modo de parche</string>
     <string name="patch_local">Local</string>
-    <string name="patch_local_desc">Parche una aplicación sin módulos incrustados.\nLa aplicación parcheada necesita que el administrador se ejecute en segundo plano, y el alcance de Xposed se puede cambiar dinámicamente sin volver a parchear.\nLas aplicaciones parcheadas locales solo pueden ejecutarse en el dispositivo local.</string>
+    <string name="patch_local_desc">Parche de una aplicación sin módulos incrustados.\nEl ámbito de Xposed puede cambiarse dinámicamente sin necesidad de volver a parchear.\nLas aplicaciones locales parcheadas solo pueden ejecutarse en el dispositivo local.</string>
     <string name="patch_integrated">Integrado</string>
     <string name="patch_integrated_desc">Parchea una app con módulos incrustados.\nLa aplicación parcheada puede ejecutarse sin el gestor, pero no puede gestionarse dinámicamente.\nLas apps parcheadas integradas pueden utilizarse en dispositivos que no tengan instalado LSPatch Manager.</string>
     <string name="patch_embed_modules">Módulos incrustados</string>
