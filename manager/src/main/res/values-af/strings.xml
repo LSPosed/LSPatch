@@ -1,8 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="add">Voeg by</string>
+    <string name="install">Installeer</string>
+    <string name="installing">Installeer tans</string>
+    <string name="uninstall">Deïnstalleer</string>
+    <string name="uninstalling">Deïnstalleer tans</string>
+    <string name="copy_error">Copy error</string>
+    <string name="apps">برنامه ها</string>
+    <string name="modules">Modules</string>
+    <string name="shizuku_available">Shizuku diens beskikbaar</string>
+    <string name="shizuku_unavailable">Shizuku-diens nie gekoppel nie</string>
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Logs</string>
+    <string name="off">Af</string>
+    <string name="error_unknown">Onbekende fout</string>
     <!-- Home Screen -->
+    <string name="home_shizuku_warning">Sommige funksies nie beskikbaar nie</string>
+    <string name="home_api_version">API weergawe</string>
+    <string name="home_lspatch_version">LSPatch weergawe</string>
+    <string name="home_framework_version">Raamwerk weergawe</string>
+    <string name="home_system_version">Stelsel weergawe</string>
+    <string name="home_device">Toestel</string>
+    <string name="home_system_abi">Stelsel ABI</string>
+    <string name="home_info_copied">Gekopieer na knipbord</string>
+    <string name="home_support">Ondersteuning</string>
+    <string name="home_description">LSPatch is \'n gratis nie-wortel Xposed-raamwerk gebaseer op LSPosed-kern.</string>
+    <string name="home_view_source_code"><![CDATA[Bekyk bronkode by %1$s<br/>Sluit aan by ons %2$s -kanaal]]></string>
     <!-- Manage Screen -->
+    <string name="screen_manage">Bestuur</string>
+    <string name="manage_loading">Laai tans</string>
+    <string name="manage_no_apps">Nog geen reggemaakte programme nie</string>
+    <string name="manage_rolling">Rol</string>
+    <string name="manage_update_loader">Dateer laaier op</string>
+    <string name="manage_update_loader_successfully">Dateer suksesvol op</string>
+    <string name="manage_update_loader_failed">Opdatering misluk</string>
+    <string name="manage_module_scope">Module omvang</string>
+    <string name="manage_optimize">Optimaliseer</string>
+    <string name="manage_optimize_successfully">Optimaliseer suksesvol</string>
+    <string name="manage_optimize_failed">Kon nie optimaliseer nie</string>
+    <string name="manage_uninstall_successfully">Deïnstalleer suksesvol</string>
+    <string name="manage_no_modules">Nog geen modules nie</string>
+    <string name="manage_module_settings">Module instellings</string>
+    <string name="manage_app_info">App inligting</string>
     <!-- New Patch Screen -->
+    <string name="screen_new_patch">Nuwe Patch</string>
+    <string name="patch_select_dir_title">Kies bergingsgids</string>
+    <string name="patch_select_dir_text">Kies \'n gids om die gelapte APK te stoor</string>
+    <string name="patch_select_dir_error">Fout met die opstel van berginggids</string>
+    <string name="patch_from_storage">Kies APK(s) uit die stoor</string>
+    <string name="patch_from_applist">Kies \'n geïnstalleerde toepassing</string>
+    <string name="patch_mode">Patch Mode</string>
+    <string name="patch_local">Plaaslik</string>
+    <string name="patch_local_desc">Plak \'n toepassing sonder modules ingebed.\nDie gelapte toepassing moet die bestuurder in die agtergrond laat loop, en Xposed-omvang kan dinamies verander word sonder om te herpleister.\nPlaaslike gelapte toepassings kan slegs op die plaaslike toestel loop.</string>
+    <string name="patch_integrated">Geïntegreerde</string>
+    <string name="patch_integrated_desc">Patcher une application avec des modules intégrés.\nL\'application corrigée peut fonctionner sans le gestionnaire mais ne peut pas être gérée dynamiquement.\nLes applications patchées intégrées peuvent être utilisées sur des appareils sur lesquels LSPatch Manager n\'est pas installé.</string>
+    <string name="patch_embed_modules">Sluit modules in</string>
+    <string name="patch_debuggable">Ontfoutbaar</string>
+    <string name="patch_sigbypass">Handtekening omseil</string>
+    <string name="patch_sigbypasslv0">lv0: af</string>
+    <string name="patch_sigbypasslv1">lv1: Omseil PM</string>
+    <string name="patch_sigbypasslv2">lv2: Omseil PM + openat (libc)</string>
+    <string name="patch_override_version_code">Ignoreer weergawekode</string>
+    <string name="patch_override_version_code_desc">Ignoreer die gelapte toepassing se weergawekode na 1\nDit laat afgradering installasie in die toekoms toe, en oor die algemeen sal dit nie die weergawekode beïnvloed wat werklik deur die toepassing waargeneem word nie</string>
+    <string name="patch_start">Begin Patch</string>
+    <string name="patch_return">Keer terug</string>
+    <string name="patch_uninstall_text">As gevolg van verskillende handtekeninge, moet u die oorspronklike toepassing deïnstalleer voordat u die gelapte een installeer.\nMaak seker dat jy persoonlike data gerugsteun het.</string>
+    <string name="patch_install_successfully">Installeer suksesvol</string>
+    <string name="patch_install_failed">Installering het misluk</string>
+    <string name="patch_no_xposed_module">Geen Xposed-module(s) is gevind nie</string>
     <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Kies Toepassings</string>
     <!-- Settings Screen -->
+    <string name="screen_settings">Instellings</string>
+    <string name="settings_keystore">Armazenamento de assinatura</string>
+    <string name="settings_keystore_default">Ingeboude</string>
+    <string name="settings_keystore_custom">Pasgemaak</string>
+    <string name="settings_keystore_dialog_title">Pasgemaakte sleutelstoor</string>
+    <string name="settings_keystore_file">Sleutelstoor lêer</string>
+    <string name="settings_keystore_password">Wagwoord</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Alias wagwoord</string>
+    <string name="settings_keystore_desc">Stel sleutelstoor (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Verkeerde tipe sleutelstoor</string>
+    <string name="settings_keystore_wrong_password">Verkeerde sleutelstoor wagwoord</string>
+    <string name="settings_keystore_wrong_alias">Verkeerde alias naam</string>
+    <string name="settings_keystore_wrong_alias_password">Verkeerde alias wagwoord</string>
+    <string name="settings_detail_patch_logs">Detail pleister logs</string>
+    <string name="settings_keep_alive">Hou aan die lewe</string>
+    <string name="settings_keep_alive_foreground">Voorgrond</string>
 </resources>
