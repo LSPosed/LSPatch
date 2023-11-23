@@ -1,8 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="add">Agregar</string>
+    <string name="install">Instalar</string>
+    <string name="installing">Instalación de</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="uninstalling">Uninstall</string>
+    <string name="copy_error">Copy error</string>
+    <string name="apps">Aplicaciones</string>
+    <string name="modules">Módulos</string>
+    <string name="shizuku_available">Servicio Shizuku disponible</string>
+    <string name="shizuku_unavailable">Servicio Shizuku no conectado</string>
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Registros</string>
+    <string name="off">Fuera de</string>
+    <string name="error_unknown">Error desconocido</string>
     <!-- Home Screen -->
+    <string name="home_shizuku_warning">Algunas funciones no disponibles</string>
+    <string name="home_api_version">Versión API</string>
+    <string name="home_lspatch_version">Versión de LSPatch</string>
+    <string name="home_framework_version">Versión del marco</string>
+    <string name="home_system_version">Versión del sistema</string>
+    <string name="home_device">Dispositivo</string>
+    <string name="home_system_abi">Sistema ABI</string>
+    <string name="home_info_copied">Copiado al portapapeles</string>
+    <string name="home_support">Apoyo</string>
+    <string name="home_description">LSPatch es un marco Xposed no root gratuito basado en el núcleo LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Ver código fuente en %1$s<br/>Únete a nuestro canal %2$s]]></string>
     <!-- Manage Screen -->
+    <string name="screen_manage">Gestionar</string>
+    <string name="manage_loading">Cargando</string>
+    <string name="manage_no_apps">Aún no hay aplicaciones parcheadas</string>
+    <string name="manage_rolling">Rodando</string>
+    <string name="manage_update_loader">Actualizar el cargador</string>
+    <string name="manage_update_loader_successfully">Actualizar con éxito</string>
+    <string name="manage_update_loader_failed">Actualización fallida</string>
+    <string name="manage_module_scope">Alcance del módulo</string>
+    <string name="manage_optimize">Optimizar</string>
+    <string name="manage_optimize_successfully">Optimizar con éxito</string>
+    <string name="manage_optimize_failed">Optimización fallida</string>
+    <string name="manage_uninstall_successfully">Desinstalar con éxito</string>
+    <string name="manage_no_modules">Todavía no hay módulos</string>
+    <string name="manage_module_settings">Ajustes del módulo</string>
+    <string name="manage_app_info">Información de la aplicación</string>
     <!-- New Patch Screen -->
+    <string name="screen_new_patch">Nuevo parche</string>
+    <string name="patch_select_dir_title">Seleccionar directorio de almacenamiento</string>
+    <string name="patch_select_dir_text">Seleccione un directorio para almacenar las aplicaciones parcheadas</string>
+    <string name="patch_select_dir_error">Error al configurar el directorio de almacenamiento</string>
+    <string name="patch_from_storage">Seleccionar apk(s) del almacenamiento</string>
+    <string name="patch_from_applist">Seleccione una aplicación instalada</string>
+    <string name="patch_mode">Modo de parche</string>
+    <string name="patch_local">Local</string>
+    <string name="patch_local_desc">Parche una aplicación sin módulos incrustados.\nLa aplicación parcheada necesita que el administrador se ejecute en segundo plano, y el alcance de Xposed se puede cambiar dinámicamente sin volver a parchear.\nLas aplicaciones parcheadas locales solo pueden ejecutarse en el dispositivo local.</string>
+    <string name="patch_integrated">Integrado</string>
+    <string name="patch_integrated_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nIntegrated patched apps can be used on devices that do not have LSPatch Manager installed.</string>
+    <string name="patch_embed_modules">Módulos incrustados</string>
+    <string name="patch_debuggable">depurable</string>
+    <string name="patch_sigbypass">Omisión de firma</string>
+    <string name="patch_sigbypasslv0">lv0: Desactivado</string>
+    <string name="patch_sigbypasslv1">lv1: Pasar PM</string>
+    <string name="patch_sigbypasslv2">lv2: Omitir PM + abrir en (libc)</string>
+    <string name="patch_override_version_code">Anular código de versión</string>
+    <string name="patch_override_version_code_desc">Anular el código de versión de la app parcheada a 1\nEsto permite la instalación de downgrade en el futuro, y generalmente esto no afectará al código de versión realmente percibido por la aplicación</string>
+    <string name="patch_start">Parche de inicio</string>
+    <string name="patch_return">Regreso</string>
+    <string name="patch_uninstall_text">Debido a las diferentes firmas, debe desinstalar la aplicación original antes de instalar la parcheada.\nAsegúrese de haber realizado una copia de seguridad de los datos personales.</string>
+    <string name="patch_install_successfully">Instalar con éxito</string>
+    <string name="patch_install_failed">Instalación fallida</string>
+    <string name="patch_no_xposed_module">No se han encontrado módulos Xposed</string>
     <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Seleccionar aplicaciones</string>
     <!-- Settings Screen -->
+    <string name="screen_settings">Ajustes</string>
+    <string name="settings_keystore">Almacén de claves de firma</string>
+    <string name="settings_keystore_default">Construido en</string>
+    <string name="settings_keystore_custom">Personalizado</string>
+    <string name="settings_keystore_dialog_title">Almacén de claves personalizado</string>
+    <string name="settings_keystore_file">Archivo Keystore</string>
+    <string name="settings_keystore_password">Contraseña</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Contraseña del alias</string>
+    <string name="settings_keystore_desc">Establecer el almacén de claves (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Tipo de almacén de claves incorrecto</string>
+    <string name="settings_keystore_wrong_password">Contraseña incorrecta del almacén de claves</string>
+    <string name="settings_keystore_wrong_alias">Nombre de alias incorrecto</string>
+    <string name="settings_keystore_wrong_alias_password">Contraseña de alias incorrecta</string>
+    <string name="settings_detail_patch_logs">Registros de parches detallados</string>
+    <string name="settings_keep_alive">Mantener la vida</string>
+    <string name="settings_keep_alive_foreground">Primer plano</string>
 </resources>
