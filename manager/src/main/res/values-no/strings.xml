@@ -1,8 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="add">Legge til</string>
+    <string name="install">Installere</string>
+    <string name="installing">Installerer</string>
+    <string name="uninstall">Avinstaller</string>
+    <string name="uninstalling">Avinstallerer</string>
+    <string name="copy_error">Kopifeil</string>
+    <string name="apps">Apper</string>
+    <string name="modules">Moduler</string>
+    <string name="shizuku_available">Shizuku-tjeneste tilgjengelig</string>
+    <string name="shizuku_unavailable">Shizuku-tjenesten er ikke tilkoblet</string>
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Tømmerstokker</string>
+    <string name="off">Av</string>
+    <string name="error_unknown">Ukjent feil</string>
     <!-- Home Screen -->
+    <string name="home_shizuku_warning">Noen funksjoner er utilgjengelige</string>
+    <string name="home_api_version">API-versjon</string>
+    <string name="home_lspatch_version">LSPatch-versjon</string>
+    <string name="home_framework_version">Rammeversjon</string>
+    <string name="home_system_version">Systemversjon</string>
+    <string name="home_device">Enhet</string>
+    <string name="home_system_abi">System ABI</string>
+    <string name="home_info_copied">Kopiert til utklippstavlen</string>
+    <string name="home_support">Brukerstøtte</string>
+    <string name="home_description">LSPatch er et gratis ikke-root Xposed-rammeverk basert på LSPosed-kjerne.</string>
+    <string name="home_view_source_code"><![CDATA[Se kildekoden på %1$s<br/>Bli med i vår %2$s -kanal]]></string>
     <!-- Manage Screen -->
+    <string name="screen_manage">Få til</string>
+    <string name="manage_loading">Laster</string>
+    <string name="manage_no_apps">Ingen lappede apper ennå</string>
+    <string name="manage_rolling">Rullende</string>
+    <string name="manage_update_loader">Oppdater loader</string>
+    <string name="manage_update_loader_successfully">Oppdatering vellykket</string>
+    <string name="manage_update_loader_failed">Oppdatering mislyktes</string>
+    <string name="manage_module_scope">Modulomfang</string>
+    <string name="manage_optimize">Optimaliser</string>
+    <string name="manage_optimize_successfully">Optimaliser vellykket</string>
+    <string name="manage_optimize_failed">Optimaliseringen mislyktes</string>
+    <string name="manage_uninstall_successfully">Avinstaller vellykket</string>
+    <string name="manage_no_modules">Ingen moduler ennå</string>
+    <string name="manage_module_settings">Modulinnstillinger</string>
+    <string name="manage_app_info">App info</string>
     <!-- New Patch Screen -->
+    <string name="screen_new_patch">Ny oppdatering</string>
+    <string name="patch_select_dir_title">Velg lagringskatalog</string>
+    <string name="patch_select_dir_text">Velg en katalog for å lagre de lappede APK-ene</string>
+    <string name="patch_select_dir_error">Feil ved innstilling av lagringskatalog</string>
+    <string name="patch_from_storage">Velg apk(er) fra lagring</string>
+    <string name="patch_from_applist">Velg en installert app</string>
+    <string name="patch_mode">Patch-modus</string>
+    <string name="patch_local">Lokalt</string>
+    <string name="patch_local_desc">Patch en app uten innebygde moduler.\nDen lappede appen trenger at manageren kjører i bakgrunnen, og Xposed-omfanget kan endres dynamisk uten re-patch.\nLokale lappede apper kan bare kjøres på den lokale enheten.</string>
+    <string name="patch_integrated">Integrert</string>
+    <string name="patch_integrated_desc">Patch en app med innebygde moduler.\nDen lappede appen kan kjøres uten administratoren, men kan ikke administreres dynamisk.\nIntegrerte lappede apper kan brukes på enheter som ikke har LSPatch Manager installert.</string>
+    <string name="patch_embed_modules">Bygg inn moduler</string>
+    <string name="patch_debuggable">Kan feilsøkes</string>
+    <string name="patch_sigbypass">Signaturomkjøring</string>
+    <string name="patch_sigbypasslv0">lv0: Av</string>
+    <string name="patch_sigbypasslv1">lv1: Omgå PM</string>
+    <string name="patch_sigbypasslv2">lv2: Bypass PM + openat (libc)</string>
+    <string name="patch_override_version_code">Overstyr versjonskoden</string>
+    <string name="patch_override_version_code_desc">Overstyr den lappede appens versjonskode til 1\nDette tillater nedgraderingsinstallasjon i fremtiden, og generelt vil dette ikke påvirke versjonskoden som faktisk oppfattes av applikasjonen</string>
+    <string name="patch_start">Start patch</string>
+    <string name="patch_return">Komme tilbake</string>
+    <string name="patch_uninstall_text">På grunn av forskjellige signaturer, må du avinstallere den originale appen før du installerer den lappede.\nSørg for at du har sikkerhetskopiert personlige data.</string>
+    <string name="patch_install_successfully">Installer vellykket</string>
+    <string name="patch_install_failed">Installasjonen mislyktes</string>
+    <string name="patch_no_xposed_module">Ingen Xposed-modul(er) ble funnet</string>
     <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Velg Apper</string>
     <!-- Settings Screen -->
+    <string name="screen_settings">Innstillinger</string>
+    <string name="settings_keystore">Signatur nøkkellager</string>
+    <string name="settings_keystore_default">Innebygd</string>
+    <string name="settings_keystore_custom">Tilpasset</string>
+    <string name="settings_keystore_dialog_title">Egendefinert nøkkellager</string>
+    <string name="settings_keystore_file">Keystore-fil</string>
+    <string name="settings_keystore_password">Passord</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Alias passord</string>
+    <string name="settings_keystore_desc">Angi nøkkellager (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Feil type nøkkellager</string>
+    <string name="settings_keystore_wrong_password">Feil nøkkellagerpassord</string>
+    <string name="settings_keystore_wrong_alias">Feil aliasnavn</string>
+    <string name="settings_keystore_wrong_alias_password">Feil alias passord</string>
+    <string name="settings_detail_patch_logs">Detalj patchlogger</string>
+    <string name="settings_keep_alive">Holde i live</string>
+    <string name="settings_keep_alive_foreground">Forgrunn</string>
 </resources>
