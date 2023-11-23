@@ -51,7 +51,7 @@
     <string name="patch_from_applist">Välj en installerad app</string>
     <string name="patch_mode">Patch-läge</string>
     <string name="patch_local">Lokal</string>
-    <string name="patch_local_desc">Patcha en app utan inbäddade moduler.\nDen patchade appen behöver att hanteraren körs i bakgrunden, och Xposed-omfattningen kan ändras dynamiskt utan att behöva patcha om.\nLokalt patchade appar kan endast köras på den lokala enheten.</string>
+    <string name="patch_local_desc">Patcha en app utan inbäddade moduler.\nXposed scope kan ändras dynamiskt utan ny patchning.\nLokalt patchade appar kan endast köras på den lokala enheten.</string>
     <string name="patch_integrated">Integrerad</string>
     <string name="patch_integrated_desc">Patcha en app med inbäddade moduler.\nDen patchade appen kan köras utan behovet av hantering, men kan då inte hanteras dynamiskt.\nIntegrerade patchade appar kan användas på enheter som inte har LSPatch Manager installerat.</string>
     <string name="patch_embed_modules">Inbäddade moduler</string>
