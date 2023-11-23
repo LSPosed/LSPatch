@@ -51,7 +51,7 @@
     <string name="patch_from_applist">Sélectionner une appli installée</string>
     <string name="patch_mode">Mode de patch</string>
     <string name="patch_local">Local</string>
-    <string name="patch_local_desc">Patcher une application sans modules intégrés.\nL\'application modifiée nécessite que le gestionnaire s\'exécute en arrière-plan et les modules Xposed activés peuvent être modifiés dynamiquement sans re-modification.\nLes applications locales patchées ne peuvent s\'exécuter que sur l\'appareil actuel.</string>
+    <string name="patch_local_desc">Patch d\'une application sans modules intégrés.\nLe champ d\'application de Xposed peut être modifié dynamiquement sans qu\'il soit nécessaire d\'appliquer un nouveau correctif.\nLes applications patchées localement ne peuvent fonctionner que sur l\'appareil local.</string>
     <string name="patch_integrated">Intégré</string>
     <string name="patch_integrated_desc">Patcher une application avec des modules intégrés.\nL\'application corrigée peut fonctionner sans le gestionnaire mais ne peut pas être gérée dynamiquement.\nLes applications patchées intégrées peuvent être utilisées sur des appareils sur lesquels LSPatch Manager n\'est pas installé.</string>
     <string name="patch_embed_modules">Intégrer des modules</string>
