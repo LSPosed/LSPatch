@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add">Add</string>
-    <string name="install">Install</string>
-    <string name="installing">Installing</string>
-    <string name="uninstall">Uninstall</string>
-    <string name="uninstalling">Uninstalling</string>
+    <string name="install">安裝</string>
+    <string name="installing">安裝中</string>
+    <string name="uninstall">卸载</string>
+    <string name="uninstalling"></string>
     <string name="copy_error">Copy error</string>
     <string name="apps">Apps</string>
     <string name="modules">Modules</string>
@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">日誌</string>
     <string name="off">Off</string>
+    <string name="error_unknown">Unknown error</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Some functions unavailable</string>
     <string name="home_api_version">API Version</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Due to different signatures, you need to uninstall the original app before installing the patched one.\nMake sure you have backed up personal data.</string>
     <string name="patch_install_successfully">Install successfully</string>
     <string name="patch_install_failed">Install failed</string>
+    <string name="patch_no_xposed_module">No Xposed module(s) were found</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Select Apps</string>
     <!-- Settings Screen -->
