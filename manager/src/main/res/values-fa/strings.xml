@@ -13,6 +13,7 @@
     <string name="screen_repo">مخزن</string>
     <string name="screen_logs">گزارش ها</string>
     <string name="off">خاموش</string>
+    <string name="error_unknown"></string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">برخی از عملکردها در دسترس نیستند</string>
     <string name="home_api_version">نسخه API</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">به دلیل انجام امضاهای مختلف باید قبل از نصب برنامه پچ شده برنامه اصلی را حذف نصب کنید لطفا قبل از انجام این کار از اطلاعات خود پشتیبان گیری کنید</string>
     <string name="patch_install_successfully">نصب شده</string>
     <string name="patch_install_failed">نصب نشده</string>
+    <string name="patch_no_xposed_module">هیچ ماژول(های) Xposed یافت نشد</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">برنامه ها را انتخاب کنید</string>
     <!-- Settings Screen -->
