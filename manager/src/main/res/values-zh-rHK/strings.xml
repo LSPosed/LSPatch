@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="add">Add</string>
+    <string name="install">安裝</string>
+    <string name="installing">安裝中</string>
+    <string name="uninstall">卸载</string>
+    <string name="uninstalling"></string>
+    <string name="shizuku_available">Shizuku 服務可用</string>
+    <string name="shizuku_unavailable">Shizuku 服務未連接</string>
+    <string name="screen_logs">日誌</string>
     <!-- Home Screen -->
     <!-- Manage Screen -->
     <!-- New Patch Screen -->
