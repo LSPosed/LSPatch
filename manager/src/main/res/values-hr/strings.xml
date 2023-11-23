@@ -1,41 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add">Dodati</string>
-    <string name="install">Instalirati</string>
+    <string name="add">Dodaj</string>
+    <string name="install">Instaliraj</string>
     <string name="installing">Instaliranje</string>
     <string name="uninstall">Deinstaliraj</string>
     <string name="uninstalling">Deinstaliranje</string>
     <string name="copy_error">Greška kopiranja</string>
-    <string name="apps">aplikacije</string>
+    <string name="apps">Aplikacije</string>
     <string name="modules">Moduli</string>
     <string name="shizuku_available">Shizuku usluga dostupna</string>
     <string name="shizuku_unavailable">Usluga Shizuku nije povezana</string>
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Dnevnici</string>
     <string name="off">Isključeno</string>
+    <string name="error_unknown">Nepoznata pogreška</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Neke funkcije nisu dostupne</string>
     <string name="home_api_version">API verzija</string>
-    <string name="home_lspatch_version">Verzija LSPatcha</string>
-    <string name="home_framework_version">Verzija okvira</string>
+    <string name="home_lspatch_version">LSPatch verzija</string>
+    <string name="home_framework_version">Framework verzija</string>
     <string name="home_system_version">Verzija sustava</string>
     <string name="home_device">Uređaj</string>
     <string name="home_system_abi">Sustav ABI</string>
     <string name="home_info_copied">Kopirano u međuspremnik</string>
-    <string name="home_support">podrška</string>
+    <string name="home_support">Podrška</string>
     <string name="home_description">LSPatch je besplatni Xposed framework bez root-a temeljen na LSPosed jezgri.</string>
     <string name="home_view_source_code"><![CDATA[Pogledajte izvorni kod na %1$s<br/>Pridružite se našem %2$s kanalu]]></string>
     <!-- Manage Screen -->
-    <string name="screen_manage">Upravljati</string>
-    <string name="manage_loading">Učitavam</string>
+    <string name="screen_manage">Upravljanje</string>
+    <string name="manage_loading">Učitavanje</string>
     <string name="manage_no_apps">Još nema zakrpanih aplikacija</string>
     <string name="manage_rolling">Kotrljanje</string>
     <string name="manage_update_loader">Ažuriraj učitavač</string>
-    <string name="manage_update_loader_successfully">Ažuriranje uspješno</string>
+    <string name="manage_update_loader_successfully">Uspješno ažurirano</string>
     <string name="manage_update_loader_failed">Ažuriranje nije uspjelo</string>
     <string name="manage_module_scope">Opseg modula</string>
-    <string name="manage_optimize">Optimizirajte</string>
-    <string name="manage_optimize_successfully">Uspješno optimizirajte</string>
+    <string name="manage_optimize">Optimiziraj</string>
+    <string name="manage_optimize_successfully">Optimiranje uspješno</string>
     <string name="manage_optimize_failed">Optimizacija nije uspjela</string>
     <string name="manage_uninstall_successfully">Deinstaliranje uspješno</string>
     <string name="manage_no_modules">Još nema modula</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Zbog različitih potpisa morate deinstalirati izvornu aplikaciju prije instaliranja zakrpane.\nProvjerite jeste li sigurnosno kopirali osobne podatke.</string>
     <string name="patch_install_successfully">Instalirajte uspješno</string>
     <string name="patch_install_failed">Instalacija nije uspjela</string>
+    <string name="patch_no_xposed_module">Nisu pronađeni Xposed moduli</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Odaberite Aplikacije</string>
     <!-- Settings Screen -->
