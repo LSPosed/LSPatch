@@ -76,7 +76,7 @@ public class RemoteApplicationService implements ILSPApplicationService {
             if (!success) throw new TimeoutException("Bind service timeout");
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException |
                  InterruptedException | TimeoutException e) {
-            Toast.makeText(context, "Manager died", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Unable to connect to Manager", Toast.LENGTH_SHORT).show();
             var r = new RemoteException("Failed to get manager binder");
             r.initCause(e);
             throw r;
