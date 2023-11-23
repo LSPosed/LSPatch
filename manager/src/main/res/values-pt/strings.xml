@@ -1,8 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="add">Adicionar</string>
+    <string name="install">Instalar</string>
+    <string name="installing">Instalando</string>
+    <string name="uninstall">Desinstalaroi</string>
+    <string name="uninstalling">Desinstalarou</string>
+    <string name="copy_error">Erro de cópia</string>
+    <string name="apps">Apps</string>
+    <string name="modules">Módulos</string>
+    <string name="shizuku_available">Serviço Shizuku disponível</string>
+    <string name="shizuku_unavailable">Serviço Shizuku não conectado</string>
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Registos</string>
+    <string name="off">Desligado</string>
+    <string name="error_unknown">Erro desconhecido</string>
     <!-- Home Screen -->
+    <string name="home_shizuku_warning">Algumas funções indisponíveis</string>
+    <string name="home_api_version">Versão da API</string>
+    <string name="home_lspatch_version">Versão LSPatch</string>
+    <string name="home_framework_version">Versão da estrutura</string>
+    <string name="home_system_version">Versão do sistema</string>
+    <string name="home_device">Dispositivo</string>
+    <string name="home_system_abi">Sistema ABI</string>
+    <string name="home_info_copied">Copiado para a área de transferência</string>
+    <string name="home_support">Apoiar</string>
+    <string name="home_description">LSPatch é uma estrutura Xposed não raiz gratuita baseada no núcleo LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Veja o código fonte em %1$s<br/>Junte-se ao nosso %2$s canais]]></string>
     <!-- Manage Screen -->
+    <string name="screen_manage">Gerir</string>
+    <string name="manage_loading">Carregando</string>
+    <string name="manage_no_apps">Nenhum aplicativo corrigido ainda</string>
+    <string name="manage_rolling">Rolagem</string>
+    <string name="manage_update_loader">Carregador de actualização</string>
+    <string name="manage_update_loader_successfully">Actualização com sucesso</string>
+    <string name="manage_update_loader_failed">Actualização falhada</string>
+    <string name="manage_module_scope">Âmbito do módulo</string>
+    <string name="manage_optimize">Optimizar</string>
+    <string name="manage_optimize_successfully">Optimizar com sucesso</string>
+    <string name="manage_optimize_failed">Optimizar falhou</string>
+    <string name="manage_uninstall_successfully">Desinstalar com sucesso</string>
+    <string name="manage_no_modules">Ainda sem módulos</string>
+    <string name="manage_module_settings">Configurações do módulo</string>
+    <string name="manage_app_info">Informação da aplicação</string>
     <!-- New Patch Screen -->
+    <string name="screen_new_patch">Novo Patch</string>
+    <string name="patch_select_dir_title">Selecione o diretório de armazenamento</string>
+    <string name="patch_select_dir_text">Selecione um diretório para armazenar os apks corrigidos</string>
+    <string name="patch_select_dir_error">Erro ao definir o diretório de armazenamento</string>
+    <string name="patch_from_storage">Selecione apk(s) do armazenamento</string>
+    <string name="patch_from_applist">Selecione um aplicativo instalado</string>
+    <string name="patch_mode">Modo Patch</string>
+    <string name="patch_local">Local</string>
+    <string name="patch_local_desc">Corrija um aplicativo sem módulos incorporados.\nO aplicativo corrigido precisa do gerenciador em execução em segundo plano, e o escopo Xposed pode ser alterado dinamicamente sem refazer o patch.\nAplicativos com patch local só podem ser executados no dispositivo local.</string>
+    <string name="patch_integrated">Integrado</string>
+    <string name="patch_integrated_desc">Corrija um aplicativo com módulos incorporados.\nO aplicativo corrigido pode ser executado sem o gerenciador, mas não pode ser gerenciado dinamicamente.\nAplicativos corrigidos integrados podem ser usados em dispositivos que não possuem o LSPatch Manager instalado.</string>
+    <string name="patch_embed_modules">Incorporar módulos</string>
+    <string name="patch_debuggable">Depurável</string>
+    <string name="patch_sigbypass">Bypass de assinatura</string>
+    <string name="patch_sigbypasslv0">lv0: Desligado</string>
+    <string name="patch_sigbypasslv1">lv1: Ignorar PM</string>
+    <string name="patch_sigbypasslv2">lv2: Ignorar PM + openat (libc)</string>
+    <string name="patch_override_version_code">Substituir o código da versão</string>
+    <string name="patch_override_version_code_desc">Substitua o código de versão do aplicativo corrigido para 1\nIsso permite a instalação de downgrade no futuro, e geralmente isso não afetará o código de versão realmente percebido pela aplicação</string>
+    <string name="patch_start">Iniciar patch</string>
+    <string name="patch_return">Retornar</string>
+    <string name="patch_uninstall_text">Devido a assinaturas diferentes, você precisa desinstalar o aplicativo original antes de instalar o corrigido.\nCertifique-se de ter feito backup dos dados pessoais.</string>
+    <string name="patch_install_successfully">Instalar com sucesso</string>
+    <string name="patch_install_failed">Falha na instalação</string>
+    <string name="patch_no_xposed_module">Nenhum módulo Xposed foi encontrado</string>
     <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Seleccionar aplicações</string>
     <!-- Settings Screen -->
+    <string name="screen_settings">Definições</string>
+    <string name="settings_keystore">Chaveiro de Assinatura</string>
+    <string name="settings_keystore_default">Incorporado em</string>
+    <string name="settings_keystore_custom">Personalizado</string>
+    <string name="settings_keystore_dialog_title">Chaveiro personalizado</string>
+    <string name="settings_keystore_file">Arquivo da Keystore</string>
+    <string name="settings_keystore_password">Senha</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Palavra-passe</string>
+    <string name="settings_keystore_desc">Set keystore (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Tipo errado de chaveiro</string>
+    <string name="settings_keystore_wrong_password">Palavra-chave de loja errada</string>
+    <string name="settings_keystore_wrong_alias">Nome falso</string>
+    <string name="settings_keystore_wrong_alias_password">Palavra-passe de outrora incorrecta</string>
+    <string name="settings_detail_patch_logs">Registos de remendos detalhados</string>
+    <string name="settings_keep_alive">Mantenha-se vivo</string>
+    <string name="settings_keep_alive_foreground">Primeiro plano</string>
 </resources>
