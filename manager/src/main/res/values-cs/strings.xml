@@ -1,8 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="add">Přidat</string>
+    <string name="install">Instalace</string>
+    <string name="installing">Instalace stránek</string>
+    <string name="uninstall">Odinstalujte stránku</string>
+    <string name="uninstalling">Odinstalování stránky</string>
+    <string name="copy_error">Chyba kopírování</string>
+    <string name="apps">Aplikace</string>
+    <string name="modules">Moduly</string>
+    <string name="shizuku_available">K dispozici služba Shizuku</string>
+    <string name="shizuku_unavailable">Služba Shizuku není připojena</string>
+    <string name="screen_repo">Repo</string>
+    <string name="screen_logs">Protokoly</string>
+    <string name="off">Vypnuto</string>
+    <string name="error_unknown">Neznámá chyba</string>
     <!-- Home Screen -->
+    <string name="home_shizuku_warning">Některé funkce nejsou k dispozici</string>
+    <string name="home_api_version">Verze API</string>
+    <string name="home_lspatch_version">Verze LSPatch</string>
+    <string name="home_framework_version">Verze rámce</string>
+    <string name="home_system_version">Verze systému</string>
+    <string name="home_device">přístroj</string>
+    <string name="home_system_abi">Systém ABI</string>
+    <string name="home_info_copied">Zkopírováno do schránky</string>
+    <string name="home_support">Podpěra, podpora</string>
+    <string name="home_description">LSPatch je bezplatný non-root Xposed framework založený na jádru LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Zobrazit zdrojový kód na %1$s<br/>Připojte se k našemu %2$s kanálu]]></string>
     <!-- Manage Screen -->
+    <string name="screen_manage">Správa</string>
+    <string name="manage_loading">načítání</string>
+    <string name="manage_no_apps">Zatím žádné opravené aplikace</string>
+    <string name="manage_rolling">Rolling</string>
+    <string name="manage_update_loader">Aktualizace zavaděče</string>
+    <string name="manage_update_loader_successfully">Úspěšná aktualizace</string>
+    <string name="manage_update_loader_failed">Aktualizace se nezdařila</string>
+    <string name="manage_module_scope">Rozsah modulu</string>
+    <string name="manage_optimize">Optimalizace</string>
+    <string name="manage_optimize_successfully">Úspěšná optimalizace</string>
+    <string name="manage_optimize_failed">Optimalizace selhala</string>
+    <string name="manage_uninstall_successfully">Úspěšná odinstalace</string>
+    <string name="manage_no_modules">Zatím žádné moduly</string>
+    <string name="manage_module_settings">Nastavení modulu</string>
+    <string name="manage_app_info">Informace o aplikaci</string>
     <!-- New Patch Screen -->
+    <string name="screen_new_patch">Nová záplata</string>
+    <string name="patch_select_dir_title">Vyberte adresář úložiště</string>
+    <string name="patch_select_dir_text">Vyberte adresář pro uložení opravených souborů APK</string>
+    <string name="patch_select_dir_error">Chyba při nastavování adresáře úložiště</string>
+    <string name="patch_from_storage">Vyberte apk z úložiště</string>
+    <string name="patch_from_applist">Vyberte nainstalovanou aplikaci</string>
+    <string name="patch_mode">Režim opravy</string>
+    <string name="patch_local">Místní</string>
+    <string name="patch_local_desc">Opravte aplikaci bez vestavěných modulů.\nOpravená aplikace vyžaduje, aby správce běžel na pozadí a rozsah Xposed lze dynamicky měnit bez opětovné opravy.\nMístní opravené aplikace lze spustit pouze na místním zařízení.</string>
+    <string name="patch_integrated">Integrovaný</string>
+    <string name="patch_integrated_desc">Opravte aplikaci s vestavěnými moduly.\nOpravená aplikace může běžet bez správce, ale nelze ji spravovat dynamicky.\nIntegrované opravené aplikace lze používat na zařízeních, která nemají nainstalovaný LSPatch Manager.</string>
+    <string name="patch_embed_modules">Vložit moduly</string>
+    <string name="patch_debuggable">Laditelné</string>
+    <string name="patch_sigbypass">Přemostění podpisu</string>
+    <string name="patch_sigbypasslv0">lv0: Vypnuto</string>
+    <string name="patch_sigbypasslv1">lv1: Obejít PM</string>
+    <string name="patch_sigbypasslv2">lv2: Bypass PM + openat (libc)</string>
+    <string name="patch_override_version_code">Přepsat kód verze</string>
+    <string name="patch_override_version_code_desc">Přepsat kód verze opravené aplikace na 1\nTo umožní v budoucnu downgradovat (snížit verzi) a obecně to neovlivní kód verze, který aplikace skutečně vnímá</string>
+    <string name="patch_start">Spusťte opravu</string>
+    <string name="patch_return">Vrátit se</string>
+    <string name="patch_uninstall_text">Kvůli různým podpisům musíte před instalací opravené odinstalovat původní aplikaci.\nUjistěte se, že máte zálohovaná osobní data.</string>
+    <string name="patch_install_successfully">Nainstalujte úspěšně</string>
+    <string name="patch_install_failed">Instalace se nezdařila</string>
+    <string name="patch_no_xposed_module">Nebyly nalezeny žádné moduly Xposed</string>
     <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Vybrané aplikace</string>
     <!-- Settings Screen -->
+    <string name="screen_settings">Nastavení</string>
+    <string name="settings_keystore">Úložiště klíčů s podpisem</string>
+    <string name="settings_keystore_default">Vestavěný</string>
+    <string name="settings_keystore_custom">Vlastní</string>
+    <string name="settings_keystore_dialog_title">Vlastní úložiště klíčů</string>
+    <string name="settings_keystore_file">Soubor úložiště klíčů</string>
+    <string name="settings_keystore_password">Heslo</string>
+    <string name="settings_keystore_alias">Alias</string>
+    <string name="settings_keystore_alias_password">Alias heslo</string>
+    <string name="settings_keystore_desc">Nastavení úložiště klíčů (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Nesprávný typ úložiště klíčů</string>
+    <string name="settings_keystore_wrong_password">Špatné heslo úložiště klíčů</string>
+    <string name="settings_keystore_wrong_alias">Špatný název aliasu</string>
+    <string name="settings_keystore_wrong_alias_password">Špatné heslo aliasu</string>
+    <string name="settings_detail_patch_logs">Podrobné protokoly oprav</string>
+    <string name="settings_keep_alive">Udržovat při životě</string>
+    <string name="settings_keep_alive_foreground">Přední stránka</string>
 </resources>
