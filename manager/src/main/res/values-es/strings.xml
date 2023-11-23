@@ -3,9 +3,9 @@
     <string name="add">Agregar</string>
     <string name="install">Instalar</string>
     <string name="installing">Instalación de</string>
-    <string name="uninstall">Desinstalar</string>
-    <string name="uninstalling">Desinstalación de</string>
-    <string name="copy_error">Error de copia</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="uninstalling">Uninstall</string>
+    <string name="copy_error">Copy error</string>
     <string name="apps">Aplicaciones</string>
     <string name="modules">Módulos</string>
     <string name="shizuku_available">Servicio Shizuku disponible</string>
@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Registros</string>
     <string name="off">Fuera de</string>
+    <string name="error_unknown">Error desconocido</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Algunas funciones no disponibles</string>
     <string name="home_api_version">Versión API</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Debido a las diferentes firmas, debe desinstalar la aplicación original antes de instalar la parcheada.\nAsegúrese de haber realizado una copia de seguridad de los datos personales.</string>
     <string name="patch_install_successfully">Instalar con éxito</string>
     <string name="patch_install_failed">Instalación fallida</string>
+    <string name="patch_no_xposed_module">No se han encontrado módulos Xposed</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Seleccionar aplicaciones</string>
     <!-- Settings Screen -->
