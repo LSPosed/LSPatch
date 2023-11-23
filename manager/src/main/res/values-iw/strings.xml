@@ -51,7 +51,7 @@
     <string name="patch_from_applist">בחר אפליקציה מותקנת</string>
     <string name="patch_mode">מצב תיקון</string>
     <string name="patch_local">מְקוֹמִי</string>
-    <string name="patch_local_desc">תקן אפליקציה ללא מודולים מוטבעים.\nהאפליקציה המתוקנת צריכה שהמנהל יפעל ברקע, וניתן לשנות את היקף Xposed באופן דינמי ללא תיקון מחדש.\nאפליקציות מקומיות מתוקנות יכולות לפעול רק במכשיר המקומי.</string>
+    <string name="patch_local_desc">תקן אפליקציה ללא מודולים מוטבעים.\nניתן לשנות את היקף Xposed באופן דינמי ללא תיקון מחדש.\nאפליקציות מקומיות מתוקנות יכולות לפעול רק במכשיר המקומי.</string>
     <string name="patch_integrated">מְשׁוּלָב</string>
     <string name="patch_integrated_desc">תקן אפליקציה עם מודולים משובצים.\nהאפליקציה המתוקנת יכולה לפעול ללא המנהל, אך לא ניתן לנהל אותה באופן דינמי.\nניתן להשתמש באפליקציות מתוקנות משולבות במכשירים שלא מותקן בהם LSPatch Manager.</string>
     <string name="patch_embed_modules">הטמע מודולים</string>
