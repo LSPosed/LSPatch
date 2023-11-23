@@ -51,7 +51,7 @@
     <string name="patch_from_applist">تحديد تطبيقًا مثبتًا</string>
     <string name="patch_mode">وضع التعديل</string>
     <string name="patch_local">محلي</string>
-    <string name="patch_local_desc">تعديل تطبيق بدون وحدات مدمجة.\nيحتاج التطبيق المعدل إلى تشغيل المدير في الخلفية، ويمكن تغيير نطاق Xposed ديناميكيًا دون إعادة التعديل.\nلا يمكن تشغيل التطبيقات المحلية المعدلة إلا على الجهاز المحلي.</string>
+    <string name="patch_local_desc">قم بتصحيح تطبيق بدون وحدات مدمجة.\nيمكن تغيير نطاق Xpose ديناميكيًا دون إعادة التصحيح.\nلا يمكن تشغيل التطبيقات المحلية المصححة إلا على الجهاز المحلي.</string>
     <string name="patch_integrated">متكامل</string>
     <string name="patch_integrated_desc">تعديل تطبيق بوحدات مدمجة.\nيمكن تشغيل التطبيق المعدل بدون المدير، لكن لا يمكن إدارته ديناميكيًا.\nيمكن استخدام التطبيقات المعدلة المدمجة على الأجهزة التي لم يتم تثبيت LSPatch Manager عليها.</string>
     <string name="patch_embed_modules">الوحدات المُضْمَنة</string>
