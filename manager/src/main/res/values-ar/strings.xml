@@ -1,8 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="add">إضافة</string>
+    <string name="install">تثبيت</string>
+    <string name="installing">جارٍ التثبيت</string>
+    <string name="uninstall">إلغاء التثبيت</string>
+    <string name="uninstalling">جارٍ إلغاء التثبيت</string>
+    <string name="copy_error">خطأ في النسخ</string>
+    <string name="apps">التطبيقات</string>
+    <string name="modules">الوحدات</string>
+    <string name="shizuku_available">خدمة Shizuku متاحة</string>
+    <string name="shizuku_unavailable">خدمة Shizuku غير متصلة</string>
+    <string name="screen_repo">المستودع</string>
+    <string name="screen_logs">السجلات</string>
+    <string name="off">متوقف</string>
+    <string name="error_unknown">Unknown error</string>
     <!-- Home Screen -->
+    <string name="home_shizuku_warning">بعض الوظائف غير متاحة</string>
+    <string name="home_api_version">إصدار API</string>
+    <string name="home_lspatch_version">إصدار LSPatch</string>
+    <string name="home_framework_version">إصدار Framework</string>
+    <string name="home_system_version">إصدار النظام</string>
+    <string name="home_device">الجهاز</string>
+    <string name="home_system_abi">نظام ABI</string>
+    <string name="home_info_copied">تم النسخ إلى الحافظة</string>
+    <string name="home_support">الدعـم</string>
+    <string name="home_description">LSPatch هو إطار عمل Non-Root Xposed مجاني يعتمد على LSPosed core.</string>
+    <string name="home_view_source_code"><![CDATA[عرض كود المصدر على %1$s<br/>انضم إلى قناتنا %2$s]]></string>
     <!-- Manage Screen -->
+    <string name="screen_manage">إدارة</string>
+    <string name="manage_loading">جارٍ التحميل</string>
+    <string name="manage_no_apps">لا توجد تطبيقات معدلة حتى الآن</string>
+    <string name="manage_rolling">المتداول</string>
+    <string name="manage_update_loader">تحديث المحمل</string>
+    <string name="manage_update_loader_successfully">تم التحديث بنجاح</string>
+    <string name="manage_update_loader_failed">فشل التحديث</string>
+    <string name="manage_module_scope">نطاق الوحدة</string>
+    <string name="manage_optimize">تحسين</string>
+    <string name="manage_optimize_successfully">تم التحسين بنجاح</string>
+    <string name="manage_optimize_failed">فشل التحسين</string>
+    <string name="manage_uninstall_successfully">تم إلغاء التثبيت بنجاح</string>
+    <string name="manage_no_modules">لا توجد وحدات بعد</string>
+    <string name="manage_module_settings">إعدادات الوحدة</string>
+    <string name="manage_app_info">معلومات التطبيق</string>
     <!-- New Patch Screen -->
+    <string name="screen_new_patch">تعديل جديد</string>
+    <string name="patch_select_dir_title">حدد مجلد التخزين</string>
+    <string name="patch_select_dir_text">حدد مجلد لتخزين التطبيقات المعدلة</string>
+    <string name="patch_select_dir_error">خطأ عند تعيين مجلد التخزين</string>
+    <string name="patch_from_storage">تحديد APK(s) من التخزين</string>
+    <string name="patch_from_applist">تحديد تطبيقًا مثبتًا</string>
+    <string name="patch_mode">وضع التعديل</string>
+    <string name="patch_local">محلي</string>
+    <string name="patch_local_desc">تعديل تطبيق بدون وحدات مدمجة.\nيحتاج التطبيق المعدل إلى تشغيل المدير في الخلفية، ويمكن تغيير نطاق Xposed ديناميكيًا دون إعادة التعديل.\nلا يمكن تشغيل التطبيقات المحلية المعدلة إلا على الجهاز المحلي.</string>
+    <string name="patch_integrated">متكامل</string>
+    <string name="patch_integrated_desc">تعديل تطبيق بوحدات مدمجة.\nيمكن تشغيل التطبيق المعدل بدون المدير، لكن لا يمكن إدارته ديناميكيًا.\nيمكن استخدام التطبيقات المعدلة المدمجة على الأجهزة التي لم يتم تثبيت LSPatch Manager عليها.</string>
+    <string name="patch_embed_modules">الوحدات المُضْمَنة</string>
+    <string name="patch_debuggable">قابل للتصحيح</string>
+    <string name="patch_sigbypass">تجاوز التوقيع</string>
+    <string name="patch_sigbypasslv0">مستوى 0: مغلق</string>
+    <string name="patch_sigbypasslv1">مستوى 1: تجاوز PM</string>
+    <string name="patch_sigbypasslv2">مستوى 2: تجاوز PM + openat (libc)</string>
+    <string name="patch_override_version_code">تجاوز رمز الإصدار</string>
+    <string name="patch_override_version_code_desc">تجاوز رمز إصدار التطبيق المعدل إلى 1\nوهذا يسمح بالرجوع إلى إصدار أقدم في المستقبل، وعمومًا لن يؤثر هذا على رمز الإصدار الذي يتصوره التطبيق بالفعل</string>
+    <string name="patch_start">بدء التعديل</string>
+    <string name="patch_return">رجوع</string>
+    <string name="patch_uninstall_text">نظرًا لاختلاف التوقيعات، يلزمك إلغاء تثبيت التطبيق الأصلي قبل تثبيت التطبيق المعدل.\nتأكد من عمل نسخة احتياطية من البيانات الشخصية.</string>
+    <string name="patch_install_successfully">تم التثبيت بنجاح</string>
+    <string name="patch_install_failed">فشل التثبيت</string>
+    <string name="patch_no_xposed_module"></string>
     <!-- Select Apps Screen -->
+    <string name="screen_select_apps">تحديد التطبيقات</string>
     <!-- Settings Screen -->
+    <string name="screen_settings">الإعدادات</string>
+    <string name="settings_keystore">مخزن مفاتيح التوقيع</string>
+    <string name="settings_keystore_default">مدمج</string>
+    <string name="settings_keystore_custom">مخصص</string>
+    <string name="settings_keystore_dialog_title">تخزين المفاتيح المخصص</string>
+    <string name="settings_keystore_file">ملف Keystore</string>
+    <string name="settings_keystore_password">كلمه السر</string>
+    <string name="settings_keystore_alias">الاسم المستعار</string>
+    <string name="settings_keystore_alias_password">كلمة مرور الاسم المستعار</string>
+    <string name="settings_keystore_desc">تعيين مخزن المفاتيح (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">نوع خاطئ من ملف تخزين المفاتيح</string>
+    <string name="settings_keystore_wrong_password">كلمة مرور تخزين المفاتيح خاطئة</string>
+    <string name="settings_keystore_wrong_alias">اسم مستعار خاطئ</string>
+    <string name="settings_keystore_wrong_alias_password">كلمة مرور الاسم المستعار خاطئة</string>
+    <string name="settings_detail_patch_logs">تفاصيل سجلات التعديل</string>
+    <string name="settings_keep_alive">إبقاء التطبيق يعمل بالخلفية</string>
+    <string name="settings_keep_alive_foreground">التطبيق يعمل بالخلفية</string>
 </resources>
