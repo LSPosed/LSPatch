@@ -51,7 +51,7 @@
     <string name="patch_from_applist">Vyberte nainštalovanú aplikáciu</string>
     <string name="patch_mode">Režim opravy</string>
     <string name="patch_local">Miestne</string>
-    <string name="patch_local_desc">Opravte aplikáciu bez vložených modulov.\nOpravená aplikácia potrebuje správcu bežiaceho na pozadí a rozsah Xposed možno dynamicky meniť bez opätovného opráv.\nLokálne opravené aplikácie môžu bežať iba na lokálnom zariadení.</string>
+    <string name="patch_local_desc">Oprava aplikácie bez vložených modulov.\nRozsah Xposed možno dynamicky meniť bez opätovného záplatovania.\nLokálne opravené aplikácie môžu byť spustené len na lokálnom zariadení.</string>
     <string name="patch_integrated">Integrovaný</string>
     <string name="patch_integrated_desc">Opravte aplikáciu so vstavanými modulmi.\nOpravená aplikácia môže bežať bez správcu, ale nedá sa spravovať dynamicky.\nIntegrované opravené aplikácie možno použiť na zariadeniach, ktoré nemajú nainštalovaný LSPatch Manager.</string>
     <string name="patch_embed_modules">Vložiť moduly</string>
