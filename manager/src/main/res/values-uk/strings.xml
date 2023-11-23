@@ -1,8 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="add">Додати</string>
+    <string name="install">Встановити</string>
+    <string name="installing">Встановлення</string>
+    <string name="uninstall">Видалити</string>
+    <string name="uninstalling">Видалення</string>
+    <string name="copy_error">Помилка копіювання</string>
+    <string name="apps">Додатки</string>
+    <string name="modules">Модулі</string>
+    <string name="shizuku_available">Доступна послуга Shizuku</string>
+    <string name="shizuku_unavailable">Служба Shizuku не підключена</string>
+    <string name="screen_repo">Репо</string>
+    <string name="screen_logs">Журнали</string>
+    <string name="off">Вимкнено</string>
+    <string name="error_unknown">Невідома помилка</string>
     <!-- Home Screen -->
+    <string name="home_shizuku_warning">Деякі функції недоступні</string>
+    <string name="home_api_version">Версія API</string>
+    <string name="home_lspatch_version">Версія LSPatch</string>
+    <string name="home_framework_version">Версія Framework</string>
+    <string name="home_system_version">Версія системи</string>
+    <string name="home_device">Пристрій</string>
+    <string name="home_system_abi">Система ABI</string>
+    <string name="home_info_copied">Скопійовано в буфер обміну</string>
+    <string name="home_support">Підтримка</string>
+    <string name="home_description">LSPatch — це безкоштовний некорневий фреймворк Xposed, заснований на ядрі LSPosed.</string>
+    <string name="home_view_source_code"><![CDATA[Перегляньте вихідний код на %1$s<br/>Приєднуйтесь до нашого %2$s каналу]]></string>
     <!-- Manage Screen -->
+    <string name="screen_manage">Керування</string>
+    <string name="manage_loading">Завантаження</string>
+    <string name="manage_no_apps">Ще немає виправлених програм</string>
+    <string name="manage_rolling">Прокатка</string>
+    <string name="manage_update_loader">Оновити завантажувач</string>
+    <string name="manage_update_loader_successfully">Оновлення завершено</string>
+    <string name="manage_update_loader_failed">Оновлення не вдалося</string>
+    <string name="manage_module_scope">Область застосування модуля</string>
+    <string name="manage_optimize">Оптимізувати</string>
+    <string name="manage_optimize_successfully">Оптимізація успішно</string>
+    <string name="manage_optimize_failed">Не вдалося оптимізувати</string>
+    <string name="manage_uninstall_successfully">Успішно видалити</string>
+    <string name="manage_no_modules">Поки що відсутні модулі</string>
+    <string name="manage_module_settings">Налаштування модуля</string>
+    <string name="manage_app_info">Інформація про додаток</string>
     <!-- New Patch Screen -->
+    <string name="screen_new_patch">Новий патч</string>
+    <string name="patch_select_dir_title">Виберіть каталог зберігання</string>
+    <string name="patch_select_dir_text">Виберіть каталог для зберігання виправлених apks</string>
+    <string name="patch_select_dir_error">Помилка під час налаштування каталогу зберігання</string>
+    <string name="patch_from_storage">Виберіть apk(s) зі сховища</string>
+    <string name="patch_from_applist">Виберіть встановлену програму</string>
+    <string name="patch_mode">Режим виправлення</string>
+    <string name="patch_local">Місцеві</string>
+    <string name="patch_local_desc">Виправте програму без вбудованих модулів.\nДодатку з виправленням потрібно, щоб менеджер працював у фоновому режимі, а область Xposed можна динамічно змінювати без повторного встановлення виправлення.\nЛокальні виправлені програми можуть працювати лише на локальному пристрої.</string>
+    <string name="patch_integrated">Інтегрований</string>
+    <string name="patch_integrated_desc">Виправте додаток із вбудованими модулями.\nВиправлена програма може працювати без диспетчера, але нею не можна керувати динамічно.\nІнтегровані виправлені програми можна використовувати на пристроях, на яких не встановлено LSPatch Manager.</string>
+    <string name="patch_embed_modules">Вставляти модулі</string>
+    <string name="patch_debuggable">Налагоджується</string>
+    <string name="patch_sigbypass">Обхід підпису</string>
+    <string name="patch_sigbypasslv0">lv0: Вимкнено</string>
+    <string name="patch_sigbypasslv1">lv1: Обійти PM</string>
+    <string name="patch_sigbypasslv2">lv2: обійти PM + openat (libc)</string>
+    <string name="patch_override_version_code">Замінити код версії</string>
+    <string name="patch_override_version_code_desc">Замінити код версії виправленого додатка на 1\nЦе дозволить встановити попередню версію в майбутньому, і, як правило, це не вплине на код версії, який фактично сприймається програмою</string>
+    <string name="patch_start">Запустити патч</string>
+    <string name="patch_return">Повернення</string>
+    <string name="patch_uninstall_text">Через різні сигнатури вам потрібно видалити оригінальну програму, перш ніж встановлювати виправлену.\nПереконайтеся, що ви створили резервну копію особистих даних.</string>
+    <string name="patch_install_successfully">Встановити успішно</string>
+    <string name="patch_install_failed">Помилка встановлення</string>
+    <string name="patch_no_xposed_module">Не знайдено жодного модуля (модулів) Xposed</string>
     <!-- Select Apps Screen -->
+    <string name="screen_select_apps">Виберіть додатки</string>
     <!-- Settings Screen -->
+    <string name="screen_settings">Налаштування</string>
+    <string name="settings_keystore">Сховище ключів підпису</string>
+    <string name="settings_keystore_default">Вбудований</string>
+    <string name="settings_keystore_custom">На замовлення</string>
+    <string name="settings_keystore_dialog_title">Спеціальне сховище ключів</string>
+    <string name="settings_keystore_file">Файл сховища ключів</string>
+    <string name="settings_keystore_password">Пароль</string>
+    <string name="settings_keystore_alias">Псевдонім</string>
+    <string name="settings_keystore_alias_password">Псевдонім пароль</string>
+    <string name="settings_keystore_desc">Встановити сховище ключів (BKS)</string>
+    <string name="settings_keystore_wrong_keystore">Неправильний тип сховища ключів</string>
+    <string name="settings_keystore_wrong_password">Неправильний пароль сховища ключів</string>
+    <string name="settings_keystore_wrong_alias">Неправильний псевдонім</string>
+    <string name="settings_keystore_wrong_alias_password">Неправильний пароль псевдоніма</string>
+    <string name="settings_detail_patch_logs">Детальні журнали патчів</string>
+    <string name="settings_keep_alive">Підтримувати</string>
+    <string name="settings_keep_alive_foreground">Передній план</string>
 </resources>
