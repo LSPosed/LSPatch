@@ -51,7 +51,7 @@
     <string name="patch_from_applist">Wybierz zainstalowaną aplikację</string>
     <string name="patch_mode">Tryb Patchu</string>
     <string name="patch_local">Lokalny</string>
-    <string name="patch_local_desc">Popraw aplikację bez wbudowanych modułów.\nPoprawiona aplikacja wymaga działania menedżera w tle, a zakres Xposed moż być zmieniany dynamicznie bez konieczności ponownego patchowania.\nLokalnie spatchowane aplikacje mogą działać tylko na urządzeniu lokalnym.</string>
+    <string name="patch_local_desc">Patchowanie aplikacji bez osadzonych modułów.\nZakres Xposed może być dynamicznie zmieniany bez konieczności ponownego łatania.\nLokalnie załatane aplikacje mogą działać tylko na lokalnym urządzeniu.</string>
     <string name="patch_integrated">Zintegrowane</string>
     <string name="patch_integrated_desc">Patchuj aplikację z osadzonymi modułami.\nSpatchowana aplikacja może działać bez menedżera, ale nie mogą być one dynamicznie zarządzane.\nZintegrowane spatchowane aplikacje mogą być użyte na urządzeniach, które nie mają zainstalowanego menedżera LSPosed.</string>
     <string name="patch_embed_modules">Osadź moduły</string>
