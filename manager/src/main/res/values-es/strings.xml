@@ -3,9 +3,9 @@
     <string name="add">Agregar</string>
     <string name="install">Instalar</string>
     <string name="installing">Instalación de</string>
-    <string name="uninstall">Uninstall</string>
-    <string name="uninstalling">Uninstall</string>
-    <string name="copy_error">Copy error</string>
+    <string name="uninstall">Desinstalar</string>
+    <string name="uninstalling">Desinstalación de</string>
+    <string name="copy_error">Error de copia</string>
     <string name="apps">Aplicaciones</string>
     <string name="modules">Módulos</string>
     <string name="shizuku_available">Servicio Shizuku disponible</string>
@@ -53,7 +53,7 @@
     <string name="patch_local">Local</string>
     <string name="patch_local_desc">Parche una aplicación sin módulos incrustados.\nLa aplicación parcheada necesita que el administrador se ejecute en segundo plano, y el alcance de Xposed se puede cambiar dinámicamente sin volver a parchear.\nLas aplicaciones parcheadas locales solo pueden ejecutarse en el dispositivo local.</string>
     <string name="patch_integrated">Integrado</string>
-    <string name="patch_integrated_desc">Patch an app with modules embedded.\nThe patched app can run without the manager, but cannot be managed dynamically.\nIntegrated patched apps can be used on devices that do not have LSPatch Manager installed.</string>
+    <string name="patch_integrated_desc">Parchea una app con módulos incrustados.\nLa aplicación parcheada puede ejecutarse sin el gestor, pero no puede gestionarse dinámicamente.\nLas apps parcheadas integradas pueden utilizarse en dispositivos que no tengan instalado LSPatch Manager.</string>
     <string name="patch_embed_modules">Módulos incrustados</string>
     <string name="patch_debuggable">depurable</string>
     <string name="patch_sigbypass">Omisión de firma</string>
