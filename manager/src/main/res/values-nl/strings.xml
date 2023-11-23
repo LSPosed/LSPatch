@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Logs</string>
     <string name="off">Uit</string>
+    <string name="error_unknown">Onbekende fout</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Sommige functies niet beschikbaar</string>
     <string name="home_api_version">API-versie</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Vanwege verschillende handtekeningen moet u de originele app verwijderen voordat u de gepatchte app installeert.\nZorg ervoor dat u een back-up hebt gemaakt van persoonlijke gegevens.</string>
     <string name="patch_install_successfully">Succesvol installeren</string>
     <string name="patch_install_failed">Installatie mislukt</string>
+    <string name="patch_no_xposed_module">Geen Xposed-module(s) gevonden</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Selecteer toepassingen</string>
     <!-- Settings Screen -->
