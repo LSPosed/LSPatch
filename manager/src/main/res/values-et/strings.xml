@@ -13,6 +13,7 @@
     <string name="screen_repo">Repo</string>
     <string name="screen_logs">Palgid</string>
     <string name="off">Väljas</string>
+    <string name="error_unknown">Teadmata viga</string>
     <!-- Home Screen -->
     <string name="home_shizuku_warning">Mõned funktsioonid pole saadaval</string>
     <string name="home_api_version">API versioon</string>
@@ -66,6 +67,7 @@
     <string name="patch_uninstall_text">Erinevate allkirjade tõttu peate enne paigatud rakenduse installimist algse rakenduse desinstallima.\nVeenduge, et olete isikuandmed varundanud.</string>
     <string name="patch_install_successfully">Installimine õnnestus</string>
     <string name="patch_install_failed">Install ebaõnnestus</string>
+    <string name="patch_no_xposed_module">Xposed moodul(id) ei leitud</string>
     <!-- Select Apps Screen -->
     <string name="screen_select_apps">Valige Rakendused</string>
     <!-- Settings Screen -->
