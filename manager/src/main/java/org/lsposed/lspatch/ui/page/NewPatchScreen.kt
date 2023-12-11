@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageInstaller
+import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -58,13 +59,18 @@ import org.lsposed.lspatch.util.ShizukuApi
 
 private const val TAG = "NewPatchPage"
 
+const val ACTION_STORAGE = 0
+const val ACTION_APPLIST = 1
+const val ACTION_INTENT_INSTALL = 2
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination
 @Composable
 fun NewPatchScreen(
     navigator: DestinationsNavigator,
     resultRecipient: ResultRecipient<SelectAppsScreenDestination, SelectAppsResult>,
-    from: String
+    id: Int,
+    data: Uri? = null
 ) {
     val viewModel = viewModel<NewPatchViewModel>()
     val snackbarHost = LocalSnackbarHost.current
@@ -116,11 +122,34 @@ fun NewPatchScreen(
         PatchState.INIT -> {
             LaunchedEffect(Unit) {
                 LSPPackageManager.cleanTmpApkDir()
-                when (from) {
-                    "storage" -> storageLauncher.launch(arrayOf("application/vnd.android.package-archive"))
-                    "applist" -> navigator.navigate(SelectAppsScreenDestination(false))
+                when (id) {
+                    ACTION_STORAGE -> {
+                        storageLauncher.launch(arrayOf("application/vnd.android.package-archive"))
+                        viewModel.dispatch(ViewAction.DoneInit)
+                    }
+
+                    ACTION_APPLIST -> {
+                        navigator.navigate(SelectAppsScreenDestination(false))
+                        viewModel.dispatch(ViewAction.DoneInit)
+                    }
+
+                    ACTION_INTENT_INSTALL -> {
+                        runBlocking {
+                            data?.let { uri ->
+                                LSPPackageManager.getAppInfoFromApks(listOf(uri)).onSuccess {
+                                    viewModel.dispatch(ViewAction.ConfigurePatch(it.first()))
+                                }.onFailure {
+                                    lspApp.globalScope.launch {
+                                        snackbarHost.showSnackbar(
+                                            it.message ?: errorUnknown
+                                        )
+                                    }
+                                    navigator.navigateUp()
+                                }
+                            }
+                        }
+                    }
                 }
-                viewModel.dispatch(ViewAction.DoneInit)
             }
         }
         PatchState.SELECTING -> {
