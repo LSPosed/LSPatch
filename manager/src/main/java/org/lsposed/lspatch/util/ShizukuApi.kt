@@ -5,6 +5,7 @@ import android.content.pm.*
 import android.os.Build
 import android.os.IBinder
 import android.os.IInterface
+import android.os.Process
 import android.os.SystemProperties
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,10 +29,11 @@ object ShizukuApi {
     }
 
     private val packageInstaller: PackageInstaller by lazy {
+        val userId = Process.myUserHandle().hashCode()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            Refine.unsafeCast(PackageInstallerHidden(iPackageInstaller, "com.android.shell", null, 0))
+            Refine.unsafeCast(PackageInstallerHidden(iPackageInstaller, "com.android.shell", null, userId))
         } else {
-            Refine.unsafeCast(PackageInstallerHidden(iPackageInstaller, "com.android.shell", 0))
+            Refine.unsafeCast(PackageInstallerHidden(iPackageInstaller, "com.android.shell", userId))
         }
     }
 
@@ -56,11 +58,11 @@ object ShizukuApi {
     }
 
     fun isPackageInstalledWithoutPatch(packageName: String): Boolean {
-        // TODO: userId
+        val userId = Process.myUserHandle().hashCode()
         val app = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            iPackageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA.toLong(), 0)
+            iPackageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA.toLong(), userId)
         } else {
-            iPackageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA, 0)
+            iPackageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA, userId)
         }
         return (app != null) && (app.metaData?.containsKey("lspatch") != true)
     }
