@@ -48,6 +48,8 @@ import org.lsposed.lspatch.share.LSPConfig
 import org.lsposed.lspatch.ui.component.AnywhereDropdown
 import org.lsposed.lspatch.ui.component.AppItem
 import org.lsposed.lspatch.ui.component.LoadingDialog
+import org.lsposed.lspatch.ui.page.ACTION_APPLIST
+import org.lsposed.lspatch.ui.page.ACTION_STORAGE
 import org.lsposed.lspatch.ui.page.SelectAppsResult
 import org.lsposed.lspatch.ui.page.destinations.NewPatchScreenDestination
 import org.lsposed.lspatch.ui.page.destinations.SelectAppsScreenDestination
@@ -329,7 +331,7 @@ fun AppManageFab(navigator: DestinationsNavigator) {
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.secondary),
                         onClick = {
-                            navigator.navigate(NewPatchScreenDestination("storage"))
+                            navigator.navigate(NewPatchScreenDestination(id = ACTION_STORAGE))
                             showNewPatchDialog = false
                         }
                     ) {
@@ -343,7 +345,7 @@ fun AppManageFab(navigator: DestinationsNavigator) {
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.secondary),
                         onClick = {
-                            navigator.navigate(NewPatchScreenDestination("applist"))
+                            navigator.navigate(NewPatchScreenDestination(id = ACTION_APPLIST))
                             showNewPatchDialog = false
                         }
                     ) {
